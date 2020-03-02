@@ -6,12 +6,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /*background-image: url("img/bg1.jpg");*/
-  background-size: cover;
-  min-height: 600px;
-  background-attachment: fixed;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.jumbo{
+  background-image: url("img/bg8.jpg");
+  background-size: cover;
+  min-height: 500px;
+  background-attachment: fixed;
+  color: black;
 }
