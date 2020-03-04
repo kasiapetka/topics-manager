@@ -5,7 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*background-image: url("img/bg1.jpg");*/
+  background-size: cover;
+  background-attachment: fixed;
+  background-image: url("img/bg8T.png");
 }
 
 code {
@@ -13,10 +15,15 @@ code {
     monospace;
 }
 
-.jumbo{
+.jumbo {
   background-image: url("img/bg4.jpg");
   background-size: cover;
   min-height: 500px;
   background-attachment: fixed;
   color: black;
+}
+
+.accountIcon{
+  padding-bottom: 3px;
+  margin-right: 4px;
 }

@@ -12,7 +12,9 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
+    Button,
 } from 'reactstrap';
+import { FaUserAlt } from "react-icons/fa";
 
 const TMNavbar = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +35,7 @@ const TMNavbar = (props) => {
                 <Collapse isOpen={isOpen} navbar>
                     <Nav className="mr-auto" navbar>
                         <NavItem>
-                            <NavLink href="/components/">Components</NavLink>
+                            <NavLink href="/">Home</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
@@ -56,7 +58,7 @@ const TMNavbar = (props) => {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
-
+                    <Button className="float-right" href="/account"><FaUserAlt className="accountIcon"></FaUserAlt>Sign In</Button>
                 </Collapse>
             </Navbar>
         </div>
