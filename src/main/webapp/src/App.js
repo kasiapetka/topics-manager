@@ -6,7 +6,7 @@ import TMJumbotron from './TMJumbotron';
 function App() {
   return (
     <div className="App">
-      <TMNavbar />
+      <TMNavbar/>
       <TMJumbotron/>
     </div>
   );

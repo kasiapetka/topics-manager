@@ -1,0 +1,43 @@
+.view {
+      background-size: cover;
+}
+@media (min-width: 768px) {
+    .view {
+        overflow: visible;
+        margin-top: -56px;
+    }
+}
+.navbar {
+    z-index: 1;
+    height: 10vh;
+}
+
+.icon{
+    margin-right: 5px;
+}
+
+.btn{
+    border-radius: 5px;
+    border-color: black;
+}
+
+.jumbo{
+    background-image: url("img/bg4.jpg");
+    background-size: cover;
+}
+
+p{
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.req{
+    padding-right: 30px;
+    padding-left: 30px;
+}
+html,
+body,
+header,
+.view {
+    height: 100%;
+}
