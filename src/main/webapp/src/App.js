@@ -1,15 +1,25 @@
-import React from 'react';
-import './App.css';
-import TMNavbar from './TMNavbar';
-import TMJumbotron from './TMJumbotron';
+import React, {useState} from 'react';
+import {BrowserRouter as Router,
+    Route,
+    Switch,
+    Link,
+    Redirect} from 'react-router-dom';
+import MainPage from "./pages";
+import ErrorPage from "./pages/ErrorPage";
+import LoginPage from "./pages/LoginPage";
 
-function App() {
-  return (
-    <div className="App">
-      <TMNavbar/>
-      <TMJumbotron/>
-    </div>
-  );
+class App extends React.Component{
+    render(){
+        return(
+            <Router>
+                <Switch>
+                    <Route exact path ="/" component={MainPage}/>
+                    <Route exact path ="/login" component={LoginPage}/>
+                    <Route component={ErrorPage}/>
+                </Switch>
+            </Router>
+        );
+    }
 }
 
 export default App;

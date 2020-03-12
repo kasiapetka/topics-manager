@@ -1,10 +1,11 @@
 import React from 'react';
 import { Jumbotron, Button, Row, Col } from 'reactstrap';
 
-const TMJumbotron = (props) => {
+const PageJumbotron = (props) => {
     return (
         <div>
             <Jumbotron className="jumbo jumbotron-fluid">
+                <div className="grid">
                 <Row>
                     <Col sm="1"></Col>
                     <Col sm="11">
@@ -17,9 +18,10 @@ const TMJumbotron = (props) => {
                         </p>
                     </Col>
                 </Row>
+                </div>
             </Jumbotron>
         </div>
     );
 };
 
-export default TMJumbotron;
+export default PageJumbotron;
