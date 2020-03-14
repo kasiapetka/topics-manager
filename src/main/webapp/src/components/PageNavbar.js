@@ -15,7 +15,7 @@ import {
     Button,
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
-import {BrowserRouter, Link, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const PageNavbar = (props) => {
     const [isOpen, setIsOpen] = useState(false);

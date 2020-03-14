@@ -1,5 +1,6 @@
 import React from 'react';
-import { Jumbotron, Button, Row, Col } from 'reactstrap';
+import {Jumbotron, Button, Row, Col, Collapse} from 'reactstrap';
+import {Link} from "react-router-dom";
 
 const PageJumbotron = (props) => {
     return (
@@ -14,7 +15,9 @@ const PageJumbotron = (props) => {
                         <hr className="my-2" />
                         <p>Log in or create an account and enhance Your work with great project and groups management features.</p>
                         <p className="lead">
-                            <Button color="secondary">Join Now</Button>
+                            <Link to="/register">
+                                <Button color="secondary">Join Now</Button>
+                            </Link>
                         </p>
                     </Col>
                 </Row>

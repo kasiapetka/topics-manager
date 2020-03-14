@@ -1,17 +1,17 @@
 import React from "react";
 
 import PageNavbar from "../components/PageNavbar";
-import LoginForm from "../components/LoginForm";
+import RegisterForm from "../components/RegisterForm";
 
-class LoginPage extends React.Component{
+class RegisterPage extends React.Component{
     render() {
         return (
             <div>
                 <PageNavbar/>
-                <LoginForm/>
+                <RegisterForm/>
             </div>
         );
     }
 };
 
-export default LoginPage;
+export default RegisterPage;
