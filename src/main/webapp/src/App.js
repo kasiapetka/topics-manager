@@ -7,7 +7,6 @@ import {BrowserRouter as Router,
 import MainPage from "./pages";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
 
 class App extends React.Component{
     render(){
@@ -15,8 +14,8 @@ class App extends React.Component{
             <Router>
                 <Switch>
                     <Route exact path ="/" component={MainPage}/>
-                    <Route exact path ="/login" component={LoginPage}/>
-                    <Route exact path ="/register" component={RegisterPage}/>
+                    <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true}/>}/>
+                    <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
                     <Route component={ErrorPage}/>
                 </Switch>
             </Router>
