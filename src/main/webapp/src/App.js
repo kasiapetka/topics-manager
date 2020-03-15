@@ -9,6 +9,7 @@ import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
 
 class App extends React.Component{
+
     render(){
         return(
             <Router>

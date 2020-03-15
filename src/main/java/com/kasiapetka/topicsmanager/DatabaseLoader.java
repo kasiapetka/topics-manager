@@ -31,6 +31,6 @@ public class DatabaseLoader implements CommandLineRunner {
         roleRepository.save(r);
         User u = new User("a@a.com", "aaa",1,r);
         this.userRepository.save(u);
-        this.studentRepository.save(new Student("aaaa", "aaaa",u));
+        this.studentRepository.save(new Student("aaaa", "bbbbbb",u));
     }
 }
