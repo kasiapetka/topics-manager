@@ -2,15 +2,14 @@ package com.kasiapetka.topicsmanager.controllers;
 
 
 import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -25,8 +24,15 @@ public class IndexController {
         this.studentRepository = studentRepository;
     }
 
-    @GetMapping("/students/3")
-    Student student() {
-        return studentRepository.findByName("aaaa");
+    @GetMapping("/students")
+    Iterable <Student> student() {
+        return studentRepository.findAll();
     }
+
+    @PostMapping("/api/login")
+    public ResponseEntity<?> login(@Valid @RequestBody User user) {
+        System.out.println(user.getEmail()+" "+ user.getPassword());
+        return ResponseEntity.ok().build();
+    }
+
 }

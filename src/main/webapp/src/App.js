@@ -10,8 +10,9 @@ import LoginPage from "./pages/LoginPage";
 
 class App extends React.Component{
 
-    render(){
+render(){
         return(
+
             <Router>
                 <Switch>
                     <Route exact path ="/" component={MainPage}/>
