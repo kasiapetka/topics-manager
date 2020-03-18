@@ -30,7 +30,7 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        Role r = new Role('s');
+        Role r = new Role("Student");
         roleRepository.save(r);
         User u = new User("aaa@aaa.com", "aaaaa",1,r);
         this.userRepository.save(u);

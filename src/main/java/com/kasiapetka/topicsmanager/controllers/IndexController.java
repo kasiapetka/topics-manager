@@ -34,6 +34,17 @@ public class IndexController {
         return studentRepository.findAll();
     }
 
+    @PostMapping("/student")
+    public ResponseEntity<?> studentTest() {
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/teacher")
+    public ResponseEntity<?> teacherTest() {
+        return ResponseEntity.ok().build();
+    }
+
+
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@Valid @RequestBody User user) {
         System.out.println(user.getEmail()+" "+ user.getPassword());

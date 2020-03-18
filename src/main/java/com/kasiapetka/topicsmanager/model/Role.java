@@ -14,12 +14,12 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private Character role;
+    private String role;
 
     public Role() {
     }
 
-    public Role(Character role) {
+    public Role(String role) {
         this.role = role;
     }
 
