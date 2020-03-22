@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //HTTP Basic authentication
                 .httpBasic()
+                .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()

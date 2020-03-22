@@ -39,6 +39,7 @@ export class LoginForm extends React.Component {
     async handleSubmit(event) {
         event.preventDefault();
         const {user} = this.state;
+        //check if email is good
 
         let response = await fetch('/api/login', {
             method: 'POST',
@@ -52,8 +53,13 @@ export class LoginForm extends React.Component {
             //jak wraca z bledem to mu wyisze ze zle dane jak wraca z ok to go przenies na inna strone
         });
 
-       // let commits = await response.json();
-        console.log(response)
+       if (response.status === 401){
+           console.log("unauthorized")
+
+       }
+       else{
+           console.log(response)
+       }
     }
 
     render() {
