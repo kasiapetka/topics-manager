@@ -5,7 +5,8 @@ import {
     Button, Collapse, Badge
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
-import {Link,Redirect} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import auth from "../Auth"
 
 export class LoginForm extends React.Component {
 
@@ -18,8 +19,8 @@ export class LoginForm extends React.Component {
         super(props);
         this.state = {
             user: this.emptyUser,
-            isAuthorized: false,
-            wrongCred: false
+            wrongCred: false,
+            redirectToReferrer: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,7 +46,7 @@ export class LoginForm extends React.Component {
         let response = await fetch('/api/login', {
             method: 'POST',
             headers: {
-                'Authorization': 'Basic '+btoa(user.email+':'+user.password),
+                'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -54,33 +55,35 @@ export class LoginForm extends React.Component {
             //jak wraca z bledem to mu wyisze ze zle dane jak wraca z ok to go przenies na inna strone
         });
 
-       if (response.status === 401){
-           console.log("unauthorized")
-           this.setState({
-               wrongCred: true
-           });
-       }
-       else if(response.status === 200){
-           console.log(response)
-           this.setState({
-               isAuthorized: true
-           });
-       }
+        if (response.status === 401) {
+            console.log("unauthorized")
+            this.setState({
+                wrongCred: true
+            });
+        } else if (response.status === 200) {
+            console.log(response)
+            auth.login(() => {
+                    this.setState(() => ({
+                        redirectToReferrer: true
+                    }))
+                })
+        }
     }
 
     render() {
         const {user} = this.state;
         const wrongCred= this.state.wrongCred;
-        const redirect = this.state.isAuthorized;
+        const { redirectToReferrer } = this.state
+
+        if (redirectToReferrer === true) {
+            return <Redirect to='/student' />
+        }
+
         let wrongCredentials, redirectUser;
         if (wrongCred) {
             wrongCredentials =
                 <Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
                 Wrong Login Credentials</Badge>
-        }
-
-        if(redirect){
-            redirectUser = <Redirect to="/student" />
         }
 
         return (
