@@ -2,10 +2,10 @@ import React from 'react';
 import {
     Container, Col, Form,
     FormGroup, Label, Input,
-    Button, Collapse,
+    Button, Collapse, Badge
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 
 export class LoginForm extends React.Component {
 
@@ -18,7 +18,8 @@ export class LoginForm extends React.Component {
         super(props);
         this.state = {
             user: this.emptyUser,
-            isAuthenticated: false
+            isAuthorized: false,
+            wrongCred: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,15 +56,32 @@ export class LoginForm extends React.Component {
 
        if (response.status === 401){
            console.log("unauthorized")
-
+           this.setState({
+               wrongCred: true
+           });
        }
-       else{
+       else if(response.status === 200){
            console.log(response)
+           this.setState({
+               isAuthorized: true
+           });
        }
     }
 
     render() {
         const {user} = this.state;
+        const wrongCred= this.state.wrongCred;
+        const redirect = this.state.isAuthorized;
+        let wrongCredentials, redirectUser;
+        if (wrongCred) {
+            wrongCredentials =
+                <Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
+                Wrong Login Credentials</Badge>
+        }
+
+        if(redirect){
+            redirectUser = <Redirect to="/student" />
+        }
 
         return (
             <div className="col-6 container border rounded pt-4 pb-5 mt-5 ">
@@ -80,12 +98,13 @@ export class LoginForm extends React.Component {
                         <Input type="password" name="password" id="examplePassword" minLength="5" placeholder="Enter Password"
                                value={user.password || ''} onChange={this.handleChange}/>
                     </FormGroup>
-                    <div className="form-row text-center pt-5">
+                    {wrongCredentials}
+                    {redirectUser}
+                    <div className="form-row text-center pt-4">
                         <div className="col-12">
                             <Button type="submit" className="btn btn-primary">Sign In</Button>
                         </div>
                     </div>
-
                     <div className="form-row text-center pt-3">
                         <div className="col-12">
                             <p>You don't have an account yet? Create new account here:</p>

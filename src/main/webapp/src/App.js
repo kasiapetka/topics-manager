@@ -7,6 +7,7 @@ import {BrowserRouter as Router,
 import MainPage from "./pages";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
+import StudentPage from "./pages/StudentPage";
 
 class App extends React.Component{
 
@@ -18,6 +19,7 @@ render(){
                     <Route exact path ="/" component={MainPage}/>
                     <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true}/>}/>
                     <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
+                    <Route exact path ="/student" component={() => <StudentPage/>}/>
                     <Route component={ErrorPage}/>
                 </Switch>
             </Router>
