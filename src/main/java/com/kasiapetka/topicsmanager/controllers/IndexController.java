@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+
 @RestController
 public class IndexController {
 
@@ -34,12 +35,13 @@ public class IndexController {
         return studentRepository.findAll();
     }
 
-    @PostMapping("/student")
-    public ResponseEntity<?> studentTest() {
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("/api/student")
+//    public ResponseEntity<?> studentTest() {
+//        System.out.println("dwde");
+//        return ResponseEntity.ok().build();
+//    }
 
-    @PostMapping("/teacher")
+    @PostMapping("/api/teacher")
     public ResponseEntity<?> teacherTest() {
         return ResponseEntity.ok().build();
     }
@@ -52,15 +54,4 @@ public class IndexController {
        // System.out.println(auth.getName() + " ci ");
         return ResponseEntity.ok().build();
     }
-
-//    @GetMapping("/api/login")
-//    public ResponseEntity<?> login() {
-//        //doesnt work
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        //User user = userRepository.findByEmail(auth.getName());
-//
-//        System.out.println(auth.getName() + " ci ");
-//        return ResponseEntity.ok().build();
-//    }
-
 }
