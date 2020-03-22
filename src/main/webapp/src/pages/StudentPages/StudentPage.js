@@ -10,7 +10,7 @@ class StudentPage extends React.Component {
 
         return (
             <div className="col-md-6 col-md-offset-3">
-               ukjkuk
+               I am a student
             </div>
         );
     }
