@@ -5,10 +5,10 @@ import {
     Button, Collapse, Badge
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
-import {Link, Redirect} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 import auth from "../Auth"
 
-export class LoginForm extends React.Component {
+export class LoginForm extends React.PureComponent  {
 
     emptyUser = {
         email: '',
@@ -17,10 +17,13 @@ export class LoginForm extends React.Component {
 
     constructor(props) {
         super(props);
+        var redirect = false;
+        if(auth.isAuthenticated()) redirect = true;
+
         this.state = {
             user: this.emptyUser,
             wrongCred: false,
-            redirectToReferrer: false
+            redirectToReferrer: redirect,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,28 +65,27 @@ export class LoginForm extends React.Component {
             });
         } else if (response.status === 200) {
             console.log(response)
-            auth.login(() => {
-                    this.setState(() => ({
-                        redirectToReferrer: true
-                    }))
-                })
+            auth.login();
+            this.setState({
+                redirectToReferrer: true
+            });
         }
     }
 
     render() {
         const {user} = this.state;
-        const wrongCred= this.state.wrongCred;
-        const { redirectToReferrer } = this.state
-
-        if (redirectToReferrer === true) {
-            return <Redirect to='/student' />
-        }
+        const wrongCred = this.state.wrongCred;
+        const redirectToReferrer = this.state.redirectToReferrer;
 
         let wrongCredentials, redirectUser;
         if (wrongCred) {
             wrongCredentials =
                 <Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
                 Wrong Login Credentials</Badge>
+        }
+
+        if (redirectToReferrer) {
+            redirectUser = <Redirect to='/student' />;
         }
 
         return (

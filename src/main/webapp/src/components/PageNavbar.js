@@ -16,12 +16,27 @@ import {
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
 import {Link} from "react-router-dom";
+import auth from "../Auth"
 
 const PageNavbar = (props) => {
     const [isOpen, setIsOpen] = useState(false);
-
     const toggle = () => setIsOpen(!isOpen);
+    let account;
 
+    if(auth.isAuthenticated()){
+        account=<Link to="/student">
+            <Button className="float-right" variant="outlined">
+                <FaUserAlt className="accountIcon"></FaUserAlt>My Account
+            </Button>
+        </Link>;
+    }else {
+        account=<Link to="/login">
+            <Button className="float-right" variant="outlined">
+                <FaUserAlt className="accountIcon"></FaUserAlt>Sign In
+            </Button>
+        </Link>;
+    }
+    console.log(auth.isAuthenticated())
     return (
                 <Navbar color="light" light expand="md">
                     <NavbarBrand href="/"><img
@@ -58,11 +73,8 @@ const PageNavbar = (props) => {
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </Nav>
-                        <Link to="/login">
-                            <Button className="float-right" variant="outlined">
-                                <FaUserAlt className="accountIcon"></FaUserAlt>Sign In
-                            </Button>
-                        </Link>
+                        {account}
+
                     </Collapse>
                 </Navbar>
     );

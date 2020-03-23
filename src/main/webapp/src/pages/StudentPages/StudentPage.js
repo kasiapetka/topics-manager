@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
+import PageNavbar from "../../components/PageNavbar";
+import {Badge} from "reactstrap";
 
 class StudentPage extends React.Component {
     constructor(props) {
@@ -9,8 +11,9 @@ class StudentPage extends React.Component {
     render() {
 
         return (
-            <div className="col-md-6 col-md-offset-3">
-               I am a student
+            <div>
+                <PageNavbar/>
+                <div> I am a student </div>
             </div>
         );
     }
