@@ -1,20 +1,16 @@
 class Auth {
-    constructor(){
-        this.isAuth = false
+
+    login(){
+        window.sessionStorage.setItem("auth", "true");
     }
 
-    login(cb){
-        this.isAuth = true
-        cb()
-    }
-
-    logout(cb){
-        this.isAuth = false
-        cb()
+    logout(){
+        window.sessionStorage.setItem("auth", "false");
     }
 
     isAuthenticated(){
-        return this.isAuth
+        const a = window.sessionStorage.getItem("auth");
+        return a === 'true';
     }
 }
 
