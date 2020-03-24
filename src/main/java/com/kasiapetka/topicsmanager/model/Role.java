@@ -13,7 +13,8 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
+    //@todo zmienic nazwe pola rola, bo bez sensu rola.rola
     private String role;
 
     public Role() {

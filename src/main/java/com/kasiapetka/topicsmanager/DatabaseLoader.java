@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 ///import org.springframework.security.core.authority.AuthorityUtils;
 //import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +20,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public DatabaseLoader(StudentRepository studentRepository, UserRepository userRepository,RoleRepository roleRepository) {
@@ -32,7 +36,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
         Role r = new Role("Student");
         roleRepository.save(r);
-        User u = new User("aaa@aaa.com", "aaaaa",1,r);
+        User u = new User("aaa@aaa.com", bCryptPasswordEncoder.encode("aaaaa") ,1,r);
         this.userRepository.save(u);
         this.studentRepository.save(new Student("aaaa", "bbbbbb",u));
 

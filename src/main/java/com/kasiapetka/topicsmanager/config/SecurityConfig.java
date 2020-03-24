@@ -19,27 +19,32 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    private DataSource dataSource;
-//
-//    @Value("${spring.queries.users-query}")
-//    private String usersQuery;
-//
-//    @Value("${spring.queries.roles-query}")
-//    private String rolesQuery;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    //@Value("${spring.queries.users-query}")
+    @Value("select email, password, active from users where email=?")
+    private String usersQuery;
+
+    @Value("${spring.queries.roles-query}")
+    private String rolesQuery;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("student").password("{noop}test123").roles("Student")
-                .and()
-                .withUser("teacher").password("{noop}test123").roles("Teacher");
+//        auth.inMemoryAuthentication()
+//                .withUser("student").password("{noop}test123").roles("Student")
+//                .and()
+//                .withUser("teacher").password("{noop}test123").roles("Teacher");
 
-//        auth. jdbcAuthentication()
-//                .usersByUsernameQuery(usersQuery)
-//                .authoritiesByUsernameQuery(rolesQuery)
-//                .dataSource(this.dataSource);
+        auth. jdbcAuthentication()
+                .usersByUsernameQuery(usersQuery)
+                .authoritiesByUsernameQuery(rolesQuery)
+                .passwordEncoder(this.bCryptPasswordEncoder)
+                .dataSource(this.dataSource);
     }
 
     @Override
@@ -53,5 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
+         http.headers().frameOptions().disable();
     }
 }
