@@ -1,9 +1,10 @@
 package com.kasiapetka.topicsmanager.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -20,7 +21,7 @@ public class Teacher {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User userID;
+    private User user;
 
     public Teacher() {
     }

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Getter
@@ -20,7 +19,7 @@ public class Semester {
     private Integer year;
     private Integer semester;
 
-    @OneToMany(mappedBy = "semester")
+    @OneToMany
     @JoinColumn(name = "section_id")
     private List<Section> sections;
 
