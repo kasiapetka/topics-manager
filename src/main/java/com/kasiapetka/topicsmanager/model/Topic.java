@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "topic")
+@Table(name = "topics")
 @Entity
 public class Topic {
     @Id
@@ -18,7 +18,7 @@ public class Topic {
     private String summary;
     private Character state;
 
-//    @OneToMany
-//    @JoinColumn(name = "section_id")
-    //private List<Section> sections;
+    @OneToMany
+    @JoinColumn(name = "section_id")
+    private List<Section> sections;
 }

@@ -1,6 +1,8 @@
 package com.kasiapetka.topicsmanager.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,7 +23,13 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
+
+//    @OneToMany
+//    @JoinColumn(name = "student_section_id")
+//    private List<StudentSection> studentSection;
+
+
 
     //@ToDo stworzyc algorytm generowania kodow powiazanych z numerem albumu
 
@@ -31,7 +39,7 @@ public class Student {
     public Student(String name, String surname, User userId) {
         this.name = name;
         this.surname = surname;
-        this.userId = userId;
+        this.user = userId;
     }
 
     @Override
@@ -42,12 +50,12 @@ public class Student {
         return Objects.equals(album, student.album) &&
                 Objects.equals(name, student.name) &&
                 Objects.equals(surname, student.surname) &&
-                Objects.equals(userId, student.userId);
+                Objects.equals(user, student.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(album, name, surname,userId);
+        return Objects.hash(album, name, surname, user);
     }
 
     @Override
@@ -56,7 +64,7 @@ public class Student {
                 "album=" + album +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", userId='" + userId + '\'' +
+                ", user='" + user + '\'' +
                 '}';
     }
 }

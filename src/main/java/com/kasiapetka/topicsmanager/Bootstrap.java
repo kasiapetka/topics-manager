@@ -42,7 +42,7 @@
 //        Student student = new Student();
 //        student.setName("a");
 //        student.setSurname("ab");
-//        student.setUserID(user);
+//        student.setUser(user);
 //
 //        roleRepository.save(role);
 //        userRepository.save(user);
