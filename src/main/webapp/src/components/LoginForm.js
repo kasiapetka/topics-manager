@@ -8,7 +8,7 @@ import { FaUserAlt } from "react-icons/fa";
 import {Link, Redirect, withRouter} from 'react-router-dom';
 import auth from "../Auth"
 
-export class LoginForm extends React.PureComponent  {
+export class LoginForm extends React.Component  {
 
     emptyUser = {
         email: '',
@@ -66,6 +66,10 @@ export class LoginForm extends React.PureComponent  {
         } else if (response.status === 200) {
             console.log(response)
             auth.login();
+            //token
+           // response.body.
+
+            //
             this.setState({
                 redirectToReferrer: true
             });
@@ -95,7 +99,7 @@ export class LoginForm extends React.PureComponent  {
                     <h3 className="text-center">Sign In</h3>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
                         <Label for="exampleEmail" className="mr-sm-2 pl-1">Email Address</Label>
-                        <Input type="text" name="email" id="exampleEmail" placeholder="Enter Email" value={user.email || ''}
+                        <Input type="email" name="email" id="exampleEmail" placeholder="Enter Email" value={user.email || ''}
                                onChange={this.handleChange}/>
                     </FormGroup>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
