@@ -1,34 +1,39 @@
 package com.kasiapetka.topicsmanager.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@Getter
-@Setter
-//@Table(name = "sections")
+@Data
+@Table(name = "sections")
 @Entity
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String name;
+    @NotNull
     private Integer sizeOfSection;
-    //@todo ogarnac, zeby byla sciezka do pliku a nie blob
-    private String attachment;
+    @NotNull
     private Boolean isActive;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
-//    @OneToMany
-//    @JoinColumn(name = "student_section_id")
-//    private List<StudentSection> studentSection;
+    @OneToMany(mappedBy = "section")
+    private List<StudentSection> studentSections;
+
+    @OneToMany(mappedBy = "section")
+    private List<Attachment> attachments;
 
 }

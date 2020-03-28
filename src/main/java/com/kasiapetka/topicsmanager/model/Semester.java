@@ -1,13 +1,12 @@
 package com.kasiapetka.topicsmanager.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Table(name = "semesters")
 @Entity
 public class Semester {
@@ -15,15 +14,17 @@ public class Semester {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
     private String faculty;
+    @NotNull
     private Integer year;
+    @NotNull
     private Integer semester;
 
-    @OneToMany
-    @JoinColumn(name = "section_id")
+    @OneToMany(mappedBy = "semester")
     private List<Section> sections;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "student_semester",
             joinColumns = @JoinColumn(name = "semester_id"),

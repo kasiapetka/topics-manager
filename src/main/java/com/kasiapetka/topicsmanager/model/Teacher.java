@@ -1,57 +1,31 @@
 package com.kasiapetka.topicsmanager.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Objects;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
-@Getter
-@Setter
 @Table(name = "teachers")
 @Entity
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotNull
     private String name;
+    @NotNull
     private String surname;
 
-    @OneToOne
+    @NotNull
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Teacher() {
-    }
+    @OneToMany(mappedBy = "teacher")
+    private List<Topic> topics;
 
-    public Teacher(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teacher teacher = (Teacher) o;
-        return Objects.equals(id, teacher.id) &&
-                Objects.equals(name, teacher.name) &&
-                Objects.equals(surname, teacher.surname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname);
-    }
-
-    @Override
-    public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
-    }
+    @ManyToMany(mappedBy = "subjects")
+    private List<Subject> subjects;
 }

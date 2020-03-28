@@ -34,11 +34,19 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        Role r = new Role("Student");
-        roleRepository.save(r);
-        User u = new User("aaa@aaa.com", bCryptPasswordEncoder.encode("aaaaa") ,1,r);
-        this.userRepository.save(u);
-        this.studentRepository.save(new Student("aaaa", "bbbbbb",u));
+        Role r = new Role();
+        r.setId(1L);
+        r.setRoleName("Student");
+        User u = new User();
+        u.setEmail("aaa@aaa.com");
+        u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
+        u.setActive(1);
+        u.setRole(r);
+        Student s = new Student();
+        s.setName("aaaa");
+        s.setSurname("bbbbbb");
+        s.setUser(u);
+        this.studentRepository.save(s);
 
 //        SecurityContextHolder.getContext().setAuthentication(
 //                new UsernamePasswordAuthenticationToken("aaa", "doesn't matter",
