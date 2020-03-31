@@ -1,33 +1,32 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BrowserRouter as Router,
     Route,
-    Switch,
-    Link,
-    Redirect} from 'react-router-dom';
+    Switch} from 'react-router-dom';
 import MainPage from "./pages";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
 import StudentPage from "./pages/StudentPages/StudentPage";
-import {PrivateRoute} from "./PrivateRoute";
-import auth from "./Auth";
+import TeacherPage from "./pages/TeacherPages/TeacherPage";
+import AdminPage from "./pages/AdminPages/AdminPage";
+import PrivateRoute from "./PrivateRoute";
+import Radium, {StyleRoot}  from "radium";
 
-class App extends React.Component{
-    constructor(props) {
-        super(props);
-    }
-    render(){
+const App = () => {
         return(
-            <Router>
-                <Switch>
-                    <Route exact path ="/" component={MainPage}/>
-                    <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true} />}/>
-                    <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
-                    <PrivateRoute exact path ="/student" component={() => <StudentPage/>}/>
-                    <Route component={ErrorPage}/>
-                </Switch>
-            </Router>
+            <StyleRoot>
+                <Router>
+                    <Switch>
+                        <Route exact path ="/" component={MainPage}/>
+                        <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true} />}/>
+                        <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
+                        <PrivateRoute exact path ="/student" component={() => <StudentPage/>}/>
+                        <PrivateRoute exact path ="/teacher" component={() => <TeacherPage/>}/>
+                        <PrivateRoute exact path ="/admin" component={() => <AdminPage/>}/>
+                        <Route component={ErrorPage}/>
+                    </Switch>
+                </Router>
+            </StyleRoot>
         );
-    }
 }
 
-export default App;
+export default Radium(App);

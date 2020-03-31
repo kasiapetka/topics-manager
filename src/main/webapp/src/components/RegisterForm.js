@@ -61,9 +61,9 @@ export class LoginForm extends React.Component{
             this.setState({
                 wrongCred: true
             });
-        } else if (response.status === 200) {
+        } else if (response.status === 201) {
             console.log(response)
-            auth.login();
+            auth.login('S');
             this.setState({
                 redirectToReferrer: true
             });
@@ -92,12 +92,12 @@ export class LoginForm extends React.Component{
                     <h3 className="text-center">Sign Up</h3>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
                         <Label for="exampleAlbum" className="mr-sm-2 pl-1">Your Album</Label>
-                        <Input type="album" name="album" id="exampleAlbum" minLength="1" maxLength="7" placeholder="Enter Album" value={user.album || ''}
+                        <Input type="number" name="album" id="exampleAlbum" minLength="1" maxLength="7" placeholder="Enter Album" value={user.album || ''}
                                onChange={this.handleChange}/>
                     </FormGroup>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3 ">
                         <Label for="exampleCode" className="mr-sm-2 pl-1">Your Code</Label>
-                        <Input type="code" name="code" id="exampleCode" minLength="1" maxLength="30" placeholder="Enter Code" value={user.code || ''}
+                        <Input type="text" name="code" id="exampleCode" minLength="1" maxLength="30" placeholder="Enter Code" value={user.code || ''}
                                onChange={this.handleChange}/>
                     </FormGroup>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">

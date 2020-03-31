@@ -2,17 +2,6 @@ body {
   background-size: cover;
   background-attachment: fixed;
   background-image: url("../img/bg8T.png");
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }
 
 .jumbo {
@@ -22,13 +11,4 @@ code {
   width:100%;
   background-attachment: fixed;
   color: black;
-}
-
-.accountIcon{
-  padding-bottom: 3px;
-  margin-right: 4px;
-}
-
-.grid{
-  width:95%;
 }

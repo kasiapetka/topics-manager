@@ -6,6 +6,8 @@ import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import com.kasiapetka.topicsmanager.model.RegisterForm;
+import com.kasiapetka.topicsmanager.services.IndexService;
+import com.kasiapetka.topicsmanager.services.StudentService;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
@@ -22,24 +24,45 @@ import java.util.logging.Logger;
 public class IndexController {
 
     //private final Logger log = LoggerFactory.getLogger(IndexController.class);
-    private StudentRepository studentRepository;
-    private UserRepository userRepository;
+    private StudentService studentService;
+    private IndexService indexService;
 
-    public IndexController(StudentRepository studentRepository,UserRepository userRepository) {
-        this.studentRepository = studentRepository;
-        this.userRepository = userRepository;
+    public IndexController(StudentService studentService, IndexService indexService) {
+        this.studentService = studentService;
+        this.indexService = indexService;
     }
+
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@Valid @RequestBody User user) {
-        System.out.println(user.getEmail()+" "+ user.getPassword());
-        return ResponseEntity.ok().build();
+        System.out.println(user.getEmail() + " " + user.getPassword());
+        User userExists = indexService.findUserByEmail(user.getEmail());
+
+        if (userExists != null) {
+            if (userExists.getRole().getRoleName().equals("Student"))
+                return ResponseEntity.status(210).build();
+            if (userExists.getRole().getRoleName().equals("Teacher"))
+                return ResponseEntity.status(211).build();
+            if (userExists.getRole().getRoleName().equals("Admin"))
+                return ResponseEntity.status(212).build();
+        }
+
+           return ResponseEntity.status(401).build();
     }
+
+
 
     @PostMapping("/api/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterForm user) {
-        System.out.println(user.toString());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) {
+        User userExists = indexService.findUserByEmail(newStudent.getEmail());
+        Long album = Long.parseLong(newStudent.getAlbum());
+        Student studentExists = studentService.findStudentByAlbum(album);
+
+        if(userExists != null || studentExists == null)
+            return ResponseEntity.status(401).build();
+        else {
+            User newUser = new User(newStudent.getEmail(),newStudent.getPassword());
+            indexService.create(newUser,studentExists);
+            return ResponseEntity.status(201).build();
+        }
     }
-
-
 }

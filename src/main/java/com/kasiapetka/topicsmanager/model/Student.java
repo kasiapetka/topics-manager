@@ -14,14 +14,13 @@ public class Student {
     //@ToDo zmienic generation type na wlasny (chyba SEQUENCE to najlepiej umozliwia)
     //@ToDo stworzyc algorytm generowania kodow do rejestracji powiazanych z numerem albumu
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   // @GeneratedValue(strategy = GenerationType.AUTO)
     private long album;
     @NotNull
     private String name;
     @NotNull
     private String surname;
 
-    @NotNull
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;

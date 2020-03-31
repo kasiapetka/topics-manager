@@ -26,13 +26,13 @@ const PageNavbar = (props) => {
     if(auth.isAuthenticated()){
         account=<Link to="/student">
             <Button className="float-right" variant="outlined">
-                <FaUserAlt className="accountIcon"></FaUserAlt>My Account
+                <FaUserAlt className="pb-1 mr-1"></FaUserAlt>My Account
             </Button>
         </Link>;
     }else {
         account=<Link to="/login">
             <Button className="float-right" variant="outlined">
-                <FaUserAlt className="accountIcon"></FaUserAlt>Sign In
+                <FaUserAlt className="pb-1 mr-1"></FaUserAlt>Sign In
             </Button>
         </Link>;
     }

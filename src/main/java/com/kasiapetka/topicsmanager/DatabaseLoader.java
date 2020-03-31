@@ -37,6 +37,17 @@ public class DatabaseLoader implements CommandLineRunner {
         Role r = new Role();
         r.setId(1L);
         r.setRoleName("Student");
+
+        Role r1 = new Role();
+        r1.setId(2L);
+        r1.setRoleName("Teacher");
+        roleRepository.save(r1);
+
+        Role r2= new Role();
+        r2.setId(3L);
+        r2.setRoleName("Admin");
+        roleRepository.save(r2);
+
         User u = new User();
         u.setEmail("aaa@aaa.com");
         u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
@@ -46,12 +57,20 @@ public class DatabaseLoader implements CommandLineRunner {
         s.setName("aaaa");
         s.setSurname("bbbbbb");
         s.setUser(u);
+        s.setAlbum(1000000);
         this.studentRepository.save(s);
 
-//        SecurityContextHolder.getContext().setAuthentication(
-//                new UsernamePasswordAuthenticationToken("aaa", "doesn't matter",
-//                        AuthorityUtils.createAuthorityList("s")));
-//
-//        SecurityContextHolder.clearContext();
+        Student s2 = new Student();
+        s2.setName("jhjjj");
+        s2.setSurname("bbbbbb");
+        s2.setAlbum(1111111);
+        this.studentRepository.save(s2);
+
+        Student s3 = new Student();
+        s3.setName("ryyyy");
+        s3.setSurname("nnnnnn");
+        s3.setAlbum(2222222);
+        this.studentRepository.save(s3);
+
     }
 }

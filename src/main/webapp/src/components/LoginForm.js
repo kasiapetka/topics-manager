@@ -6,9 +6,10 @@ import {
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
 import {Link, Redirect, withRouter} from 'react-router-dom';
-import auth from "../Auth"
+import auth from "../Auth";
+import Radium from "radium";
 
-export class LoginForm extends React.Component  {
+class LoginForm extends React.Component  {
 
     emptyUser = {
         email: '',
@@ -17,35 +18,31 @@ export class LoginForm extends React.Component  {
 
     constructor(props) {
         super(props);
-        var redirect = false;
-        if(auth.isAuthenticated()) redirect = true;
+        let redirect = false;
+        let role = auth.getRole();
 
         this.state = {
             user: this.emptyUser,
             wrongCred: false,
-            redirectToReferrer: redirect,
+            role: role,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange=(event)=>{
         const target = event.target;
         const value = target.value;
         const name = target.name;
         let user = {...this.state.user};
         user[name] = value;
         this.setState({user});
-
-        console.log(user.email)
-        console.log(user.password)
     }
 
     async handleSubmit(event) {
+
         event.preventDefault();
         const {user} = this.state;
-        //check if email is good
-
         let response = await fetch('/api/login', {
             method: 'POST',
             headers: {
@@ -54,46 +51,61 @@ export class LoginForm extends React.Component  {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(user),
-
-            //jak wraca z bledem to mu wyisze ze zle dane jak wraca z ok to go przenies na inna strone
         });
+
+        console.log(response)
 
         if (response.status === 401) {
             console.log("unauthorized")
             this.setState({
                 wrongCred: true
             });
-        } else if (response.status === 200) {
-            console.log(response)
-            auth.login();
-            //token
-           // response.body.
+        } else {
+            if (response.status === 210) {
+                auth.login('S');
+                this.setState({role: 'S'});
+            }
+            if (response.status === 211) {
+                auth.login('T');
+                this.setState({role: 'T'});
+            }
+            if (response.status === 212)  {
+                auth.login('A');
+                this.setState({role: 'A'});
+            }
 
-            //
-            this.setState({
-                redirectToReferrer: true
-            });
         }
     }
-
     render() {
         const {user} = this.state;
         const wrongCred = this.state.wrongCred;
-        const redirectToReferrer = this.state.redirectToReferrer;
+        const role = this.state.role;
 
-        let wrongCredentials, redirectUser;
+        let wrongCredentials;
         if (wrongCred) {
             wrongCredentials =
                 <Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
-                Wrong Login Credentials</Badge>
+                    Wrong Login Credentials</Badge>
         }
 
-        if (redirectToReferrer) {
-            redirectUser = <Redirect to='/student' />;
-        }
+        if(role === 'S')
+            return  <Redirect to='/student' />;
+        if(role === 'T')
+            return  <Redirect to='/teacher' />;
+        if(role === 'A')
+            return  <Redirect to='/admin' />;
+
+        const style={
+            '@media(min-width: 600px)': {
+                width: '600px'
+            },
+            '@media(max-width: 350px)': {
+                width: '95%'
+            }
+        };
 
         return (
-            <div className="col-6 container border rounded pt-4 pb-5 mt-5 ">
+            <div className="container border rounded pt-4 pb-5 mt-5" style={style}>
                 <Form onSubmit={this.handleSubmit}>
                     <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
                     <h3 className="text-center">Sign In</h3>
@@ -108,7 +120,6 @@ export class LoginForm extends React.Component  {
                                value={user.password || ''} onChange={this.handleChange}/>
                     </FormGroup>
                     {wrongCredentials}
-                    {redirectUser}
                     <div className="form-row text-center pt-4">
                         <div className="col-12">
                             <Button type="submit" className="btn btn-primary">Sign In</Button>
@@ -128,4 +139,4 @@ export class LoginForm extends React.Component  {
     }
 };
 
-export default LoginForm;
+export default Radium(LoginForm);

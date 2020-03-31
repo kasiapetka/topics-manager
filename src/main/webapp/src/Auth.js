@@ -1,7 +1,7 @@
 class Auth {
 
-    login(){
-        window.sessionStorage.setItem("auth", "true");
+    login(role){
+        window.sessionStorage.setItem("auth", "true "+role);
     }
 
     logout(){
@@ -10,7 +10,20 @@ class Auth {
 
     isAuthenticated(){
         const a = window.sessionStorage.getItem("auth");
-        return a === 'true';
+        if(!a) return false;
+
+         const authtab = a.split(' ');
+         return authtab[0] === 'true';
+
+    }
+
+    getRole(){
+        const a = window.sessionStorage.getItem("auth");
+        if(!a) return '';
+        const authtab = a.split(' ');
+        if (authtab[0] === 'true'){
+            return authtab[1];
+        }
     }
 }
 
