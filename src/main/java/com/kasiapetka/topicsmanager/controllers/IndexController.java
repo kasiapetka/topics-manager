@@ -10,6 +10,7 @@ import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
@@ -54,6 +55,10 @@ public class IndexController {
         final  String token = jwtUtil.generateToken(user.getEmail());
 
         System.out.println(token);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("token",new AuthenticationResponse(token).getToken());
+
+
         return ResponseEntity.ok(new AuthenticationResponse(token));
         /* if (userExists != null) {
             user.setToken(jwtUtil.generateToken(user.getEmail()));
