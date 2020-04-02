@@ -20,7 +20,7 @@ export class LoginForm extends React.Component{
 
     constructor(props) {
         super(props);
-        var redirect = false;
+        let redirect = false;
         if(auth.isAuthenticated()) redirect = true;
         this.state = {
             user: this.emptyUser,
@@ -44,30 +44,47 @@ export class LoginForm extends React.Component{
     async handleSubmit(event) {
         event.preventDefault();
         const {user} = this.state;
-        console.log(JSON.stringify(user));
 
-        let response = await fetch('/api/register', {
+        const request = {
             method: 'POST',
             headers: {
-                //'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
+               // 'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(user),
-        });
+            body: JSON.stringify(user)
+        };
 
-        if (response.status === 401) {
-            console.log("unauthorized")
-            this.setState({
-                wrongCred: true
+        fetch('/api/register', request).then(async response => {
+            const data = await response.json();
+
+            if (response.status >= 400 && response.status <= 499) {
+                this.setState({
+                    wrongCred: true
+                })
+            } else if (!response.ok) {
+                this.setState({
+                    serverError: true
+                });
+            } else {
+                console.log(data)
+
+                let user = {...this.state.user};
+                user.token = data.token;
+                auth.login(data.role,user.token)
+                this.setState({user});
+                this.setState({redirectToReferrer: true})
+                // let decoded = auth.parseJwt(user.token);
+                //
+                // console.log(decoded)
+
+            }
+        })
+            .catch(error => {
+                this.setState({errorMessage: error});
+                console.error('There was an error!', error);
             });
-        } else if (response.status === 201) {
-            console.log(response)
-            auth.login('S');
-            this.setState({
-                redirectToReferrer: true
-            });
-        }
+
     }
 
     render() {

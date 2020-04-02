@@ -47,19 +47,25 @@ public class IndexController {
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
         final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getEmail());
-        final  String token = jwtUtil.generateToken(user.getEmail());
+        final String token = jwtUtil.generateToken(userDetails.getUsername());
 
-        System.out.println(token);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("token",new AuthenticationResponse(token).getToken());
+        char role;
 
+        if (userExists.getRole().getRoleName().equals("Student"))
+            role = 'S';
+        else if (userExists.getRole().getRoleName().equals("Teacher"))
+            role = 'T';
+        else if (userExists.getRole().getRoleName().equals("Admin"))
+            role = 'A';
+        else role = 'n';
 
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.ok(new AuthenticationResponse(token, role));
+    }
         /* if (userExists != null) {
             user.setToken(jwtUtil.generateToken(user.getEmail()));
         }
@@ -75,7 +81,7 @@ public class IndexController {
         }
 
            return ResponseEntity.status(401).build();*/
-    }
+
 
     @PostMapping("/api/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) {
@@ -88,7 +94,17 @@ public class IndexController {
         else {
             User newUser = new User(newStudent.getEmail(),newStudent.getPassword());
             indexService.create(newUser,studentExists);
-            return ResponseEntity.status(201).build();
+
+            try {
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newStudent.getEmail(), newStudent.getPassword()));
+            } catch (Exception e) {
+
+            }
+
+            final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(newStudent.getEmail());
+            final String token = jwtUtil.generateToken(userDetails.getUsername());
+
+            return ResponseEntity.ok(new AuthenticationResponse(token, 'S'));
         }
     }
 }
