@@ -1,20 +1,17 @@
 package com.kasiapetka.topicsmanager.config;
 
+import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import com.kasiapetka.topicsmanager.config.JwtAuthenticationEntryPoint;
-import com.kasiapetka.topicsmanager.config.JwtAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -25,6 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
+
+
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -43,12 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .withUser("teacher").password("{noop}test123").roles("Teacher");
 
-        auth. jdbcAuthentication()
+     /*   auth. jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)
                 .authoritiesByUsernameQuery(rolesQuery)
                 .passwordEncoder(this.bCryptPasswordEncoder)
-                .dataSource(this.dataSource);
+                .dataSource(this.dataSource);*/
+
+        auth.userDetailsService(userDetailsServiceImpl);
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

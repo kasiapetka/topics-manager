@@ -3,21 +3,15 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.repositories.UserRepository;
-import com.kasiapetka.topicsmanager.model.RegisterForm;
+import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
 import com.kasiapetka.topicsmanager.services.IndexService;
 import com.kasiapetka.topicsmanager.services.StudentService;
-import org.slf4j.LoggerFactory;
+import com.kasiapetka.topicsmanager.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 
 @RestController
@@ -26,6 +20,7 @@ public class IndexController {
     //private final Logger log = LoggerFactory.getLogger(IndexController.class);
     private StudentService studentService;
     private IndexService indexService;
+    private JwtUtil jwtUtil;
 
     public IndexController(StudentService studentService, IndexService indexService) {
         this.studentService = studentService;
@@ -36,6 +31,11 @@ public class IndexController {
     public ResponseEntity<?> login(@Valid @RequestBody User user) {
         System.out.println(user.getEmail() + " " + user.getPassword());
         User userExists = indexService.findUserByEmail(user.getEmail());
+
+       /* if (userExists != null) {
+            user.setToken(jwtUtil.generateToken(user.getEmail()));
+        }
+        return user;*/
 
         if (userExists != null) {
             if (userExists.getRole().getRoleName().equals("Student"))
@@ -48,8 +48,6 @@ public class IndexController {
 
            return ResponseEntity.status(401).build();
     }
-
-
 
     @PostMapping("/api/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) {
