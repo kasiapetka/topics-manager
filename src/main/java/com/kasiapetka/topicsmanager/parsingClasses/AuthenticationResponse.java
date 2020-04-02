@@ -9,12 +9,22 @@ import java.util.Objects;
 @Setter
 public class AuthenticationResponse {
     private String token;
+    private Character role;
 
     public AuthenticationResponse() {
     }
 
-    public AuthenticationResponse(String token) {
+    public AuthenticationResponse(String token, Character role) {
         this.token = token;
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthenticationResponse{" +
+                "token='" + token + '\'' +
+                ", role=" + role +
+                '}';
     }
 
     @Override
@@ -22,18 +32,12 @@ public class AuthenticationResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AuthenticationResponse that = (AuthenticationResponse) o;
-        return Objects.equals(token, that.token);
+        return Objects.equals(token, that.token) &&
+                Objects.equals(role, that.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(token);
-    }
-
-    @Override
-    public String toString() {
-        return "LoginToken{" +
-                "token='" + token + '\'' +
-                '}';
+        return Objects.hash(token, role);
     }
 }

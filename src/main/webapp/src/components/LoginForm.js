@@ -9,6 +9,7 @@ import {Link, Redirect, withRouter} from 'react-router-dom';
 import auth from "../Auth";
 import Radium from "radium";
 
+
 class LoginForm extends React.Component {
 
     emptyUser = {
@@ -56,43 +57,35 @@ class LoginForm extends React.Component {
             body: JSON.stringify(user)
         };
 
-        fetch('/api/login',request).then(async response => {
-            const token = await response.json();
+        fetch('/api/login', request).then(async response => {
+            const data = await response.json();
 
-            // check for error response
-            if (!response.ok) {
-                // get error message from body or default to response status
-                const error = (token && token.message) || response.status;
-                return Promise.reject(error);
+            if (response.status >= 400 && response.status <= 499) {
+                this.setState({
+                    wrongCred: true
+                })
+            } else if (!response.ok) {
+                this.setState({
+                    serverError: true
+                });
+            } else {
+                console.log(data)
+
+                let user = {...this.state.user};
+                user.token = data.token;
+                auth.login(data.role,user.token)
+                this.setState({user});
+                this.setState({role: data.role})
+                // let decoded = auth.parseJwt(user.token);
+                //
+                // console.log(decoded)
+
             }
-
-            console.log(token)
-            console.log(response)
         })
             .catch(error => {
-                this.setState({ errorMessage: error });
+                this.setState({errorMessage: error});
                 console.error('There was an error!', error);
             });
-
-
-        // if (response.status >= 400 && response.status <= 499) {
-        //     this.setState({
-        //         wrongCred: true
-        //     });
-        // } else if (response.status >= 500 && response.status <= 599 ) {
-        //     this.setState({
-        //         serverError: true
-        //     });
-        // } else if (response.status === 210) {
-        //     auth.login('S');
-        //     this.setState({role: 'S'});
-        // } else if (response.status === 211) {
-        //     auth.login('T');
-        //     this.setState({role: 'T'});
-        // } else if (response.status === 212) {
-        //     auth.login('A');
-        //     this.setState({role: 'A'});
-        // }
 
     }
 
