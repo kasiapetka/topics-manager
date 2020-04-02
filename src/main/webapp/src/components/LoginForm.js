@@ -55,8 +55,10 @@ class LoginForm extends React.Component {
             body: JSON.stringify(user),
         });
 
+        console.log(response.ok)
+        console.log(response.headers)
+        console.log(response.body)
         console.log(response)
-
 
         if (response.status >= 400 && response.status <= 499) {
             this.setState({
