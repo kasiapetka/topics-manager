@@ -3,12 +3,7 @@ import {Link, Redirect} from 'react-router-dom';
 import PageNavbar from "../../components/PageNavbar";
 import {Badge} from "reactstrap";
 
-class StudentPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
+const StudentPage =()=> {
 
         return (
             <div>
@@ -16,7 +11,6 @@ class StudentPage extends React.Component {
                 <div> I am a student </div>
             </div>
         );
-    }
-}
+};
 
 export default StudentPage;

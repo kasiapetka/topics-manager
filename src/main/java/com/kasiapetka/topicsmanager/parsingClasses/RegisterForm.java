@@ -1,9 +1,8 @@
-package com.kasiapetka.topicsmanager.model;
+package com.kasiapetka.topicsmanager.parsingClasses;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
 import java.util.Objects;
 
 @Getter

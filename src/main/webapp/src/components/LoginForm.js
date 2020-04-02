@@ -9,9 +9,10 @@ import {Link, Redirect, withRouter} from 'react-router-dom';
 import auth from "../Auth";
 import Radium from "radium";
 
-class LoginForm extends React.Component  {
+class LoginForm extends React.Component {
 
     emptyUser = {
+        token:'',
         email: '',
         password: ''
     };
@@ -24,13 +25,14 @@ class LoginForm extends React.Component  {
         this.state = {
             user: this.emptyUser,
             wrongCred: false,
+            serverError: false,
             role: role,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange=(event)=>{
+    handleChange = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -55,37 +57,45 @@ class LoginForm extends React.Component  {
 
         console.log(response)
 
-        if (response.status === 401) {
-            console.log("unauthorized")
+
+        if (response.status >= 400 && response.status <= 499) {
             this.setState({
                 wrongCred: true
             });
-        } else {
-            if (response.status === 210) {
-                auth.login('S');
-                this.setState({role: 'S'});
-            }
-            if (response.status === 211) {
-                auth.login('T');
-                this.setState({role: 'T'});
-            }
-            if (response.status === 212)  {
-                auth.login('A');
-                this.setState({role: 'A'});
-            }
-
+        } else if (response.status >= 500 && response.status <= 599 ) {
+            this.setState({
+                serverError: true
+            });
+        } else if (response.status === 210) {
+            auth.login('S');
+            this.setState({role: 'S'});
+        } else if (response.status === 211) {
+            auth.login('T');
+            this.setState({role: 'T'});
+        } else if (response.status === 212) {
+            auth.login('A');
+            this.setState({role: 'A'});
         }
+
     }
+
     render() {
         const {user} = this.state;
         const wrongCred = this.state.wrongCred;
         const role = this.state.role;
+        const serverError = this.state.serverError;
 
-        let wrongCredentials;
+        let wrongCredentials, serverProblem;
         if (wrongCred) {
             wrongCredentials =
-                <Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
-                    Wrong Login Credentials</Badge>
+                (<Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
+                    Wrong Login Credentials</Badge>)
+        }
+
+        if(serverError){
+            serverProblem =
+                (<Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
+                    Internal Server Error</Badge>)
         }
 
         if(role === 'S')
@@ -120,6 +130,7 @@ class LoginForm extends React.Component  {
                                value={user.password || ''} onChange={this.handleChange}/>
                     </FormGroup>
                     {wrongCredentials}
+                    {serverProblem}
                     <div className="form-row text-center pt-4">
                         <div className="col-12">
                             <Button type="submit" className="btn btn-primary">Sign In</Button>
