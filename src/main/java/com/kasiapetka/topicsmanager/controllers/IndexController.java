@@ -3,13 +3,19 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.parsingClasses.AuthenticationResponse;
 import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
 import com.kasiapetka.topicsmanager.services.IndexService;
 import com.kasiapetka.topicsmanager.services.StudentService;
+import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -20,11 +26,17 @@ public class IndexController {
     //private final Logger log = LoggerFactory.getLogger(IndexController.class);
     private StudentService studentService;
     private IndexService indexService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
+    @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-    public IndexController(StudentService studentService, IndexService indexService) {
+    public IndexController(StudentService studentService,
+                           IndexService indexService,UserDetailsServiceImpl userDetailsServiceImpl) {
         this.studentService = studentService;
         this.indexService = indexService;
+        this.userDetailsServiceImpl= userDetailsServiceImpl;
     }
 
     @PostMapping("/api/login")
@@ -32,12 +44,23 @@ public class IndexController {
         System.out.println(user.getEmail() + " " + user.getPassword());
         User userExists = indexService.findUserByEmail(user.getEmail());
 
-       /* if (userExists != null) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        }catch(Exception e){
+
+        }
+
+        final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getEmail());
+        final  String token = jwtUtil.generateToken(user.getEmail());
+
+        System.out.println(token);
+        return ResponseEntity.ok(new AuthenticationResponse(token));
+        /* if (userExists != null) {
             user.setToken(jwtUtil.generateToken(user.getEmail()));
         }
         return user;*/
 
-        if (userExists != null) {
+       /* if (userExists != null) {
             if (userExists.getRole().getRoleName().equals("Student"))
                 return ResponseEntity.status(210).build();
             if (userExists.getRole().getRoleName().equals("Teacher"))
@@ -46,7 +69,7 @@ public class IndexController {
                 return ResponseEntity.status(212).build();
         }
 
-           return ResponseEntity.status(401).build();
+           return ResponseEntity.status(401).build();*/
     }
 
     @PostMapping("/api/register")
