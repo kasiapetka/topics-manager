@@ -12,7 +12,7 @@ import Radium from "radium";
 class LoginForm extends React.Component {
 
     emptyUser = {
-        token:'',
+        token: '',
         email: '',
         password: ''
     };
@@ -45,39 +45,54 @@ class LoginForm extends React.Component {
 
         event.preventDefault();
         const {user} = this.state;
-        let response = await fetch('/api/login', {
+
+        const request = {
             method: 'POST',
             headers: {
                 'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(user),
-        });
+            body: JSON.stringify(user)
+        };
 
-        console.log(response.ok)
-        console.log(response.headers)
-        console.log(response.body)
-        console.log(response)
+        fetch('/api/login',request).then(async response => {
+            const token = await response.json();
 
-        if (response.status >= 400 && response.status <= 499) {
-            this.setState({
-                wrongCred: true
+            // check for error response
+            if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (token && token.message) || response.status;
+                return Promise.reject(error);
+            }
+
+            console.log(token)
+            console.log(response)
+        })
+            .catch(error => {
+                this.setState({ errorMessage: error });
+                console.error('There was an error!', error);
             });
-        } else if (response.status >= 500 && response.status <= 599 ) {
-            this.setState({
-                serverError: true
-            });
-        } else if (response.status === 210) {
-            auth.login('S');
-            this.setState({role: 'S'});
-        } else if (response.status === 211) {
-            auth.login('T');
-            this.setState({role: 'T'});
-        } else if (response.status === 212) {
-            auth.login('A');
-            this.setState({role: 'A'});
-        }
+
+
+        // if (response.status >= 400 && response.status <= 499) {
+        //     this.setState({
+        //         wrongCred: true
+        //     });
+        // } else if (response.status >= 500 && response.status <= 599 ) {
+        //     this.setState({
+        //         serverError: true
+        //     });
+        // } else if (response.status === 210) {
+        //     auth.login('S');
+        //     this.setState({role: 'S'});
+        // } else if (response.status === 211) {
+        //     auth.login('T');
+        //     this.setState({role: 'T'});
+        // } else if (response.status === 212) {
+        //     auth.login('A');
+        //     this.setState({role: 'A'});
+        // }
 
     }
 
