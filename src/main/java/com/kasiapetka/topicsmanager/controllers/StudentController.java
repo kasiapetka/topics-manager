@@ -44,7 +44,8 @@ public class StudentController {
        } else {
            if (!user.getEmail().equals(result.getUser().getEmail())) {
             //TODO zmiana maila nie działa - cos z tokenem
-               //   studentService.changeEmail(result, user.getEmail());
+               // studentService.changeEmail(result, user.getEmail());
+             //  SecurityContextHolder.getContext().setAuthentication(null);
            }
            if (!user.getPassword().isEmpty()) {
                //zmien haslo

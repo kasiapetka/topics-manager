@@ -35,9 +35,11 @@ const PageNavbar = (props) => {
     }
     if (role === 'T') {
         path = '/teacher';
+        modifyPath = '/teacher/modifyAccount';
     }
     if (role === 'A') {
         path = '/admin';
+        modifyPath = '/admin/modifyAccount';
     }
 
     if (auth.isAuthenticated()) {
