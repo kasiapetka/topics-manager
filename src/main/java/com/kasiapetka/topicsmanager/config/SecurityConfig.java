@@ -36,6 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtFilter jwtFilter;
 
+    private final String[] WHITELIST = {
+            "/h2-console/**",
+    };
+
     //@Value("${spring.queries.users-query}")
     @Value("select email, password, active from users where email=?")
     private String usersQuery;
@@ -48,8 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -80,8 +82,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable();*/
-       http.csrf().disable()
+       http
+               .csrf().disable()
                .authorizeRequests().antMatchers("/api/login","/api/register").permitAll()
+               .antMatchers(WHITELIST).permitAll()
                .anyRequest().authenticated()
                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

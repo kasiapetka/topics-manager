@@ -2,9 +2,11 @@ package com.kasiapetka.topicsmanager;
 
 import com.kasiapetka.topicsmanager.model.Role;
 import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.RoleRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
+import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,15 +22,18 @@ public class DatabaseLoader implements CommandLineRunner {
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final TeacherRepository teacherRepository;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public DatabaseLoader(StudentRepository studentRepository, UserRepository userRepository,RoleRepository roleRepository) {
+    public DatabaseLoader(StudentRepository studentRepository, UserRepository userRepository,
+                          TeacherRepository teacherRepository,RoleRepository roleRepository) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.teacherRepository =teacherRepository;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class DatabaseLoader implements CommandLineRunner {
         Role r = new Role();
         r.setId(1L);
         r.setRoleName("Student");
-
+        roleRepository.save(r);
         Role r1 = new Role();
         r1.setId(2L);
         r1.setRoleName("Teacher");
@@ -53,6 +58,7 @@ public class DatabaseLoader implements CommandLineRunner {
         u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
         u.setActive(1);
         u.setRole(r);
+        this.userRepository.save(u);
         Student s = new Student();
         s.setName("aaaa");
         s.setSurname("bbbbbb");
@@ -72,5 +78,23 @@ public class DatabaseLoader implements CommandLineRunner {
         s3.setAlbum(2222222);
         this.studentRepository.save(s3);
 
+        User u1 = new User();
+        u1.setEmail("admin@admin.com");
+        u1.setPassword(bCryptPasswordEncoder.encode("admin"));
+        u1.setActive(1);
+        u1.setRole(r2);
+        this.userRepository.save(u1);
+
+        User u2 = new User();
+        u2.setEmail("ttt@ttt.com");
+        u2.setPassword(bCryptPasswordEncoder.encode("ttttt"));
+        u2.setActive(1);
+        u2.setRole(r1);
+        this.userRepository.save(u2);
+        Teacher t = new Teacher();
+        t.setName("teacher");
+        t.setSurname("wersdfs");
+        t.setUser(u2);
+        this.teacherRepository.save(t);
     }
 }

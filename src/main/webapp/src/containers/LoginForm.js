@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import {Link, Redirect, withRouter} from 'react-router-dom';
 import auth from "../Auth";
-import classes from "./containers.module.css"
+import classes from "../css/containers.module.css"
 import LoginFormInputs from "../components/LoginFormInputs";
 
 class LoginForm extends React.Component {
@@ -69,7 +69,7 @@ class LoginForm extends React.Component {
                 });
             } else {
                 console.log(data)
-
+                
                 let user = {...this.state.user};
                 user.token = data.token;
                 auth.login(data.role,user.token)

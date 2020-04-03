@@ -20,7 +20,8 @@ public class User {
     @NotNull
     private int active;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+//    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
 

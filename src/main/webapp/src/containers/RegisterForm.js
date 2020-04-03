@@ -2,7 +2,7 @@ import React from 'react';
 import {Badge} from 'reactstrap';
 import { Redirect} from 'react-router-dom';
 import auth from "../Auth";
-import classes from "./containers.module.css"
+import classes from "../css/containers.module.css"
 import RegisterFormInputs from "../components/RegisterFormInputs";
 
 export class RegisterForm extends React.Component{

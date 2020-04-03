@@ -2,12 +2,12 @@ import React,{Component} from 'react';
 import auth from "../Auth";
 import {Button, Form, FormGroup, Input, Label, Badge,Alert} from "reactstrap";
 import EditAccountInputs from "../components/EditAccountInputs";
-import classes from "./containers.module.css"
+import classes from "../css/containers.module.css"
 import {Redirect} from "react-router-dom";
 
 class EditAccount extends Component {
 
-    emptyStudent = {
+    emptyPerson = {
         album: '',
         name: '',
         surname:'',
@@ -18,15 +18,23 @@ class EditAccount extends Component {
     constructor(props) {
         super(props);
         let token = auth.getToken();
-        this.emptyStudent.email = auth.parseJwt(token).sub;
+        this.emptyPerson.email = auth.parseJwt(token).sub;
+        let path;
+        if(auth.getRole()==='S')
+            path='/api/student/modify';
+        if(auth.getRole()==='T')
+            path='/api/teacher/modify';
+        if(auth.getRole()==='A')
+            path='/api/admin/modify';
 
         this.state = {
-            student: this.emptyStudent,
+            person: this.emptyPerson,
             token: token,
             serverError: false,
             changed: false,
             passwordChanged: false,
-            emailChanged: false
+            emailChanged: false,
+            path: path,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,10 +43,10 @@ class EditAccount extends Component {
 
      componentDidMount=async()=> {
         if(!this.state.changed) {
-            const {student} = this.state;
+            const {person} = this.state;
             let user={
-                email: this.state.student.email,
-                password: this.state.student.password
+                email: this.state.person.email,
+                password: this.state.person.password
             };
 
             const request = {
@@ -51,21 +59,32 @@ class EditAccount extends Component {
                 body: JSON.stringify(user)
             };
 
-            fetch('/api/student/modify', request).then(async response => {
+            fetch(this.state.path, request).then(async response => {
                 const data = await response.json();
 
                 if (!response.ok) {
                     this.setState({serverError: true});
                 } else {
                     console.log(data);
-                    let student = {
-                        album: data.album,
-                        name: data.name,
-                        surname: data.surname,
-                        email: data.user.email
-                    };
 
-                    this.setState({student: student});
+                    if(auth.getRole()==='A') {
+                        let admin = {
+                            email: data.email
+                        };
+                        this.setState({person: admin});
+                    }
+                    else {
+                        let person = {
+                            album: data.album,
+                            name: data.name,
+                            surname: data.surname,
+                            email: data.user.email,
+                        };
+                        console.log('else')
+                        console.log(data)
+                        this.setState({person: person});
+                    }
+
                 }
             })
                 .catch(error => {
@@ -79,22 +98,22 @@ class EditAccount extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        let student = {...this.state.student};
-        student[name] = value;
-        this.setState({student});
+        let person = {...this.state.person};
+        person[name] = value;
+        this.setState({person});
         this.setState({changed: true});
     };
 
     handleSubmit= async(event) => {
         event.preventDefault();
-        const {student} = this.state;
+        const {person} = this.state;
         let user={
             email: '',
             password: ''
         };
 
-        user.email = this.state.student.email;
-        user.password = this.state.student.password;
+        user.email = this.state.person.email;
+        user.password = this.state.person.password;
 
         const request = {
             method: 'PUT',
@@ -106,29 +125,42 @@ class EditAccount extends Component {
             body: JSON.stringify(user)
         };
 
-        fetch('/api/student/modify', request).then(async response => {
+        fetch(this.state.path, request).then(async response => {
             const data = await response.json();
 
             if (!response.ok) {
                 this.setState({serverError: true});
             } else {
                 console.log(data);
-                let student = {
-                    album: data.album,
-                    name: data.name,
-                    surname: data.surname,
-                    email: data.user.email
-                };
 
-                if(data.user.password !== user.password){
-                    this.setState({passwordChanged: true});
-                }
-                if(data.user.email !== user.email){
-                    auth.logout();
-                    this.setState({emailChanged: true});
-                }
+                if (auth.getRole() === 'A') {
+                    let person = {
+                        email: data.email
+                    };
+                    if (data.password !== user.password) {
+                        this.setState({passwordChanged: true});
+                    }
+                    if (data.email !== user.email) {
+                        auth.logout();
+                        this.setState({emailChanged: true});
+                    }
+                } else {
+                    let person = {
+                        album: data.album,
+                        name: data.name,
+                        surname: data.surname,
+                        email: data.user.email,
+                    };
 
-                this.setState({student: student});
+                    if (data.user.password !== user.password) {
+                        this.setState({passwordChanged: true});
+                    }
+                    if (data.user.email !== user.email) {
+                        auth.logout();
+                        this.setState({emailChanged: true});
+                    }
+                }
+                this.setState({person: person});
             }
         })
             .catch(error => {
@@ -138,7 +170,7 @@ class EditAccount extends Component {
     };
 
     render() {
-        const {student} = this.state;
+        const {person} = this.state;
         const serverError = this.state.serverError;
         const passwordChanged = this.state.passwordChanged;
         const emailChanged  = this.state.emailChanged;
@@ -175,7 +207,8 @@ class EditAccount extends Component {
                         passwordChangedSuccess={passwordChangedSuccess}
                         submit={this.handleSubmit}
                         change={this.handleChange}
-                        student={student}/>
+                        person={this.state.person}
+                        role={auth.getRole()}/>
             </div>
         );
     }

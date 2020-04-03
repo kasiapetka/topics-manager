@@ -11,8 +11,9 @@ import AdminPage from "./pages/AdminPages/AdminPage";
 import PrivateStudentRoute from "./privateRoutes/PrivateStudentRoute";
 import PrivateTeacherRoute from "./privateRoutes/PrivateTeacherRoute";
 import PrivateAdminRoute from "./privateRoutes/PrivateAdminRoute";
-
+import TeacherAccountModification from "./pages/TeacherPages/TeacherAccountModification";
 import StudentAccountModification from "./pages/StudentPages/StudentAccountModification";
+import AdminAccountModification from "./pages/AdminPages/AdminAccountModification";
 
 const App = () => {
         return(
@@ -23,8 +24,13 @@ const App = () => {
                         <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
                         <PrivateStudentRoute exact path ="/student" component={() => <StudentPage/>}/>
                         <PrivateStudentRoute exact path ="/student/modifyAccount" component={() => <StudentAccountModification/>}/>
+
                         <PrivateTeacherRoute exact path ="/teacher" component={() => <TeacherPage/>}/>
+                        <PrivateTeacherRoute exact path ="/teacher/modifyAccount" component={() => <TeacherAccountModification/>}/>
+
                         <PrivateAdminRoute exact path ="/admin" component={() => <AdminPage/>}/>
+                        <PrivateAdminRoute exact path ="/admin/modifyAccount" component={() => <AdminAccountModification/>}/>
+
                         <Route component={ErrorPage}/>
                     </Switch>
                 </Router>
