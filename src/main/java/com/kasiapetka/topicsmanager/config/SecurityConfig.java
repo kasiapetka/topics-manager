@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.config;
 
+import com.kasiapetka.topicsmanager.filter.JwtFilter;
 import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,9 +11,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -29,6 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    JwtFilter jwtFilter;
 
     //@Value("${spring.queries.users-query}")
     @Value("select email, password, active from users where email=?")
@@ -64,16 +70,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+       /* http
                 //HTTP Basic authentication
                 .httpBasic()
                 .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
-                .and()
+               .and()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .and()
                 .csrf().disable()
-                .formLogin().disable();
-         http.headers().frameOptions().disable();
+                .formLogin().disable();*/
+       http.csrf().disable()
+               .authorizeRequests().antMatchers("/api/login","/api/register").permitAll()
+               .anyRequest().authenticated()
+               .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+         http
+                 .headers().frameOptions().disable();
+
+         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

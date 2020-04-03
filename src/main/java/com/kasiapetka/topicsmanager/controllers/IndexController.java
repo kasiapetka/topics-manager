@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -40,15 +41,20 @@ public class IndexController {
         this.userDetailsServiceImpl= userDetailsServiceImpl;
     }
 
+    @RequestMapping({"/api/hello"})
+    public String hello(){
+        return "Hello world";
+    }
+
     @PostMapping("/api/login")
-    public ResponseEntity<?> login(@Valid @RequestBody User user) {
+    public ResponseEntity<?> login(@Valid @RequestBody User user) throws Exception {
         System.out.println(user.getEmail() + " " + user.getPassword());
         User userExists = indexService.findUserByEmail(user.getEmail());
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        } catch (Exception e) {
-
+        } catch (BadCredentialsException e) {
+            throw new Exception("Bad login creds",e);
         }
 
         final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getEmail());
@@ -66,25 +72,10 @@ public class IndexController {
 
         return ResponseEntity.ok(new AuthenticationResponse(token, role));
     }
-        /* if (userExists != null) {
-            user.setToken(jwtUtil.generateToken(user.getEmail()));
-        }
-        return user;*/
-
-       /* if (userExists != null) {
-            if (userExists.getRole().getRoleName().equals("Student"))
-                return ResponseEntity.status(210).build();
-            if (userExists.getRole().getRoleName().equals("Teacher"))
-                return ResponseEntity.status(211).build();
-            if (userExists.getRole().getRoleName().equals("Admin"))
-                return ResponseEntity.status(212).build();
-        }
-
-           return ResponseEntity.status(401).build();*/
 
 
     @PostMapping("/api/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) throws Exception{
         User userExists = indexService.findUserByEmail(newStudent.getEmail());
         Long album = Long.parseLong(newStudent.getAlbum());
         Student studentExists = studentService.findStudentByAlbum(album);
@@ -92,13 +83,14 @@ public class IndexController {
         if(userExists != null || studentExists == null)
             return ResponseEntity.status(401).build();
         else {
+            System.out.println(newStudent);
             User newUser = new User(newStudent.getEmail(),newStudent.getPassword());
             indexService.create(newUser,studentExists);
 
             try {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newStudent.getEmail(), newStudent.getPassword()));
-            } catch (Exception e) {
-
+            } catch (BadCredentialsException e) {
+                throw new Exception("Bad login creds",e);
             }
 
             final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(newStudent.getEmail());
