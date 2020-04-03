@@ -1,5 +1,7 @@
 package com.kasiapetka.topicsmanager.services;
 
-public interface UserService {
+import com.kasiapetka.topicsmanager.model.User;
 
+public interface UserService {
+    User findUserByEmail(String email);
 }

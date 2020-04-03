@@ -1,0 +1,16 @@
+.formStyle{
+ margin: auto;
+}
+
+@media(min-width: 600px) {
+    .formStyle{
+        width:600px;
+    }
+}
+
+
+@media(max-width: 350px) {
+    .formStyle {
+        width: 95%
+    }
+}
