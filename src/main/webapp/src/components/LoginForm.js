@@ -50,7 +50,7 @@ class LoginForm extends React.Component {
         const request = {
             method: 'POST',
             headers: {
-                'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
+               // 'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -76,9 +76,9 @@ class LoginForm extends React.Component {
                 auth.login(data.role,user.token)
                 this.setState({user});
                 this.setState({role: data.role})
-                // let decoded = auth.parseJwt(user.token);
+                //let decoded = auth.parseJwt(user.token);
                 //
-                // console.log(decoded)
+                //console.log(decoded)
 
             }
         })

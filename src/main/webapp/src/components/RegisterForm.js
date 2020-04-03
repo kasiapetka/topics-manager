@@ -17,7 +17,6 @@ export class LoginForm extends React.Component{
         password: '',
     };
 
-
     constructor(props) {
         super(props);
         let redirect = false;
@@ -48,7 +47,6 @@ export class LoginForm extends React.Component{
         const request = {
             method: 'POST',
             headers: {
-               // 'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -68,7 +66,6 @@ export class LoginForm extends React.Component{
                 });
             } else {
                 console.log(data)
-
                 let user = {...this.state.user};
                 user.token = data.token;
                 auth.login(data.role,user.token)
