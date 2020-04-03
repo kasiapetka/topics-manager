@@ -26,11 +26,12 @@ const PageNavbar = (props) => {
     const toggle = () => setIsOpen(!isOpen);
 
     let account;
-    let path;
+    let path,modifyPath;
     const role = auth.getRole();
 
     if (role === 'S') {
         path = '/student';
+        modifyPath = '/student/modifyAccount';
     }
     if (role === 'T') {
         path = '/teacher';
@@ -48,7 +49,7 @@ const PageNavbar = (props) => {
                 <DropdownMenu className="mr-2">
                     <DropdownItem header>Account Settings</DropdownItem>
                     <DropdownItem tag={Link} to={path}>My Account Page</DropdownItem>
-                    <DropdownItem>Edit Account</DropdownItem>
+                    <DropdownItem tag={Link} to={modifyPath}>Edit Account</DropdownItem>
                     <DropdownItem divider/>
                     <DropdownItem onClick={auth.logout} tag={Link} to='/'>Log Out</DropdownItem>
                 </DropdownMenu>

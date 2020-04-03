@@ -10,7 +10,6 @@ const StudentPage =()=>{
                 <div> I am a teacher </div>
             </div>
         );
-
 };
 
 export default StudentPage;

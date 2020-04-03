@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.services;
 
+import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +24,8 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
