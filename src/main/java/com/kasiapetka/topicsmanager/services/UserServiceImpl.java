@@ -28,4 +28,16 @@ public class UserServiceImpl implements UserService{
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public void changeEmail(User user, String email) {
+        user.setEmail(email);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void changePassword(User user, String password) {
+        user.setPassword(bCryptPasswordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

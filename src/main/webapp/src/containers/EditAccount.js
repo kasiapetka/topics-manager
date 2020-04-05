@@ -93,7 +93,7 @@ class EditAccount extends Component {
 
     handleSubmit= async(event) => {
         event.preventDefault();
-        let user=[...this.state.person]
+        let user={...this.state.person}
 
         const request = {
             method: 'PUT',
