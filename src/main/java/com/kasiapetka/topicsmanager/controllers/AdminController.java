@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.services.AdminService;
 import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
@@ -36,7 +37,7 @@ public class AdminController {
         String oldEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User adminUser = userService.findUserByEmail(oldEmail);
 
-        if (user.getEmail().equals(adminUser.getEmail()) && user.getPassword().isEmpty()) {
+        /*if (user.getEmail().equals(adminUser.getEmail()) && user.getPassword().isEmpty()) {
             return ResponseEntity.ok(adminUser);
         } else {
             if (!user.getEmail().equals(adminUser.getEmail())) {
@@ -49,9 +50,10 @@ public class AdminController {
                 adminService.changePassword(adminUser, user.getPassword());
             }
         }
+*/
 
-
-        return ResponseEntity.ok(adminUser);
+        EditAccount result = new EditAccount(adminUser.getEmail(),"","","","","");
+        return ResponseEntity.ok(result);
     }
 
 }

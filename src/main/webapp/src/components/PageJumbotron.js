@@ -1,5 +1,5 @@
 import React from 'react';
-import {Jumbotron, Button, Row, Col, Collapse} from 'reactstrap';
+import {Jumbotron, Button, Row, Col} from 'reactstrap';
 import {Link} from "react-router-dom";
 
 const PageJumbotron = (props) => {
