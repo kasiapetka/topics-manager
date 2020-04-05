@@ -8,11 +8,12 @@ import {Redirect} from "react-router-dom";
 class EditAccount extends Component {
 
     emptyPerson = {
-        album: '',
-        name: '',
-        surname:'',
         email: '',
-        password: ''
+        password: '',
+        newEmail:'',
+        newPassword: '',
+        name:'',
+        surname:''
     };
 
     constructor(props) {
@@ -43,11 +44,7 @@ class EditAccount extends Component {
 
      componentDidMount=async()=> {
         if(!this.state.changed) {
-            const {person} = this.state;
-            let user={
-                email: this.state.person.email,
-                password: this.state.person.password
-            };
+            let user={...this.state.person}
 
             const request = {
                 method: 'PUT',
@@ -66,26 +63,17 @@ class EditAccount extends Component {
                     this.setState({serverError: true});
                 } else {
                     console.log(data);
-
-                    if(auth.getRole()==='A') {
-                        let admin = {
-                            email: data.email
-                        };
-                        this.setState({person: admin});
-                    }
-                    else {
                         let person = {
-                            album: data.album,
+                            email: data.email,
+                            password: data.password,
+                            newEmail: "",
+                            newPassword: "",
                             name: data.name,
                             surname: data.surname,
-                            email: data.user.email,
                         };
-                        console.log('else')
                         console.log(data)
                         this.setState({person: person});
                     }
-
-                }
             })
                 .catch(error => {
                     this.setState({errorMessage: error});
@@ -98,22 +86,23 @@ class EditAccount extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        let person = {...this.state.person};
+        let person = {
+            email: this.state.person.email,
+            password: this.state.person.password,
+            newEmail: this.state.person.newEmail,
+            newPassword: this.state.person.newPassword,
+            name: data.name,
+            surname: data.surname,
+        };
         person[name] = value;
+        console.log(person)
         this.setState({person});
         this.setState({changed: true});
     };
 
     handleSubmit= async(event) => {
         event.preventDefault();
-        const {person} = this.state;
-        let user={
-            email: '',
-            password: ''
-        };
-
-        user.email = this.state.person.email;
-        user.password = this.state.person.password;
+        let user=[...this.state.person]
 
         const request = {
             method: 'PUT',
@@ -133,10 +122,15 @@ class EditAccount extends Component {
             } else {
                 console.log(data);
 
-                if (auth.getRole() === 'A') {
                     let person = {
-                        email: data.email
+                        email: data.email,
+                        password: data.password,
+                        newEmail: "",
+                        newPassword: "",
+                        name: data.name,
+                        surname: data.surname,
                     };
+
                     if (data.password !== user.password) {
                         this.setState({passwordChanged: true});
                     }
@@ -144,24 +138,10 @@ class EditAccount extends Component {
                         auth.logout();
                         this.setState({emailChanged: true});
                     }
-                } else {
-                    let person = {
-                        album: data.album,
-                        name: data.name,
-                        surname: data.surname,
-                        email: data.user.email,
-                    };
-
-                    if (data.user.password !== user.password) {
-                        this.setState({passwordChanged: true});
-                    }
-                    if (data.user.email !== user.email) {
-                        auth.logout();
-                        this.setState({emailChanged: true});
-                    }
-                }
                 this.setState({person: person});
-            }
+                }
+
+
         })
             .catch(error => {
                 this.setState({errorMessage: error});
@@ -207,7 +187,7 @@ class EditAccount extends Component {
                         passwordChangedSuccess={passwordChangedSuccess}
                         submit={this.handleSubmit}
                         change={this.handleChange}
-                        person={this.state.person}
+                        person={person}
                         role={auth.getRole()}/>
             </div>
         );

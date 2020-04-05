@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.services.UserService;
@@ -33,28 +34,34 @@ public class StudentController {
     }
 
    @PutMapping("/api/student/modify")
-    ResponseEntity<?> updateStudent(@Valid @RequestBody User user) throws Exception{
+    ResponseEntity<?> updateStudent(@Valid @RequestBody EditAccount user) throws Exception{
 
+        System.out.println(user);
+//       System.out.println("nowy email " + user.getEmail());
+//       System.out.println("nowe haslo  " + user.getPassword());
        String oldEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-       User studentUser = userService.findUserByEmail(oldEmail);
-       Student result = studentService.findStudentByUser(studentUser);
+        User studentUser = userService.findUserByEmail(oldEmail);
+        Student student = studentService.findStudentByUser(studentUser);
+//
+//       if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
+//           return ResponseEntity.ok(result);
+//       } else {
+//           if (!user.getEmail().equals(result.getUser().getEmail())) {
+//            //TODO zmiana maila nie działa - cos z tokenem
+//                studentService.changeEmail(result, user.getEmail());
+//             //  SecurityContextHolder.getContext().setAuthentication(null);
+//           }
+//           if (!user.getPassword().isEmpty()) {
+//               //zmien haslo
+//               studentService.changePassword(result, user.getPassword());
+//           }
+//       }
+//
+//       result= studentService.findStudentByAlbum(result.getAlbum());
+//        System.out.println(result);
 
-       if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
-           return ResponseEntity.ok(result);
-       } else {
-           if (!user.getEmail().equals(result.getUser().getEmail())) {
-            //TODO zmiana maila nie działa - cos z tokenem
-               // studentService.changeEmail(result, user.getEmail());
-             //  SecurityContextHolder.getContext().setAuthentication(null);
-           }
-           if (!user.getPassword().isEmpty()) {
-               //zmien haslo
-               studentService.changePassword(result, user.getPassword());
-           }
-       }
 
-       result= studentService.findStudentByAlbum(result.getAlbum());
-        System.out.println(result);
+       EditAccount result = new EditAccount(studentUser.getEmail(),"","","",student.getName(),student.getSurname());
        return ResponseEntity.ok(result);
    }
 
