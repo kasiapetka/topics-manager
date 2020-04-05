@@ -34,7 +34,9 @@ class EditAccount extends Component {
             serverError: false,
             changed: false,
             passwordChanged: false,
+            wrongPassword: false,
             emailChanged: false,
+            wrongEmail: false,
             path: path,
         };
 
@@ -60,7 +62,13 @@ class EditAccount extends Component {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    this.setState({serverError: true});
+                    if(response.status === 406){
+                        this.setState({wrongPassword: true});
+                    }
+                    else if(response.status === 409){
+                        this.setState({wrongEmail: true});
+                    }
+                    else this.setState({serverError: true});
                 } else {
                         let person = {...data};
                         this.setState({person: person});
@@ -164,7 +172,9 @@ class EditAccount extends Component {
                         change={this.handleChange}
                         person={person}
                         role={auth.getRole()}
-                        credsChanged={this.state.changed}/>
+                        credsChanged={this.state.changed}
+                        wrongPassword={this.state.wrongPassword}
+                        wrongEmail={this.state.wrongEmail}/>
             </div>
         );
     }
