@@ -62,17 +62,16 @@ class EditAccount extends Component {
                 if (!response.ok) {
                     this.setState({serverError: true});
                 } else {
-                    console.log(data);
                         let person = {
                             email: data.email,
                             password: data.password,
                             newEmail: "",
-                            newPassword: "",
+                            newPassword:  "",
                             name: data.name,
                             surname: data.surname,
                         };
-                        console.log(data)
                         this.setState({person: person});
+                        console.log(this.state.person)
                     }
             })
                 .catch(error => {
@@ -86,17 +85,9 @@ class EditAccount extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        let person = {
-            email: this.state.person.email,
-            password: this.state.person.password,
-            newEmail: this.state.person.newEmail,
-            newPassword: this.state.person.newPassword,
-            name: data.name,
-            surname: data.surname,
-        };
+        let person = {...this.state.person};
         person[name] = value;
-        console.log(person)
-        this.setState({person});
+        this.setState({person: person});
         this.setState({changed: true});
     };
 
