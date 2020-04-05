@@ -1,15 +1,13 @@
 import React , {Component} from 'react';
-import {Link} from 'react-router-dom';
 import PageNavbar from "../../components/PageNavbar";
-import {Button} from "reactstrap";
 import AccountDetailsCard from "../../components/AccountDetailsCard";
 import auth from '../../Auth'
-import {Badge,Alert} from "reactstrap";
+import {Alert} from "reactstrap";
 
 class StudentPage extends Component {
 
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             student: '',
             error: false
@@ -30,11 +28,9 @@ class StudentPage extends Component {
         fetch('/api/student/info', request).then(async response => {
             const data = await response.json();
             if (response.status !== 200) {
-                console.log("ififi")
                 this.setState({error:true})
             } else {
                 let student = {...data};
-
                 this.setState({student: student})
             }
         })
@@ -56,7 +52,6 @@ class StudentPage extends Component {
         return (
             <div>
                 <PageNavbar/>
-                <div> I am a student</div>
                 <AccountDetailsCard
                     person={this.state.student}/>
             </div>
