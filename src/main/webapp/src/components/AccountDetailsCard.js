@@ -10,7 +10,7 @@ const AccountDetailsCard =(props)=> {
         <div className={classes.cardStyle}>
             <Card>
                 <CardBody>
-                    {/*<CardTitle>{props.person.name+" "+props.person.surname}</CardTitle>*/}
+                    <CardTitle>{props.person.name+" "+props.person.surname}</CardTitle>
                     <CardSubtitle>Card subtitle</CardSubtitle>
                 </CardBody>
                 <CardBody>

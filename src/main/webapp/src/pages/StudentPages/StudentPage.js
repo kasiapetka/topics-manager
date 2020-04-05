@@ -17,7 +17,7 @@ class StudentPage extends Component {
     }
 
     componentDidMount() {
-        console.log("useEffect")
+
         const request = {
             method: 'GET',
             headers: {
@@ -58,7 +58,7 @@ class StudentPage extends Component {
                 <PageNavbar/>
                 <div> I am a student</div>
                 <AccountDetailsCard
-                    person={student}/>
+                    person={this.state.student}/>
             </div>
         );
     }
