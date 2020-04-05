@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import auth from "../Auth";
-import {Button, Form, FormGroup, Input, Label, Badge,Alert} from "reactstrap";
+import {Badge,Alert} from "reactstrap";
 import EditAccountInputs from "../components/EditAccountInputs";
 import classes from "../css/containers.module.css"
 import {Redirect} from "react-router-dom";
@@ -34,8 +34,11 @@ class EditAccount extends Component {
             serverError: false,
             changed: false,
             passwordChanged: false,
+            wrongPassword: false,
             emailChanged: false,
+            wrongEmail: false,
             path: path,
+            mounted: true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -62,14 +65,7 @@ class EditAccount extends Component {
                 if (!response.ok) {
                     this.setState({serverError: true});
                 } else {
-                        let person = {
-                            email: data.email,
-                            password: data.password,
-                            newEmail: "",
-                            newPassword:  "",
-                            name: data.name,
-                            surname: data.surname,
-                        };
+                        let person = {...data};
                         this.setState({person: person});
                         console.log(this.state.person)
                     }
@@ -80,6 +76,10 @@ class EditAccount extends Component {
                 });
         }
      };
+
+    componentWillUnmount() {
+        this.setState({mounted: false})
+    }
 
     handleChange = (event) => {
         const target = event.target;
@@ -92,35 +92,36 @@ class EditAccount extends Component {
     };
 
     handleSubmit= async(event) => {
-        event.preventDefault();
-        let user={...this.state.person}
+        if(this.state.mounted) {
+            event.preventDefault();
+            let user = {...this.state.person}
+            this.setState({wrongEmail: false});
+            this.setState({wrongPassword: false});
 
-        const request = {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'Bearer ' + this.state.token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user)
-        };
+            const request = {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + this.state.token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user)
+            };
 
-        fetch(this.state.path, request).then(async response => {
-            const data = await response.json();
+            fetch(this.state.path, request).then(async response => {
+                const data = await response.json();
 
-            if (!response.ok) {
-                this.setState({serverError: true});
-            } else {
-                console.log(data);
+                if (!response.ok) {
+                    if (response.status === 406) {
+                        this.setState({wrongPassword: true});
+                    } else if (response.status === 409) {
+                        this.setState({wrongEmail: true});
+                    } else this.setState({serverError: true});
+                } else {
+                    console.log(data);
 
-                    let person = {
-                        email: data.email,
-                        password: data.password,
-                        newEmail: "",
-                        newPassword: "",
-                        name: data.name,
-                        surname: data.surname,
-                    };
+                    let person = {...data};
+                    this.setState({person: person});
 
                 this.setState({person: person});
                 if (data.password !== user.password) {
@@ -131,13 +132,12 @@ class EditAccount extends Component {
                         this.setState({emailChanged: true});
                     }
                 }
-
-
-        })
-            .catch(error => {
-                this.setState({errorMessage: error});
-                console.error('There was an error!', error);
-            });
+            })
+                .catch(error => {
+                    this.setState({errorMessage: error});
+                    console.error('There was an error!', error);
+                });
+        }
     };
 
     render() {
@@ -179,7 +179,10 @@ class EditAccount extends Component {
                         submit={this.handleSubmit}
                         change={this.handleChange}
                         person={person}
-                        role={auth.getRole()}/>
+                        role={auth.getRole()}
+                        credsChanged={this.state.changed}
+                        wrongPassword={this.state.wrongPassword}
+                        wrongEmail={this.state.wrongEmail}/>
             </div>
         );
     }

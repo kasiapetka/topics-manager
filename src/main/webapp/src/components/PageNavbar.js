@@ -15,7 +15,7 @@ import {
     ButtonDropdown,
 } from 'reactstrap';
 import { FaUserAlt } from "react-icons/fa";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import auth from "../Auth"
 
 const PageNavbar = (props) => {
