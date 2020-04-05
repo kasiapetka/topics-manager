@@ -88,4 +88,4 @@ const PageNavbar = (props) => {
     );
 }
 
-export default PageNavbar;
+export default React.memo(PageNavbar);

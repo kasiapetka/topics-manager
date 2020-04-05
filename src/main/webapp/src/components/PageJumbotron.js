@@ -27,4 +27,4 @@ const PageJumbotron = (props) => {
     );
 };
 
-export default PageJumbotron;
+export default React.memo(PageJumbotron);
