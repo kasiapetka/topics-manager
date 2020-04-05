@@ -1,8 +1,6 @@
 package com.kasiapetka.topicsmanager.services;
 
-import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.AdminRepository;
-
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -26,9 +24,9 @@ public class AdminServiceImpl implements AdminService{
         this.userRepository = userRepository;
     }
 
-    @Override
-    public void changePassword(User admin, String password) {
-        admin.setPassword(bCryptPasswordEncoder.encode(password));
-        adminRepository.save(admin);
-    }
+//    @Override
+//    public void changePassword(User admin, String password) {
+//        admin.setPassword(bCryptPasswordEncoder.encode(password));
+//        adminRepository.save(admin);
+//    }
 }

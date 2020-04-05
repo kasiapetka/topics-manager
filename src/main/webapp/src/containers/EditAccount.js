@@ -123,10 +123,11 @@ class EditAccount extends Component {
                     let person = {...data};
                     this.setState({person: person});
 
-                    if (data.password !== user.password) {
+                this.setState({person: person});
+                if (data.password !== user.password) {
                         this.setState({passwordChanged: true});
                     }
-                    if (data.email !== user.email) {
+                if (data.email !== user.email) {
                         auth.logout();
                         this.setState({emailChanged: true});
                     }

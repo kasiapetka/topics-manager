@@ -41,15 +41,15 @@ public class StudentServiceImpl implements StudentService{
         return studentRepository.findByUser(user);
     }
 
-    @Override
-    public void changeEmail(Student student, String email) {
-        student.getUser().setEmail(email);
-        studentRepository.save(student);
-    }
-
-    @Override
-    public void changePassword(Student student, String password) {
-        student.getUser().setPassword(bCryptPasswordEncoder.encode(password));
-        studentRepository.save(student);
-    }
+//    @Override
+//    public void changeEmail(Student student, String email) {
+//        student.getUser().setEmail(email);
+//        studentRepository.save(student);
+//    }
+//
+//    @Override
+//    public void changePassword(Student student, String password) {
+//        student.getUser().setPassword(bCryptPasswordEncoder.encode(password));
+//        studentRepository.save(student);
+//    }
 }
