@@ -38,6 +38,7 @@ class EditAccount extends Component {
             emailChanged: false,
             wrongEmail: false,
             path: path,
+            mounted: true
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -76,6 +77,10 @@ class EditAccount extends Component {
         }
      };
 
+    componentWillUnmount() {
+        this.setState({mounted: false})
+    }
+
     handleChange = (event) => {
         const target = event.target;
         const value = target.value;
@@ -87,36 +92,36 @@ class EditAccount extends Component {
     };
 
     handleSubmit= async(event) => {
-        event.preventDefault();
-        let user={...this.state.person}
-        this.setState({wrongEmail: false});
-        this.setState({wrongPassword: false});
+        if(this.state.mounted) {
+            event.preventDefault();
+            let user = {...this.state.person}
+            this.setState({wrongEmail: false});
+            this.setState({wrongPassword: false});
 
-        const request = {
-            method: 'PUT',
-            headers: {
-                'Authorization': 'Bearer ' + this.state.token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user)
-        };
+            const request = {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + this.state.token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user)
+            };
 
-        fetch(this.state.path, request).then(async response => {
-            const data = await response.json();
+            fetch(this.state.path, request).then(async response => {
+                const data = await response.json();
 
-            if (!response.ok) {
-                if(response.status === 406){
-                    this.setState({wrongPassword: true});
-                }
-                else if(response.status === 409){
-                    this.setState({wrongEmail: true});
-                }
-                else this.setState({serverError: true});
-            } else {
-                console.log(data);
+                if (!response.ok) {
+                    if (response.status === 406) {
+                        this.setState({wrongPassword: true});
+                    } else if (response.status === 409) {
+                        this.setState({wrongEmail: true});
+                    } else this.setState({serverError: true});
+                } else {
+                    console.log(data);
 
                     let person = {...data};
+                    this.setState({person: person});
 
                     if (data.password !== user.password) {
                         this.setState({passwordChanged: true});
@@ -125,13 +130,13 @@ class EditAccount extends Component {
                         auth.logout();
                         this.setState({emailChanged: true});
                     }
-                this.setState({person: person});
                 }
-        })
-            .catch(error => {
-                this.setState({errorMessage: error});
-                console.error('There was an error!', error);
-            });
+            })
+                .catch(error => {
+                    this.setState({errorMessage: error});
+                    console.error('There was an error!', error);
+                });
+        }
     };
 
     render() {

@@ -43,7 +43,8 @@ const EditAccountInputs =(props)=> {
             {props.credsChanged
                 ?
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
-                    <Label for="examplePassword" className="mr-sm-2 pl-1">Confirm Changes Witch Password</Label>
+                    <p className="text-center">Changing email requires loggin in.</p>
+                    <Label for="examplePassword" className="mr-sm-2 pl-1">Confirm Changes With Password</Label>
                     <Input type="password" name="password" id="examplePassword" minLength="5"
                            placeholder="Your Password"
                            value={props.person.password || ''} onChange={props.change}

@@ -80,31 +80,9 @@ public class StudentController {
             return ResponseEntity.ok(result);
 
         } else {
-            //ToDo RETURN SOMETHING TO INDICATE BAD CRUDENCIALS
             EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
             return ResponseEntity.status(406).body(result);
         }
-//
-//       if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
-//           return ResponseEntity.ok(result);
-//       } else {
-//           if (!user.getEmail().equals(result.getUser().getEmail())) {
-//            //TODO zmiana maila nie działa - cos z tokenem
-//                studentService.changeEmail(result, user.getEmail());
-//             //  SecurityContextHolder.getContext().setAuthentication(null);
-//           }
-//           if (!user.getPassword().isEmpty()) {
-//               //zmien haslo
-//               studentService.changePassword(result, user.getPassword());
-//           }
-//       }
-//
-//       result= studentService.findStudentByAlbum(result.getAlbum());
-//        System.out.println(result);
-
-
-//        EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
-//        return ResponseEntity.ok(result);
     }
 
 }
