@@ -62,13 +62,7 @@ class EditAccount extends Component {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    if(response.status === 406){
-                        this.setState({wrongPassword: true});
-                    }
-                    else if(response.status === 409){
-                        this.setState({wrongEmail: true});
-                    }
-                    else this.setState({serverError: true});
+                    this.setState({serverError: true});
                 } else {
                         let person = {...data};
                         this.setState({person: person});
@@ -95,6 +89,8 @@ class EditAccount extends Component {
     handleSubmit= async(event) => {
         event.preventDefault();
         let user={...this.state.person}
+        this.setState({wrongEmail: false});
+        this.setState({wrongPassword: false});
 
         const request = {
             method: 'PUT',
@@ -110,7 +106,13 @@ class EditAccount extends Component {
             const data = await response.json();
 
             if (!response.ok) {
-                this.setState({serverError: true});
+                if(response.status === 406){
+                    this.setState({wrongPassword: true});
+                }
+                else if(response.status === 409){
+                    this.setState({wrongEmail: true});
+                }
+                else this.setState({serverError: true});
             } else {
                 console.log(data);
 
