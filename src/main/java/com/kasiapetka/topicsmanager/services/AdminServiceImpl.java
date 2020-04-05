@@ -4,7 +4,6 @@ import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.repositories.AdminRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,9 @@ public class AdminServiceImpl implements AdminService{
 
     protected UserRepository userRepository;
     protected AdminRepository adminRepository;
-    protected BCryptPasswordEncoder bCryptPasswordEncoder;
     protected TeacherRepository teacherRepository;
+    protected BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     public AdminServiceImpl(UserRepository userRepository, AdminRepository adminRepository,
                             TeacherRepository teacherRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -36,7 +36,8 @@ public class AdminServiceImpl implements AdminService{
 
         return teachers;
     }
-//    @Override
+
+    //    @Override
 //    public void changePassword(User admin, String password) {
 //        admin.setPassword(bCryptPasswordEncoder.encode(password));
 //        adminRepository.save(admin);
