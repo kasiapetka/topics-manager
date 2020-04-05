@@ -44,29 +44,27 @@ public class StudentController {
     ResponseEntity<?> updateStudent(@Valid @RequestBody EditAccount editAccount) throws Exception {
 
         System.out.println(editAccount);
-//       System.out.println("nowy email " + user.getEmail());
-//       System.out.println("nowe haslo  " + user.getPassword());
         String oldEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User studentUser = userService.findUserByEmail(oldEmail);
         Student student = studentService.findStudentByUser(studentUser);
 
+        EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
+
         if(editAccount.getPassword().equals("")){
-            EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
             return ResponseEntity.ok(result);
         }
 
+        //Todo Avoid code duplication FOR LATER
         if(passwordEncoder.matches(editAccount.getPassword(), studentUser.getPassword())){
             System.out.println("Password correct");
 
             if(!editAccount.getNewEmail().equals("")){
                 System.out.println("Changing email");
-                User temp = userService.findUserByEmail(editAccount.getNewEmail());
-                if(!(temp == null)){
-                    System.out.println("Mail already exists");
-                    EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
+                if(!userService.changeEmail(studentUser, editAccount.getNewEmail())){
                     return ResponseEntity.status(409).body(result);
+                } else {
+                    result.setEmail(editAccount.getNewEmail());
                 }
-                userService.changeEmail(studentUser, editAccount.getNewEmail());
             } else {
                 System.out.println("New Email not given");
             }
@@ -76,35 +74,11 @@ public class StudentController {
                 userService.changePassword(studentUser, editAccount.getNewPassword());
             }
 
-            EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
             return ResponseEntity.ok(result);
 
         } else {
-            //ToDo RETURN SOMETHING TO INDICATE BAD CRUDENCIALS
-            EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
+            //Bad password given
             return ResponseEntity.status(406).body(result);
         }
-//
-//       if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
-//           return ResponseEntity.ok(result);
-//       } else {
-//           if (!user.getEmail().equals(result.getUser().getEmail())) {
-//            //TODO zmiana maila nie działa - cos z tokenem
-//                studentService.changeEmail(result, user.getEmail());
-//             //  SecurityContextHolder.getContext().setAuthentication(null);
-//           }
-//           if (!user.getPassword().isEmpty()) {
-//               //zmien haslo
-//               studentService.changePassword(result, user.getPassword());
-//           }
-//       }
-//
-//       result= studentService.findStudentByAlbum(result.getAlbum());
-//        System.out.println(result);
-
-
-//        EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
-//        return ResponseEntity.ok(result);
     }
-
 }

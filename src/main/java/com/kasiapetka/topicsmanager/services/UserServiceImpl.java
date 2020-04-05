@@ -30,9 +30,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void changeEmail(User user, String email) {
+    public boolean changeEmail(User user, String email) {
+        User temp = findUserByEmail(email);
+        if(!(temp == null)){
+            System.out.println("Mail already exists");
+            return false;
+        }
         user.setEmail(email);
         userRepository.save(user);
+        return true;
     }
 
     @Override

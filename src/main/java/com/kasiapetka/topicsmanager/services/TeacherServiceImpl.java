@@ -1,7 +1,6 @@
 package com.kasiapetka.topicsmanager.services;
 
 
-import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
@@ -36,11 +35,11 @@ public class TeacherServiceImpl implements TeacherService{
         return teacherOptional.get();
     }
 
-    @Override
-    public void changePassword(Teacher teacher, String password) {
-        teacher.getUser().setPassword(bCryptPasswordEncoder.encode(password));
-        teacherRepository.save(teacher);
-    }
+//    @Override
+//    public void changePassword(Teacher teacher, String password) {
+//        teacher.getUser().setPassword(bCryptPasswordEncoder.encode(password));
+//        teacherRepository.save(teacher);
+//    }
 
     @Override
     public Teacher findTeacherByUser(User user) {
