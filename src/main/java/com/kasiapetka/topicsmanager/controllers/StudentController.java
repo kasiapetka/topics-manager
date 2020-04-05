@@ -50,11 +50,22 @@ public class StudentController {
         User studentUser = userService.findUserByEmail(oldEmail);
         Student student = studentService.findStudentByUser(studentUser);
 
+        if(editAccount.getPassword().equals("")){
+            EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
+            return ResponseEntity.ok(result);
+        }
+
         if(passwordEncoder.matches(editAccount.getPassword(), studentUser.getPassword())){
             System.out.println("Password correct");
 
             if(!editAccount.getNewEmail().equals("")){
                 System.out.println("Changing email");
+                User temp = userService.findUserByEmail(editAccount.getNewEmail());
+                if(!(temp == null)){
+                    System.out.println("Mail already exists");
+                    EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
+                    return ResponseEntity.status(409).body(result);
+                }
                 userService.changeEmail(studentUser, editAccount.getNewEmail());
             } else {
                 System.out.println("New Email not given");
@@ -71,7 +82,7 @@ public class StudentController {
         } else {
             //ToDo RETURN SOMETHING TO INDICATE BAD CRUDENCIALS
             EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
-            return ResponseEntity.status(211).body(result);
+            return ResponseEntity.status(406).body(result);
         }
 //
 //       if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
