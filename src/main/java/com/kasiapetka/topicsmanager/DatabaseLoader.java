@@ -96,5 +96,20 @@ public class DatabaseLoader implements CommandLineRunner {
         t.setSurname("wersdfs");
         t.setUser(u2);
         this.teacherRepository.save(t);
+
+        Teacher t1 = new Teacher();
+        t1.setName("mateusz");
+        t1.setSurname("klimas");
+        this.teacherRepository.save(t1);
+
+        Teacher t2 = new Teacher();
+        t2.setName("kasia");
+        t2.setSurname("petka");
+        this.teacherRepository.save(t2);
+
+        Teacher t3 = new Teacher();
+        t3.setName("mikolaj");
+        t3.setSurname("kolman");
+        this.teacherRepository.save(t3);
     }
 }

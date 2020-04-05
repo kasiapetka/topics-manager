@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.services.AdminService;
@@ -8,11 +9,13 @@ import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class AdminController {
@@ -70,5 +73,10 @@ public class AdminController {
             //Bad password given
             return ResponseEntity.status(406).body(result);
         }
+    }
+
+    @GetMapping("/api/admin/teachers")
+    List<Teacher> listTeachers(){
+        return adminService.listTeachers();
     }
 }
