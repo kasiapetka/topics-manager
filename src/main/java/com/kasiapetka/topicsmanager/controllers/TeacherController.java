@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.services.TeacherService;
 import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.services.UserService;
@@ -29,14 +30,13 @@ public class TeacherController {
     }
 
     @PutMapping("/api/teacher/modify")
-    ResponseEntity<?> updateTeacher(@Valid @RequestBody User user) throws Exception{
+    ResponseEntity<?> updateTeacher(@Valid @RequestBody EditAccount user) throws Exception{
 
         String oldEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(oldEmail);
         User teacherUser = userService.findUserByEmail(oldEmail);
-        Teacher result = teacherService.findTeacherByUser(teacherUser);
+        Teacher teacher = teacherService.findTeacherByUser(teacherUser);
 
-        if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
+        /*if (user.getEmail().equals(result.getUser().getEmail()) && user.getPassword().isEmpty()) {
             return ResponseEntity.ok(result);
         } else {
             if (!user.getEmail().equals(result.getUser().getEmail())) {
@@ -51,6 +51,8 @@ public class TeacherController {
         }
 
         result= teacherService.findTeacherById(result.getId());
+        return ResponseEntity.ok(result);*/
+        EditAccount result = new EditAccount(teacherUser.getEmail(),"","","",teacher.getName(),teacher.getSurname());
         return ResponseEntity.ok(result);
     }
 }

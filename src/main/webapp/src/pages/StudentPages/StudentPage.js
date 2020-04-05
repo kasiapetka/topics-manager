@@ -52,7 +52,7 @@ class StudentPage extends Component {
             </Alert>
             )
         }
-
+        
         return (
             <div>
                 <PageNavbar/>
