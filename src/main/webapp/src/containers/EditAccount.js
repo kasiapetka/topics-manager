@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import auth from "../Auth";
-import {Button, Form, FormGroup, Input, Label, Badge,Alert} from "reactstrap";
+import {Badge,Alert} from "reactstrap";
 import EditAccountInputs from "../components/EditAccountInputs";
 import classes from "../css/containers.module.css"
 import {Redirect} from "react-router-dom";
@@ -62,14 +62,7 @@ class EditAccount extends Component {
                 if (!response.ok) {
                     this.setState({serverError: true});
                 } else {
-                        let person = {
-                            email: data.email,
-                            password: data.password,
-                            newEmail: "",
-                            newPassword:  "",
-                            name: data.name,
-                            surname: data.surname,
-                        };
+                        let person = {...data};
                         this.setState({person: person});
                         console.log(this.state.person)
                     }
@@ -93,7 +86,7 @@ class EditAccount extends Component {
 
     handleSubmit= async(event) => {
         event.preventDefault();
-        let user=[...this.state.person]
+        let user={...this.state.person}
 
         const request = {
             method: 'PUT',
@@ -113,14 +106,7 @@ class EditAccount extends Component {
             } else {
                 console.log(data);
 
-                    let person = {
-                        email: data.email,
-                        password: data.password,
-                        newEmail: "",
-                        newPassword: "",
-                        name: data.name,
-                        surname: data.surname,
-                    };
+                    let person = {...data};
 
                     if (data.password !== user.password) {
                         this.setState({passwordChanged: true});
@@ -131,8 +117,6 @@ class EditAccount extends Component {
                     }
                 this.setState({person: person});
                 }
-
-
         })
             .catch(error => {
                 this.setState({errorMessage: error});
@@ -179,7 +163,8 @@ class EditAccount extends Component {
                         submit={this.handleSubmit}
                         change={this.handleChange}
                         person={person}
-                        role={auth.getRole()}/>
+                        role={auth.getRole()}
+                        credsChanged={this.state.changed}/>
             </div>
         );
     }

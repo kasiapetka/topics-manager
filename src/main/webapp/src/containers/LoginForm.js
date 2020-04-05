@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-    Container, Col, Form,
-    FormGroup, Label, Input,
-    Button, Collapse, Badge
-} from 'reactstrap';
-import {Link, Redirect, withRouter} from 'react-router-dom';
+import {Badge} from 'reactstrap';
+import {Redirect} from 'react-router-dom';
 import auth from "../Auth";
 import classes from "../css/containers.module.css"
 import LoginFormInputs from "../components/LoginFormInputs";
@@ -19,7 +15,6 @@ class LoginForm extends React.Component {
 
     constructor(props) {
         super(props);
-        let redirect = false;
         let role = auth.getRole();
 
         this.state = {
