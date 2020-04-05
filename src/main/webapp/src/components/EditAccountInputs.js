@@ -19,20 +19,20 @@ const EditAccountInputs =(props)=> {
             <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
             <h3 className="text-center">Your Account</h3>
             {nameDetails}
-            <FormGroup className="mr-sm-2  mt-2">
+            <div className="mr-sm-2  mt-2">
                 <Label for="actualEmail" className="mr-sm-2 pl-1">Your Email</Label>
                 <div color="light" id="actualEmail" className="col-12 pt-2 pb-2 pl-2 pr-2 border rounded text-left"
                      pill>{props.person.email}</div>
-            </FormGroup>
+            </div>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
                 <Label for="exampleEmail" className="mr-sm-2 pl-1">New Email Address</Label>
-                <Input type="email" name="email" id="exampleEmail" placeholder="Enter New Email"
+                <Input type="email" name="newEmail" id="exampleEmail" placeholder="Enter New Email"
                        value={props.person.newEmail || ''}
                        onChange={props.change}/>
             </FormGroup>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
-                <Label for="examplePassword" className="mr-sm-2 pl-1">New Password</Label>
-                <Input type="password" name="password" id="examplePassword" minLength="5"
+                <Label for="newPassword" className="mr-sm-2 pl-1">New Password</Label>
+                <Input type="password" name="newPassword" id="newPassword" minLength="5"
                        placeholder="Enter New Password"
                        value={props.person.newPassword || ''} onChange={props.change}/>
             </FormGroup>
