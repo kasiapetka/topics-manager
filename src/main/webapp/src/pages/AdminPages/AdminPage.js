@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/PageNavbar";
 import auth from "../../Auth";
-import Teachers from "./ListTeachers";
 import {Button, Input, Label} from 'reactstrap'
-import classes from '../../css/pages.module.css'
+import ListTeachersComponent from "./ListTeachersComponent";
+import {Redirect} from "react-router-dom";
+import EditAccount from "../../containers/EditAccount";
+
 
 class AdminPage extends Component{
 
@@ -15,7 +17,9 @@ class AdminPage extends Component{
             showTeachers: false,
             search:'',
             filtered: [],
-            condition: 'Email'
+            condition: 'Email',
+            editTeacher: false,
+            editTeacherEmail:''
         };
     }
 
@@ -49,6 +53,9 @@ class AdminPage extends Component{
     toggleTeachers =()=>{
         const aux = this.state.showTeachers;
         this.setState({showTeachers: !aux});
+        this.setState({
+            editTeacher: false
+        });
     };
 
     handleChange=(event)=>{
@@ -86,6 +93,19 @@ class AdminPage extends Component{
         });
     };
 
+    onTeacherEdition=(index)=>{
+        const teacher = this.state.teachers[index]
+        if(!teacher.user)
+            return
+
+        this.setState({
+            showTeachers: false
+        });
+        this.setState({
+            editTeacher: true
+        });
+        this.setState({editTeacherEmail: teacher.user.email})
+    };
 
     onConditionChanged=(event)=>{
         this.setState({
@@ -108,28 +128,25 @@ class AdminPage extends Component{
                 {
                     this.state.showTeachers
                         ?
-                        <div className={classes.Teachers}>
-                        <div className="text-center">
-                            <span className="ml-5"><Input type="radio" name="radio1"
-                                                          onChange={this.onConditionChanged} value="Email"
-                                                          checked={this.state.condition === "Email"}/>{' '}Email</span>
-                            <span className="ml-5"><Input type="radio" name="radio1"
-                                                          onChange={this.onConditionChanged} value="Name"/>{' '}Name</span>
-                            <span className="ml-5"><Input type="radio" name="radio1"
-                                                          onChange={this.onConditionChanged} value="Surname"/>{' '}Surname</span>
-                        </div>
-                        <Label className={classes.Label} for="exampleSearch">Search Teacher on: {this.state.condition}</Label>
-                        <Input className="p-2 w-75 m-auto"
-                        type="search"
-                        name="search"
-                        id="exampleSearch"
-                        placeholder="search placeholder"
-                        value={this.state.search || ''}
-                        onChange={this.handleChange}
-                        />
-                        <Teachers
-                            teachers={this.state.filtered}/>
-                        </div>
+                        <ListTeachersComponent
+                            change={this.handleChange}
+                            search={this.state.search}
+                            condition={this.state.condition}
+                            filtered={this.state.filtered}
+                            conditionChange={this.onConditionChanged}
+                            edit={this.onTeacherEdition}/>
+                        :
+                        null
+                }
+
+                {
+                    this.state.editTeacher
+                        ?
+                        <EditAccount
+                            path={"/api/admin/modifyTeacher"}
+                            email={this.state.editTeacherEmail}
+                            token={auth.getToken()}
+                            adminTeacherEdition={true}/>
                         :
                         null
                 }

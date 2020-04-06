@@ -10,6 +10,7 @@ const Teachers =(props)=>{
                 surname={teacher.surname}
                 email={teacher.user ? teacher.user.email : null}
                 key={teacher.id}
+                edit={() =>props.edit(index)}
                />
         })
     )

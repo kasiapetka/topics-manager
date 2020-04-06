@@ -18,27 +18,22 @@ class EditAccount extends Component {
 
     constructor(props) {
         super(props);
-        let token = auth.getToken();
-        this.emptyPerson.email = auth.parseJwt(token).sub;
-        let path;
-        if(auth.getRole()==='S')
-            path='/api/student/modify';
-        if(auth.getRole()==='T')
-            path='/api/teacher/modify';
-        if(auth.getRole()==='A')
-            path='/api/admin/modify';
+
+        console.log(props.email)
+        this.emptyPerson.email = props.email;
 
         this.state = {
             person: this.emptyPerson,
-            token: token,
+            token: props.token,
             serverError: false,
             changed: false,
             passwordChanged: false,
             wrongPassword: false,
             emailChanged: false,
             wrongEmail: false,
-            path: path,
-            mounted: true
+            path: props.path,
+            mounted: true,
+            adminTeacherEdition: props.adminTeacherEdition
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -59,7 +54,7 @@ class EditAccount extends Component {
                 body: JSON.stringify(user)
             };
 
-            fetch(this.state.path, request).then(async response => {
+            fetch(this.props.path, request).then(async response => {
                 const data = await response.json();
 
                 if (!response.ok) {
@@ -108,7 +103,7 @@ class EditAccount extends Component {
                 body: JSON.stringify(user)
             };
 
-            fetch(this.state.path, request).then(async response => {
+            fetch(this.props.path, request).then(async response => {
                 const data = await response.json();
 
                 if (!response.ok) {
@@ -123,13 +118,12 @@ class EditAccount extends Component {
                     let person = {...data};
                     this.setState({person: person});
 
-                this.setState({person: person});
-                if (data.password !== user.password) {
-                        this.setState({passwordChanged: true});
-                    }
-                if (data.email !== user.email) {
-                        auth.logout();
+                    this.setState({person: person});
+                    if (data.email !== user.email) {
                         this.setState({emailChanged: true});
+                    }
+                    if (data !== user) {
+                        this.setState({passwordChanged: true});
                     }
                 }
             })
@@ -146,7 +140,7 @@ class EditAccount extends Component {
         const passwordChanged = this.state.passwordChanged;
         const emailChanged  = this.state.emailChanged;
 
-        let passwordChangedSuccess;
+        let credentialsChangedSuccess;
         const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.formStyle;
 
         if (serverError) {
@@ -159,14 +153,20 @@ class EditAccount extends Component {
             )
         }
 
-        if (emailChanged) {
+        if (emailChanged && !this.state.adminTeacherEdition) {
+            auth.logout();
             return (
                 <Redirect to='/login'/>
             )
         }
 
-        if (passwordChanged) {
-            passwordChangedSuccess = (
+        if (emailChanged && this.state.adminTeacherEdition) {
+            credentialsChangedSuccess = (<Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
+                Credentails Changed</Badge>)
+        }
+
+        if (passwordChanged && !this.state.adminTeacherEdition) {
+            credentialsChangedSuccess = (
                 <Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
                     Password Changed</Badge>
             )
@@ -175,14 +175,15 @@ class EditAccount extends Component {
         return (
             <div className={classNames}>
                 <EditAccountInputs
-                        passwordChangedSuccess={passwordChangedSuccess}
+                        credentialsChangedSuccess={credentialsChangedSuccess}
                         submit={this.handleSubmit}
                         change={this.handleChange}
                         person={person}
                         role={auth.getRole()}
                         credsChanged={this.state.changed}
                         wrongPassword={this.state.wrongPassword}
-                        wrongEmail={this.state.wrongEmail}/>
+                        wrongEmail={this.state.wrongEmail}
+                        adminTeacherEdition={this.state.adminTeacherEdition}/>
             </div>
         );
     }
