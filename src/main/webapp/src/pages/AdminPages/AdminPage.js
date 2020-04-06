@@ -7,7 +7,7 @@ import {Redirect} from "react-router-dom";
 import EditAccount from "../../containers/EditAccount";
 
 
-class AdminPage extends Component{
+class AdminPage extends Component {
 
     constructor(props) {
         super(props);
@@ -15,15 +15,15 @@ class AdminPage extends Component{
             teachers: [],
             error: false,
             showTeachers: false,
-            search:'',
+            search: '',
             filtered: [],
             condition: 'Email',
             editTeacher: false,
-            editTeacherEmail:''
+            editTeacherEmail: ''
         };
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         const request = {
             method: 'GET',
             headers: {
@@ -36,7 +36,7 @@ class AdminPage extends Component{
         fetch('/api/admin/teachers', request).then(async response => {
             const data = await response.json();
             if (response.status !== 200) {
-                this.setState({error:true})
+                this.setState({error: true})
             } else {
                 console.log(data)
                 let teachers = [...data];
@@ -50,7 +50,7 @@ class AdminPage extends Component{
             });
     };
 
-    toggleTeachers =()=>{
+    toggleTeachers = () => {
         const aux = this.state.showTeachers;
         this.setState({showTeachers: !aux});
         this.setState({
@@ -58,15 +58,13 @@ class AdminPage extends Component{
         });
     };
 
-    handleChange=(event)=>{
+    handleChange = (event) => {
         let currentList = [];
         let newList = [];
         console.log(event.target.value)
         const target = event.target;
         const value = target.value;
-        const name = target.name;
-        let search = this.state.search;
-        search = value;
+        let search = value;
 
         this.setState({search: search});
 
@@ -74,12 +72,12 @@ class AdminPage extends Component{
             currentList = this.state.teachers;
 
             newList = currentList.filter(teacher => {
-                let lc='';
-                if(this.state.condition === 'Email' && teacher.user)
+                let lc = '';
+                if (this.state.condition === 'Email' && teacher.user)
                     lc = teacher.user.email.toLowerCase();
-                if(this.state.condition === 'Surname')
+                if (this.state.condition === 'Surname')
                     lc = teacher.surname.toLowerCase();
-                if(this.state.condition === 'Name')
+                if (this.state.condition === 'Name')
                     lc = teacher.name.toLowerCase();
 
                 const filter = value.toLowerCase();
@@ -93,9 +91,9 @@ class AdminPage extends Component{
         });
     };
 
-    onTeacherEdition=(index)=>{
+    onTeacherEdition = (index) => {
         const teacher = this.state.teachers[index]
-        if(!teacher.user)
+        if (!teacher.user)
             return
 
         this.setState({
@@ -107,7 +105,7 @@ class AdminPage extends Component{
         this.setState({editTeacherEmail: teacher.user.email})
     };
 
-    onConditionChanged=(event)=>{
+    onConditionChanged = (event) => {
         this.setState({
             condition: event.currentTarget.value
         });
@@ -121,36 +119,45 @@ class AdminPage extends Component{
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <PageNavbar/>
-                <div> I am a admin</div>
-                <Button onClick={this.toggleTeachers}>List Teachers</Button>
-                {
-                    this.state.showTeachers
-                        ?
-                        <ListTeachersComponent
-                            change={this.handleChange}
-                            search={this.state.search}
-                            condition={this.state.condition}
-                            filtered={this.state.filtered}
-                            conditionChange={this.onConditionChanged}
-                            edit={this.onTeacherEdition}/>
-                        :
-                        null
-                }
+                <div className="container-fluid h-100 mt-5">
+                    <div className="row h-100">
+                        <div className="col-md-2 border-right">
+                            <p>Admin Options:</p>
+                            <Button className="ml-5" onClick={this.toggleTeachers} outline>List Teachers</Button>
+                        </div>
+                        <div className="col-md-9">
+                        {
+                            this.state.showTeachers
+                                ?
+                                <ListTeachersComponent
+                                    change={this.handleChange}
+                                    search={this.state.search}
+                                    condition={this.state.condition}
+                                    filtered={this.state.filtered}
+                                    conditionChange={this.onConditionChanged}
+                                    edit={this.onTeacherEdition}/>
+                                :
+                                null
+                        }
 
-                {
-                    this.state.editTeacher
-                        ?
-                        <EditAccount
-                            path={"/api/admin/modifyTeacher"}
-                            email={this.state.editTeacherEmail}
-                            token={auth.getToken()}
-                            adminTeacherEdition={true}/>
-                        :
-                        null
-                }
-            </div>
+                        {
+                            this.state.editTeacher
+                                ?
+                                <EditAccount
+                                    path={"/api/admin/modifyTeacher"}
+                                    email={this.state.editTeacherEmail}
+                                    token={auth.getToken()}
+                                    adminTeacherEdition={true}/>
+                                :
+                                null
+                        }
+                        </div>
+                        <div class="col-md-1 border-left"></div>
+                        </div>
+                </div>
+            </React.Fragment>
         );
     }
 }

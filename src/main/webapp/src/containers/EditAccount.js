@@ -18,8 +18,6 @@ class EditAccount extends Component {
 
     constructor(props) {
         super(props);
-
-        console.log(props.email)
         this.emptyPerson.email = props.email;
 
         this.state = {
@@ -32,7 +30,6 @@ class EditAccount extends Component {
             emailChanged: false,
             wrongEmail: false,
             path: props.path,
-            mounted: true,
             adminTeacherEdition: props.adminTeacherEdition
         };
 
@@ -40,19 +37,25 @@ class EditAccount extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-     componentDidMount=async()=> {
-        if(!this.state.changed) {
-            let user={...this.state.person}
-
-            const request = {
+    createRequest=()=> {
+        let user = {...this.state.person};
+        let token = this.state.token;
+        return (
+            {
                 method: 'PUT',
                 headers: {
-                    'Authorization': 'Bearer ' + this.state.token,
+                    'Authorization': 'Bearer ' + token,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(user)
-            };
+            }
+        )
+    };
+
+     componentDidMount=async()=> {
+        if(!this.state.changed) {
+            const request = this.createRequest();
 
             fetch(this.props.path, request).then(async response => {
                 const data = await response.json();
@@ -60,10 +63,10 @@ class EditAccount extends Component {
                 if (!response.ok) {
                     this.setState({serverError: true});
                 } else {
-                        let person = {...data};
-                        this.setState({person: person});
-                        console.log(this.state.person)
-                    }
+                    let person = {...data};
+                    this.setState({person: person});
+                    console.log(this.state.person)
+                }
             })
                 .catch(error => {
                     this.setState({errorMessage: error});
@@ -71,10 +74,6 @@ class EditAccount extends Component {
                 });
         }
      };
-
-    componentWillUnmount() {
-        this.setState({mounted: false})
-    }
 
     handleChange = (event) => {
         const target = event.target;
@@ -87,21 +86,14 @@ class EditAccount extends Component {
     };
 
     handleSubmit= async(event) => {
-        if(this.state.mounted) {
             event.preventDefault();
-            let user = {...this.state.person}
-            this.setState({wrongEmail: false});
-            this.setState({wrongPassword: false});
+            this.setState({
+                wrongEmail: false,
+                wrongPassword: false
+            });
 
-            const request = {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + this.state.token,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user)
-            };
+            const request = this.createRequest();
+            let user = {...this.state.person};
 
             fetch(this.props.path, request).then(async response => {
                 const data = await response.json();
@@ -131,7 +123,6 @@ class EditAccount extends Component {
                     this.setState({errorMessage: error});
                     console.error('There was an error!', error);
                 });
-        }
     };
 
     render() {
@@ -141,7 +132,7 @@ class EditAccount extends Component {
         const emailChanged  = this.state.emailChanged;
 
         let credentialsChangedSuccess;
-        const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.formStyle;
+        const classNames = "border rounded pt-4 pb-4 mt-5 pr-3 pl-3 mb-3 " + classes.formStyle;
 
         if (serverError) {
             return (
@@ -160,14 +151,14 @@ class EditAccount extends Component {
             )
         }
 
-        if (emailChanged && this.state.adminTeacherEdition) {
-            credentialsChangedSuccess = (<Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
+        if (passwordChanged && this.state.adminTeacherEdition) {
+            credentialsChangedSuccess = (<Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4">
                 Credentails Changed</Badge>)
         }
 
         if (passwordChanged && !this.state.adminTeacherEdition) {
             credentialsChangedSuccess = (
-                <Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
+                <Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4">
                     Password Changed</Badge>
             )
         }

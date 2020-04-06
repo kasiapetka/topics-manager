@@ -5,8 +5,9 @@ import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 const EditAccountInputs =(props)=> {
 
     let nameDetails;
-    let label = props.adminTeacherEdition ? 'Teachers':'Your';
-    let emailChangeInfo = props.adminTeacherEdition ? null : <p className="text-center">Changing email requires loggin in.</p>;
+    let label = props.adminTeacherEdition ? 'Teachers' : 'Your';
+    let emailChangeInfo = props.adminTeacherEdition ? null :
+        <p className="text-center">Changing email requires loggin in.</p>;
 
     const name = !props.person.name ? "Administrator" : props.person.name + " " + props.person.surname;
     nameDetails = (<FormGroup className="mr-sm-2  mt-2">
