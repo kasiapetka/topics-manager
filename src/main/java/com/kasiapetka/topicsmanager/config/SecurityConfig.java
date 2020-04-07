@@ -82,6 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin().disable();*/
+
+       //hasPermission hasRole - sprawdzac przed kontrolerem/serwisem
+
        http
                .csrf().disable()
                .authorizeRequests().antMatchers("/api/login","/api/register").permitAll()

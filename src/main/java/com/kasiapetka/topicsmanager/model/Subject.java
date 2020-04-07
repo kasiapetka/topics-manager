@@ -19,6 +19,7 @@ public class Subject {
     private String summary;
     @NotNull
     private Character state;
+    //ograniczenie na state - np tylko {O,C}, napewno nie dlugosc 255
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(

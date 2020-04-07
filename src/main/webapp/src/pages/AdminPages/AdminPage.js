@@ -61,7 +61,7 @@ class AdminPage extends Component {
     handleChange = (event) => {
         let currentList = [];
         let newList = [];
-        console.log(event.target.value)
+        console.log(event.target.value);
         const target = event.target;
         const value = target.value;
         let search = value;
@@ -92,9 +92,9 @@ class AdminPage extends Component {
     };
 
     onTeacherEdition = (index) => {
-        const teacher = this.state.teachers[index]
+        const teacher = this.state.teachers[index];
         if (!teacher.user)
-            return
+            return;
 
         this.setState({
             showTeachers: false
@@ -154,7 +154,7 @@ class AdminPage extends Component {
                                 null
                         }
                         </div>
-                        <div class="col-md-1 border-left"></div>
+                        <div className="col-md-1 border-left"></div>
                         </div>
                 </div>
             </React.Fragment>

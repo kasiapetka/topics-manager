@@ -59,6 +59,7 @@
                     <li><a href="#gantt" class="text-secondary">Gantt chart.</a></li>
                     <li><a href="#usecase" class="text-secondary">Use case diagram.</a></li>
                     <li><a href="#erd" class="text-secondary">ERD database model.</a></li>
+                    <li><a href="#jwt" class="text-secondary">JWT Authorization.</a></li>
                     <li><a href="#classdiag" class="text-secondary">First class diagram.</a></li>
                 </ul>
             </div>
@@ -213,6 +214,22 @@
                     <img src="img/erd.jpg" width="100%" height="100%" class="d-inline-block align-top">
                 </div>
                 <hr>
+                <hr>
+                <div id="jwt">
+                    <h4>Authorization using Json Web Tokens: </h4>
+                    <p>Authorization in Topics Manager Application is implemented using Json Web Tokens. When the user
+                    wants to log in and passes correct credentials server responds with a token that holds user email and
+                    the time of token expiration. Then whenever the user wants to retrive information from the server
+                    client app passes the token he recieved in a HTTP request header. This way of authentication
+                    brings the application security on the highest level.</p>
+                    <p>Useful links:</p>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=X80nJ5T7YpE&t=1397s">
+                            JavaBrains video on how to implement JWT along with Spring Security:</a></li>
+                        <li> <a href="https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt">
+                            Maven JWT Library used in the project. </a></li>
+                    </ul>
+                </div>
                 <hr>
                 <div id="classdiag">
                     <h4>First class diagram: </h4>
