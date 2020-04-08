@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class TeacherController {
@@ -77,5 +79,10 @@ public class TeacherController {
             //Bad password given
             return ResponseEntity.status(406).body(result);
         }
+    }
+
+    @GetMapping("/api/teacher/students")
+    List<Student> listStudents(){
+        return teacherService.listStudents();
     }
 }
