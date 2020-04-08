@@ -1,0 +1,14 @@
+body {
+  background-size: cover;
+  background-attachment: fixed;
+  background-image: url("img/bg8T.png");
+}
+
+.jumbo {
+  background-image: url("img/bg4.jpg");
+  background-size: cover;
+  min-height: 500px;
+  width:100%;
+  background-attachment: fixed;
+  color: black;
+}
