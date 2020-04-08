@@ -17,6 +17,6 @@ const Teachers =()=>{
                />
         })
     )
-}
+};
 
-export default Teachers
+export default Teachers;

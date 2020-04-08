@@ -6,7 +6,7 @@ import classes from './listTeachers.module.css'
 const ListTeachersComponent =(props)=> {
     return (
         <div className={classes.Teachers}>
-            <div className="text-center mt-3">
+            <div className="text-center mt-4 mb-4">
                             <span className="ml-5"><input type="radio" name="radio1"
                                                           onChange={props.conditionChange} value="Email"
                                                           checked={props.condition === "Email"}/>{' '}Email</span>

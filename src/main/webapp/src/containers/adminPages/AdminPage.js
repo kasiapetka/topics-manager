@@ -15,6 +15,7 @@ class AdminPage extends Component {
             teachers: [],
             error: false,
             showTeachers: true,
+            showStudents: true,
             search: '',
             filtered: [],
             condition: 'Email',
@@ -51,10 +52,19 @@ class AdminPage extends Component {
     };
 
     toggleTeachers = () => {
-
         this.setState((prevState)=>{
             return {
                 showTeachers: !this.state.showTeachers,
+                editTeacher: false
+            }
+        });
+    };
+
+    toggleStudents = () => {
+        this.setState((prevState)=>{
+            return {
+                showStudents: !this.state.showStudents,
+                showTeachers: false,
                 editTeacher: false
             }
         });
@@ -129,7 +139,8 @@ class AdminPage extends Component {
                     <div className="row h-100">
                         <div className="col-md-2 border-right">
                             <p>Admin Options:</p>
-                            <Button className="ml-5" onClick={this.toggleTeachers} outline>List Teachers</Button>
+                            <Button className="ml-5 mt-2 mb-2" onClick={this.toggleTeachers} outline>List Teachers</Button>
+                            <Button className="ml-5 mt-2 mb-2" onClick={this.toggleStudents} outline>List Students</Button>
                             <Messages/>
                         </div>
                         <div className="col-md-9">
