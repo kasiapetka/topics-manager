@@ -1,0 +1,56 @@
+.Teacher{
+    width: 60%;
+    margin: 10px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 2px #ccc;
+    padding: 10px;
+    text-align: center;
+    overflow-x:auto;
+}
+
+@media(min-width: 800px) {
+    .Teachers{
+        width:800px;
+    }
+}
+
+@media(max-width: 350px) {
+    .Teachers {
+        width: 95%
+    }
+}
+
+.Teachers{
+    height: 600px;
+    border: 1px solid #e1e1e1;
+    box-shadow: 12px 12px 2px 1px rgba(36, 205, 188,0.3 );
+    overflow-y: auto;
+    margin: auto;
+}
+
+.Label{
+    margin-left: 13%;
+}
+
+.Static{
+    position: static;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #8f8f8f;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #5f5f5f;
+}

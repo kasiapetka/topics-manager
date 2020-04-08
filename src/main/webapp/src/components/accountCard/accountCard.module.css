@@ -1,0 +1,23 @@
+.cardStyle {
+    margin: 20px auto;
+    box-shadow: -12px 0 12px 2px rgba(36, 205, 188,0.3 );
+}
+
+@media(min-width: 1250px) {
+    .cardStyle{
+        width:300px;
+    }
+}
+
+
+@media(max-width: 767px) {
+    .cardStyle{
+        width:300px;
+    }
+}
+
+@media(max-width: 300px) {
+    .cardStyle{
+        width:100%;
+    }
+}
