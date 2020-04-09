@@ -46,7 +46,8 @@ public class AdminController {
         User adminUser = userService.findUserByEmail(oldEmail);
 
 
-        EditAccount result = new EditAccount(adminUser.getEmail(), "", "", "", "", "");
+        EditAccount result = new EditAccount(adminUser.getId(),adminUser.getEmail(), "", "",
+                "", "", "","","");
 
         if (editAccount.getPassword().equals("")) {
             return ResponseEntity.ok(result);
@@ -84,12 +85,22 @@ public class AdminController {
 
         System.out.println(editAccount);
         String oldEmail = editAccount.getEmail();
-        User teacherUser = userService.findUserByEmail(oldEmail);
-        Teacher teacher = teacherService.findTeacherByUser(teacherUser);
+        Teacher teacher = teacherService.findTeacherById(editAccount.getId());
         String adminEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User adminUser = userService.findUserByEmail(adminEmail);
 
-        EditAccount result = new EditAccount(teacherUser.getEmail(), "", "", "", teacher.getName(), teacher.getSurname());
+        String teacherEmail="";
+        User teacherUser=teacher.getUser();
+
+        if(teacherUser !=null){
+            teacherEmail = teacherUser.getEmail();
+        }
+
+
+        EditAccount result = new EditAccount(teacher.getId(),teacherEmail, "", teacher.getName(),
+                teacher.getSurname(),"","","","");
+
+        System.out.println(editAccount);
 
         if(editAccount.getPassword().equals("")){
             return ResponseEntity.ok(result);
@@ -98,7 +109,7 @@ public class AdminController {
         if(passwordEncoder.matches(editAccount.getPassword(), adminUser.getPassword())){
             System.out.println("Password correct");
 
-            if(!editAccount.getNewEmail().equals("")){
+            if(!editAccount.getNewEmail().equals("") && teacherUser!=null){
                 System.out.println("Changing email");
                 if(!userService.changeEmail(teacherUser, editAccount.getNewEmail())){
                     return ResponseEntity.status(409).body(result);
@@ -109,11 +120,22 @@ public class AdminController {
                 System.out.println("New Email not given");
             }
 
-            if(!editAccount.getNewPassword().equals("")){
+            if(!editAccount.getNewPassword().equals("") && teacherUser!=null){
                 System.out.println("Changing password");
                 userService.changePassword(teacherUser, editAccount.getNewPassword());
             }
 
+            if(!editAccount.getNewName().equals("")){
+                System.out.println("Changing name");
+                teacherService.changeName(teacher,editAccount.getNewName());
+                result.setName(editAccount.getNewName());
+            }
+            if(!editAccount.getNewSurname().equals("")){
+                System.out.println("Changing surname");
+                teacherService.changeSurname(teacher,editAccount.getNewSurname());
+                result.setSurname(editAccount.getNewSurname());
+            }
+            System.out.println(result);
             return ResponseEntity.ok(result);
 
         } else {

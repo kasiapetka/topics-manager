@@ -1,5 +1,5 @@
 import React , {useContext} from "react";
-import Teacher from "./ListStudentsItem";
+import Student from "./ListStudentsItem";
 import StudentsContext from "../../../context/listStudentsContext";
 
 const Students =()=>{
@@ -8,12 +8,12 @@ const Students =()=>{
 
     return(
         studentsContext.students.map((student, index) => {
-            return <Teacher
+            return <Student
                 name={student.name}
                 surname={student.surname}
                 email={student.user ? student.user.email : null}
                 album={student.album}
-                key={student.id}
+                key={student.album}
                 edit={() =>studentsContext.edit(index)}
             />
         })

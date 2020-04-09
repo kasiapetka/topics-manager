@@ -60,4 +60,16 @@ public class TeacherServiceImpl implements TeacherService{
         studentRepository.findAll().iterator().forEachRemaining(students::add);
         return students;
     }
+
+    @Override
+    public void changeName(Teacher teacher, String name) {
+        teacher.setName(name);
+        teacherRepository.save(teacher);
+    }
+
+    @Override
+    public void changeSurname(Teacher teacher, String surname) {
+        teacher.setSurname(surname);
+        teacherRepository.save(teacher);
+    }
 }

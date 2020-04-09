@@ -20,7 +20,7 @@ class AdminPage extends Component {
             filtered: [],
             condition: 'Email',
             editTeacher: false,
-            editTeacherEmail: ''
+            editTeacherId: ''
         };
     }
 
@@ -105,18 +105,14 @@ class AdminPage extends Component {
 
     onTeacherEdition = (index) => {
         const teacher = this.state.filtered[index];
-        if (!teacher.user)
-            return;
 
-        console.log(" id "+ index)
+        console.log(" id "+ index);
 
         this.setState({
-            showTeachers: false
-        });
-        this.setState({
+            showTeachers: false,
+            editTeacherId: teacher.id,
             editTeacher: true
         });
-        this.setState({editTeacherEmail: teacher.user.email})
     };
 
     onConditionChanged = (event) => {
@@ -135,7 +131,7 @@ class AdminPage extends Component {
         return (
             <React.Fragment>
                 <PageNavbar/>
-                <div className="container-fluid h-100 mt-5">
+                <div className="container-fluid h-100 mt-2">
                     <div className="row h-100">
                         <div className="col-md-2 border-right">
                             <p>Admin Options:</p>
@@ -164,9 +160,9 @@ class AdminPage extends Component {
                                     ?
                                     <EditAccount
                                         path={"/api/admin/modifyTeacher"}
-                                        email={this.state.editTeacherEmail}
+                                        id={this.state.editTeacherId}
                                         token={auth.getToken()}
-                                        adminTeacherEdition={true}/>
+                                        personEdition={true}/>
                                     :
                                     null
                             }

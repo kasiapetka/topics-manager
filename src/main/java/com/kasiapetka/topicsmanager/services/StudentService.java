@@ -8,4 +8,6 @@ public interface StudentService {
     Student findStudentByUser(User user);
 //    void changeEmail(Student student, String email);
 //    void changePassword(Student student, String password);
+    void changeName(Student student, String name);
+    void changeSurname(Student student, String surname);
 }

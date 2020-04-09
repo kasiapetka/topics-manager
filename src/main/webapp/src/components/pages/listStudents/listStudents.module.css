@@ -12,7 +12,6 @@
 .Students{
     height: 600px;
     border: 1px solid #e1e1e1;
-    box-shadow: 12px 12px 2px 1px rgba(36, 205, 188,0.3 );
     overflow-y: auto;
     border-radius: 10px;
     background-color:  rgba(248, 248, 248,0.7);
