@@ -9,7 +9,7 @@
     overflow-x:auto;
 }
 
-@media(min-width: 800px) {
+@media(min-width:1085px) {
     .Teachers{
         width:800px;
     }

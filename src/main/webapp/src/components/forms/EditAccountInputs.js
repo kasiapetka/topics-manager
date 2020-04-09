@@ -1,14 +1,16 @@
 import React from 'react';
 import { FaUserAlt } from "react-icons/fa";
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import EmailPasswordChangeInput from "./formInputs/EmailPasswordChangeInput";
+import ConfirmPasswordInput from "./formInputs/ConfirmPasswordInput";
 
 const EditAccountInputs =(props)=> {
 
     let nameDetails;
     const name = !props.person.name ? "Administrator" : props.person.name + " " + props.person.surname;
-    nameDetails = (<FormGroup className="mr-sm-2  mt-2">
+    nameDetails = (<FormGroup className="mb-2 mr-sm-4 ml-sm-4 mb-sm-0 mt-3">
                         <div color="light" id="name"
-                        className="col-12 pt-2 pb-2 pl-2 pr-2 border rounded text-center">
+                        className="col-12  pt-2 pb-2 pl-2 pr-2 border rounded text-center">
                             {name}
                         </div>
                     </FormGroup>);
@@ -19,52 +21,32 @@ const EditAccountInputs =(props)=> {
             <h3 className="text-center">Your Account</h3>
             {nameDetails}
             {/*----------Account Email---------------------------*/}
-            <div className="mr-sm-2  mt-2">
+            <div className="mb-2 mr-sm-4 ml-sm-4 mb-sm-0 mt-3">
                 <Label for="actualEmail" className="mr-sm-2 pl-1">
                     Your Email
                 </Label>
                 <div color="light" id="actualEmail"
-                     className="col-12 pt-2 pb-2 pl-2 pr-2 border rounded text-left">
+                     className="col-12  pt-2 pb-2 pl-2 pr-2 border rounded text-left">
                     {props.person.email}
                 </div>
             </div>
             {/*--------------------------------------------------------------*/}
             {/*-------Inputs for changing email and password-----------------*/}
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
-                <Label for="exampleEmail" className="mr-sm-2 pl-1">
-                    New Email Address
-                </Label>
-                <Input type="email" name="newEmail" id="exampleEmail"
-                       placeholder="Enter New Email"
-                       value={props.person.newEmail || ''}
-                       onChange={props.change}
-                       invalid={props.wrongEmail}/>
-            </FormGroup>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
-                <Label for="newPassword" className="mr-sm-2 pl-1">
-                    New Password
-                </Label>
-                <Input type="password" name="newPassword"
-                       id="newPassword" minLength="5"
-                       placeholder="Enter New Password"
-                       value={props.person.newPassword || ''}
-                       onChange={props.change}/>
-            </FormGroup>
+            <EmailPasswordChangeInput
+                change={props.change}
+                wrongEmail={props.wrongEmail}
+                newEmail={props.person.newEmail}
+                newPassword={props.person.newPassword}/>
             {/*--------------------------------------------------------------*/}
 
             {props.credentialsChangedSuccess}
-            {props.credsChanged
-                ?
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
-                    <p className="text-center">Changing email requires loggin in.</p>
-                    <Label for="examplePassword" className="mr-sm-2 pl-1">Confirm Changes With Password</Label>
-                    <Input type="password" name="password" id="examplePassword" minLength="5"
-                           placeholder="Your Password"
-                           value={props.person.password || ''} onChange={props.change}
-                           invalid={props.wrongPassword}/>
-                </FormGroup>
-                :
-                null}
+            <ConfirmPasswordInput
+                credsChanged={props.credsChanged}
+                password={props.person.password}
+                change={props.change}
+                wrongPassword={props.wrongPassword}
+                loggin={true}
+            />
             <div className="form-row text-center pt-4">
                 <div className="col-12">
                     <Button type="submit" className="btn btn-primary">Save Changes</Button>

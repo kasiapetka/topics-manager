@@ -52,8 +52,8 @@ public class TeacherController {
         User teacherUser = userService.findUserByEmail(oldEmail);
         Teacher teacher = teacherService.findTeacherByUser(teacherUser);
 
-        EditAccount result = new EditAccount(teacher.getId(),teacherUser.getEmail(), "", "",
-                "", teacher.getName(), teacher.getSurname(),"","");
+        EditAccount result = new EditAccount(teacher.getId(),teacherUser.getEmail(), "",
+                 teacher.getName(), teacher.getSurname(),"","","","");
 
         if(editAccount.getPassword().equals("")){
             return ResponseEntity.ok(result);

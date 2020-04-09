@@ -48,8 +48,9 @@ public class StudentController {
         User studentUser = userService.findUserByEmail(oldEmail);
         Student student = studentService.findStudentByUser(studentUser);
 
-        EditAccount result = new EditAccount(student.getAlbum(),studentUser.getEmail(), "", "",
-                "", student.getName(), student.getSurname(),"","");
+        EditAccount result = new EditAccount(student.getAlbum(),studentUser.getEmail(), "",
+                student.getName(), student.getSurname(),"","" ,"",
+                "");
 
         if(editAccount.getPassword().equals("")){
             return ResponseEntity.ok(result);

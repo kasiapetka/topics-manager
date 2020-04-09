@@ -11,7 +11,7 @@ const Students =()=>{
             return <Student
                 name={student.name}
                 surname={student.surname}
-                email={student.user ? student.user.email : null}
+                email={student.user ? student.user.email : "No Account"}
                 album={student.album}
                 key={student.album}
                 edit={() =>studentsContext.edit(index)}
