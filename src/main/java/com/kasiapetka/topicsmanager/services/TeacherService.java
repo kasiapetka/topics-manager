@@ -12,4 +12,6 @@ public interface TeacherService {
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
     List<Student> listStudents();
+    void changeName(Teacher teacher, String name);
+    void changeSurname(Teacher teacher, String surname);
 }

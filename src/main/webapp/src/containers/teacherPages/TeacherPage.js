@@ -1,15 +1,14 @@
 import React,{Component} from 'react';
 import PageNavbar from "../../components/layoutComponents/PageNavbar";
 import AccountDetailsCard from "../../components/accountCard/AccountDetailsCard";
-import {Alert} from "reactstrap";
+import {Alert, Button} from "reactstrap";
 import auth from "../../Auth";
 import ListSectionsComponent from "../../components/pages/teacherPages/listSections/ListSectionsComponent";
 import ListStudentsComponent from "../../components/pages/listStudents/ListStudentsComponent";
 import Messages from "../../components/messages/Messages";
 import TeacherAccountControls from "../../components/pages/teacherPages/TeacherAccountControls";
-import ListTeachersComponent from "../../components/pages/adminPages/listTeachers/ListTeachersComponent";
 import StudentsContext from "../../context/listStudentsContext";
-import TeachersContext from "../../context/listTeachersContext";
+import EditAccount from "../formsPages/EditAccount";
 
 
 class TeacherPage extends Component{
@@ -19,6 +18,9 @@ class TeacherPage extends Component{
             teacher: '',
             error: false,
             students: [],
+            editStudent: false,
+            editStudentId:'',
+            showStudents: true,
         };
     }
 
@@ -63,9 +65,26 @@ class TeacherPage extends Component{
             });
     }
 
-    onStudentEdition=()=>{
+    toggleStudents = () => {
+        this.setState((prevState)=>{
+            return {
+                showStudents: !this.state.showStudents,
+                editStudent: false
+            }
+        });
+    };
 
-    }
+    onStudentEdition = (index) => {
+        const student = this.state.students[index];
+        console.log(" id "+ index)
+
+        this.setState({
+            editStudent: true,
+            editStudentId: student.album,
+            showStudents: false
+        });
+
+    };
 
     render() {
 
@@ -85,16 +104,32 @@ class TeacherPage extends Component{
                         <div className="col-md-3 border-right">
                             <AccountDetailsCard
                                 person={this.state.teacher}/>
-                            <TeacherAccountControls/>
+                            <TeacherAccountControls
+                                toggle={this.toggleStudents}/>
                             <Messages/>
                         </div>
-                        <div className="col-md-8 border-right">
+                        <div className="col-md-8">
 
                             <StudentsContext.Provider value={{students: this.state.students, edit: this.onStudentEdition}}>
                                 {
-                                    <ListStudentsComponent/>
+                                    this.state.showStudents
+                                        ?
+                                        <ListStudentsComponent/>
+                                        :
+                                        null
                                 }
                             </StudentsContext.Provider>
+                            {
+                                this.state.editStudent
+                                    ?
+                                    <EditAccount
+                                        path={"/api/teacher/modifyStudent"}
+                                        id={this.state.editStudentId}
+                                        token={auth.getToken()}
+                                        personEdition={true}/>
+                                    :
+                                    null
+                            }
                             <ListSectionsComponent/>
                         </div>
                         <div className="col-md-1"></div>

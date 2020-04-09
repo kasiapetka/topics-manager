@@ -2,35 +2,38 @@ import React,{Component} from 'react';
 import auth from "../../Auth";
 import {Badge,Alert} from "reactstrap";
 import EditAccountInputs from "../../components/forms/EditAccountInputs";
+import EditPersonInputs from "../../components/forms/EditPersonInputs";
 import classes from "./forms.module.css"
 import {Redirect} from "react-router-dom";
 
 class EditAccount extends Component {
 
     emptyPerson = {
-        email: '',
+        id: '',
         password: '',
         newEmail:'',
         newPassword: '',
         name:'',
-        surname:''
+        surname:'',
+        newName:'',
+        newSurname: '',
     };
 
     constructor(props) {
         super(props);
-        this.emptyPerson.email = props.email;
+        this.emptyPerson.id = props.id;
 
         this.state = {
             person: this.emptyPerson,
             token: props.token,
             serverError: false,
             changed: false,
-            passwordChanged: false,
+            credsChanged: false,
             wrongPassword: false,
             emailChanged: false,
             wrongEmail: false,
             path: props.path,
-            adminTeacherEdition: props.adminTeacherEdition
+            personEdition: props.personEdition
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -94,6 +97,11 @@ class EditAccount extends Component {
 
             const request = this.createRequest();
             let user = {...this.state.person};
+            if(user.password === ''){
+                this.setState({wrongPassword: true});
+                this.setState({changed: true});
+                return;
+            }
 
             fetch(this.props.path, request).then(async response => {
                 const data = await response.json();
@@ -115,7 +123,7 @@ class EditAccount extends Component {
                         this.setState({emailChanged: true});
                     }
                     if (data !== user) {
-                        this.setState({passwordChanged: true});
+                        this.setState({credsChanged: true});
                     }
                 }
             })
@@ -128,11 +136,11 @@ class EditAccount extends Component {
     render() {
         const {person} = this.state;
         const serverError = this.state.serverError;
-        const passwordChanged = this.state.passwordChanged;
+        const credsChanged = this.state.credsChanged;
         const emailChanged  = this.state.emailChanged;
 
         let credentialsChangedSuccess;
-        const classNames = "border rounded pt-4 pb-4 mt-5 pr-3 pl-3 mb-3 " + classes.formStyle;
+        const classNames = "border rounded pt-4 pb-4 mt-5 pr-3 pl-3 mb-5 " + classes.formStyle;
 
         if (serverError) {
             return (
@@ -144,28 +152,36 @@ class EditAccount extends Component {
             )
         }
 
-        if (emailChanged && !this.state.adminTeacherEdition) {
+        if (emailChanged && !this.state.personEdition) {
             auth.logout();
             return (
                 <Redirect to='/login'/>
             )
         }
 
-        if (passwordChanged && this.state.adminTeacherEdition) {
-            credentialsChangedSuccess = (<Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4">
+        if (credsChanged && this.state.personEdition) {
+            credentialsChangedSuccess = (<Badge color="success" className="col-11 pt-2 pb-2 mr-sm-4 ml-sm-4 pl-2 pr-2 mt-4">
                 Credentails Changed</Badge>)
-        }
-
-        if (passwordChanged && !this.state.adminTeacherEdition) {
-            credentialsChangedSuccess = (
-                <Badge color="success" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4">
-                    Password Changed</Badge>
-            )
         }
 
         return (
             <div className={classNames}>
-                <EditAccountInputs
+                {
+                    this.state.personEdition
+                        ?
+                        <EditPersonInputs
+                            credentialsChangedSuccess={credentialsChangedSuccess}
+                            submit={this.handleSubmit}
+                            change={this.handleChange}
+                            person={person}
+                            role={auth.getRole()}
+                            credsChanged={this.state.changed}
+                            wrongPassword={this.state.wrongPassword}
+                            wrongEmail={this.state.wrongEmail}
+                        />
+
+                    :
+                        <EditAccountInputs
                         credentialsChangedSuccess={credentialsChangedSuccess}
                         submit={this.handleSubmit}
                         change={this.handleChange}
@@ -174,7 +190,8 @@ class EditAccount extends Component {
                         credsChanged={this.state.changed}
                         wrongPassword={this.state.wrongPassword}
                         wrongEmail={this.state.wrongEmail}
-                        adminTeacherEdition={this.state.adminTeacherEdition}/>
+                    />
+                }
             </div>
         );
     }

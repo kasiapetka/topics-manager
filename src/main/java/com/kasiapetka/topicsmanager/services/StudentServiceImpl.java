@@ -41,6 +41,17 @@ public class StudentServiceImpl implements StudentService{
         return studentRepository.findByUser(user);
     }
 
+    @Override
+    public void changeName(Student student, String name) {
+        student.setName(name);
+        studentRepository.save(student);
+    }
+
+    @Override
+    public void changeSurname(Student student, String surname) {
+        student.setSurname(surname);
+        studentRepository.save(student);
+    }
 //    @Override
 //    public void changeEmail(Student student, String email) {
 //        student.getUser().setEmail(email);
