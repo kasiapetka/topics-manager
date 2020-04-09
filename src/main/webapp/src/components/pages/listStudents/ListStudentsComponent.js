@@ -5,9 +5,7 @@ import classes from './listStudents.module.css'
 const ListStudentsComponent =(props)=> {
     return (
         <div className={classes.Students}>
-
-            <Students
-            />
+            <Students/>
         </div>
     )
 };

@@ -1,14 +1,8 @@
 import React,{Component} from 'react';
 import PageNavbar from "../../components/layoutComponents/PageNavbar";
-import AccountDetailsCard from "../../components/accountCard/AccountDetailsCard";
-import {Alert, Button} from "reactstrap";
+import {Alert} from "reactstrap";
 import auth from "../../Auth";
-import ListSectionsComponent from "../../components/pages/teacherPages/listSections/ListSectionsComponent";
-import ListStudentsComponent from "../../components/pages/listStudents/ListStudentsComponent";
-import Messages from "../../components/messages/Messages";
-import TeacherAccountControls from "../../components/pages/teacherPages/TeacherAccountControls";
-import StudentsContext from "../../context/listStudentsContext";
-import EditAccount from "../formsPages/EditAccount";
+import TeacherPageElements from "../../components/pages/teacherPages/teacherPageLayout/TeacherPageElements";
 
 
 class TeacherPage extends Component{
@@ -53,9 +47,7 @@ class TeacherPage extends Component{
             if (response.status !== 200) {
                 this.setState({error: true})
             } else {
-                console.log(data);
                 let students = [...data];
-                console.log(students);
                 this.setState({students: students});
                 this.setState({students: students});
             }
@@ -98,43 +90,15 @@ class TeacherPage extends Component{
         return (
             <React.Fragment>
                 <PageNavbar/>
+                <TeacherPageElements
+                    teacher={this.state.teacher}
+                    toggleStudents={this.toggleStudents}
+                    students={this.state.students}
+                    showStudents={this.state.showStudents}
+                    editStudent={this.state.editStudent}
+                    editStudentId={this.state.editStudentId}
+                    onStudentEdition={this.onStudentEdition}/>
 
-                <div className="container-fluid h-100 mt-5">
-                    <div className="row h-100">
-                        <div className="col-md-3 border-right">
-                            <AccountDetailsCard
-                                person={this.state.teacher}/>
-                            <TeacherAccountControls
-                                toggle={this.toggleStudents}/>
-                            <Messages/>
-                        </div>
-                        <div className="col-md-8">
-
-                            <StudentsContext.Provider value={{students: this.state.students, edit: this.onStudentEdition}}>
-                                {
-                                    this.state.showStudents
-                                        ?
-                                        <ListStudentsComponent/>
-                                        :
-                                        null
-                                }
-                            </StudentsContext.Provider>
-                            {
-                                this.state.editStudent
-                                    ?
-                                    <EditAccount
-                                        path={"/api/teacher/modifyStudent"}
-                                        id={this.state.editStudentId}
-                                        token={auth.getToken()}
-                                        personEdition={true}/>
-                                    :
-                                    null
-                            }
-                            <ListSectionsComponent/>
-                        </div>
-                        <div className="col-md-1"></div>
-                    </div>
-                </div>
             </React.Fragment>
         );
     }

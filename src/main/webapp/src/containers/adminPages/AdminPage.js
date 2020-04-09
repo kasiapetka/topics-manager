@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/layoutComponents/PageNavbar";
 import auth from "../../Auth";
-import {Button} from 'reactstrap'
-import ListTeachersComponent from "../../components/pages/adminPages/listTeachers/ListTeachersComponent";
-import EditAccount from "../formsPages/EditAccount";
+import AdminPageElements from "../../components/pages/adminPages/adminPageLayout/AdminPageElements";
 import TeachersContext from "../../context/listTeachersContext";
-import Messages from "../../components/messages/Messages";
+import StudentsContext from "../../context/listStudentsContext";
+import PersonEditionContext from "../../context/personEdition";
 
 class AdminPage extends Component {
 
@@ -13,14 +12,17 @@ class AdminPage extends Component {
         super(props);
         this.state = {
             teachers: [],
+            students:[],
             error: false,
             showTeachers: true,
-            showStudents: true,
+            showStudents: false,
             search: '',
-            filtered: [],
+            teachersFiltered: [],
             condition: 'Email',
-            editTeacher: false,
-            editTeacherId: ''
+            editPerson: false,
+            editPersonId: '',
+            path:'',
+            personRole: ''
         };
     }
 
@@ -39,23 +41,32 @@ class AdminPage extends Component {
             if (response.status !== 200) {
                 this.setState({error: true})
             } else {
-                console.log(data)
                 let teachers = [...data];
-                console.log(teachers)
                 this.setState({teachers: teachers});
-                this.setState({filtered: teachers});
+                this.setState({teachersFiltered: teachers});
             }
         })
             .catch(error => {
                 console.error('There was an error!', error);
             });
+        fetch('/api/admin/students', request).then(async response => {
+            const data = await response.json();
+            if (response.status !== 200) {
+                this.setState({error: true})
+            } else {
+                let students = [...data];
+                this.setState({students: students});
+                this.setState({students: students});
+            }
+        })
     };
 
     toggleTeachers = () => {
         this.setState((prevState)=>{
             return {
                 showTeachers: !this.state.showTeachers,
-                editTeacher: false
+                editPerson: false,
+                showStudents: false
             }
         });
     };
@@ -65,7 +76,7 @@ class AdminPage extends Component {
             return {
                 showStudents: !this.state.showStudents,
                 showTeachers: false,
-                editTeacher: false
+                editPerson: false
             }
         });
     };
@@ -73,7 +84,6 @@ class AdminPage extends Component {
     handleChange = (event) => {
         let currentList = [];
         let newList = [];
-        console.log(event.target.value);
         const target = event.target;
         const value = target.value;
         let search = value;
@@ -99,19 +109,31 @@ class AdminPage extends Component {
             newList = this.state.teachers;
         }
         this.setState({
-            filtered: newList
+            teachersFiltered: newList
         });
     };
 
     onTeacherEdition = (index) => {
-        const teacher = this.state.filtered[index];
-
-        console.log(" id "+ index);
+        const teacher = this.state.teachersFiltered[index];
 
         this.setState({
             showTeachers: false,
-            editTeacherId: teacher.id,
-            editTeacher: true
+            editPersonId: teacher.id,
+            editPerson: true,
+            path:"/api/admin/modifyTeacher",
+            personRole: 'T'
+        });
+    };
+
+    onStudentEdition=(index)=>{
+        const student = this.state.students[index];
+
+        this.setState({
+            showStudents: false,
+            editPersonId: student.album,
+            editPerson: true,
+            path: "/api/admin/modifyStudent",
+            personRole: 'S'
         });
     };
 
@@ -120,7 +142,7 @@ class AdminPage extends Component {
             condition: event.currentTarget.value
         });
         this.setState({
-            filtered: this.state.teachers
+            teachersFiltered: this.state.teachers
         });
         this.setState({
             search: ''
@@ -131,45 +153,37 @@ class AdminPage extends Component {
         return (
             <React.Fragment>
                 <PageNavbar/>
-                <div className="container-fluid h-100 mt-2">
-                    <div className="row h-100">
-                        <div className="col-md-2 border-right">
-                            <p>Admin Options:</p>
-                            <Button className="ml-5 mt-2 mb-2" onClick={this.toggleTeachers} outline>List Teachers</Button>
-                            <Button className="ml-5 mt-2 mb-2" onClick={this.toggleStudents} outline>List Students</Button>
-                            <Messages/>
-                        </div>
-                        <div className="col-md-9">
-                            <TeachersContext.Provider
-                                value={{teachers: this.state.filtered, edit: this.onTeacherEdition}}>
-                                {
-                                    this.state.showTeachers
-                                        ?
-                                        <ListTeachersComponent
-                                            change={this.handleChange}
-                                            search={this.state.search}
-                                            condition={this.state.condition}
-                                            conditionChange={this.onConditionChanged}
-                                        />
-                                        :
-                                        null
-                                }
-                            </TeachersContext.Provider>
+                <StudentsContext.Provider
+                    value={{
+                        students: this.state.students,
+                        edit: this.onStudentEdition,
+                    }}>
+                    <TeachersContext.Provider
+                        value={{
+                            teachers: this.state.teachersFiltered,
+                            edit: this.onTeacherEdition,
+                        }}>
+                        <PersonEditionContext.Provider
+                            value={{
+                                person: this.state.personRole,
+                            }}>
                             {
-                                this.state.editTeacher
-                                    ?
-                                    <EditAccount
-                                        path={"/api/admin/modifyTeacher"}
-                                        id={this.state.editTeacherId}
-                                        token={auth.getToken()}
-                                        personEdition={true}/>
-                                    :
-                                    null
+                                <AdminPageElements
+                                    change={this.handleChange}
+                                    changed={this.onConditionChanged}
+                                    condition={this.state.condition}
+                                    toggleTeachers={this.toggleTeachers}
+                                    toggleStudents={this.toggleStudents}
+                                    showTeachers={this.state.showTeachers}
+                                    showStudents={this.state.showStudents}
+                                    editPerson={this.state.editPerson}
+                                    editPersonId={this.state.editPersonId}
+                                    path={this.state.path}
+                                />
                             }
-                        </div>
-                        <div className="col-md-1 border-left"></div>
-                    </div>
-                </div>
+                        </PersonEditionContext.Provider>
+                    </TeachersContext.Provider>
+                </StudentsContext.Provider>
             </React.Fragment>
         );
     }

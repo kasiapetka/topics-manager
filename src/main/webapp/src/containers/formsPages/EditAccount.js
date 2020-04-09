@@ -113,11 +113,8 @@ class EditAccount extends Component {
                         this.setState({wrongEmail: true});
                     } else this.setState({serverError: true});
                 } else {
-                    console.log(data);
-
                     let person = {...data};
                     this.setState({person: person});
-
                     this.setState({person: person});
                     if (data.email !== user.email) {
                         this.setState({emailChanged: true});
@@ -174,7 +171,6 @@ class EditAccount extends Component {
                             submit={this.handleSubmit}
                             change={this.handleChange}
                             person={person}
-                            role={auth.getRole()}
                             credsChanged={this.state.changed}
                             wrongPassword={this.state.wrongPassword}
                             wrongEmail={this.state.wrongEmail}
