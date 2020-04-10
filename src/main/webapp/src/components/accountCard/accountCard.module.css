@@ -1,6 +1,6 @@
 .cardStyle {
     margin: 20px auto;
-    box-shadow: -12px 0 12px 2px rgba(36, 205, 188,0.3 );
+    box-shadow: inset 0 0 5px 3px rgba(130,130,130,0.2);
 }
 
 @media(min-width: 1250px) {
@@ -8,7 +8,6 @@
         width:300px;
     }
 }
-
 
 @media(max-width: 767px) {
     .cardStyle{

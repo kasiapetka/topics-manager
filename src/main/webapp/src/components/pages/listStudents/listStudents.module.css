@@ -1,12 +1,12 @@
 .Student{
-    width: 60%;
+    width: 80%;
     margin: 30px auto;
     border: 1px solid #eee;
     box-shadow: 0 4px 4px #ccc;
-    background-color: #FEFDFD;
     padding: 10px;
     text-align: center;
     overflow-x:auto;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(241,241,241,0.5));
 }
 
 .Students{
@@ -17,14 +17,15 @@
     background-color:  rgba(248, 248, 248,0.7);
     margin: 10px auto;
 }
+
 @media(min-width:1085px) {
     .Students{
         width:800px;
     }
 }
 
-@media(max-width: 350px) {
-    .Students {
-        width: 95%
+@media(min-width:900px) {
+    .Student{
+        width:500px
     }
 }

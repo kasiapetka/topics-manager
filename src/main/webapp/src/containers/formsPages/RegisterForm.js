@@ -1,11 +1,10 @@
 import React from 'react';
 import {Badge} from 'reactstrap';
-import { Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import auth from "../../Auth";
-import classes from "./forms.module.css"
 import RegisterFormInputs from "../../components/forms/RegisterFormInputs";
 
-export class RegisterForm extends React.Component{
+export class RegisterForm extends React.Component {
 
     emptyUser = {
         album: '',
@@ -17,7 +16,7 @@ export class RegisterForm extends React.Component{
     constructor(props) {
         super(props);
         let redirect = false;
-        if(auth.isAuthenticated()) redirect = true;
+        if (auth.isAuthenticated()) redirect = true;
         this.state = {
             user: this.emptyUser,
             wrongCred: false,
@@ -65,7 +64,7 @@ export class RegisterForm extends React.Component{
                 console.log(data)
                 let user = {...this.state.user};
                 user.token = data.token;
-                auth.login(data.role,user.token)
+                auth.login(data.role, user.token)
                 this.setState({user});
                 this.setState({redirectToReferrer: true})
                 // let decoded = auth.parseJwt(user.token);
@@ -93,19 +92,16 @@ export class RegisterForm extends React.Component{
         }
 
         if (redirectToReferrer) {
-            redirectUser = <Redirect to='/student' />;
+            redirectUser = <Redirect to='/student'/>;
         }
 
-        const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.formStyle;
         return (
-            <div className={classNames}>
-                <RegisterFormInputs
-                        wrongCreds={wrongCredentials}
-                        redirectUser={redirectUser}
-                        user={user}
-                        submit={this.handleSubmit}
-                        change={this.handleChange}/>
-            </div>
+            <RegisterFormInputs
+                wrongCreds={wrongCredentials}
+                redirectUser={redirectUser}
+                user={user}
+                submit={this.handleSubmit}
+                change={this.handleChange}/>
         );
     }
 }

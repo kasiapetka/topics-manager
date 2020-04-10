@@ -1,5 +1,5 @@
 import React , {Component} from 'react';
-import PageNavbar from "../../components/layoutComponents/PageNavbar";
+import PageNavbar from "../../components/layout/PageNavbar";
 import AccountDetailsCard from "../../components/accountCard/AccountDetailsCard";
 import auth from '../../Auth'
 import {Alert} from "reactstrap";

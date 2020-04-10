@@ -1,6 +1,6 @@
 import React from "react";
-import PageNavbar from "../layoutComponents/PageNavbar";
-import PageJumbotron from "../layoutComponents/PageJumbotron";
+import PageNavbar from "../layout/PageNavbar";
+import PageJumbotron from "../layout/PageJumbotron";
 
 const MainPage = () => (
     <div>

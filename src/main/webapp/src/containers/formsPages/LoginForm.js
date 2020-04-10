@@ -2,7 +2,6 @@ import React from 'react';
 import {Badge} from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import auth from "../../Auth";
-import classes from "./forms.module.css"
 import LoginFormInputs from "../../components/forms/LoginFormInputs";
 
 class LoginForm extends React.Component {
@@ -96,28 +95,25 @@ class LoginForm extends React.Component {
                     Wrong Login Credentials</Badge>)
         }
 
-        if(serverError){
+        if (serverError) {
             serverProblem =
                 (<Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
                     Internal Server Error</Badge>)
         }
 
-        if(role === 'S')
-            return  <Redirect to='/student' />;
-        if(role === 'T')
-            return  <Redirect to='/teacher' />;
-        if(role === 'A')
-            return  <Redirect to='/admin' />;
+        if (role === 'S')
+            return <Redirect to='/student'/>;
+        if (role === 'T')
+            return <Redirect to='/teacher'/>;
+        if (role === 'A')
+            return <Redirect to='/admin'/>;
 
-        const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.formStyle;
         return (
-            <div className={classNames}>
-                <LoginFormInputs wrongCreds={wrongCredentials}
-                                 serverProblem={serverProblem}
-                                 user={user}
-                                 submit={this.handleSubmit}
-                                 change={this.handleChange}/>
-            </div>
+            <LoginFormInputs wrongCreds={wrongCredentials}
+                             serverProblem={serverProblem}
+                             user={user}
+                             submit={this.handleSubmit}
+                             change={this.handleChange}/>
         );
     }
 };

@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import PageNavbar from "../../components/layoutComponents/PageNavbar";
+import PageNavbar from "../../components/layout/PageNavbar";
 import {Alert} from "reactstrap";
 import auth from "../../Auth";
 import TeacherPageElements from "../../components/pages/teacherPages/teacherPageLayout/TeacherPageElements";

@@ -2,11 +2,13 @@ import React from 'react';
 import { FaUserAlt } from "react-icons/fa";
 import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import classes from "./forms.module.css";
 
 const LoginFormInputs =(props)=>{
+    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.loginRegForm;
 
     return(
-            <Form onSubmit={props.submit}>
+            <Form className={classNames} onSubmit={props.submit}>
                 <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
                 <h3 className="text-center">Sign In</h3>
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
@@ -36,6 +38,6 @@ const LoginFormInputs =(props)=>{
                 </div>
             </Form>
     )
-}
+};
 
 export default LoginFormInputs

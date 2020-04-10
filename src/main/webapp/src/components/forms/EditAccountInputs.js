@@ -1,8 +1,9 @@
 import React from 'react';
 import { FaUserAlt } from "react-icons/fa";
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Button, Form, FormGroup, Label} from "reactstrap";
 import EmailPasswordChangeInput from "./formInputs/EmailPasswordChangeInput";
 import ConfirmPasswordInput from "./formInputs/ConfirmPasswordInput";
+import classes from './forms.module.css'
 
 const EditAccountInputs =(props)=> {
 
@@ -14,9 +15,10 @@ const EditAccountInputs =(props)=> {
                             {name}
                         </div>
                     </FormGroup>);
+    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-5 " + classes.editAccountForm;
 
     return (
-        <Form onSubmit={props.submit}>
+        <Form className={classNames} onSubmit={props.submit}>
             <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
             <h3 className="text-center">Your Account</h3>
             {nameDetails}

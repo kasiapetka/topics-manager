@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PageNavbar from "../../components/layoutComponents/PageNavbar";
+import PageNavbar from "../../components/layout/PageNavbar";
 import auth from "../../Auth";
 import AdminPageElements from "../../components/pages/adminPages/adminPageLayout/AdminPageElements";
 import TeachersContext from "../../context/listTeachersContext";
