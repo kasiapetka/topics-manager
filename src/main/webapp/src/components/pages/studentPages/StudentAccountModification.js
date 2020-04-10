@@ -1,5 +1,5 @@
 import React from 'react';
-import PageNavbar from "../../layoutComponents/PageNavbar";
+import PageNavbar from "../../layout/PageNavbar";
 import EditAccount from '../../../containers/formsPages/EditAccount';
 import auth from '../../../Auth'
 

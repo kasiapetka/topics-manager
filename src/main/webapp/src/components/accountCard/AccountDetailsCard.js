@@ -23,9 +23,9 @@ const AccountDetailsCard =(props)=> {
         modifyPath = '/student/modifyAccount';
     }
 
+    const classNames = "pt-2 pr-2 pb-2 pl-2 "+classes.cardStyle;
     return (
-        <div className={classes.cardStyle}>
-            <Card className="pt-2 pr-2 pb-2 pl-2">
+            <Card className={classNames}>
                 <CardBody>
                     <CardTitle>Name: <em>{props.person.name}</em></CardTitle>
                     <CardTitle className="pb-2 border-bottom">Surname: <em>{props.person.surname}</em></CardTitle>
@@ -43,7 +43,6 @@ const AccountDetailsCard =(props)=> {
                     <Button outline color="secondary" tag={Link} to={modifyPath}>Edit My Account</Button>
                 </CardBody>
             </Card>
-        </div>
     )
 }
 

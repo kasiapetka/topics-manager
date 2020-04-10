@@ -1,9 +1,8 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import auth from "../../Auth";
-import {Badge,Alert} from "reactstrap";
+import {Badge, Alert} from "reactstrap";
 import EditAccountInputs from "../../components/forms/EditAccountInputs";
 import EditPersonInputs from "../../components/forms/EditPersonInputs";
-import classes from "./forms.module.css"
 import {Redirect} from "react-router-dom";
 
 class EditAccount extends Component {
@@ -11,11 +10,11 @@ class EditAccount extends Component {
     emptyPerson = {
         id: '',
         password: '',
-        newEmail:'',
+        newEmail: '',
         newPassword: '',
-        name:'',
-        surname:'',
-        newName:'',
+        name: '',
+        surname: '',
+        newName: '',
         newSurname: '',
     };
 
@@ -40,7 +39,7 @@ class EditAccount extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    createRequest=()=> {
+    createRequest = () => {
         let user = {...this.state.person};
         let token = this.state.token;
         return (
@@ -56,8 +55,8 @@ class EditAccount extends Component {
         )
     };
 
-     componentDidMount=async()=> {
-        if(!this.state.changed) {
+    componentDidMount = async () => {
+        if (!this.state.changed) {
             const request = this.createRequest();
 
             fetch(this.props.path, request).then(async response => {
@@ -76,7 +75,7 @@ class EditAccount extends Component {
                     console.error('There was an error!', error);
                 });
         }
-     };
+    };
 
     handleChange = (event) => {
         const target = event.target;
@@ -88,64 +87,61 @@ class EditAccount extends Component {
         this.setState({changed: true});
     };
 
-    handleSubmit= async(event) => {
-            event.preventDefault();
-            this.setState({
-                wrongEmail: false,
-                wrongPassword: false
-            });
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        this.setState({
+            wrongEmail: false,
+            wrongPassword: false
+        });
 
-            const request = this.createRequest();
-            let user = {...this.state.person};
-            if(user.password === ''){
-                this.setState({wrongPassword: true});
-                this.setState({changed: true});
-                return;
-            }
+        const request = this.createRequest();
+        let user = {...this.state.person};
+        if (user.password === '') {
+            this.setState({wrongPassword: true});
+            this.setState({changed: true});
+            return;
+        }
 
-            fetch(this.props.path, request).then(async response => {
-                const data = await response.json();
+        fetch(this.props.path, request).then(async response => {
+            const data = await response.json();
 
-                if (!response.ok) {
-                    if (response.status === 406) {
-                        this.setState({wrongPassword: true});
-                    } else if (response.status === 409) {
-                        this.setState({wrongEmail: true});
-                    } else this.setState({serverError: true});
-                } else {
-                    let person = {...data};
-                    this.setState({person: person});
-                    this.setState({person: person});
-                    if (data.email !== user.email) {
-                        this.setState({emailChanged: true});
-                    }
-                    if (data !== user) {
-                        this.setState({credsChanged: true});
-                    }
+            if (!response.ok) {
+                if (response.status === 406) {
+                    this.setState({wrongPassword: true});
+                } else if (response.status === 409) {
+                    this.setState({wrongEmail: true});
+                } else this.setState({serverError: true});
+            } else {
+                let person = {...data};
+                this.setState({person: person});
+                this.setState({person: person});
+                if (data.email !== user.email) {
+                    this.setState({emailChanged: true});
                 }
-            })
-                .catch(error => {
-                    this.setState({errorMessage: error});
-                    console.error('There was an error!', error);
-                });
+                if (data !== user) {
+                    this.setState({credsChanged: true});
+                }
+            }
+        })
+            .catch(error => {
+                this.setState({errorMessage: error});
+                console.error('There was an error!', error);
+            });
     };
 
     render() {
         const {person} = this.state;
         const serverError = this.state.serverError;
         const credsChanged = this.state.credsChanged;
-        const emailChanged  = this.state.emailChanged;
+        const emailChanged = this.state.emailChanged;
 
         let credentialsChangedSuccess;
-        const classNames = "border rounded pt-4 pb-4 mt-5 pr-3 pl-3 mb-5 " + classes.formStyle;
 
         if (serverError) {
             return (
-                <div className={classNames}>
-                    <Alert color="danger">
-                        Server Error, Please Try Again.
-                    </Alert>
-                </div>
+                <Alert color="danger">
+                    Server Error, Please Try Again.
+                </Alert>
             )
         }
 
@@ -157,38 +153,35 @@ class EditAccount extends Component {
         }
 
         if (credsChanged && this.state.personEdition) {
-            credentialsChangedSuccess = (<Badge color="success" className="col-11 pt-2 pb-2 mr-sm-4 ml-sm-4 pl-2 pr-2 mt-4">
-                Credentails Changed</Badge>)
+            credentialsChangedSuccess = (
+                <Badge color="success" className="col-11 pt-2 pb-2 mr-sm-4 ml-sm-4 pl-2 pr-2 mt-4">
+                    Credentails Changed</Badge>)
         }
 
         return (
-            <div className={classNames}>
-                {
-                    this.state.personEdition
-                        ?
-                        <EditPersonInputs
-                            credentialsChangedSuccess={credentialsChangedSuccess}
-                            submit={this.handleSubmit}
-                            change={this.handleChange}
-                            person={person}
-                            credsChanged={this.state.changed}
-                            wrongPassword={this.state.wrongPassword}
-                            wrongEmail={this.state.wrongEmail}
-                        />
+            this.state.personEdition
+                ?
+                <EditPersonInputs
+                    credentialsChangedSuccess={credentialsChangedSuccess}
+                    submit={this.handleSubmit}
+                    change={this.handleChange}
+                    person={person}
+                    credsChanged={this.state.changed}
+                    wrongPassword={this.state.wrongPassword}
+                    wrongEmail={this.state.wrongEmail}
+                />
 
-                    :
-                        <EditAccountInputs
-                        credentialsChangedSuccess={credentialsChangedSuccess}
-                        submit={this.handleSubmit}
-                        change={this.handleChange}
-                        person={person}
-                        role={auth.getRole()}
-                        credsChanged={this.state.changed}
-                        wrongPassword={this.state.wrongPassword}
-                        wrongEmail={this.state.wrongEmail}
-                    />
-                }
-            </div>
+                :
+                <EditAccountInputs
+                    credentialsChangedSuccess={credentialsChangedSuccess}
+                    submit={this.handleSubmit}
+                    change={this.handleChange}
+                    person={person}
+                    role={auth.getRole()}
+                    credsChanged={this.state.changed}
+                    wrongPassword={this.state.wrongPassword}
+                    wrongEmail={this.state.wrongEmail}
+                />
         );
     }
 };

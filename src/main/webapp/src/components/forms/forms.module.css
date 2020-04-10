@@ -1,0 +1,27 @@
+.loginRegForm {
+    margin: auto;
+    box-shadow: 0 0 12px 5px rgba(36, 205, 188, 0.3);
+    background-color:  rgba(248, 248, 248,0.7);
+}
+
+.editAccountForm {
+    margin: auto;
+    box-shadow: 0 0 12px 5px rgba(36, 205, 188, 0.3);
+    background-color:  rgba(248, 248, 248,0.8);
+}
+
+.editPersonFrom{
+    margin: auto;
+}
+
+@media(min-width: 900px) {
+    .loginRegForm{
+        width:600px;
+    }
+
+    .editAccountForm{
+        width:600px;
+    }
+}
+
+

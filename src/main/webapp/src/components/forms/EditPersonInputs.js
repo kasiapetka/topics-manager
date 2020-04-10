@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
 import {FaUserAlt} from "react-icons/fa";
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Button, Form, Label} from "reactstrap";
 import PersonEditionContext from "../../context/personEdition";
 import Col5FormInfo from "./formInputs/Col5FormInfo";
 import EmailPasswordChangeInput from "./formInputs/EmailPasswordChangeInput";
 import NameSurnameChangeInput from "./formInputs/NameSurnameChangeInput";
 import ConfirmPasswordInput from "./formInputs/ConfirmPasswordInput";
+import classes from "./forms.module.css";
 
 const EditPersonInputs = (props) => {
 
@@ -23,8 +24,10 @@ const EditPersonInputs = (props) => {
                     {props.person.id}</div>
             </div>)
     }
+    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.editPersonFrom;
+
     return (
-        <Form onSubmit={props.submit}>
+        <Form className={classNames} onSubmit={props.submit}>
             <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
             <h3 className="text-center">{label} Account</h3>
             {albumDetails}

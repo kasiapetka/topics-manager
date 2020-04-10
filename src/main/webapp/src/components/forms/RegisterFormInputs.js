@@ -1,11 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import classes from "./forms.module.css";
 
 const RegisterFormInputs =(props)=> {
+    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-5 " + classes.loginRegForm;
 
     return (
-        <Form onSubmit={props.submit}>
+        <Form className={classNames} onSubmit={props.submit}>
             <h3 className="text-center">Sign Up</h3>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0 mt-3">
                 <Label for="exampleAlbum" className="mr-sm-2 pl-1">Your Album</Label>
@@ -45,7 +47,6 @@ const RegisterFormInputs =(props)=> {
             </div>
         </Form>
     )
-
-}
+};
 
 export default RegisterFormInputs
