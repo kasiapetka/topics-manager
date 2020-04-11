@@ -3,7 +3,7 @@ import {Label} from "reactstrap";
 
 
 const Col5FormInfo =(props)=>(
-    <div className="mb-2 ml-sm-4 mr-auto mt-3 col-md-5">
+    <div className="mb-2 ml-auto mr-auto mt-3 col-md-5">
         <Label for="actualName" className="mr-sm-2 pl-1">
             {props.label}
         </Label>

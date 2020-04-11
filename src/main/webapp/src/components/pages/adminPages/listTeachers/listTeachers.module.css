@@ -1,5 +1,6 @@
 .Teacher{
     width: 80%;
+
     margin: 30px auto;
     border: 1px solid #eee;
     box-shadow: 0 4px 4px #ccc;
@@ -25,6 +26,7 @@
 
 .Teachers{
     height: 70%;
+    min-height: 600px;
     border: 1px solid #e1e1e1;
     overflow-y: auto;
     border-radius: 10px;
