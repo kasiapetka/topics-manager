@@ -1,4 +1,4 @@
-package com.kasiapetka.topicsmanager.services;
+package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.Role;
 import com.kasiapetka.topicsmanager.model.Student;
@@ -6,6 +6,7 @@ import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.RoleRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,8 +1,10 @@
-package com.kasiapetka.topicsmanager.services;
+package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Primary
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     protected StudentRepository studentRepository;
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -29,8 +31,7 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email);
     }
 
-    @Override
-    public boolean changeEmail(User user, String email) {
+    private boolean changeEmail(User user, String email) {
         User temp = findUserByEmail(email);
         if(!(temp == null)){
             System.out.println("Mail already exists");
@@ -41,10 +42,41 @@ public class UserServiceImpl implements UserService{
         return true;
     }
 
-    @Override
-    public void changePassword(User user, String password) {
+    private void changePassword(User user, String password) {
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
     }
 
+    private boolean checkCrudentials(String given, String actual){
+        return bCryptPasswordEncoder.matches(given, actual);
+    }
+
+    @Override
+    // returns response code
+    public int changeCredentials(EditAccount editAccount, User user){
+
+        if(checkCrudentials(editAccount.getPassword(), user.getPassword())){
+
+            // password changing
+            if(!editAccount.getNewPassword().equals("")){
+                changePassword(user, editAccount.getNewPassword());
+            }
+
+            // mail changing
+            if(!editAccount.getNewEmail().equals("")){
+                if(!changeEmail(user, editAccount.getNewEmail())){
+                    // mail exists
+                    return 409;
+                } else {
+                    return 201;
+                }
+            }
+
+        } else {
+            // bad password given
+            return 406;
+        }
+
+        return 200;
+    }
 }
