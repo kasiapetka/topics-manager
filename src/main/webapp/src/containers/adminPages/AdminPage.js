@@ -5,6 +5,7 @@ import AdminPageElements from "../../components/pages/adminPages/adminPageLayout
 import TeachersContext from "../../context/listTeachersContext";
 import StudentsContext from "../../context/listStudentsContext";
 import PersonEditionContext from "../../context/personEdition";
+import filterList from "../../components/lists/filterList";
 
 class AdminPage extends Component {
 
@@ -18,6 +19,7 @@ class AdminPage extends Component {
             showStudents: false,
             search: '',
             teachersFiltered: [],
+            studentsFiltered: [],
             condition: 'Email',
             editPerson: false,
             editPersonId: '',
@@ -56,7 +58,7 @@ class AdminPage extends Component {
             } else {
                 let students = [...data];
                 this.setState({students: students});
-                this.setState({students: students});
+                this.setState({studentsFiltered: students});
             }
         })
     };
@@ -88,35 +90,24 @@ class AdminPage extends Component {
     };
 
     handleChange = (event) => {
-        let currentList = [];
-        let newList = [];
         const target = event.target;
         const value = target.value;
-        let search = value;
+        let newList;
 
-        this.setState({search: search});
-
-        if (value !== "") {
-            currentList = this.state.teachers;
-
-            newList = currentList.filter(teacher => {
-                let lc = '';
-                if (this.state.condition === 'Email' && teacher.user)
-                    lc = teacher.user.email.toLowerCase();
-                if (this.state.condition === 'Surname')
-                    lc = teacher.surname.toLowerCase();
-                if (this.state.condition === 'Name')
-                    lc = teacher.name.toLowerCase();
-
-                const filter = value.toLowerCase();
-                return lc.includes(filter);
+        if(this.state.showTeachers) {
+            newList = filterList(value, this.state.condition, this.state.teachers);
+            this.setState({
+                teachersFiltered: newList,
+                search: value
             });
-        } else {
-            newList = this.state.teachers;
         }
-        this.setState({
-            teachersFiltered: newList
-        });
+        if(this.state.showStudents){
+            newList =filterList(value,this.state.condition,this.state.students);
+            this.setState({
+                studentsFiltered: newList,
+                search: value
+            });
+        }
     };
 
     onTeacherEdition = (index) => {
@@ -145,13 +136,9 @@ class AdminPage extends Component {
 
     onConditionChanged = (event) => {
         this.setState({
-            condition: event.currentTarget.value
-        });
-
-        this.setState({
-            teachersFiltered: this.state.teachers
-        });
-        this.setState({
+            condition: event.currentTarget.value,
+            teachersFiltered: this.state.teachers,
+            studentsFiltered: this.state.students,
             search: ''
         });
     };
@@ -162,8 +149,12 @@ class AdminPage extends Component {
                 <PageNavbar/>
                 <StudentsContext.Provider
                     value={{
-                        students: this.state.students,
+                        students: this.state.studentsFiltered,
                         edit: this.onStudentEdition,
+                        change: this.handleChange,
+                        conditionChange: this.onConditionChanged,
+                        condition: this.state.condition,
+                        search: this.state.search
                     }}>
                     <TeachersContext.Provider
                         value={{

@@ -1,20 +1,23 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import PageNavbar from "../../components/layout/PageNavbar";
 import {Alert} from "reactstrap";
 import auth from "../../Auth";
 import TeacherPageElements from "../../components/pages/teacherPages/teacherPageLayout/TeacherPageElements";
+import StudentsContext from "../../context/listStudentsContext";
+import filterList from "../../components/lists/filterList";
 
 
-class TeacherPage extends Component{
-    constructor(props){
+class TeacherPage extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             teacher: '',
             error: false,
             students: [],
-            editStudent: false,
-            editStudentId:'',
             showStudents: true,
+            condition: 'Email',
+            search: '',
+            studentsFiltered: []
         };
     }
 
@@ -32,7 +35,7 @@ class TeacherPage extends Component{
         fetch('/api/teacher/info', request).then(async response => {
             const data = await response.json();
             if (response.status !== 200) {
-                this.setState({error:true})
+                this.setState({error: true})
             } else {
                 let student = {...data};
                 this.setState({teacher: student})
@@ -49,33 +52,50 @@ class TeacherPage extends Component{
             } else {
                 let students = [...data];
                 this.setState({students: students});
-                this.setState({students: students});
+                this.setState({studentsFiltered: students});
             }
         })
             .catch(error => {
                 console.error('There was an error!', error);
+                this.setState({
+                    error: true
+                })
             });
     }
 
     toggleStudents = () => {
-        this.setState((prevState)=>{
+        this.setState((prevState) => {
             return {
                 showStudents: !this.state.showStudents,
-                editStudent: false
+                condition: 'Email',
+                search: '',
+                studentsFiltered: this.state.students,
             }
         });
     };
 
-    onStudentEdition = (index) => {
-        const student = this.state.students[index];
-        console.log(" id "+ index)
+    handleChange = (event) => {
+        const target = event.target;
+        const value = target.value;
+        const newList = filterList(value, this.state.condition, this.state.students);
 
         this.setState({
-            editStudent: true,
-            editStudentId: student.album,
-            showStudents: false
+            studentsFiltered: newList,
+            search: value
+        });
+    };
+
+    onConditionChanged = (event) => {
+        this.setState({
+            condition: event.currentTarget.value
         });
 
+        this.setState({
+            studentsFiltered: this.state.students
+        });
+        this.setState({
+            search: ''
+        });
     };
 
     render() {
@@ -90,15 +110,22 @@ class TeacherPage extends Component{
         return (
             <React.Fragment>
                 <PageNavbar/>
-                <TeacherPageElements
-                    teacher={this.state.teacher}
-                    toggleStudents={this.toggleStudents}
-                    students={this.state.students}
-                    showStudents={this.state.showStudents}
-                    editStudent={this.state.editStudent}
-                    editStudentId={this.state.editStudentId}
-                    onStudentEdition={this.onStudentEdition}/>
-
+                <StudentsContext.Provider value={{
+                    students: this.state.studentsFiltered,
+                    change: this.handleChange,
+                    conditionChange: this.onConditionChanged,
+                    condition: this.state.condition,
+                    search: this.state.search
+                }}>
+                    {
+                        <TeacherPageElements
+                            teacher={this.state.teacher}
+                            toggleStudents={this.toggleStudents}
+                            students={this.state.students}
+                            showStudents={this.state.showStudents}
+                        />
+                    }
+                </StudentsContext.Provider>
             </React.Fragment>
         );
     }

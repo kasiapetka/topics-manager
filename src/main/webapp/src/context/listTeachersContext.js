@@ -3,10 +3,10 @@ import React from 'react'
 const teachersContext = React.createContext({
     teachers: [],
     edit: (index)=>{},
-    change: (index)=>{},
+    change: (event)=>{},
     search:'',
     condition:'',
-    conditionChange: (index)=>{},
+    conditionChange: (event)=>{},
 });
 
 export default teachersContext;

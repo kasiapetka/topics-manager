@@ -1,6 +1,6 @@
 import React , {useContext} from "react";
 import Teacher from "./ListTeachersItem";
-import AdminListsContext from "../../../../context/listTeachersContext";
+import AdminListsContext from "../../../context/listTeachersContext";
 
 const Teachers =()=>{
 
