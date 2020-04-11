@@ -1,9 +1,10 @@
-package com.kasiapetka.topicsmanager.services;
+package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Primary
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     protected StudentRepository studentRepository;
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -52,15 +53,4 @@ public class StudentServiceImpl implements StudentService{
         student.setSurname(surname);
         studentRepository.save(student);
     }
-//    @Override
-//    public void changeEmail(Student student, String email) {
-//        student.getUser().setEmail(email);
-//        studentRepository.save(student);
-//    }
-//
-//    @Override
-//    public void changePassword(Student student, String password) {
-//        student.getUser().setPassword(bCryptPasswordEncoder.encode(password));
-//        studentRepository.save(student);
-//    }
 }

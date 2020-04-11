@@ -1,4 +1,4 @@
-package com.kasiapetka.topicsmanager.services;
+package com.kasiapetka.topicsmanager.services.impl;
 
 
 import com.kasiapetka.topicsmanager.model.Student;
@@ -7,6 +7,7 @@ import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.TeacherService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @Primary
-public class TeacherServiceImpl implements TeacherService{
+public class TeacherServiceImpl implements TeacherService {
 
     protected TeacherRepository teacherRepository;
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -42,12 +43,6 @@ public class TeacherServiceImpl implements TeacherService{
         }
         return teacherOptional.get();
     }
-
-//    @Override
-//    public void changePassword(Teacher teacher, String password) {
-//        teacher.getUser().setPassword(bCryptPasswordEncoder.encode(password));
-//        teacherRepository.save(teacher);
-//    }
 
     @Override
     public Teacher findTeacherByUser(User user) {

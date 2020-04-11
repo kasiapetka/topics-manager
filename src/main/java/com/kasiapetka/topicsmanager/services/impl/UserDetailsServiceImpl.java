@@ -1,8 +1,7 @@
-package com.kasiapetka.topicsmanager.services;
+package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.Role;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

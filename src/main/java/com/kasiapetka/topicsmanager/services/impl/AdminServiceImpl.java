@@ -1,4 +1,4 @@
-package com.kasiapetka.topicsmanager.services;
+package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
@@ -6,6 +6,7 @@ import com.kasiapetka.topicsmanager.repositories.AdminRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.AdminService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Service
 @Primary
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
 
     protected UserRepository userRepository;
     protected AdminRepository adminRepository;
@@ -49,9 +50,4 @@ public class AdminServiceImpl implements AdminService{
 
         return students;
     }
-//    @Override
-//    public void changePassword(User admin, String password) {
-//        admin.setPassword(bCryptPasswordEncoder.encode(password));
-//        adminRepository.save(admin);
-//    }
 }
