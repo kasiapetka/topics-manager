@@ -8,4 +8,6 @@ public interface TeacherService {
 //    void changePassword(Teacher student, String password);
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
+    Boolean deleteTeacher(Long id);
 }
+

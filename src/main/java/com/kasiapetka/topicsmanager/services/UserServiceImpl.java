@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.services;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,5 +46,16 @@ public class UserServiceImpl implements UserService{
     public void changePassword(User user, String password) {
         user.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    @Override
+    public Boolean deleteUser(User user) {
+        try {
+            user.setActive(0);
+            userRepository.save(user);
+            return true;
+        } catch (HibernateException he){
+            return false;
+        }
     }
 }

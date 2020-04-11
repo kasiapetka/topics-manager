@@ -99,4 +99,5 @@ public class IndexController {
             return ResponseEntity.ok(new AuthenticationResponse(token, 'S'));
         }
     }
+
 }
