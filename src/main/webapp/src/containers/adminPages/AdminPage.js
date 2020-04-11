@@ -66,6 +66,9 @@ class AdminPage extends Component {
             return {
                 showTeachers: !this.state.showTeachers,
                 editPerson: false,
+                condition: 'Email',
+                search: '',
+                teachersFiltered: this.state.teachers,
                 showStudents: false
             }
         });
@@ -76,6 +79,9 @@ class AdminPage extends Component {
             return {
                 showStudents: !this.state.showStudents,
                 showTeachers: false,
+                condition: 'Email',
+                search: '',
+                teachersFiltered: this.state.teachers,
                 editPerson: false
             }
         });
@@ -141,6 +147,7 @@ class AdminPage extends Component {
         this.setState({
             condition: event.currentTarget.value
         });
+
         this.setState({
             teachersFiltered: this.state.teachers
         });
@@ -162,6 +169,10 @@ class AdminPage extends Component {
                         value={{
                             teachers: this.state.teachersFiltered,
                             edit: this.onTeacherEdition,
+                            change: this.handleChange,
+                            conditionChange: this.onConditionChanged,
+                            condition: this.state.condition,
+                            search: this.state.search
                         }}>
                         <PersonEditionContext.Provider
                             value={{
@@ -169,9 +180,6 @@ class AdminPage extends Component {
                             }}>
                             {
                                 <AdminPageElements
-                                    change={this.handleChange}
-                                    changed={this.onConditionChanged}
-                                    condition={this.state.condition}
                                     toggleTeachers={this.toggleTeachers}
                                     toggleStudents={this.toggleStudents}
                                     showTeachers={this.state.showTeachers}

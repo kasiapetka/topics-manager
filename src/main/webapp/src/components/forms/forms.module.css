@@ -12,6 +12,7 @@
 
 .editPersonFrom{
     margin: auto;
+    max-width: 600px;
 }
 
 @media(min-width: 900px) {

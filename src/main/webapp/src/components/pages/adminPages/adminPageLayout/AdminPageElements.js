@@ -21,10 +21,6 @@ const AdminPageElements=(props)=>{
                         props.showTeachers
                             ?
                             <ListTeachersComponent
-                                change={props.change}
-                                search={props.search}
-                                condition={props.condition}
-                                conditionChange={props.changed}
                             />
                             :
                             null
