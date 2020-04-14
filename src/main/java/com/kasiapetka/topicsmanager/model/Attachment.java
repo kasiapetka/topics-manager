@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 //TODO Stworzyc dwukierunkowe settery dla wszystkich dwukierunkowych relacji
 //TODO Typo z BD chyba chcial, zebysmy ograniczyli dlugosc niektorych varcharow @Column(length = n)
 //TODO Dodac tez unique do niektorych kolumn np. mail
-//TODO isActive/active są niekonsekwentne wraz z typami
 
 @Data
 @Table(name = "attachments")
@@ -20,6 +19,7 @@ public class Attachment {
     @NotNull
     private String description;
     @NotNull
+    @Column(unique = true)
     private String url;
 
     @NotNull

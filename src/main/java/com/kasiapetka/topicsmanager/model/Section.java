@@ -19,19 +19,20 @@ public class Section {
     @NotNull
     private Integer sizeOfSection;
     @NotNull
-    private Boolean isActive;
+    @Column(length = 1)
+    private Character state;
+    //ograniczenie na state - np tylko {O,C}, napewno nie dlugosc 255
 
-    //@NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    //@NotNull
+    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
-    @OneToMany(mappedBy = "section", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "section")
     private List<StudentSection> studentSections;
 
     @OneToMany(mappedBy = "section")
@@ -56,7 +57,7 @@ public class Section {
         student.addStudentSection(studentSectionToAdd);
     }
 
-    void addStudentSection(StudentSection studentSection){
+    public void addStudentSection(StudentSection studentSection){
         if(this.studentSections == null){
             this.studentSections = new ArrayList<>();
         }

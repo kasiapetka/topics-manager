@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,6 +26,13 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher")
     private List<Topic> topics;
 
-    @ManyToMany(mappedBy = "subjects")
+    @ManyToMany(mappedBy = "teachers")
     private List<Subject> subjects;
+
+    public void addSubject(Subject subject){
+        if(subjects == null){
+            subjects = new ArrayList<>();
+        }
+        subjects.add(subject);
+    }
 }

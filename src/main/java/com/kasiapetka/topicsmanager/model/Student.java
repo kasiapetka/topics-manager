@@ -1,10 +1,11 @@
 package com.kasiapetka.topicsmanager.model;
 
 import lombok.*;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,18 +37,6 @@ public class Student {
 
     @ManyToMany(mappedBy = "students")
     private List<Semester> semesters;
-
-    @Transactional
-    public void addSection(Section section){
-        if(this.studentSections == null){
-            this.studentSections = new ArrayList<>();
-        }
-        StudentSection studentSectionToAdd = new StudentSection();
-        studentSectionToAdd.setStudent(this);
-        studentSectionToAdd.setSection(section);
-        this.studentSections.add(studentSectionToAdd);
-        section.addStudentSection(studentSectionToAdd);
-    }
 
     void addStudentSection(StudentSection studentSection){
         if(this.studentSections == null){

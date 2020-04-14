@@ -119,11 +119,6 @@ public class AdminController {
         }
     }
 
-    @PutMapping("api/admin/deleteTeacher")
-    ResponseEntity<?> deleteTeacher(@Valid @RequestBody EditAccount editAccount){
-        return null;
-    }
-
     @GetMapping("/api/admin/teachers")
     List<Teacher> listTeachers(){
         return adminService.listTeachers();

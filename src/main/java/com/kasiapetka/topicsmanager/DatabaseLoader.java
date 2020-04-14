@@ -2,9 +2,10 @@ package com.kasiapetka.topicsmanager;
 
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.*;
+import com.kasiapetka.topicsmanager.services.AdminService;
+import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.StudentService;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import com.kasiapetka.topicsmanager.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,13 @@ public class DatabaseLoader implements CommandLineRunner {
     private final TeacherRepository teacherRepository;
     private final SectionRepository sectionRepository;
     private final StudentSectionRepository studentSectionRepository;
+    private final SubjectRepository subjectRepository;
+    private final TopicRepository topicRepository;
+
+    private final StudentService studentService;
+    private final SectionService sectionService;
+    private final AdminService adminService;
+    private final SubjectService subjectService;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -29,13 +37,23 @@ public class DatabaseLoader implements CommandLineRunner {
     @Autowired
     public DatabaseLoader(StudentRepository studentRepository, UserRepository userRepository,
                           TeacherRepository teacherRepository,RoleRepository roleRepository,
-                            SectionRepository sectionRepository, StudentSectionRepository studentSectionRepository) {
+                          SectionRepository sectionRepository, StudentSectionRepository studentSectionRepository,
+                          StudentService studentService, SectionService sectionService,
+                          SubjectRepository subjectRepository, AdminService adminService,
+                          SubjectService subjectService, TopicRepository topicRepository) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.teacherRepository = teacherRepository;
         this.sectionRepository = sectionRepository;
         this.studentSectionRepository = studentSectionRepository;
+        this.subjectRepository = subjectRepository;
+        this.topicRepository = topicRepository;
+
+        this.studentService = studentService;
+        this.sectionService = sectionService;
+        this.adminService = adminService;
+        this.subjectService = subjectService;
     }
 
     @Override
@@ -58,7 +76,7 @@ public class DatabaseLoader implements CommandLineRunner {
         User u = new User();
         u.setEmail("aaa@aaa.com");
         u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
-        u.setActive(1);
+        u.setIsActive(true);
         u.setRole(r);
         //this.userRepository.save(u);
         Student s = new Student();
@@ -83,14 +101,14 @@ public class DatabaseLoader implements CommandLineRunner {
         User u1 = new User();
         u1.setEmail("admin@admin.com");
         u1.setPassword(bCryptPasswordEncoder.encode("admin"));
-        u1.setActive(1);
+        u1.setIsActive(true);
         u1.setRole(r2);
         this.userRepository.save(u1);
 
         User u2 = new User();
         u2.setEmail("ttt@ttt.com");
         u2.setPassword(bCryptPasswordEncoder.encode("ttttt"));
-        u2.setActive(1);
+        u2.setIsActive(true);
         u2.setRole(r1);
         //this.userRepository.save(u2);
         Teacher t = new Teacher();
@@ -121,23 +139,57 @@ public class DatabaseLoader implements CommandLineRunner {
         student.setSurname("dogg");
         this.studentRepository.save(student);
 
+        Semester semester = new Semester();
+        semester.setFaculty("smoking dope");
+        semester.setYear(2121);
+        semester.setSemester(1);
+
         Section section = new Section();
         section.setName("blazers");
         section.setSizeOfSection(69);
-        section.setIsActive(true);
+        section.setState('O');
+        section.setSemester(semester);
         this.sectionRepository.save(section);
 
+        Subject subject = new Subject();
+        subject.setName("growing pot");
+        subject.setSummary("you will learn how to grow the best pot");
+        subjectService.createSubject(subject);
+
+        Teacher teacher = new Teacher();
+        teacher.setName("Wiz");
+        teacher.setSurname("Khalifa");
+        teacherRepository.save(teacher);
+
+        Topic topic = new Topic();
+        topic.setName("indica");
+        topic.setSummary("blazeit");
+        topic.setState('F');
+        topicRepository.save(topic);
+
         //end
+
         //Adding Student to a Section test
         Student student1 = studentRepository.findByName("snoop");
-        //student1.setStudentSections(this.studentSectionRepository.findAllByStudent(student1));
         Section section1 = sectionRepository.findByName("blazers");
-        //section1.setStudentSections(this.studentSectionRepository.findAllByStudent(student1));
-        //student1.addSection(section1);
-        student1.addSection(section1);
-        this.studentRepository.save(student1);
-        //end test
+        sectionService.addStudentToSection(student1, section1);
+        //end
 
+        //Creating a Subject and adding a Teacher to it
+        Subject subject1 = subjectRepository.findByName("growing pot");
+        Teacher teacher1 = teacherRepository.findByName("Wiz");
+        subjectService.addTeacherToSubject(teacher1, subject1);
+        //end
+
+        //Adding a Topic to a Subject
+        subject1 = subjectRepository.findByName("growing pot");
+        Topic topic1 = topicRepository.findByName("indica");
+        subjectService.addTopicToSubject(topic1, subject1);
+        //end
+
+        //Createing a new section
+        sectionService.addNewSection(section1, semester, topic);
+        //end
         //Student Section Attachment test
 //        Student student1 = studentRepository.findByName("snoop");
 //        Section section1 = sectionRepository.findByName("blazers");

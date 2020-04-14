@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Boolean deleteUser(User user) {
         try {
-            user.setActive(0);
+            user.setIsActive(false);
             userRepository.save(user);
             return true;
         } catch (HibernateException he){

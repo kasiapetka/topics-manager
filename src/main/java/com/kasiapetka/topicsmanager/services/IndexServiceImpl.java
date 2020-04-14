@@ -38,7 +38,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public void create(User user, Student student) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setActive(1);
+        user.setIsActive(true);
         Role userRole = roleRepository.findByRoleName("Student");
         user.setRole(userRole);
         userRepository.save(user);

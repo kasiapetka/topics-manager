@@ -18,10 +18,10 @@ public class User {
     @NotNull
     private String password;
     @NotNull
-    private int active;
+    private Boolean isActive;
 
+    @NotNull
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-//    @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
