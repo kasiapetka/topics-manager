@@ -2,18 +2,18 @@ import React from 'react';
 import {BrowserRouter as Router,
     Route,
     Switch} from 'react-router-dom';
-import MainPage from "./components/pages";
-import ErrorPage from "./components/pages/ErrorPage";
-import LoginPage from "./components/pages/LoginPage";
-import StudentPage from "./containers/studentPages/StudentPage";
-import TeacherPage from "./containers/teacherPages/TeacherPage";
-import AdminPage from "./containers/adminPages/AdminPage";
-import PrivateStudentRoute from "./components/privateRoutes/PrivateStudentRoute";
-import PrivateTeacherRoute from "./components/privateRoutes/PrivateTeacherRoute";
-import PrivateAdminRoute from "./components/privateRoutes/PrivateAdminRoute";
-import TeacherAccountModification from "./components/pages/teacherPages/TeacherAccountModification";
-import StudentAccountModification from "./components/pages/studentPages/StudentAccountModification";
-import AdminAccountModification from "./components/pages/adminPages/AdminAccountModification";
+import MainPage from "./components/Pages";
+import ErrorPage from "./components/Pages/ErrorPage";
+import LoginPage from "./components/Pages/LoginPage";
+import StudentPage from "./containers/StudentPages/StudentPage";
+import TeacherPage from "./containers/TeacherPages/TeacherPage";
+import AdminPage from "./containers/AdminPages/AdminPage";
+import PrivateStudentRoute from "./components/PrivateRoutes/PrivateStudentRoute";
+import PrivateTeacherRoute from "./components/PrivateRoutes/PrivateTeacherRoute";
+import PrivateAdminRoute from "./components/PrivateRoutes/PrivateAdminRoute";
+import TeacherAccountModification from "./components/Pages/TeacherPages/TeacherAccountModification";
+import StudentAccountModification from "./components/Pages/StudentPages/StudentAccountModification";
+import AdminAccountModification from "./components/Pages/AdminPages/AdminAccountModification";
 
 const App = () => {
         return(

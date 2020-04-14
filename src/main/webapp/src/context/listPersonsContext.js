@@ -1,8 +1,8 @@
 import React from 'react'
 
-const teachersContext = React.createContext({
-    teachers: [],
-    edit: (index)=>{},
+const personsContext = React.createContext({
+    persons: [],
+    edit: (album)=>{},
     delete: (index)=>{},
     change: (event)=>{},
     search:'',
@@ -10,4 +10,4 @@ const teachersContext = React.createContext({
     conditionChange: (event)=>{},
 });
 
-export default teachersContext;
+export default personsContext;
