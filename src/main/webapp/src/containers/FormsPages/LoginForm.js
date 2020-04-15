@@ -44,13 +44,15 @@ class LoginForm extends React.Component {
         const request = {
             headers: {
                // 'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
+               //  'Authorization': 'Bearer ' ,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
         };
 
-        axios.post('/api/login', JSON.stringify(user),request).then(response => {
+        console.log(JSON.stringify(user))
 
+        axios.post('/api/login', JSON.stringify(user),request).then(response => {
             if (response.status >= 400 && response.status <= 499) {
                 this.setState({
                     wrongCred: true
@@ -72,7 +74,7 @@ class LoginForm extends React.Component {
                 console.error('There was an error!', error);
             });
 
-    }
+    };
 
     render() {
         const {user} = this.state;

@@ -77,6 +77,7 @@ public class DatabaseLoader implements CommandLineRunner {
         u.setEmail("aaa@aaa.com");
         u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
         u.setRole(r);
+        u.setIsActive(true);
         //this.userRepository.save(u);
         Student s = new Student();
         s.setName("aaaa");
@@ -104,12 +105,14 @@ public class DatabaseLoader implements CommandLineRunner {
         u1.setEmail("admin@admin.com");
         u1.setPassword(bCryptPasswordEncoder.encode("admin"));
         u1.setRole(r2);
+        u1.setIsActive(true);
         this.userRepository.save(u1);
 
         User u2 = new User();
         u2.setEmail("ttt@ttt.com");
         u2.setPassword(bCryptPasswordEncoder.encode("ttttt"));
         u2.setRole(r1);
+        u2.setIsActive(true);
         //this.userRepository.save(u2);
         Teacher t = new Teacher();
         t.setName("teacher");

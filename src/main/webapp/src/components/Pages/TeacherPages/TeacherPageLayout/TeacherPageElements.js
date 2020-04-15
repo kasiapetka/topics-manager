@@ -2,9 +2,8 @@ import React from "react";
 import AccountDetailsCard from "../../../UI/AccountDetailsCard/AccountDetailsCard";
 import TeacherAccountControls from "./TeacherAccountControls";
 import Messages from "../../../Messages/Messages";
-
-import ListStudentsComponent from "../../../../containers/Lists/ListStudents";
-import ListSectionsComponent from "../ListSections/ListSections";
+import ListSections from "../ListSections/ListSections";
+import ListStudents from "../../../../containers/Lists/ListStudents";
 
 const teacherPageElements = (props) => (
     <div className="container-fluid h-100 mt-5">
@@ -18,9 +17,13 @@ const teacherPageElements = (props) => (
             </div>
             <div className="col-md-8">
                 {
-                    props.content
+                    props.showStudents
+                        ?
+                        <ListStudents/>
+                        :
+                        null
                 }
-                <ListSectionsComponent/>
+                <ListSections/>
             </div>
             <div className="col-md-1"></div>
         </div>
