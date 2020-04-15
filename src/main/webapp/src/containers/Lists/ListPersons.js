@@ -1,10 +1,10 @@
 import React, {Component, PureComponent} from 'react';
 import auth from "../../Auth";
 import axios from 'axios'
-import ListStudentsComponent from "../../components/Lists/ListStudents/ListStudentsComponent";
+import ListStudentsComponent from "../../components/Lists/ListStudents/ListStudents";
 import PersonsContext from "../../context/listPersonsContext";
 import filterList from "../../components/Lists/FilterList";
-import ListTeachersComponent from "../../components/Lists/ListTeachers/ListTeachersComponent";
+import ListTeachersComponent from "../../components/Lists/ListTeachers/ListTeachers";
 import EditAccount from "../FormsPages/EditAccount";
 import DeletePersonModal from "../../components/UI/DeletePersonModal/DeletePersonModal";
 import DeletePerson from "../FormsPages/DeletePerson";

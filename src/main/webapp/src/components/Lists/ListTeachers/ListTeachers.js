@@ -3,7 +3,7 @@ import FilterPersonsList from "../FilterPersonsList";
 import Teachers from "./Teachers";
 import classes from './ListTeachers.module.css'
 
-const listTeachersComponent = (props) => {
+const listTeachers = (props) => {
 
     return (
         <div className={classes.Teachers}>
@@ -14,4 +14,4 @@ const listTeachersComponent = (props) => {
     )
 };
 
-export default listTeachersComponent;
+export default listTeachers;
