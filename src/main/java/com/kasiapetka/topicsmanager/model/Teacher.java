@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,13 +19,20 @@ public class Teacher {
     @NotNull
     private String surname;
 
-    @OneToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "teacher")
     private List<Topic> topics;
 
-    @ManyToMany(mappedBy = "subjects")
+    @ManyToMany(mappedBy = "teachers")
     private List<Subject> subjects;
+
+    public void addSubject(Subject subject){
+        if(subjects == null){
+            subjects = new ArrayList<>();
+        }
+        subjects.add(subject);
+    }
 }

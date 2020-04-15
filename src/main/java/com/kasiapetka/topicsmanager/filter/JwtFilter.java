@@ -1,5 +1,5 @@
 package com.kasiapetka.topicsmanager.filter;
-import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
+import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

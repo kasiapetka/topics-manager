@@ -1,13 +1,11 @@
 package com.kasiapetka.topicsmanager;
 
-import com.kasiapetka.topicsmanager.model.Role;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.repositories.RoleRepository;
-import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
-import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.repositories.*;
+import com.kasiapetka.topicsmanager.services.AdminService;
+import com.kasiapetka.topicsmanager.services.SectionService;
+import com.kasiapetka.topicsmanager.services.StudentService;
+import com.kasiapetka.topicsmanager.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,17 +21,39 @@ public class DatabaseLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final TeacherRepository teacherRepository;
+    private final SectionRepository sectionRepository;
+    private final StudentSectionRepository studentSectionRepository;
+    private final SubjectRepository subjectRepository;
+    private final TopicRepository topicRepository;
+
+    private final StudentService studentService;
+    private final SectionService sectionService;
+    private final AdminService adminService;
+    private final SubjectService subjectService;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public DatabaseLoader(StudentRepository studentRepository, UserRepository userRepository,
-                          TeacherRepository teacherRepository,RoleRepository roleRepository) {
+                          TeacherRepository teacherRepository,RoleRepository roleRepository,
+                          SectionRepository sectionRepository, StudentSectionRepository studentSectionRepository,
+                          StudentService studentService, SectionService sectionService,
+                          SubjectRepository subjectRepository, AdminService adminService,
+                          SubjectService subjectService, TopicRepository topicRepository) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.teacherRepository =teacherRepository;
+        this.teacherRepository = teacherRepository;
+        this.sectionRepository = sectionRepository;
+        this.studentSectionRepository = studentSectionRepository;
+        this.subjectRepository = subjectRepository;
+        this.topicRepository = topicRepository;
+
+        this.studentService = studentService;
+        this.sectionService = sectionService;
+        this.adminService = adminService;
+        this.subjectService = subjectService;
     }
 
     @Override
@@ -42,23 +62,23 @@ public class DatabaseLoader implements CommandLineRunner {
         Role r = new Role();
         r.setId(1L);
         r.setRoleName("Student");
-        roleRepository.save(r);
+        //roleRepository.save(r);
         Role r1 = new Role();
         r1.setId(2L);
         r1.setRoleName("Teacher");
-        roleRepository.save(r1);
+        //roleRepository.save(r1);
 
         Role r2= new Role();
         r2.setId(3L);
         r2.setRoleName("Admin");
-        roleRepository.save(r2);
+        //roleRepository.save(r2);
 
         User u = new User();
         u.setEmail("aaa@aaa.com");
         u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
-        u.setActive(1);
+        u.setIsActive(true);
         u.setRole(r);
-        this.userRepository.save(u);
+        //this.userRepository.save(u);
         Student s = new Student();
         s.setName("aaaa");
         s.setSurname("bbbbbb");
@@ -81,16 +101,16 @@ public class DatabaseLoader implements CommandLineRunner {
         User u1 = new User();
         u1.setEmail("admin@admin.com");
         u1.setPassword(bCryptPasswordEncoder.encode("admin"));
-        u1.setActive(1);
+        u1.setIsActive(true);
         u1.setRole(r2);
         this.userRepository.save(u1);
 
         User u2 = new User();
         u2.setEmail("ttt@ttt.com");
         u2.setPassword(bCryptPasswordEncoder.encode("ttttt"));
-        u2.setActive(1);
+        u2.setIsActive(true);
         u2.setRole(r1);
-        this.userRepository.save(u2);
+        //this.userRepository.save(u2);
         Teacher t = new Teacher();
         t.setName("teacher");
         t.setSurname("wersdfs");
@@ -111,5 +131,74 @@ public class DatabaseLoader implements CommandLineRunner {
         t3.setName("mikolaj");
         t3.setSurname("kolman");
         this.teacherRepository.save(t3);
+
+        //Testing entities
+        Student student =  new Student();
+        student.setAlbum(420L);
+        student.setName("snoop");
+        student.setSurname("dogg");
+        this.studentRepository.save(student);
+
+        Semester semester = new Semester();
+        semester.setFaculty("smoking dope");
+        semester.setYear(2121);
+        semester.setSemester(1);
+
+        Section section = new Section();
+        section.setName("blazers");
+        section.setSizeOfSection(69);
+        section.setState('O');
+        section.setSemester(semester);
+        this.sectionRepository.save(section);
+
+        Subject subject = new Subject();
+        subject.setName("growing pot");
+        subject.setSummary("you will learn how to grow the best pot");
+        subjectService.createSubject(subject);
+
+        Teacher teacher = new Teacher();
+        teacher.setName("Wiz");
+        teacher.setSurname("Khalifa");
+        teacherRepository.save(teacher);
+
+        Topic topic = new Topic();
+        topic.setName("indica");
+        topic.setSummary("blazeit");
+        topic.setState('F');
+        topicRepository.save(topic);
+
+        //end
+
+        //Adding Student to a Section test
+        Student student1 = studentRepository.findByName("snoop");
+        Section section1 = sectionRepository.findByName("blazers");
+        sectionService.addStudentToSection(student1, section1);
+        //end
+
+        //Creating a Subject and adding a Teacher to it
+        Subject subject1 = subjectRepository.findByName("growing pot");
+        Teacher teacher1 = teacherRepository.findByName("Wiz");
+        subjectService.addTeacherToSubject(teacher1, subject1);
+        //end
+
+        //Adding a Topic to a Subject
+        subject1 = subjectRepository.findByName("growing pot");
+        Topic topic1 = topicRepository.findByName("indica");
+        subjectService.addTopicToSubject(topic1, subject1);
+        //end
+
+        //Createing a new section
+        sectionService.addNewSection(section1, semester, topic);
+        //end
+        //Student Section Attachment test
+//        Student student1 = studentRepository.findByName("snoop");
+//        Section section1 = sectionRepository.findByName("blazers");
+
+//        Attachment attachment = new Attachment();
+//        attachment.setDescription("we blazein dope out here");
+//        attachment.setUrl("nopolice");
+//        student.addAttachment(attachment, section);
+//        this.studentRepository.save(student);
+        //end test
     }
 }
