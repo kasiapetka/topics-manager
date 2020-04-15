@@ -16,7 +16,8 @@ const adminPageElements = (props) =>
             modalClosed={props.deletePersonHandler}>
                 <DeletePerson
                 person = {props.personToDelete}
-                cancelClicked={props.deletePersonHandler}/>
+                cancelClicked={props.deletePersonHandler}
+                personRole={props.personRole}/>
             </DeletePersonModal>
 
             <div className="row h-100">
