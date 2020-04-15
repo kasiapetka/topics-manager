@@ -1,18 +1,12 @@
 import React, {useContext} from "react";
 import {Col, Input, Label, Row} from "reactstrap";
 import listTeachersContext from "../../context/listTeachersContext";
-import listStudentsContext from '../../context/listStudentsContext';
+import listPersonsContext from '../../context/listPersonsContext';
 import classes from './ListTeachers/ListTeachers.module.css'
 
 const FilterPersonsList = (props) => {
 
-    let context, currentContext;
-    if (props.list === 'T')
-        currentContext = listTeachersContext;
-    else if (props.list === 'S')
-        currentContext = listStudentsContext;
-
-    context = useContext(currentContext);
+    const context = useContext(listPersonsContext);
 
     return (
         <React.Fragment>

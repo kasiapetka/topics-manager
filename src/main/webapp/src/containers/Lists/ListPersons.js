@@ -6,6 +6,12 @@ import PersonsContext from "../../context/listPersonsContext";
 import filterList from "../../components/Lists/FilterList";
 import ListTeachersComponent from "../../components/Lists/ListTeachers/ListTeachersComponent";
 import EditAccount from "../FormsPages/EditAccount";
+import DeletePersonModal from "../../components/UI/DeletePersonModal/DeletePersonModal";
+import DeletePerson from "../FormsPages/DeletePerson";
+import AdminAccountControls from "../../components/Pages/AdminPages/AdminPageLayout/AdminAccountControls";
+import Messages from "../../components/Messages/Messages";
+import PersonEditionContext from "../../context/personEdition";
+import PageNavbar from "../../components/UI/Layout/PageNavbar";
 
 class ListPersons extends Component {
 
@@ -14,19 +20,19 @@ class ListPersons extends Component {
         this.state = {
             personsFiltered: [],
             persons: [],
-            students:[],
-            teachers:[],
             search: '',
             condition: 'Email',
             editPerson: false,
             editPersonId: '',
+            modifyPath: '',
+            personRole: '',
+            mounted: false
         };
     }
 
     componentDidMount() {
         console.log('componentDidMount')
         const request = {
-            method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + auth.getToken(),
                 'Accept': 'application/json',
@@ -34,24 +40,11 @@ class ListPersons extends Component {
             },
         };
 
-        axios('/api/admin/students',request).then(async response => {
-            if (response.status !== 200) {
-                this.setState({error: true})
-            } else {
-                let students = [...response.data];
-                this.setState({students: students});
-            }
-        })
-            .catch(error => {
-                console.error('There was an error!', error);
-            });
-
-        axios('/api/admin/teachers',request).then(async response => {
+        axios.get(this.props.path, request).then(async response => {
             if (response.status !== 200) {
                 this.setState({error: true})
             } else {
                 let teachers = [...response.data];
-                this.setState({teachers: teachers});
                 this.setState({persons: teachers});
                 this.setState({personsFiltered: teachers});
                 console.log(this.state.persons)
@@ -62,20 +55,41 @@ class ListPersons extends Component {
             });
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log('shouldComponentUpdate')
-        if(nextProps.modifyPath !== this.props.modifyPath)
-            return true;
-        return false;
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     let path;
+    //     if (this.props.showStudents && prevProps.showStudents !== this.props.showStudents) {
+    //         path = '/api/admin/students';
+    //     }
+    //     if (this.props.showTeachers && prevProps.showTeachers !== this.props.showTeachers) {
+    //         path = '/api/admin/teachers';
+    //     }
+    //
+    //     if (path) {
+    //         const request = {
+    //             headers: {
+    //                 'Authorization': 'Bearer ' + auth.getToken(),
+    //                 'Accept': 'application/json',
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         };
+    //
+    //         axios.get(path, request).then(async response => {
+    //             if (response.status !== 200) {
+    //                 this.setState({error: true})
+    //             } else {
+    //                 let teachers = [...response.data];
+    //                 this.setState({persons: teachers});
+    //                 this.setState({personsFiltered: teachers});
+    //                 console.log(this.state.persons)
+    //             }
+    //         })
+    //             .catch(error => {
+    //                 console.error('There was an error!', error);
+    //             });
+    //
+    //     }
+    // }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log('componentDidUpdate')
-        if(this.props.showTeachers)
-            this.setState({persons: this.state.teachers});
-        if(this.props.showStudents)
-            this.setState({persons: this.state.students});
-    }
 
     handleChange = (event) => {
         const target = event.target;
@@ -91,17 +105,24 @@ class ListPersons extends Component {
 
     onPersonEdition = (index) => {
         const person = this.state.personsFiltered[index];
-        let id;
+        let id, path, role;
+
         if (this.props.showStudents) {
             id = person.album;
+            path = '/api/admin/modifyStudent';
+            role = 'S';
         }
         if (this.props.showTeachers) {
             id = person.id;
+            path = '/api/admin/modifyTeacher';
+            role = 'T';
         }
 
         this.setState({
             editPersonId: id,
             editPerson: true,
+            modifyPath: path,
+            personRole: role
         });
     };
 
@@ -124,44 +145,52 @@ class ListPersons extends Component {
     render() {
 
         return (
-            <PersonsContext.Provider
-                value={{
-                    persons: this.state.personsFiltered,
-                    edit: this.onPersonEdition,
-                    change: this.handleChange,
-                    conditionChange: this.onConditionChanged,
-                    condition: this.state.condition,
-                    search: this.state.search,
-                    delete: this.onPersonDeleteHandler
-                }}>
-                {
-                    this.props.showTeachers
-                        ?
-                        <ListTeachersComponent/>
-                        :
-                        null
-                }
-                {
-                    this.props.showStudents
-                        ?
-                        <ListStudentsComponent/>
-                        :
-                        null
-                }
-                {
-                    this.props.editPerson
-                        ?
-                        <EditAccount
-                            path={this.props.path}
-                            id={this.state.editPersonId}
-                            token={auth.getToken()}
-                            personEdition={true}
-                        />
-                        :
-                        null
-                }
-            </PersonsContext.Provider>
+            <React.Fragment>
 
+                            <PersonsContext.Provider
+                                value={{
+                                    persons: this.state.personsFiltered,
+                                    edit: this.onPersonEdition,
+                                    change: this.handleChange,
+                                    conditionChange: this.onConditionChanged,
+                                    condition: this.state.condition,
+                                    search: this.state.search,
+                                    delete: this.onPersonDeleteHandler
+                                }}>
+                                <PersonEditionContext.Provider
+                                    value={{
+                                        personRole: this.state.personRole,
+                                    }}>
+                                    {
+                                        this.props.showTeachers
+                                            ?
+                                            <ListTeachersComponent/>
+                                            :
+                                            null
+                                    }
+                                    {
+                                        this.props.showStudents
+                                            ?
+                                            <ListStudentsComponent/>
+                                            :
+                                            null
+                                    }
+                                    {
+                                        this.props.editPerson
+                                            ?
+                                            <EditAccount
+                                                path={this.state.modifyPath}
+                                                id={this.state.editPersonId}
+                                                token={auth.getToken()}
+                                                personEdition={true}
+                                            />
+                                            :
+                                            null
+                                    }
+                                </PersonEditionContext.Provider>
+                            </PersonsContext.Provider>
+
+            </React.Fragment>
         );
     }
 }

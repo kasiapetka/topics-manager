@@ -14,6 +14,7 @@ import PrivateAdminRoute from "./components/PrivateRoutes/PrivateAdminRoute";
 import TeacherAccountModification from "./components/Pages/TeacherPages/TeacherAccountModification";
 import StudentAccountModification from "./components/Pages/StudentPages/StudentAccountModification";
 import AdminAccountModification from "./components/Pages/AdminPages/AdminAccountModification";
+import ListPersons from "./containers/Lists/ListPersons";
 
 const App = () => {
         return(
@@ -30,6 +31,7 @@ const App = () => {
 
                         <PrivateAdminRoute exact path ="/admin" component={() => <AdminPage/>}/>
                         <PrivateAdminRoute exact path ="/admin/modifyAccount" component={() => <AdminAccountModification/>}/>
+                        <PrivateAdminRoute exact path ="/admin/manageUsers" component={() => <ListPersons/>}/>
 
                         <Route component={ErrorPage}/>
                     </Switch>

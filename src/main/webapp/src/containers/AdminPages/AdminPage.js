@@ -161,39 +161,39 @@ class AdminPage extends Component {
         return (
             <React.Fragment>
                 <PageNavbar/>
-                    <PersonsContext.Provider
+                <PersonsContext.Provider
+                    value={{
+                        persons: this.state.showStudents ? this.state.studentsFiltered : this.state.teachersFiltered,
+                        edit: this.onPersonEditHandler,
+                        change: this.handleChange,
+                        conditionChange: this.onConditionChanged,
+                        condition: this.state.condition,
+                        search: this.state.search,
+                        delete: this.onPersonDeleteHandler
+                    }}>
+                    <PersonEditionContext.Provider
                         value={{
-                            persons: this.state.showStudents ? this.state.studentsFiltered : this.state.teachersFiltered,
-                            edit: this.onPersonEditHandler,
-                            change: this.handleChange,
-                            conditionChange: this.onConditionChanged,
-                            condition: this.state.condition,
-                            search: this.state.search,
-                            delete: this.onPersonDeleteHandler
+                            personRole: this.state.personRole,
                         }}>
-                        <PersonEditionContext.Provider
-                            value={{
-                                personRole: this.state.personRole,
-                            }}>
-                            {
-                                <AdminPageElements
-                                    toggleTeachers={this.toggleTeachers}
-                                    toggleStudents={this.toggleStudents}
-                                    showTeachers={this.state.showTeachers}
-                                    showStudents={this.state.showStudents}
-                                    editPerson={this.state.editPerson}
-                                    editPersonId={this.state.editPersonId}
-                                    path={this.state.path}
-                                    deletePerson={this.state.deletePerson}
-                                    deletePersonHandler={this.onPersonDeleteHandler}
-                                    personToDelete={this.state.personToDelete}
-                                />
-                            }
-                        </PersonEditionContext.Provider>
-                    </PersonsContext.Provider>
+                        {
+                            <AdminPageElements
+                                toggleTeachers={this.toggleTeachers}
+                                toggleStudents={this.toggleStudents}
+                                showTeachers={this.state.showTeachers}
+                                showStudents={this.state.showStudents}
+                                editPerson={this.state.editPerson}
+                                editPersonId={this.state.editPersonId}
+                                path={this.state.path}
+                                deletePerson={this.state.deletePerson}
+                                deletePersonHandler={this.onPersonDeleteHandler}
+                                personToDelete={this.state.personToDelete}
+                            />
+                        }
+                    </PersonEditionContext.Provider>
+                </PersonsContext.Provider>
             </React.Fragment>
         );
     }
 }
 
-export default AdminPage
+export default AdminPage;
