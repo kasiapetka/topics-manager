@@ -8,13 +8,15 @@ import com.kasiapetka.topicsmanager.repositories.RoleRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 ///import org.springframework.security.core.authority.AuthorityUtils;
 //import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
@@ -23,6 +25,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final TeacherRepository teacherRepository;
+
+    @Autowired
+    private CodeService codeService;
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -39,6 +44,20 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
+        codeService.encode("100000");
+        codeService.encode("100001");
+        codeService.encode("100002");
+        codeService.encode("100003");
+        codeService.encode("100004");
+        codeService.encode("100005");
+        codeService.encode("100006");
+        codeService.encode("100007");
+
+//        for(int i=0;i<1000; i++){
+//            int value = (int)(Math.random() * ((999999 - 100000) + 1)) + 100000;
+//            codeService.encode(String.valueOf(value));
+//        }
+
         Role r = new Role();
         r.setId(1L);
         r.setRoleName("Student");
@@ -52,6 +71,14 @@ public class DatabaseLoader implements CommandLineRunner {
         r2.setId(3L);
         r2.setRoleName("Admin");
         roleRepository.save(r2);
+
+        // for checking albmus
+        Student sa = new Student();
+        sa.setName("Album");
+        sa.setSurname("Album");
+        sa.setAlbum(333333);
+        codeService.encode(String.valueOf(sa.getAlbum()));
+        this.studentRepository.save(sa);
 
         User u = new User();
         u.setEmail("aaa@aaa.com");

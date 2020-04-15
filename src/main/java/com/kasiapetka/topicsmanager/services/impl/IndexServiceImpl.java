@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.services.impl;
 import com.kasiapetka.topicsmanager.model.Role;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
 import com.kasiapetka.topicsmanager.repositories.RoleRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
@@ -45,6 +46,14 @@ public class IndexServiceImpl implements IndexService {
         userRepository.save(user);
         student.setUser(user);
         studentRepository.save(student);
+    }
+
+    @Override
+    public int createStudent(RegisterForm newStudent) {
+//        User userExists = findUserByEmail(newStudent.getEmail());
+//        Long album = Long.parseLong(newStudent.getAlbum());
+//
+        return 0;
     }
 }
 
