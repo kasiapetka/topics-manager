@@ -1,9 +1,13 @@
 package com.kasiapetka.topicsmanager.model;
 
-import lombok.Data;
+import lombok.*;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,17 +25,33 @@ public class Student {
     @NotNull
     private String surname;
 
-    @OneToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "student")
-    private List<StudentSection> studentSection;
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<StudentSection> studentSections;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Attachment> attachments;
 
     @ManyToMany(mappedBy = "students")
     private List<Semester> semesters;
+
+    void addStudentSection(StudentSection studentSection){
+        if(this.studentSections == null){
+            this.studentSections = new ArrayList<>();
+        }
+        this.studentSections.add(studentSection);
+    }
+
+    public void addAttachment(Attachment attachment, Section section){
+        if(attachments == null){
+            attachments = new ArrayList<>();
+        }
+        this.attachments.add(attachment);
+        attachment.setStudent(this);
+        section.addAttachment(attachment);
+    }
 
 }

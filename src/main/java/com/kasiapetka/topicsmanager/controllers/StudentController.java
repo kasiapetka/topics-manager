@@ -5,7 +5,7 @@ import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
+import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,21 +48,37 @@ public class StudentController {
         User studentUser = userService.findUserByEmail(oldEmail);
         Student student = studentService.findStudentByUser(studentUser);
 
-        EditAccount result = new EditAccount(student.getAlbum(),studentUser.getEmail(), "",
-                student.getName(), student.getSurname(),"","" ,"",
-                "");
+        EditAccount result = new EditAccount(studentUser.getEmail(), "", "", "", student.getName(), student.getSurname());
 
         if(editAccount.getPassword().equals("")){
             return ResponseEntity.ok(result);
         }
 
-        int responseCode = userService.changeCredentials(editAccount, studentUser);
+        //Todo Avoid code duplication FOR LATER
+        if(passwordEncoder.matches(editAccount.getPassword(), studentUser.getPassword())){
+            System.out.println("Password correct");
 
-        if(responseCode == 201){
-            responseCode = 200;
-            result.setEmail(editAccount.getNewEmail());
+            if(!editAccount.getNewEmail().equals("")){
+                System.out.println("Changing email");
+                if(!userService.changeEmail(studentUser, editAccount.getNewEmail())){
+                    return ResponseEntity.status(409).body(result);
+                } else {
+                    result.setEmail(editAccount.getNewEmail());
+                }
+            } else {
+                System.out.println("New Email not given");
+            }
+
+            if(!editAccount.getNewPassword().equals("")){
+                System.out.println("Changing password");
+                userService.changePassword(studentUser, editAccount.getNewPassword());
+            }
+
+            return ResponseEntity.ok(result);
+
+        } else {
+            //Bad password given
+            return ResponseEntity.status(406).body(result);
         }
-
-        return ResponseEntity.status(responseCode).body(result);
     }
 }

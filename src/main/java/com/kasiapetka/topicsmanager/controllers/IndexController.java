@@ -7,9 +7,10 @@ import com.kasiapetka.topicsmanager.parsingClasses.AuthenticationResponse;
 import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
 import com.kasiapetka.topicsmanager.services.IndexService;
 import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
+import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
@@ -98,4 +99,5 @@ public class IndexController {
             return ResponseEntity.ok(new AuthenticationResponse(token, 'S'));
         }
     }
+
 }
