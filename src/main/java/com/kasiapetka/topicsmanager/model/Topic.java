@@ -17,8 +17,6 @@ public class Topic {
     private String name;
     @NotNull
     private String summary;
-    @NotNull
-    private Character state;
 
     //@NotNull zakomentowane do testow, odkomentowac
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})

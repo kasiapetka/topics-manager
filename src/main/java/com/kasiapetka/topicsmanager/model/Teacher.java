@@ -13,11 +13,13 @@ import java.util.List;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @NotNull
     private String name;
     @NotNull
     private String surname;
+    @NotNull
+    private Boolean isActive;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")

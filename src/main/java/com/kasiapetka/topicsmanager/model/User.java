@@ -12,13 +12,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
     @NotNull
     private String email;
     @NotNull
     private String password;
-    @NotNull
-    private Boolean isActive;
 
     @NotNull
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})

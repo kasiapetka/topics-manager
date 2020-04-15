@@ -3,10 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
-import com.kasiapetka.topicsmanager.services.AdminService;
-import com.kasiapetka.topicsmanager.services.TeacherService;
-import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
-import com.kasiapetka.topicsmanager.services.UserService;
+import com.kasiapetka.topicsmanager.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,18 +17,22 @@ public class AdminController {
 
     private UserService userService;
     private AdminService adminService;
+    private TeacherService teacherService;
+    private StudentService studentService;
+
     private UserDetailsServiceImpl userDetailsServiceImpl;
     private BCryptPasswordEncoder passwordEncoder;
-    private TeacherService teacherService;
 
     public AdminController(UserService userService, AdminService adminService,
                            UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
-                           TeacherService teacherService) {
+                           TeacherService teacherService, StudentService studentService) {
         this.userService = userService;
         this.adminService = adminService;
+        this.teacherService=teacherService;
+        this.studentService = studentService;
+
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
-        this.teacherService=teacherService;
     }
 
 
@@ -123,4 +124,23 @@ public class AdminController {
     List<Teacher> listTeachers(){
         return adminService.listTeachers();
     }
+
+    @PutMapping("/api/admin/deleteTeacher")
+    ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id){
+        if(teacherService.deleteTeacher(id)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PutMapping("/api/admin/deleteStudent")
+    ResponseEntity<?> deleteStudent(@Valid @RequestBody Long album){
+        if(studentService.deleteStudent(album)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
 }

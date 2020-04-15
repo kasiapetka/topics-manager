@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public interface StudentService {
     Student findStudentByAlbum(Long album);
     Student findStudentByUser(User user);
+    Boolean deleteStudent(Long album);
 //    void changeEmail(Student student, String email);
 //    void changePassword(Student student, String password);
 }
