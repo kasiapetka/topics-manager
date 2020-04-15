@@ -70,7 +70,7 @@ class ListTeachers extends Component {
 
     onTeachersDeleteHandler = (index) => {
         const person = this.state.teachersFiltered[index];
-        this.props.deletePerson(person);
+        this.props.deletePerson(person,'T');
     };
 
     render() {

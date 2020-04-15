@@ -33,7 +33,7 @@ class ListStudents extends Component {
                 'Content-Type': 'application/json',
             },
         };
-        axios.get('/api/admin/students', request).then(response => {
+        axios.get(this.props.path, request).then(response => {
             if (response.status !== 200) {
                 this.setState({error: true})
             } else {
@@ -70,7 +70,7 @@ class ListStudents extends Component {
 
     onStudentDeleteHandler = (index) => {
         const person = this.state.studentsFiltered[index];
-        this.props.deletePerson(person);
+        this.props.deletePerson(person,'S');
     };
 
     render() {

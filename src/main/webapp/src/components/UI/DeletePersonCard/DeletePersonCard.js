@@ -22,7 +22,7 @@ const deletePersonCard =(props)=> {
             <CardBody>
                 <CardText>Are You sure You want to delete that person?</CardText>
                 <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-                <Button className='ml-4' color="danger">Delete</Button>
+                <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
             </CardBody>
         </Card>
     )

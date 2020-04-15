@@ -43,7 +43,6 @@ class EditAccount extends Component {
         let token = this.state.token;
         return (
             {
-                method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Accept': 'application/json',

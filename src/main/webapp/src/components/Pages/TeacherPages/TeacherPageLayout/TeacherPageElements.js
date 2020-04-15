@@ -18,11 +18,7 @@ const teacherPageElements = (props) => (
             </div>
             <div className="col-md-8">
                 {
-                    props.showStudents
-                        ?
-                        <ListStudentsComponent/>
-                        :
-                        null
+                    props.content
                 }
                 <ListSectionsComponent/>
             </div>

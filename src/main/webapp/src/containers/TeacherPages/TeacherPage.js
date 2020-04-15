@@ -6,17 +6,20 @@ import TeacherPageElements from "../../components/Pages/TeacherPages/TeacherPage
 import StudentsContext from "../../context/listStudentsContext";
 import filterList from "../../components/Lists/FilterList";
 import axios from 'axios'
+import ListStudents from "../Lists/ListStudents";
 
 
 class TeacherPage extends Component {
     state = {
         teacher: '',
         error: false,
-        students: [],
         showStudents: true,
-        condition: 'Email',
-        search: '',
-        studentsFiltered: []
+        editPerson: false,
+        editPersonId: '',
+        modifyPath: '',
+        personRole: '',
+        deletePerson:'',
+        personToDelete:''
     };
 
 
@@ -43,60 +46,21 @@ class TeacherPage extends Component {
                 console.error('There was an error!', error);
             });
 
-        axios.get('/api/teacher/students', request).then(response => {
-            if (response.status !== 200) {
-                this.setState({error: true})
-            } else {
-                let students = [...response.data];
-                this.setState({students: students});
-                this.setState({studentsFiltered: students});
-            }
-        })
-            .catch(error => {
-                console.error('There was an error!', error);
-                this.setState({
-                    error: true
-                })
-            });
     }
 
     toggleStudents = () => {
         this.setState((prevState) => {
             return {
                 showStudents: !this.state.showStudents,
-                condition: 'Email',
-                search: '',
-                studentsFiltered: this.state.students,
+                editPerson: false,
             }
         });
     };
 
-    handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const newList = filterList(value, this.state.condition, this.state.students);
 
-        this.setState({
-            studentsFiltered: newList,
-            search: value
-        });
-    };
-
-    onConditionChanged = (event) => {
-        this.setState({
-            condition: event.currentTarget.value
-        });
-
-        this.setState({
-            studentsFiltered: this.state.students
-        });
-        this.setState({
-            search: ''
-        });
-    };
 
     render() {
-
+        let showStudents = this.state.showStudents;
         if (this.state.error) {
             return (
                 <Alert color="danger">
@@ -104,25 +68,28 @@ class TeacherPage extends Component {
                 </Alert>
             )
         }
+        let content;
+        if(showStudents){
+            content=( <ListStudents
+                editPerson={this.editPersonHandler}
+                deletePerson={this.deletePersonHandler}
+                path='/api/admin/students'/>)
+        }
+
         return (
             <React.Fragment>
                 <PageNavbar/>
-                <StudentsContext.Provider value={{
-                    students: this.state.studentsFiltered,
-                    change: this.handleChange,
-                    conditionChange: this.onConditionChanged,
-                    condition: this.state.condition,
-                    search: this.state.search
-                }}>
+
                     {
                         <TeacherPageElements
                             teacher={this.state.teacher}
                             toggleStudents={this.toggleStudents}
                             students={this.state.students}
                             showStudents={this.state.showStudents}
+                            content={content}
                         />
                     }
-                </StudentsContext.Provider>
+
             </React.Fragment>
         );
     }

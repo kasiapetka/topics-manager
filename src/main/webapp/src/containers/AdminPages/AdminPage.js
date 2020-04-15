@@ -53,11 +53,12 @@ class AdminPage extends Component {
         })
     };
 
-    deletePersonHandler=(personToDelete)=>{
+    deletePersonHandler=(personToDelete, personRole)=>{
         this.setState((prevState) => {
             return {
                 deletePerson: !this.state.deletePerson,
-                personToDelete: personToDelete
+                personToDelete: personToDelete,
+                personRole: personRole
             }
         });
     };
@@ -70,7 +71,8 @@ class AdminPage extends Component {
         if(showStudents){
             content=( <ListStudents
                 editPerson={this.editPersonHandler}
-                deletePerson={this.deletePersonHandler}/>)
+                deletePerson={this.deletePersonHandler}
+                path='/api/admin/students'/>)
         }
         if(showTeachers){
             content=( <ListTeachers
@@ -96,7 +98,8 @@ class AdminPage extends Component {
                 toggleTeachers={this.toggleTeachers}
                 deletePerson={this.state.deletePerson}
                 personToDelete={this.state.personToDelete}
-                deletePersonHandler={this.deletePersonHandler}/>
+                deletePersonHandler={this.deletePersonHandler}
+                personRole={this.state.personRole}/>
             </React.Fragment>
         );
     }
