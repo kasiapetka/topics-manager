@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import {Col, Input, Label, Row} from "reactstrap";
-import listTeachersContext from "../../context/listTeachersContext";
 import listPersonsContext from '../../context/listPersonsContext';
 import classes from './ListTeachers/ListTeachers.module.css'
 

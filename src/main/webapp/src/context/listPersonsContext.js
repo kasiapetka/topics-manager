@@ -8,6 +8,7 @@ const personsContext = React.createContext({
     search:'',
     condition:'',
     conditionChange: (event)=>{},
+    personRole:'',
 });
 
 export default personsContext;

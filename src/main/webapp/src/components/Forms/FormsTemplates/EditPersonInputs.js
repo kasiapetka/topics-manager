@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {FaUserAlt} from "react-icons/fa";
 import {Button, Form, Label} from "reactstrap";
-import PersonEditionContext from "../../../context/personEdition";
 import PersonInfo from "../FormLabels/PersonInfo";
 import EmailPasswordChangeInput from "../FormInputs/EmailPasswordChangeInput";
 import NameSurnameChangeInput from "../FormInputs/NameSurnameChangeInput";
@@ -10,10 +9,9 @@ import classes from "./Forms.module.css";
 
 const EditPersonInputs = (props) => {
 
-    const personEditionContext = useContext(PersonEditionContext);
-    let label = personEditionContext.personRole === 'T' ? 'Teachers' : 'Students';
+    let label = props.personRole === 'T' ? 'Teachers' : 'Students';
     let albumDetails;
-    if (personEditionContext.personRole === 'S') {
+    if (props.personRole === 'S') {
         albumDetails = (
             <div className="mb-2 mr-sm-4 ml-sm-4 mb-sm-0 mt-3">
                 <Label for="actualAlbum" className="mr-sm-2 pl-1">

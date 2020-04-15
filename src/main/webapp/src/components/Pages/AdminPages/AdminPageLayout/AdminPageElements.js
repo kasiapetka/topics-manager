@@ -1,15 +1,15 @@
-import React from "react";
+import React, {Component} from "react";
 import Messages from "../../../Messages/Messages";
-import ListTeachersComponent from "../../../Lists/ListTeachers/ListTeachers";
-import ListStudentsComponent from "../../../Lists/ListStudents/ListStudents";
+import ListTeachers from "../../../../containers/Lists/ListTeachers";
+import ListStudents from "../../../../containers/Lists/ListStudents";
 import EditAccount from "../../../../containers/FormsPages/EditAccount";
 import auth from "../../../../Auth";
 import AdminAccountControls from "./AdminAccountControls";
 import DeletePersonModal from "../../../UI/DeletePersonModal/DeletePersonModal";
 import DeletePerson from "../../../../containers/FormsPages/DeletePerson";
 
-const adminPageElements=(props)=>{
-    return(
+const adminPageElements = (props) =>
+    (
         <div className="container-fluid h-100 mt-2">
             <DeletePersonModal
             show={props.deletePerson}
@@ -27,37 +27,11 @@ const adminPageElements=(props)=>{
                     <Messages/>
                 </div>
                 <div className="col-md-9">
-                    {
-                        props.showTeachers
-                            ?
-                            <ListTeachersComponent/>
-                            :
-                            null
-                    }
-                    {
-                        props.showStudents
-                            ?
-                            <ListStudentsComponent/>
-                            :
-                            null
-                    }
-                    {
-                        props.editPerson
-                            ?
-                            <EditAccount
-                                path={props.path}
-                                id={props.editPersonId}
-                                token={auth.getToken()}
-                                personEdition={true}
-                            />
-                            :
-                            null
-                    }
+                    {props.content}
                 </div>
                 <div className="col-md-1 border-left"></div>
             </div>
         </div>
     )
-};
 
 export default adminPageElements;

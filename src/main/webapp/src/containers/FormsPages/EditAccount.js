@@ -161,7 +161,7 @@ class EditAccount extends Component {
                     submit={this.handleSubmit}
                     change={this.handleChange}
                     person={person}
-                    role={this.props.role}
+                    personRole={this.props.personRole}
                     credsChanged={this.state.changed}
                     wrongPassword={this.state.wrongPassword}
                     wrongEmail={this.state.wrongEmail}

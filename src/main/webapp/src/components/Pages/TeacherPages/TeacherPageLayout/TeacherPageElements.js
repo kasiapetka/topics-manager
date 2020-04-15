@@ -3,7 +3,7 @@ import AccountDetailsCard from "../../../UI/AccountDetailsCard/AccountDetailsCar
 import TeacherAccountControls from "./TeacherAccountControls";
 import Messages from "../../../Messages/Messages";
 
-import ListStudentsComponent from "../../../Lists/ListStudents/ListStudents";
+import ListStudentsComponent from "../../../../containers/Lists/ListStudents";
 import ListSectionsComponent from "../ListSections/ListSections";
 
 const teacherPageElements = (props) => (
