@@ -19,11 +19,13 @@ public class Student {
     //@ToDo stworzyc algorytm generowania kodow do rejestracji powiazanych z numerem albumu
     @Id
    // @GeneratedValue(strategy = GenerationType.AUTO)
-    private long album;
+    private Long album;
     @NotNull
     private String name;
     @NotNull
     private String surname;
+    @NotNull
+    private Boolean isActive;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")

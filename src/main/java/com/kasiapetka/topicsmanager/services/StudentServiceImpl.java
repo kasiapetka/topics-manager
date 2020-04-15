@@ -7,6 +7,8 @@ import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import org.hibernate.HibernateError;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -49,4 +51,15 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findByUser(user);
     }
 
+    @Override
+    public Boolean deleteStudent(Long album) {
+        try{
+            Student student = studentRepository.findByAlbum(album);
+            student.setIsActive(false);
+            studentRepository.save(student);
+            return true;
+        } catch (HibernateException he){
+            return false;
+        }
+    }
 }

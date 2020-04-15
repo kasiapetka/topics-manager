@@ -53,10 +53,8 @@ public class TeacherServiceImpl implements TeacherService {
     public Boolean deleteTeacher(Long id) {
         try {
             Teacher teacher = findTeacherById(id);
-            User user = teacher.getUser();
-            if(!userService.deleteUser(userService.findUserByEmail(user.getEmail()))){
-                return false;
-            }
+            teacher.setIsActive(false);
+            teacherRepository.save(teacher);
             return true;
         } catch (HibernateException he){
             return  false;

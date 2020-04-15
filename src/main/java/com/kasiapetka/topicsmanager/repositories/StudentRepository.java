@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface StudentRepository extends CrudRepository<Student, Long> {
-    @Transactional
     Student findByName(String name);
     Student findByUser(User user);
+    Student findByAlbum(Long album);
 }
