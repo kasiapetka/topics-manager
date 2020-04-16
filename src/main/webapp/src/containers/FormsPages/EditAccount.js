@@ -5,6 +5,7 @@ import EditAccountInputs from "../../components/Forms/FormsTemplates/EditAccount
 import EditPersonInputs from "../../components/Forms/FormsTemplates/EditPersonInputs";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class EditAccount extends Component {
 
@@ -33,7 +34,8 @@ class EditAccount extends Component {
             wrongEmail: false,
             path: props.path,
             personEdition: props.personEdition,
-            emptyForm: false
+            emptyForm: false,
+            loading: true
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,15 +43,19 @@ class EditAccount extends Component {
 
     componentDidMount = async () => {
         let user = {...this.state.person};
-
-        if (!this.state.changed) {
-
-            axios.put(this.props.path, JSON.stringify(user)).then(response => {
+         if (!this.state.changed) {
+              axios.put(this.props.path, JSON.stringify(user)).then(response => {
                     let person = {...response.data};
-                    this.setState({person: person});
+                    this.setState({
+                        person: person,
+                        loading:false
+                    });
             })
                 .catch(error => {
-                    this.setState({serverError: true});
+                    this.setState({
+                        serverError: true,
+                        loading:false
+                    });
                 });
         }
     };
@@ -60,45 +66,53 @@ class EditAccount extends Component {
         const name = target.name;
         let person = {...this.state.person};
         person[name] = value;
-        this.setState({person: person});
-        this.setState({changed: true});
-        this.setState({emptyForm: false});
+        this.setState({
+            person: person,
+            changed: true,
+            emptyForm: false
+        });
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({
             wrongEmail: false,
-            wrongPassword: false
+            wrongPassword: false,
+            loading: true
         });
-
 
         let user = {...this.state.person};
         if (user.password === '' ||
             (user.newEmail === '' && user.newPassword === '' &&
                 user.newName === '' && user.newSurname === '')) {
-            this.setState({wrongPassword: true});
-            this.setState({emptyForm: true})
-            this.setState({changed: true});
+            this.setState({
+                wrongPassword: true,
+                emptyForm: true,
+                changed: true,
+                loading: false
+            });
             return;
         }
 
         axios.put(this.props.path,user).then(response => {
                 let person = {...response.data};
-                this.setState({person: person});
-                this.setState({credsChanged: true});
+                this.setState({
+                    person: person,
+                    loading: false,
+                    credsChanged: true
+                });
                 if (response.data.email !== user.email && !this.state.personEdition) {
                     this.setState({redirect: true});
                 }
         })
             .catch(error => {
-                console.log(error.response.status);
-
+                this.setState({ loading:false });
                 if (error.response.status === 406) {
                     this.setState({wrongPassword: true});
                 } else if (error.response.status === 409) {
                     this.setState({wrongEmail: true});
-                } else this.setState({serverError: true});
+                } else
+                    this.setState({serverError: true});
             });
     };
 
@@ -107,6 +121,7 @@ class EditAccount extends Component {
         const serverError = this.state.serverError;
         const credsChanged = this.state.credsChanged;
         const redirect = this.state.redirect;
+        let form;
 
         let credentialsChangedSuccess;
 
@@ -131,34 +146,40 @@ class EditAccount extends Component {
                     Credentails Changed</Badge>)
         }
 
-        return (
-            this.state.personEdition
-                ?
-                <EditPersonInputs
-                    credentialsChangedSuccess={credentialsChangedSuccess}
-                    submit={this.handleSubmit}
-                    change={this.handleChange}
-                    person={person}
-                    personRole={this.props.personRole}
-                    credsChanged={this.state.changed}
-                    wrongPassword={this.state.wrongPassword}
-                    wrongEmail={this.state.wrongEmail}
-                    emptyForm={this.state.emptyForm}
-                />
+        if(this.state.loading){
+            form=<Spinner/>
+            console.log('1')
+        }
+        else if(this.state.personEdition){
+            form= <EditPersonInputs
+                credentialsChangedSuccess={credentialsChangedSuccess}
+                submit={this.handleSubmit}
+                change={this.handleChange}
+                person={person}
+                personRole={this.props.personRole}
+                credsChanged={this.state.changed}
+                wrongPassword={this.state.wrongPassword}
+                wrongEmail={this.state.wrongEmail}
+                emptyForm={this.state.emptyForm}
+            />
+            console.log('2')
+        }
+        else{
+            form = <EditAccountInputs
+                credentialsChangedSuccess={credentialsChangedSuccess}
+                submit={this.handleSubmit}
+                change={this.handleChange}
+                person={person}
+                role={auth.getRole()}
+                credsChanged={this.state.changed}
+                wrongPassword={this.state.wrongPassword}
+                wrongEmail={this.state.wrongEmail}
+                emptyForm={this.state.emptyForm}
+            />
+            console.log('3')
+        }
 
-                :
-                <EditAccountInputs
-                    credentialsChangedSuccess={credentialsChangedSuccess}
-                    submit={this.handleSubmit}
-                    change={this.handleChange}
-                    person={person}
-                    role={auth.getRole()}
-                    credsChanged={this.state.changed}
-                    wrongPassword={this.state.wrongPassword}
-                    wrongEmail={this.state.wrongEmail}
-                    emptyForm={this.state.emptyForm}
-                />
-        );
+        return form;
     }
 };
 

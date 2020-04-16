@@ -7,6 +7,7 @@ import axios from "axios";
 import filterList from "../../components/Lists/FilterList";
 import {Alert} from "reactstrap";
 import PersonsContext from "../../context/listPersonsContext";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class ListTeachers extends Component {
 
@@ -21,7 +22,8 @@ class ListTeachers extends Component {
             condition: 'Email',
             personRole: '',
             deletePerson: false,
-            personToDelete: ''
+            personToDelete: '',
+            loading: true
         };
     }
 
@@ -36,11 +38,16 @@ class ListTeachers extends Component {
         axios.get('/api/admin/teachers', request).then(response => {
 
                 let teachers = [...response.data];
-                this.setState({teachers: teachers});
-                this.setState({teachersFiltered: teachers});
-
+                this.setState({
+                    teachers: teachers,
+                    teachersFiltered: teachers,
+                    loading: false
+                });
         }).catch(error => {
-            this.setState({error: true})
+            this.setState({
+                error: true,
+                loading: false
+            })
         })
     };
 
@@ -83,7 +90,9 @@ class ListTeachers extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else if (this.state.teachers) {
+        } else if(this.state.loading){
+            list = (<Spinner/>)
+        }else if (this.state.teachers) {
             list = (
                 <React.Fragment>
                     <PersonsContext.Provider
@@ -103,8 +112,6 @@ class ListTeachers extends Component {
                         </div>
                     </PersonsContext.Provider>
                 </React.Fragment>)
-        } else {
-            list = (<p>Loading...</p>)
         }
         return list;
     }

@@ -23,7 +23,6 @@ const EditPersonInputs = (props) => {
             </div>)
     }
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-3 " + classes.Form;
-
     return (
         <Form className={classNames} onSubmit={props.submit}>
             <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
@@ -47,12 +46,18 @@ const EditPersonInputs = (props) => {
                 emptyForm={props.emptyForm}/>
             {/*--------------------------------------------------------------*/}
             {/*-------Inputs for changing email and password-----------------*/}
-            <EmailPasswordChangeInput
-                change={props.change}
-                wrongEmail={props.wrongEmail}
-                newEmail={props.person.newEmail}
-                newPassword={props.person.newPassword}
-                emptyForm={props.emptyForm}/>
+            {
+                props.person.email
+                    ?
+                    <EmailPasswordChangeInput
+                        change={props.change}
+                        wrongEmail={props.wrongEmail}
+                        newEmail={props.person.newEmail}
+                        newPassword={props.person.newPassword}
+                        emptyForm={props.emptyForm}/>
+                    :
+                    null
+            }
             {/*--------------------------------------------------------------*/}
             {props.credentialsChangedSuccess}
             <ConfirmPasswordInput
