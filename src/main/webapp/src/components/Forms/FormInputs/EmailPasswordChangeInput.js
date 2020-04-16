@@ -12,7 +12,7 @@ const emailPasswordChangeInput =(props)=>(
                    id="exampleEmail" placeholder="Enter New Email"
                    value={props.newEmail || ''}
                    onChange={props.change}
-                   invalid={props.wrongEmail}/>
+                   invalid={props.wrongEmail || props.emptyForm}/>
         </FormGroup>
         <FormGroup className="mb-2 mt-3 col-md-5 mr-auto ml-auto">
             <Label for="newPassword" className="mr-sm-2 pl-1">
@@ -22,7 +22,8 @@ const emailPasswordChangeInput =(props)=>(
                    id="newPassword" minLength="5"
                    placeholder="Enter New Password"
                    value={props.newPassword || ''}
-                   onChange={props.change}/>
+                   onChange={props.change}
+                   invalid={props.emptyForm}/>
         </FormGroup>
     </div>
 );

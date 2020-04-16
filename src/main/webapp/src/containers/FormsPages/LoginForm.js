@@ -52,28 +52,24 @@ class LoginForm extends React.Component {
 
         console.log(JSON.stringify(user))
 
-        axios.post('/api/login', JSON.stringify(user),request).then(response => {
-            if (response.status >= 400 && response.status <= 499) {
-                this.setState({
-                    wrongCred: true
-                })
-            } else if (response.status !== 200) {
-                this.setState({
-                    serverError: true
-                });
-            } else {
+        axios.post('/api/login', user,request).then(response => {
                 let user = {...this.state.user};
                 user.token = response.data.token;
                 auth.login(response.data.role,user.token);
                 this.setState({user});
                 this.setState({role: response.data.role})
-            }
         })
             .catch(error => {
-                this.setState({errorMessage: error});
-                console.error('There was an error!', error);
-            });
-
+                if (error.response.status >= 400 && error.response.status <= 499) {
+                    this.setState({
+                        wrongCred: true
+                    })
+                } else{
+                    this.setState({
+                        serverError: true
+                    });
+                }
+            })
     };
 
     render() {

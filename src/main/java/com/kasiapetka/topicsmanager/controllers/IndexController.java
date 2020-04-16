@@ -5,12 +5,12 @@ import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.parsingClasses.AuthenticationResponse;
 import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
+import com.kasiapetka.topicsmanager.services.CodeService;
 import com.kasiapetka.topicsmanager.services.IndexService;
 import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.UserDetailsServiceImpl;
+import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.Authentication;
@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -29,16 +30,18 @@ public class IndexController {
     private StudentService studentService;
     private IndexService indexService;
     private UserDetailsServiceImpl userDetailsServiceImpl;
+    private CodeService codeService;
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public IndexController(StudentService studentService,
-                           IndexService indexService,UserDetailsServiceImpl userDetailsServiceImpl) {
+    public IndexController(StudentService studentService, IndexService indexService,
+                           UserDetailsServiceImpl userDetailsServiceImpl, CodeService codeService) {
         this.studentService = studentService;
         this.indexService = indexService;
-        this.userDetailsServiceImpl= userDetailsServiceImpl;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.codeService = codeService;
     }
 
     @RequestMapping({"/api/hello"})
@@ -73,7 +76,7 @@ public class IndexController {
         return ResponseEntity.ok(new AuthenticationResponse(token, role));
     }
 
-
+    //@TODO refactor this FFS
     @PostMapping("/api/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) throws Exception{
         User userExists = indexService.findUserByEmail(newStudent.getEmail());
@@ -84,8 +87,12 @@ public class IndexController {
             return ResponseEntity.status(401).build();
         else {
             System.out.println(newStudent);
-            User newUser = new User(newStudent.getEmail(),newStudent.getPassword());
-            indexService.create(newUser,studentExists);
+            if(codeService.matches(newStudent.getCode(), newStudent.getAlbum())){
+                User newUser = new User(newStudent.getEmail(),newStudent.getPassword());
+                indexService.create(newUser,studentExists);
+            } else {
+                return ResponseEntity.status(401).build();
+            }
 
             try {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newStudent.getEmail(), newStudent.getPassword()));
@@ -99,5 +106,4 @@ public class IndexController {
             return ResponseEntity.ok(new AuthenticationResponse(token, 'S'));
         }
     }
-
 }

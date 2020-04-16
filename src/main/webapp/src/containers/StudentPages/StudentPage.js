@@ -26,15 +26,11 @@ class StudentPage extends Component {
         };
 
         axios.get('/api/student/info',request).then(response => {
-            if (response.status !== 200) {
-                this.setState({error: true})
-            } else {
                 let student = {...response.data};
                 this.setState({student: student})
-            }
         })
             .catch(error => {
-                console.error('There was an error!', error);
+                this.setState({error: true})
             });
     }
 

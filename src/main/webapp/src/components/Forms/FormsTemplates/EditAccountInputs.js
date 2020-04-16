@@ -44,7 +44,8 @@ const editAccountInputs = (props) => {
                 change={props.change}
                 wrongEmail={props.wrongEmail}
                 newEmail={props.person.newEmail}
-                newPassword={props.person.newPassword}/>
+                newPassword={props.person.newPassword}
+                emptyForm={props.emptyForm}/>
             {/*--------------------------------------------------------------*/}
 
             {props.credentialsChangedSuccess}

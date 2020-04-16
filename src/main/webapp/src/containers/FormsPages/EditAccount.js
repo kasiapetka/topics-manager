@@ -30,10 +30,11 @@ class EditAccount extends Component {
             changed: false,
             credsChanged: false,
             wrongPassword: false,
-            emailChanged: false,
+            redirect: false,
             wrongEmail: false,
             path: props.path,
-            personEdition: props.personEdition
+            personEdition: props.personEdition,
+            emptyForm: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,17 +60,11 @@ class EditAccount extends Component {
             const request = this.createRequest();
 
             axios.put(this.props.path, JSON.stringify(user),request).then(response => {
-                if (response.status !== 200) {
-                    this.setState({serverError: true});
-                } else {
                     let person = {...response.data};
                     this.setState({person: person});
-                    console.log(this.state.person)
-                }
             })
                 .catch(error => {
-                    this.setState({errorMessage: error});
-                    console.error('There was an error!', error);
+                    this.setState({serverError: true});
                 });
         }
     };
@@ -82,6 +77,7 @@ class EditAccount extends Component {
         person[name] = value;
         this.setState({person: person});
         this.setState({changed: true});
+        this.setState({emptyForm: false});
     };
 
     handleSubmit = (event) => {
@@ -92,34 +88,33 @@ class EditAccount extends Component {
         });
 
         const request = this.createRequest();
+
         let user = {...this.state.person};
-        if (user.password === '') {
+        if (user.password === '' ||
+            (user.newEmail === '' && user.newPassword === '' &&
+                user.newName === '' && user.newSurname === '')) {
             this.setState({wrongPassword: true});
+            this.setState({emptyForm: true})
             this.setState({changed: true});
             return;
         }
 
-        axios.put(this.props.path,JSON.stringify(user),request).then(response => {
-            if (response.status !== 200) {
-                if (response.status === 406) {
-                    this.setState({wrongPassword: true});
-                } else if (response.status === 409) {
-                    this.setState({wrongEmail: true});
-                } else this.setState({serverError: true});
-            } else {
+        axios.put(this.props.path,user,request).then(response => {
                 let person = {...response.data};
                 this.setState({person: person});
-                if (response.data.email !== user.email) {
-                    this.setState({emailChanged: true});
+                this.setState({credsChanged: true});
+                if (response.data.email !== user.email && !this.state.personEdition) {
+                    this.setState({redirect: true});
                 }
-                if (response.data !== user) {
-                    this.setState({credsChanged: true});
-                }
-            }
         })
             .catch(error => {
-                this.setState({errorMessage: error});
-                console.error('There was an error!', error);
+                console.log(error.response.status);
+
+                if (error.response.status === 406) {
+                    this.setState({wrongPassword: true});
+                } else if (error.response.status === 409) {
+                    this.setState({wrongEmail: true});
+                } else this.setState({serverError: true});
             });
     };
 
@@ -127,7 +122,7 @@ class EditAccount extends Component {
         const {person} = this.state;
         const serverError = this.state.serverError;
         const credsChanged = this.state.credsChanged;
-        const emailChanged = this.state.emailChanged;
+        const redirect = this.state.redirect;
 
         let credentialsChangedSuccess;
 
@@ -139,14 +134,14 @@ class EditAccount extends Component {
             )
         }
 
-        if (emailChanged && !this.state.personEdition) {
+        if (redirect) {
             auth.logout();
             return (
                 <Redirect to='/login'/>
             )
         }
 
-        if (credsChanged && this.state.personEdition) {
+        if (credsChanged) {
             credentialsChangedSuccess = (
                 <Badge color="success" className="col-11 pt-2 pb-2 mr-sm-4 ml-sm-4 pl-2 pr-2 mt-4">
                     Credentails Changed</Badge>)
@@ -164,6 +159,7 @@ class EditAccount extends Component {
                     credsChanged={this.state.changed}
                     wrongPassword={this.state.wrongPassword}
                     wrongEmail={this.state.wrongEmail}
+                    emptyForm={this.state.emptyForm}
                 />
 
                 :
@@ -176,6 +172,7 @@ class EditAccount extends Component {
                     credsChanged={this.state.changed}
                     wrongPassword={this.state.wrongPassword}
                     wrongEmail={this.state.wrongEmail}
+                    emptyForm={this.state.emptyForm}
                 />
         );
     }

@@ -17,18 +17,18 @@ public class Topic {
     private String name;
     @NotNull
     private String summary;
+    @NotNull
+    private Character state;
 
-    //@NotNull zakomentowane do testow, odkomentowac
+    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    //@NotNull//?
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
     @OneToMany(mappedBy = "topic")
     private List<Section> sections;
-    
 }

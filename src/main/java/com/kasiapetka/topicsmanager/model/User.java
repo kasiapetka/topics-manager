@@ -12,15 +12,16 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     @NotNull
     private String email;
     @NotNull
     private String password;
+    @NotNull
+    private int active;
 
-    private Boolean isActive;
-
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+//    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
 

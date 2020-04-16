@@ -34,13 +34,13 @@ class ListTeachers extends Component {
             },
         };
         axios.get('/api/admin/teachers', request).then(response => {
-            if (response.status !== 200) {
-                this.setState({error: true})
-            } else {
+
                 let teachers = [...response.data];
                 this.setState({teachers: teachers});
                 this.setState({teachersFiltered: teachers});
-            }
+
+        }).catch(error => {
+            this.setState({error: true})
         })
     };
 

@@ -43,14 +43,16 @@ const EditPersonInputs = (props) => {
             <NameSurnameChangeInput
                 change={props.change}
                 newName={props.person.newName}
-                newSurname={props.person.newSurname}/>
+                newSurname={props.person.newSurname}
+                emptyForm={props.emptyForm}/>
             {/*--------------------------------------------------------------*/}
             {/*-------Inputs for changing email and password-----------------*/}
             <EmailPasswordChangeInput
                 change={props.change}
                 wrongEmail={props.wrongEmail}
                 newEmail={props.person.newEmail}
-                newPassword={props.person.newPassword}/>
+                newPassword={props.person.newPassword}
+                emptyForm={props.emptyForm}/>
             {/*--------------------------------------------------------------*/}
             {props.credentialsChangedSuccess}
             <ConfirmPasswordInput

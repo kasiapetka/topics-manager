@@ -13,7 +13,7 @@ const nameSurnameChangeInput =(props)=>(
                    pattern="[A-Za-z]{2,}"
                    value={props.newName || ''}
                    onChange={props.change}
-            />
+                   invalid={props.emptyForm}/>
         </FormGroup>
         <FormGroup className="mb-2 mt-3 col-md-5 ml-auto mr-auto">
             <Label for="exampleSurname" className="mr-sm-2 pl-1">
@@ -24,7 +24,7 @@ const nameSurnameChangeInput =(props)=>(
                    pattern="[A-Za-z]{2,}"
                    value={props.newSurname || ''}
                    onChange={props.change}
-            />
+                   invalid={props.emptyForm}/>
         </FormGroup>
     </div>
 );

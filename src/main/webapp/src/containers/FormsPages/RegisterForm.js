@@ -48,29 +48,25 @@ export class RegisterForm extends React.Component {
             },
         };
 
-        axios.post('/api/register',JSON.stringify(user), request).then( response => {
-            if (response.status >= 400 && response.status <= 499) {
-                this.setState({
-                    wrongCred: true
-                })
-            } else if (response.status !== 200) {
-                this.setState({
-                    serverError: true
-                });
-            } else {
+        axios.post('/api/register', user, request).then(response => {
 
-                let user = {...this.state.user};
-                user.token = response.data.token;
-                auth.login(response.data.role, user.token);
-                this.setState({user});
-                this.setState({redirectToReferrer: true})
-            }
+            let user = {...this.state.user};
+            user.token = response.data.token;
+            auth.login(response.data.role, user.token);
+            this.setState({user});
+            this.setState({redirectToReferrer: true})
         })
             .catch(error => {
-                this.setState({errorMessage: error});
-                console.error('There was an error!', error);
+                if (error.response.status >= 400 && error.response.status <= 499) {
+                    this.setState({
+                        wrongCred: true
+                    })
+                } else {
+                    this.setState({
+                        serverError: true
+                    });
+                }
             });
-
     }
 
     render() {

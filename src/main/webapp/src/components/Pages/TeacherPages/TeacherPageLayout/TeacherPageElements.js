@@ -7,27 +7,28 @@ import ListStudents from "../../../../containers/Lists/ListStudents";
 
 const teacherPageElements = (props) => (
     <div className="container-fluid h-100 mt-5">
-        <div className="row h-100">
-            <div className="col-md-3 border-right">
-                <AccountDetailsCard
-                    person={props.teacher}/>
-                <TeacherAccountControls
-                    toggle={props.toggleStudents}/>
-                <Messages/>
-            </div>
-            <div className="col-md-8">
-                {
-                    props.showStudents
-                        ?
-                        <ListStudents/>
-                        :
-                        null
-                }
-                <ListSections/>
-            </div>
-            <div className="col-md-1"></div>
+    <div className="row h-100">
+        <div className="col-md-3 border-right">
+            <AccountDetailsCard
+                person={props.teacher}/>
+            <TeacherAccountControls
+                toggle={props.toggleStudents}/>
+            <Messages/>
         </div>
+        <div className="col-md-8">
+            {
+                props.showStudents
+                    ?
+                    <ListStudents
+                        path='/api/teacher/students'/>
+                    :
+                    null
+            }
+            <ListSections/>
+        </div>
+        <div className="col-md-1"></div>
     </div>
+</div>
 );
 
 export default teacherPageElements;

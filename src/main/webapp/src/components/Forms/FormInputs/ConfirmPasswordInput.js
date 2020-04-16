@@ -14,7 +14,7 @@ const confirmPasswordInput = (props) => {
             ?
             <React.Fragment>
                 {loggin}
-                <FormGroup className="mb-2 mr-sm-4 ml-sm-4 mb-sm-0 mt-3">
+                <FormGroup className="mb-2 mr-sm-4 ml-sm-4 mt-3">
                     <Label for="examplePassword" className="mr-sm-2 pl-1">
                         Confirm Changes With Password
                     </Label>

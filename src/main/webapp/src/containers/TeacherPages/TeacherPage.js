@@ -35,15 +35,11 @@ class TeacherPage extends Component {
         };
 
         axios.get('/api/teacher/info', request).then(response => {
-            if (response.status !== 200) {
-                this.setState({error: true})
-            } else {
                 let student = {...response.data};
                 this.setState({teacher: student})
-            }
         })
             .catch(error => {
-                console.error('There was an error!', error);
+                this.setState({error: true})
             });
 
     }
@@ -84,7 +80,6 @@ class TeacherPage extends Component {
                         <TeacherPageElements
                             teacher={this.state.teacher}
                             toggleStudents={this.toggleStudents}
-                            students={this.state.students}
                             showStudents={this.state.showStudents}
                             content={content}
                         />

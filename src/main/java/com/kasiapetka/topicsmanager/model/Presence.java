@@ -1,6 +1,6 @@
 package com.kasiapetka.topicsmanager.model;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,16 +18,7 @@ public class Presence {
     @NotNull
     private Boolean isPresent;
 
-    @NotNull
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "student_section_id")
     private StudentSection studentSection;
-
-    public Presence() {
-    }
-
-    protected boolean canEqual(final Object other) {
-        return other instanceof Presence;
-    }
-
 }

@@ -30,18 +30,12 @@ class DeletePerson extends Component {
             },
         };
 
-        axios.put(path,JSON.stringify(id),request).then(response => {
-            if (response.status !== 200) {
-                this.setState({error: true});
-            } else {
+        axios.put(path,id,request).then(response => {
                 alert('udao sie')
-            }
         })
             .catch(error => {
                 this.setState({error: true});
-                console.error('There was an error!', error);
             });
-
     };
 
     render() {

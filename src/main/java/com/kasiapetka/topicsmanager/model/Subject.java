@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +17,9 @@ public class Subject {
     private String name;
     @NotNull
     private String summary;
-
+    @NotNull
+    private Character state;
+    //ograniczenie na state - np tylko {O,C}, napewno nie dlugosc 255
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
@@ -26,16 +27,9 @@ public class Subject {
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
-    private List<Teacher> teachers;
+    private List<Teacher> subjects;
 
-    @OneToMany(mappedBy = "subject", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "subject")
     private List<Topic> topics;
 
-    public void addTeacher(Teacher teacher) {
-        if(teachers == null){
-            teachers = new ArrayList<>();
-        }
-        teachers.add(teacher);
-        teacher.addSubject(this);
-    }
 }
