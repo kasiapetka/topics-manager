@@ -1,9 +1,5 @@
-import React, {Component} from "react";
+import React from "react";
 import Messages from "../../../Messages/Messages";
-import ListTeachers from "../../../../containers/Lists/ListTeachers";
-import ListStudents from "../../../../containers/Lists/ListStudents";
-import EditAccount from "../../../../containers/FormsPages/EditAccount";
-import auth from "../../../../Auth";
 import AdminAccountControls from "./AdminAccountControls";
 import DeletePersonModal from "../../../UI/DeletePersonModal/DeletePersonModal";
 import DeletePerson from "../../../../containers/FormsPages/DeletePerson";

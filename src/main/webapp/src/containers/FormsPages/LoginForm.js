@@ -37,22 +37,12 @@ class LoginForm extends React.Component {
     };
 
       handleSubmit=async(event)=> {
-
         event.preventDefault();
         const {user} = this.state;
 
-        const request = {
-            headers: {
-               // 'Authorization': 'Basic ' + btoa(user.email + ':' + user.password),
-               //  'Authorization': 'Bearer ' ,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-
         console.log(JSON.stringify(user))
 
-        axios.post('/api/login', user,request).then(response => {
+        axios.post('/api/login', user).then(response => {
                 let user = {...this.state.user};
                 user.token = response.data.token;
                 auth.login(response.data.role,user.token);

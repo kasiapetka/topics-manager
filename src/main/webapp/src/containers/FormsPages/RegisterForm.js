@@ -41,14 +41,7 @@ export class RegisterForm extends React.Component {
         event.preventDefault();
         const {user} = this.state;
 
-        const request = {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-
-        axios.post('/api/register', user, request).then(response => {
+        axios.post('/api/register', user).then(response => {
 
             let user = {...this.state.user};
             user.token = response.data.token;

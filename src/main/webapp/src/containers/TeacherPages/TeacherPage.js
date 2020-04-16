@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/UI/Layout/PageNavbar";
 import {Alert} from "reactstrap";
-import auth from "../../Auth";
 import TeacherPageElements from "../../components/Pages/TeacherPages/TeacherPageLayout/TeacherPageElements";
-import StudentsContext from "../../context/listStudentsContext";
-import filterList from "../../components/Lists/FilterList";
 import axios from 'axios'
 import ListStudents from "../Lists/ListStudents";
 
@@ -24,17 +21,7 @@ class TeacherPage extends Component {
 
 
     componentDidMount() {
-
-        const request = {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken(),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-
-        axios.get('/api/teacher/info', request).then(response => {
+        axios.get('/api/teacher/info').then(response => {
                 let student = {...response.data};
                 this.setState({teacher: student})
         })

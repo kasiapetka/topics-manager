@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/UI/Layout/PageNavbar";
 import AccountDetailsCard from "../../components/UI/AccountDetailsCard/AccountDetailsCard";
-import auth from '../../Auth'
 import {Alert} from "reactstrap";
 import ListStudentSectionsComponent from "../../components/Pages/StudentPages/ListStudentSections/ListStudentSections";
 import Messages from "../../components/Messages/Messages";
@@ -17,15 +16,7 @@ class StudentPage extends Component {
 
     componentDidMount() {
 
-        const request = {
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken(),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-
-        axios.get('/api/student/info',request).then(response => {
+        axios.get('/api/student/info').then(response => {
                 let student = {...response.data};
                 this.setState({student: student})
         })

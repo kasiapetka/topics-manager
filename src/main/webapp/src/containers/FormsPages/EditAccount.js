@@ -25,7 +25,6 @@ class EditAccount extends Component {
 
         this.state = {
             person: this.emptyPerson,
-            token: props.token,
             serverError: false,
             changed: false,
             credsChanged: false,
@@ -40,26 +39,12 @@ class EditAccount extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    createRequest = () => {
-        let token = this.state.token;
-        return (
-            {
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    };
-
     componentDidMount = async () => {
         let user = {...this.state.person};
 
         if (!this.state.changed) {
-            const request = this.createRequest();
 
-            axios.put(this.props.path, JSON.stringify(user),request).then(response => {
+            axios.put(this.props.path, JSON.stringify(user)).then(response => {
                     let person = {...response.data};
                     this.setState({person: person});
             })
@@ -87,7 +72,6 @@ class EditAccount extends Component {
             wrongPassword: false
         });
 
-        const request = this.createRequest();
 
         let user = {...this.state.person};
         if (user.password === '' ||
@@ -99,7 +83,7 @@ class EditAccount extends Component {
             return;
         }
 
-        axios.put(this.props.path,user,request).then(response => {
+        axios.put(this.props.path,user).then(response => {
                 let person = {...response.data};
                 this.setState({person: person});
                 this.setState({credsChanged: true});

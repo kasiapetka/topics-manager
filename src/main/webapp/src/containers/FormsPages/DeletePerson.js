@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
 import DeletePersonCard from "../../components/UI/DeletePersonCard/DeletePersonCard";
-import auth from "../../Auth";
 import {Alert} from "reactstrap";
 
 class DeletePerson extends Component {
@@ -22,15 +21,7 @@ class DeletePerson extends Component {
             path='/api/admin/deleteTeacher';
         }
 
-        const request = {
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken(),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-
-        axios.put(path,id,request).then(response => {
+        axios.put(path,id).then(response => {
                 alert('udao sie')
         })
             .catch(error => {
