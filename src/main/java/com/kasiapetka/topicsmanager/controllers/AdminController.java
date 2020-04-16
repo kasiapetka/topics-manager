@@ -54,11 +54,17 @@ public class AdminController {
             return ResponseEntity.ok(result);
         }
 
-        int responseCode = userService.changeCredentials(editAccount, adminUser);
+        int responseCode;
 
-        if (responseCode == 201) {
-            responseCode = 200;
-            result.setEmail(editAccount.getNewEmail());
+        if(userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())){
+            responseCode = userService.changeCredentials(editAccount, adminUser);
+
+            if(responseCode == 201){
+                responseCode = 200;
+                result.setEmail(editAccount.getNewEmail());
+            }
+        } else {
+            responseCode = 406;
         }
 
         return ResponseEntity.status(responseCode).body(result);
@@ -87,22 +93,28 @@ public class AdminController {
             return ResponseEntity.ok(result);
         }
 
-        int responseCode = userService.changeCredentials(editAccount, adminUser);
+        int responseCode;
+        if(userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())){
+            responseCode = userService.changeCredentials(editAccount, teacherUser);
 
-        if (responseCode == 201 || responseCode == 200) {
-            responseCode = 200;
-            result.setEmail(editAccount.getNewEmail());
-            if (!editAccount.getNewName().equals("")) {
-                System.out.println("Changing name");
-                teacherService.changeName(teacher, editAccount.getNewName());
-                result.setName(editAccount.getNewName());
+            if (responseCode == 201 || responseCode == 200) {
+                responseCode = 200;
+                result.setEmail(editAccount.getNewEmail());
+                if (!editAccount.getNewName().equals("")) {
+                    System.out.println("Changing name");
+                    teacherService.changeName(teacher, editAccount.getNewName());
+                    result.setName(editAccount.getNewName());
+                }
+                if (!editAccount.getNewSurname().equals("")) {
+                    System.out.println("Changing surname");
+                    teacherService.changeSurname(teacher, editAccount.getNewSurname());
+                    result.setSurname(editAccount.getNewSurname());
+                }
             }
-            if (!editAccount.getNewSurname().equals("")) {
-                System.out.println("Changing surname");
-                teacherService.changeSurname(teacher, editAccount.getNewSurname());
-                result.setSurname(editAccount.getNewSurname());
-            }
+        } else {
+            responseCode = 406;
         }
+
 
         return ResponseEntity.status(responseCode).body(result);
     }
@@ -128,21 +140,26 @@ public class AdminController {
             return ResponseEntity.ok(result);
         }
 
-        int responseCode = userService.changeCredentials(editAccount, adminUser);
+        int responseCode;
+        if(userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())){
+            responseCode = userService.changeCredentials(editAccount, studentUser);
 
-        if (responseCode == 201 || responseCode == 200) {
-            responseCode = 200;
-            result.setEmail(editAccount.getNewEmail());
-            if (!editAccount.getNewName().equals("")) {
-                System.out.println("Changing name");
-                studentService.changeName(student, editAccount.getNewName());
-                result.setName(editAccount.getNewName());
+            if (responseCode == 201 || responseCode == 200) {
+                responseCode = 200;
+                result.setEmail(editAccount.getNewEmail());
+                if (!editAccount.getNewName().equals("")) {
+                    System.out.println("Changing name");
+                    studentService.changeName(student, editAccount.getNewName());
+                    result.setName(editAccount.getNewName());
+                }
+                if (!editAccount.getNewSurname().equals("")) {
+                    System.out.println("Changing surname");
+                    studentService.changeSurname(student, editAccount.getNewSurname());
+                    result.setSurname(editAccount.getNewSurname());
+                }
             }
-            if (!editAccount.getNewSurname().equals("")) {
-                System.out.println("Changing surname");
-                studentService.changeSurname(student, editAccount.getNewSurname());
-                result.setSurname(editAccount.getNewSurname());
-            }
+        } else {
+            responseCode = 406;
         }
 
         return ResponseEntity.status(responseCode).body(result);

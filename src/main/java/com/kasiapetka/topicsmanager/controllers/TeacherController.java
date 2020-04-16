@@ -57,11 +57,17 @@ public class TeacherController {
             return ResponseEntity.ok(result);
         }
 
-        int responseCode = userService.changeCredentials(editAccount, teacherUser);
+        int responseCode;
 
-        if(responseCode == 201){
-            responseCode = 200;
-            result.setEmail(editAccount.getNewEmail());
+        if(userService.checkCrudentials(editAccount.getPassword(), teacherUser.getPassword())){
+            responseCode = userService.changeCredentials(editAccount, teacherUser);
+
+            if(responseCode == 201){
+                responseCode = 200;
+                result.setEmail(editAccount.getNewEmail());
+            }
+        } else {
+            responseCode = 406;
         }
 
         return ResponseEntity.status(responseCode).body(result);
