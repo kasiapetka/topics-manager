@@ -174,6 +174,7 @@ public class DatabaseLoader implements CommandLineRunner {
         t3.setIsActive(true);
         this.teacherRepository.save(t3);
 
+
         //Testing services
         Subject subject = new Subject();
         subject.setName("Smoking dope");
@@ -224,5 +225,6 @@ public class DatabaseLoader implements CommandLineRunner {
        //end
 
         System.out.println("------------------------------------ DatabaseLoader ended ------------------------------------");
+
     }
 }
