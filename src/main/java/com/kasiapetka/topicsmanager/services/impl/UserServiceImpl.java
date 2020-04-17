@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(StudentRepository studentRepository,
-                              BCryptPasswordEncoder bCryptPasswordEncoder,UserRepository userRepository) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
         this.studentRepository = studentRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     private boolean changeEmail(User user, String email) {
         User temp = findUserByEmail(email);
-        if(!(temp == null)){
+        if (!(temp == null)) {
             System.out.println("Mail already exists");
             return false;
         }
@@ -47,35 +47,36 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    private boolean checkCrudentials(String given, String actual){
+    @Override
+    public boolean checkCrudentials(String given, String actual) {
         return bCryptPasswordEncoder.matches(given, actual);
     }
 
     @Override
     // returns response code
-    public int changeCredentials(EditAccount editAccount, User user){
+    public int changeCredentials(EditAccount editAccount, User user) {
 
-        if(checkCrudentials(editAccount.getPassword(), user.getPassword())){
+//        if(checkCrudentials(editAccount.getPassword(), user.getPassword())){
 
-            // password changing
-            if(!editAccount.getNewPassword().equals("")){
-                changePassword(user, editAccount.getNewPassword());
-            }
-
-            // mail changing
-            if(!editAccount.getNewEmail().equals("")){
-                if(!changeEmail(user, editAccount.getNewEmail())){
-                    // mail exists
-                    return 409;
-                } else {
-                    return 201;
-                }
-            }
-
-        } else {
-            // bad password given
-            return 406;
+        // password changing
+        if (!editAccount.getNewPassword().equals("")) {
+            changePassword(user, editAccount.getNewPassword());
         }
+
+        // mail changing
+        if (!editAccount.getNewEmail().equals("")) {
+            if (!changeEmail(user, editAccount.getNewEmail())) {
+                // mail exists
+                return 409;
+            } else {
+                return 201;
+            }
+        }
+
+//        } else {
+//            // bad password given
+//            return 406;
+//        }
 
         return 200;
     }

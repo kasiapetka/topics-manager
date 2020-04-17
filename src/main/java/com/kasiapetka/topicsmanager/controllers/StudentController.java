@@ -56,11 +56,17 @@ public class StudentController {
             return ResponseEntity.ok(result);
         }
 
-        int responseCode = userService.changeCredentials(editAccount, studentUser);
+        int responseCode;
 
-        if(responseCode == 201){
-            responseCode = 200;
-            result.setEmail(editAccount.getNewEmail());
+        if(userService.checkCrudentials(editAccount.getPassword(), studentUser.getPassword())){
+            responseCode = userService.changeCredentials(editAccount, studentUser);
+
+            if(responseCode == 201){
+                responseCode = 200;
+                result.setEmail(editAccount.getNewEmail());
+            }
+        } else {
+            responseCode = 406;
         }
 
         return ResponseEntity.status(responseCode).body(result);
