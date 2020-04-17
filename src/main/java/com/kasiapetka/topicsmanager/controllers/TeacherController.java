@@ -1,10 +1,9 @@
 package com.kasiapetka.topicsmanager.controllers;
 
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
 import com.kasiapetka.topicsmanager.services.StudentService;
+import com.kasiapetka.topicsmanager.services.SubjectService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.services.UserService;
@@ -21,21 +20,26 @@ import java.util.List;
 
 @RestController
 public class TeacherController {
+
     private UserService userService;
     private TeacherService teacherService;
     private StudentService studentService;
+    private SubjectService subjectService;
+
     private UserDetailsServiceImpl userDetailsServiceImpl;
     private BCryptPasswordEncoder passwordEncoder;
 
 
     public TeacherController(UserService userService, TeacherService teacherService,
                              UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
-                             StudentService studentService) {
+                             StudentService studentService, SubjectService subjectService) {
         this.userService = userService;
         this.teacherService = teacherService;
+        this.studentService = studentService;
+        this.subjectService = subjectService;
+
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
-        this.studentService = studentService;
     }
 
     @GetMapping("/api/teacher/info")
@@ -77,4 +81,15 @@ public class TeacherController {
     List<Student> listStudents(){
         return teacherService.listStudents();
     }
+
+    @GetMapping("/api/teacher/subjects")
+    List<Subject> listSubjects(){
+        return subjectService.getSubjectsList();
+    }
+
+    @GetMapping("/api/teacher/topics")
+    List<Topic> listTopics(@Valid @RequestBody String subjectName){
+        return subjectService.getTopicListBySubject(subjectName);
+    }
+
 }
