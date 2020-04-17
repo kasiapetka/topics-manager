@@ -133,7 +133,8 @@ public class CodeServiceImpl implements CodeService {
                 break;
         }
 
-        //System.out.println(code);
+
+        System.out.println(code);
 
         return String.valueOf(code);
     }

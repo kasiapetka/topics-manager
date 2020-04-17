@@ -74,13 +74,16 @@ public class AdminController {
         User teacherUser = teacher.getUser();
 
         if (teacherUser != null) {
+            System.out.println(teacherUser);
             teacherEmail = teacherUser.getEmail();
+            System.out.println(teacherEmail);
         }
 
         EditAccount result = new EditAccount(teacher.getId(), teacherEmail, "", teacher.getName(),
                 teacher.getSurname(), "", "", "", "");
 
         if (editAccount.getPassword().equals("")) {
+
             return ResponseEntity.ok(result);
         }
 

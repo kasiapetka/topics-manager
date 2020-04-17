@@ -1,9 +1,21 @@
 package com.kasiapetka.topicsmanager;
 
+
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.*;
 import com.kasiapetka.topicsmanager.services.CodeService;
 import com.kasiapetka.topicsmanager.services.SectionService;
+
+import com.kasiapetka.topicsmanager.model.Role;
+import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.Teacher;
+import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.repositories.RoleRepository;
+import com.kasiapetka.topicsmanager.repositories.StudentRepository;
+import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
+import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.CodeService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +38,9 @@ public class DatabaseLoader implements CommandLineRunner {
     private final SectionRepository sectionRepository;
 
     private final SectionService sectionService;
+
+    @Autowired
+    private CodeService codeService;
 
     @Autowired
     private CodeService codeService;
@@ -88,6 +103,7 @@ public class DatabaseLoader implements CommandLineRunner {
         sa.setSurname("Album");
         sa.setAlbum(333333);
         sa.setIsActive(true);
+
         codeService.encode(String.valueOf(sa.getAlbum()));
         this.studentRepository.save(sa);
 
