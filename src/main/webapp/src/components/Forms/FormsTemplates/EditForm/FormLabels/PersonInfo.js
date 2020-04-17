@@ -3,8 +3,8 @@ import {Label} from "reactstrap";
 
 
 const personInfo =(props)=>(
-    <div className="mb-2 ml-auto mr-auto mt-3 col-md-5">
-        <Label for="actualName" className="mr-sm-2 pl-1">
+    <div className="mb-2 mt-3 col-md-6">
+        <Label for="actualName" className="mr-2 pl-1">
             {props.label}
         </Label>
         <div color="light" id="actualName"

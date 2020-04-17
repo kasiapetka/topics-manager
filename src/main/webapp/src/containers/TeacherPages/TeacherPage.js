@@ -4,15 +4,14 @@ import {Alert} from "reactstrap";
 import TeacherPageElements from "../../components/Pages/TeacherPages/TeacherPageLayout/TeacherPageElements";
 import axios from 'axios'
 import ListStudents from "../Lists/ListStudents";
-
+import AddSection from "../AddSection/AddSection";
 
 class TeacherPage extends Component {
     state = {
         teacher: '',
         error: false,
         showStudents: true,
-        editPerson: false,
-        editPersonId: '',
+        addSection: false,
         modifyPath: '',
         personRole: '',
         deletePerson:'',
@@ -35,15 +34,24 @@ class TeacherPage extends Component {
         this.setState((prevState) => {
             return {
                 showStudents: !this.state.showStudents,
-                editPerson: false,
+                addSection: false,
             }
         });
     };
 
-
+    toggleAddSection=()=>{
+        this.setState((prevState) => {
+            return {
+                showStudents: false,
+                addSection: !this.state.addSection,
+            }
+        });
+    };
 
     render() {
         let showStudents = this.state.showStudents;
+        let showAddSection = this.state.addSection;
+
         if (this.state.error) {
             return (
                 <Alert color="danger">
@@ -54,9 +62,10 @@ class TeacherPage extends Component {
         let content;
         if(showStudents){
             content=( <ListStudents
-                editPerson={this.editPersonHandler}
-                deletePerson={this.deletePersonHandler}
-                path='/api/admin/students'/>)
+                path='/api/teacher/students'/>)
+        }
+        if(showAddSection){
+            content=( <AddSection/>)
         }
 
         return (
@@ -67,6 +76,7 @@ class TeacherPage extends Component {
                         <TeacherPageElements
                             teacher={this.state.teacher}
                             toggleStudents={this.toggleStudents}
+                            toggleAddSection={this.toggleAddSection}
                             showStudents={this.state.showStudents}
                             content={content}
                         />

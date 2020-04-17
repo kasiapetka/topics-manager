@@ -2,7 +2,7 @@ import React from 'react';
 import {Badge} from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import auth from "../../Auth";
-import LoginFormInputs from "../../components/Forms/FormsTemplates/LoginFormInputs";
+import LoginFormInputs from "../../components/Forms/FormsTemplates/LoginForm/LoginFormInputs";
 import axios from 'axios'
 
 class LoginForm extends React.Component {
