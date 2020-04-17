@@ -138,5 +138,8 @@ public class DatabaseLoader implements CommandLineRunner {
         t3.setName("mikolaj");
         t3.setSurname("kolman");
         this.teacherRepository.save(t3);
+
+
+
     }
 }
