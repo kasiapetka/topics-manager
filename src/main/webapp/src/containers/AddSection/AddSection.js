@@ -12,7 +12,6 @@ class AddSection extends Component {
         semester:'',
         state: 'true',
         topic:'',
-        subject:''
     };
 
     state={
@@ -72,12 +71,6 @@ class AddSection extends Component {
 
     onSubjectChangeHandler=(event)=>{
        const id =event.target.value;
-        let section = {...this.state.section};
-        section[event.target.name] = event.target.value;
-        this.setState({
-            section: section,
-        });
-
         axios.get('/api/teacher/topics/'+id).then(response=>{
             let topics = [...response.data];
             this.setState({
