@@ -7,12 +7,28 @@ const sectionFormInputs = (props) => {
 
     const subjectOptions = props.subjects.map(subject => {
         return <option
-            value={subject.name}
+            value={subject.id}
             key={subject.id}>
             {subject.name}
         </option>
     });
 
+    let topicOptions;
+
+    if (props.topics) {
+        if (props.topics.length !== 0) {
+            topicOptions = props.topics.map(subject => {
+                return <option
+                    value={subject.id}
+                    key={subject.id}>
+                    {subject.name}
+                </option>
+            })
+
+        } else {
+            topicOptions = <option disabled={true} value='default'>No Topics in this Subject</option>;
+        }
+    }
 
     return (
         <Form className={classNames}>
@@ -20,22 +36,25 @@ const sectionFormInputs = (props) => {
             {/*--------------------Subject Topic and Name---------------------------------- */}
             <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
                 <Label for="exampleSubject" className="mr-2 pl-1">Subject</Label>
-                <Input type="select" name="subject" id="exampleSubject" defaultValue='default'>
+                <Input type="select" name="subject" id="exampleSubject"
+                       defaultValue='default' onChange={props.onSubjectChange}>
                     <option disabled={true} value='default'>Choose Subject</option>
                     {subjectOptions}
                 </Input>
             </FormGroup>
 
-            <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
-                <Label for="exampleTopic" className="mr-2 pl-1">Topic</Label>
-                <Input type="select" name="topic" id="exampleTopic">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </Input>
-            </FormGroup>
+            {
+                props.topics
+                    ?
+                    <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
+                        <Label for="exampleTopic" className="mr-2 pl-1">Topic</Label>
+                        <Input type="select" name="topic" id="exampleTopic" defaultValue='default'>
+                            {topicOptions}
+                        </Input>
+                    </FormGroup>
+                    :
+                    null
+            }
 
             <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
                 <Label for="exampleName" className="mr-2 pl-1">Name</Label>

@@ -16,7 +16,7 @@ class AddSection extends Component {
         error: false,
         emptyForm: false,
         subjects:[],
-        topics:[]
+        topics:null
     };
 
     componentDidMount() {
@@ -32,6 +32,20 @@ class AddSection extends Component {
         })
     }
 
+    onSubjectChangeHandler=(event)=>{
+       const id =event.target.value;
+        axios.get('/api/teacher/topics/'+id).then(response=>{
+            let topics = [...response.data];
+            this.setState({
+                topics: topics,
+            });
+        }).catch(error => {
+            this.setState({
+                error: true,
+            })
+        })
+    };
+
     render() {
 
         const error = this.state.error;
@@ -45,7 +59,9 @@ class AddSection extends Component {
 
         return (
             <SectionFormInputs
-            subjects={this.state.subjects}/>
+            subjects={this.state.subjects}
+            topics={this.state.topics}
+            onSubjectChange={this.onSubjectChangeHandler}/>
         );
     }
 }

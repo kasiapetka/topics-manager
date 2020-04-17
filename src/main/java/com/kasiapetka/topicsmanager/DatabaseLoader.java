@@ -181,6 +181,16 @@ public class DatabaseLoader implements CommandLineRunner {
         subject.setSummary("420420420");
         subjectService.addNewSubject(subject);
 
+        Subject subject1 = new Subject();
+        subject1.setName("Bazy danych");
+        subject1.setSummary("wrwerwer");
+        subjectService.addNewSubject(subject1);
+
+        Subject subject2 = new Subject();
+        subject2.setName("Pk2");
+        subject2.setSummary("erertert");
+        subjectService.addNewSubject(subject2);
+
         Teacher teacher = new Teacher();
         teacher.setName("Seth");
         teacher.setSurname("Rogen");

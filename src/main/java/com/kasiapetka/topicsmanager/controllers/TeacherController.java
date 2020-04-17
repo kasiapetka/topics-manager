@@ -10,10 +10,7 @@ import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -87,9 +84,9 @@ public class TeacherController {
         return subjectService.getSubjectsList();
     }
 
-    @GetMapping("/api/teacher/topics")
-    List<Topic> listTopics(@Valid @RequestBody String subjectName){
-        return subjectService.getTopicListBySubject(subjectName);
+    @GetMapping("/api/teacher/topics/{id}")
+    List<Topic> listTopics(@PathVariable Long id){
+        return subjectService.getTopicListBySubjectId(id);
     }
 
 }

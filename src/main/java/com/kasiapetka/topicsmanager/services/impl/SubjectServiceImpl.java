@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Subject;
+import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
 import com.kasiapetka.topicsmanager.repositories.TopicRepository;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -40,8 +42,11 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     @Transactional
-    public List<Topic> getTopicListBySubject(String subjectName) {
-        Subject subject = subjectRepository.findByName(subjectName);
-        return subject.getTopics();
+    public List<Topic> getTopicListBySubjectId(Long id) {
+        Optional<Subject> subjectOptional =  subjectRepository.findById(id);
+        if(!subjectOptional.isPresent()){
+            return null;
+        }
+        return subjectOptional.get().getTopics();
     }
 }

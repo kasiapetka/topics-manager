@@ -8,5 +8,5 @@ import java.util.List;
 public interface SubjectService {
     Boolean addNewSubject(Subject subject);
     List<Subject> getSubjectsList();
-    List<Topic> getTopicListBySubject(String subjectName);
+    List<Topic> getTopicListBySubjectId(Long id);
 }
