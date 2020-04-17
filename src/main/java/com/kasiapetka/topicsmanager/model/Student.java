@@ -1,5 +1,7 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,17 +22,22 @@ public class Student {
     private String name;
     @NotNull
     private String surname;
+    @NotNull
+    private Boolean isActive;
 
-    @OneToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "student")
     private List<StudentSection> studentSection;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "student")
     private List<Attachment> attachments;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "students")
     private List<Semester> semesters;
 

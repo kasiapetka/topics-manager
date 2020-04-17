@@ -1,9 +1,12 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,22 +21,33 @@ public class Section {
     @NotNull
     private Integer sizeOfSection;
     @NotNull
-    private Boolean isActive;
+    private Boolean isOpen;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonManagedReference
+    @ManyToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonManagedReference
+    @ManyToOne//(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "semester_id")
     private Semester semester;
 
-    @OneToMany(mappedBy = "section")
+    @JsonBackReference
+    @OneToMany(mappedBy = "section", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<StudentSection> studentSections;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "section")
     private List<Attachment> attachments;
+
+    public void addStudentSection(StudentSection studentSection){
+        if(studentSections == null){
+            studentSections = new ArrayList<>();
+        }
+        studentSections.add(studentSection);
+    }
 
 }

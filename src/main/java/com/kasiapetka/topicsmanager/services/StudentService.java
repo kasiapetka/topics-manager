@@ -10,4 +10,5 @@ public interface StudentService {
 //    void changePassword(Student student, String password);
     void changeName(Student student, String name);
     void changeSurname(Student student, String surname);
+    Boolean deleteStudent(Long album);
 }

@@ -8,6 +8,7 @@ import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import com.kasiapetka.topicsmanager.services.TeacherService;
+import org.hibernate.HibernateException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,5 +67,17 @@ public class TeacherServiceImpl implements TeacherService {
     public void changeSurname(Teacher teacher, String surname) {
         teacher.setSurname(surname);
         teacherRepository.save(teacher);
+    }
+
+    @Override
+    public Boolean deleteTeacher(Long id) {
+        try {
+            Teacher teacher = findTeacherById(id);
+            teacher.setIsActive(false);
+            teacherRepository.save(teacher);
+            return true;
+        } catch (HibernateException he){
+            return false;
+        }
     }
 }

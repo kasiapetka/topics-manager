@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,10 +18,8 @@ public class User {
     private String email;
     @NotNull
     private String password;
-    @NotNull
-    private int active;
 
-//    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;

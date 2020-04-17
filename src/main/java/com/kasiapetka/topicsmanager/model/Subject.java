@@ -1,5 +1,7 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,18 +19,17 @@ public class Subject {
     private String name;
     @NotNull
     private String summary;
-    @NotNull
-    private Character state;
-    //ograniczenie na state - np tylko {O,C}, napewno nie dlugosc 255
 
+    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "subject_teacher",
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
-    private List<Teacher> subjects;
+    private List<Teacher> teachers;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "subject")
     private List<Topic> topics;
 
