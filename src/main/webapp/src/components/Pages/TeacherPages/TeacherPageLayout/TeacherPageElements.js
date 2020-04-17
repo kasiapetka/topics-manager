@@ -2,7 +2,7 @@ import React from "react";
 import AccountDetailsCard from "../../../UI/AccountDetailsCard/AccountDetailsCard";
 import TeacherAccountControls from "./TeacherAccountControls";
 import Messages from "../../../Messages/Messages";
-import ListSections from "../ListSections/ListSections";
+import ListSections from "../../../../containers/Lists/ListSections";
 import ListStudents from "../../../../containers/Lists/ListStudents";
 
 const teacherPageElements = (props) => (
@@ -12,7 +12,7 @@ const teacherPageElements = (props) => (
             <AccountDetailsCard
                 person={props.teacher}/>
             <TeacherAccountControls
-                toggle={props.toggleStudents}/>
+                toggleTeachers={props.toggleStudents}/>
             <Messages/>
         </div>
         <div className="col-md-8">
