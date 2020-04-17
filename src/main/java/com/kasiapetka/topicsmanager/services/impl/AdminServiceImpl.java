@@ -39,7 +39,9 @@ public class AdminServiceImpl implements AdminService {
     public List<Teacher> listTeachers() {
         List<Teacher> teachers = new ArrayList<>();
         teacherRepository.findAll().iterator().forEachRemaining(teachers::add);
-
+        for(Teacher teacher : teachers){
+            System.out.println(teacher.getName());
+        }
         return teachers;
     }
 

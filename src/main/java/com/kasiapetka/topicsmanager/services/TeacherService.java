@@ -14,4 +14,5 @@ public interface TeacherService {
     List<Student> listStudents();
     void changeName(Teacher teacher, String name);
     void changeSurname(Teacher teacher, String surname);
+    Boolean deleteTeacher(Long id);
 }

@@ -154,4 +154,23 @@ public class AdminController {
     List<Student> listStudents() {
         return adminService.listStudents();
     }
+
+    @PutMapping("/api/admin/deleteTeacher")
+    ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id){
+        if(teacherService.deleteTeacher(id)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PutMapping("/api/admin/deleteStudent")
+    ResponseEntity<?> deleteStudent(@Valid @RequestBody Long album){
+        if(studentService.deleteStudent(album)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
 }

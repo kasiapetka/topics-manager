@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,12 +20,14 @@ public class StudentSection {
     private Date date;
 
     @NotNull
+    @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "student_id")
     private Student student;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonManagedReference
+    @ManyToOne
     @JoinColumn(name = "section_id")
     private Section section;
 

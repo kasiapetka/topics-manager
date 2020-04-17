@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Presence {
     @NotNull
     private Boolean isPresent;
 
+    @JsonManagedReference
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "student_section_id")
     private StudentSection studentSection;

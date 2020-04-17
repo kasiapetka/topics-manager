@@ -1,5 +1,7 @@
 package com.kasiapetka.topicsmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,9 +23,11 @@ public class Semester {
     @NotNull
     private Integer semester;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "semester")
     private List<Section> sections;
 
+    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "student_semester",
