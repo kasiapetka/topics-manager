@@ -1,11 +1,11 @@
 import React from 'react';
 import {FaUserAlt} from "react-icons/fa";
 import {Button, Form, Label} from "reactstrap";
-import PersonInfo from "../FormLabels/PersonInfo";
-import EmailPasswordChangeInput from "../FormInputs/EmailPasswordChangeInput";
-import NameSurnameChangeInput from "../FormInputs/NameSurnameChangeInput";
-import ConfirmPasswordInput from "../FormInputs/ConfirmPasswordInput";
-import classes from "./Forms.module.css";
+import PersonInfo from "./FormLabels/PersonInfo";
+import EmailPasswordChangeInput from "./FormInputs/EmailPasswordChangeInput";
+import NameSurnameChangeInput from "./FormInputs/NameSurnameChangeInput";
+import ConfirmPasswordInput from "./FormInputs/ConfirmPasswordInput";
+import classes from "../Forms.module.css";
 
 const EditPersonInputs = (props) => {
 
@@ -13,8 +13,8 @@ const EditPersonInputs = (props) => {
     let albumDetails;
     if (props.personRole === 'S') {
         albumDetails = (
-            <div className="mb-2 mr-sm-4 ml-sm-4 mb-sm-0 mt-3">
-                <Label for="actualAlbum" className="mr-sm-2 pl-1">
+            <div className="mb-2 mb-0 mt-3 p-2">
+                <Label for="actualAlbum" className="mr-2 pl-1">
                     {label} Album
                 </Label>
                 <div color="light" id="actualAlbum"
@@ -29,7 +29,7 @@ const EditPersonInputs = (props) => {
             <h3 className="text-center">{label} Account</h3>
             {albumDetails}
             {/*----------Persons name and surname ---------------------------*/}
-            <div className="form-row">
+            <div className="form-row p-2">
                 <PersonInfo
                     label={label + " Name & Surname"}
                     content={props.person.name + " " + props.person.surname}/>
@@ -69,7 +69,7 @@ const EditPersonInputs = (props) => {
             />
 
             <div className="form-row text-center pt-4">
-                <div className="col-12">
+                <div className="col-md-12">
                     <Button type="submit" className="btn btn-primary">Save Changes</Button>
                 </div>
             </div>

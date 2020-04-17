@@ -12,17 +12,13 @@ const teacherPageElements = (props) => (
             <AccountDetailsCard
                 person={props.teacher}/>
             <TeacherAccountControls
-                toggleTeachers={props.toggleStudents}/>
+                toggleTeachers={props.toggleStudents}
+                toggleAddSection={props.toggleAddSection}/>
             <Messages/>
         </div>
         <div className="col-md-8">
             {
-                props.showStudents
-                    ?
-                    <ListStudents
-                        path='/api/teacher/students'/>
-                    :
-                    null
+                props.content
             }
             <ListSections/>
         </div>

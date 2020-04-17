@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import auth from "../../Auth";
 import {Badge, Alert} from "reactstrap";
-import EditAccountInputs from "../../components/Forms/FormsTemplates/EditAccountInputs";
-import EditPersonInputs from "../../components/Forms/FormsTemplates/EditPersonInputs";
+import EditAccountInputs from "../../components/Forms/FormsTemplates/EditForm/EditAccountInputs";
+import EditPersonInputs from "../../components/Forms/FormsTemplates/EditForm/EditPersonInputs";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import Spinner from "../../components/UI/Spinner/Spinner";

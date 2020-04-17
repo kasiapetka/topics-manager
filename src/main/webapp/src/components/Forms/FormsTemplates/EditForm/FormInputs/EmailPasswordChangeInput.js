@@ -3,8 +3,8 @@ import {FormGroup, Input, Label} from "reactstrap";
 
 
 const emailPasswordChangeInput =(props)=>(
-    <div className="form-row">
-        <FormGroup className="mt-3 col-md-5 mb-2 ml-auto mr-auto">
+    <div className="form-row p-2">
+        <FormGroup className="mt-3 col-md-6 mb-2 ml-auto mr-auto">
             <Label for="exampleEmail" className="mr-sm-2 pl-1">
                 New Email Address
             </Label>
@@ -14,7 +14,7 @@ const emailPasswordChangeInput =(props)=>(
                    onChange={props.change}
                    invalid={props.wrongEmail || props.emptyForm}/>
         </FormGroup>
-        <FormGroup className="mb-2 mt-3 col-md-5 mr-auto ml-auto">
+        <FormGroup className="mb-2 mt-3 col-md-6 mr-auto ml-auto">
             <Label for="newPassword" className="mr-sm-2 pl-1">
                 New Password
             </Label>

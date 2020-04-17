@@ -3,9 +3,9 @@ import {FormGroup, Input, Label} from "reactstrap";
 
 
 const nameSurnameChangeInput =(props)=>(
-    <div className="form-row">
-        <FormGroup className="mb-2 mt-3 col-md-5 ml-auto mr-auto">
-            <Label for="exampleName" className="mr-sm-2 pl-1">
+    <div className="form-row p-2">
+        <FormGroup className="mb-2 mt-3 col-md-6 ml-auto mr-auto">
+            <Label for="exampleName" className="mr-2 pl-1">
                 New Name
             </Label>
             <Input type="text" name="newName"
@@ -15,8 +15,8 @@ const nameSurnameChangeInput =(props)=>(
                    onChange={props.change}
                    invalid={props.emptyForm}/>
         </FormGroup>
-        <FormGroup className="mb-2 mt-3 col-md-5 ml-auto mr-auto">
-            <Label for="exampleSurname" className="mr-sm-2 pl-1">
+        <FormGroup className="mb-2 mt-3 col-md-6 ml-auto mr-auto">
+            <Label for="exampleSurname" className="mr-2 pl-1">
                 New Surname
             </Label>
             <Input type="text" name="newSurname"
