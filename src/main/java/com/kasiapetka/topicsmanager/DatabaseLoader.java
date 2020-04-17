@@ -16,6 +16,7 @@ import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import com.kasiapetka.topicsmanager.services.CodeService;
 
+import com.kasiapetka.topicsmanager.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,9 +39,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private final SectionRepository sectionRepository;
 
     private final SectionService sectionService;
-
-    @Autowired
-    private CodeService codeService;
+    private final SubjectService subjectService;
 
     @Autowired
     private CodeService codeService;
@@ -53,7 +52,7 @@ public class DatabaseLoader implements CommandLineRunner {
                           TeacherRepository teacherRepository,RoleRepository roleRepository,
                           SubjectRepository subjectRepository, SemesterRepository semesterRepository,
                           SectionService sectionService, TopicRepository topicRepository,
-                          SectionRepository sectionRepository) {
+                          SectionRepository sectionRepository, SubjectService subjectService) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -64,6 +63,7 @@ public class DatabaseLoader implements CommandLineRunner {
         this.sectionRepository = sectionRepository;
 
         this.sectionService = sectionService;
+        this.subjectService = subjectService;
     }
 
     @Override
@@ -179,7 +179,7 @@ public class DatabaseLoader implements CommandLineRunner {
         Subject subject = new Subject();
         subject.setName("Smoking dope");
         subject.setSummary("420420420");
-        subjectRepository.save(subject);
+        subjectService.addNewSubject(subject);
 
         Teacher teacher = new Teacher();
         teacher.setName("Seth");

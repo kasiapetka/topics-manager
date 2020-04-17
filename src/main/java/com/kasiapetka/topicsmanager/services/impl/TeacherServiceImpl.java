@@ -53,7 +53,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<Student> listStudents() {
         List<Student> students = new ArrayList<>();
-        studentRepository.findAll().iterator().forEachRemaining(students::add);
+        studentRepository.findAllByIsActive(true).iterator().forEachRemaining(students::add);
         return students;
     }
 
