@@ -2,11 +2,9 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
-import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.SubjectService;
-import com.kasiapetka.topicsmanager.services.TeacherService;
+import com.kasiapetka.topicsmanager.parsingClasses.NewSection;
+import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
-import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +20,7 @@ public class TeacherController {
     private TeacherService teacherService;
     private StudentService studentService;
     private SubjectService subjectService;
+    private SectionService sectionService;
 
     private UserDetailsServiceImpl userDetailsServiceImpl;
     private BCryptPasswordEncoder passwordEncoder;
@@ -29,11 +28,13 @@ public class TeacherController {
 
     public TeacherController(UserService userService, TeacherService teacherService,
                              UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
-                             StudentService studentService, SubjectService subjectService) {
+                             StudentService studentService, SubjectService subjectService,
+                             SectionService sectionService) {
         this.userService = userService;
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.subjectService = subjectService;
+        this.sectionService = sectionService;
 
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
@@ -89,4 +90,21 @@ public class TeacherController {
         return subjectService.getTopicListBySubjectId(id);
     }
 
+    @PostMapping("/api/teacher/addsection")
+    ResponseEntity<?> addNewSection(NewSection newSection){
+        if(sectionService.addNewSection(newSection)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PostMapping("/api/teacher/addstudenttosection")
+    ResponseEntity<?> addStudentToSection(Long studentAlbum, Long sectionId){
+        if(sectionService.addStudentToSection(studentAlbum, sectionId)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
 }

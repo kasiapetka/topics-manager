@@ -4,8 +4,10 @@ import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Semester;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Topic;
+import com.kasiapetka.topicsmanager.parsingClasses.NewSection;
 
 public interface SectionService {
-    Boolean addNewSection(Topic topic, Semester semester, Section section);
-    Boolean addStudentToSection(Student student, Section section);
+    Section findSectionById(Long id);
+    Boolean addNewSection(NewSection newSection);
+    Boolean addStudentToSection(Long studentAlbum, Long sectionId);
 }

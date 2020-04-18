@@ -16,6 +16,7 @@ public class Semester {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    //TODO przekminic po co jest faculty i year
     @NotNull
     private String faculty;
     @NotNull
