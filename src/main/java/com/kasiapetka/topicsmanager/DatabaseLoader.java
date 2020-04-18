@@ -201,25 +201,25 @@ public class DatabaseLoader implements CommandLineRunner {
         topicRepository.save(topic);
 
         //Creating a new Section
-        Section section = new Section();
-        section.setName("we the best");
-        section.setSizeOfSection(69);
-        section.setIsOpen(true);
-
-        sectionService.addNewSection(topic, semester, section);
-        //end
-
-        //Adding a new Student to Section
-        Student student = new Student();
-        student.setName("mati");
-        student.setSurname("kolmanowski");
-        student.setIsActive(true);
-        studentRepository.save(student);
-
-        Section section1 = sectionRepository.findByName("we the best");
-        Student student1 = studentRepository.findByName("mati");
-
-        sectionService.addStudentToSection(student1, section1);
+//        Section section = new Section();
+//        section.setName("we the best");
+//        section.setSizeOfSection(69);
+//        section.setIsOpen(true);
+//
+//        sectionService.addNewSection(topic, semester, section);
+//        //end
+//
+//        //Adding a new Student to Section
+//        Student student = new Student();
+//        student.setName("mati");
+//        student.setSurname("kolmanowski");
+//        student.setIsActive(true);
+//        studentRepository.save(student);
+//
+//        Section section1 = sectionRepository.findByName("we the best");
+//        Student student1 = studentRepository.findByName("mati");
+//
+//        sectionService.addStudentToSection(student1.getAlbum(), section1.getId());
        //end
 
        //end
