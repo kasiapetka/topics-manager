@@ -49,12 +49,13 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
+    @Transactional
     public Boolean addNewSection(NewSection newSection) {
         try{
             Section section = new Section();
             section.setName(newSection.getName());
             section.setSizeOfSection(newSection.getSize());
-            section.setIsOpen(true);
+            section.setIsOpen(newSection.getIsOpen());
 
             Topic topic = topicService.findTopicById(newSection.getTopicId());
             Semester semester = semesterService.findSemesterBySemester(newSection.getSemester());
