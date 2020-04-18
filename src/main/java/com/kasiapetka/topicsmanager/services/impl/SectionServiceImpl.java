@@ -48,6 +48,7 @@ public class SectionServiceImpl implements SectionService {
         return optionalSection.get();
     }
 
+    //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
     @Override
     @Transactional
     public Boolean addNewSection(NewSection newSection) {
@@ -55,9 +56,9 @@ public class SectionServiceImpl implements SectionService {
             Section section = new Section();
             section.setName(newSection.getName());
             section.setSizeOfSection(newSection.getSize());
-            section.setIsOpen(newSection.getIsOpen());
+            section.setIsOpen(newSection.getState());
 
-            Topic topic = topicService.findTopicById(newSection.getTopicId());
+            Topic topic = topicService.findTopicById(newSection.getTopic());
             Semester semester = semesterService.findSemesterBySemester(newSection.getSemester());
             section.setTopic(topic);
             section.setSemester(semester);

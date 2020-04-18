@@ -6,7 +6,7 @@ import lombok.Data;
 public class NewSection {
     private String name;
     private Integer size;
-    private Boolean isOpen;
+    private Boolean state; //zmienic na isOpen
     private Integer semester;
-    private Long topicId;
+    private Long topic; //zmienic na topicId
 }
