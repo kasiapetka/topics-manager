@@ -12,23 +12,12 @@
 .Students{
     max-height: 750px;
     min-height: 400px;
+    max-width: 700px;
     border: 1px solid #e1e1e1;
     overflow-y: auto;
     border-radius: 10px;
     background-color:  rgba(248, 248, 248,0.7);
     margin: 10px auto;
-}
-
-@media(min-width:1085px) {
-    .Students{
-        width:800px;
-    }
-}
-
-@media(min-width:900px) {
-    .Student{
-        width:500px
-    }
 }
 
 /* width */

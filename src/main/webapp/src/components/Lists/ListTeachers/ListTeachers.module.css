@@ -9,21 +9,10 @@
     background: linear-gradient(rgba(255,255,255,0.9), rgba(241,241,241,0.5));
 }
 
-@media(min-width:1085px) {
-    .Teachers{
-        width:800px;
-    }
-}
-
-@media(min-width:900px) {
-    .Teacher{
-        width:500px
-    }
-}
-
 .Teachers{
     max-height: 750px;
     min-height: 400px;
+    max-width: 700px;
     border: 1px solid #e1e1e1;
     overflow-y: auto;
     border-radius: 10px;

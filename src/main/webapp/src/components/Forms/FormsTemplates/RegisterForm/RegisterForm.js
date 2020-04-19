@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 
-const registerFormInputs =(props)=> {
+const registerForm =(props)=> {
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-5 " + classes.Form;
 
     return (
@@ -49,4 +49,4 @@ const registerFormInputs =(props)=> {
     )
 };
 
-export default registerFormInputs
+export default registerForm

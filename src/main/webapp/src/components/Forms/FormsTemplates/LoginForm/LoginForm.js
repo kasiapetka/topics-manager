@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 
-const loginFormInputs =(props)=>{
+const loginForm =(props)=>{
     const classNames = "border rounded pt-4 pb-5 mt-5 p-3 " + classes.Form;
 
     return(
@@ -40,4 +40,4 @@ const loginFormInputs =(props)=>{
     )
 };
 
-export default loginFormInputs
+export default loginForm

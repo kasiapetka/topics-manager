@@ -16,6 +16,10 @@ const Students =()=>{
                 key={student.album}
                 edit={() =>studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
+                addToSection={()=>studentsContext.addToSection(index)}
+                addStudentToSection={studentsContext.addStudentToSection}
+                removeFromSection={()=>studentsContext.removeFromSection(index)}
+                removeStudentFromSection={studentsContext.removeStudentFromSection}
             />
         })
     )

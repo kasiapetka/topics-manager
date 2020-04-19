@@ -2,10 +2,10 @@ import React from 'react';
 import {Badge} from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import auth from "../../Auth";
-import RegisterFormInputs from "../../components/Forms/FormsTemplates/RegisterForm/RegisterFormInputs";
+import RegisterFormInputs from "../../components/Forms/FormsTemplates/RegisterForm/RegisterForm";
 import axios from 'axios'
 
-export class RegisterForm extends React.Component {
+export class Register extends React.Component {
 
     emptyUser = {
         album: '',
@@ -89,4 +89,4 @@ export class RegisterForm extends React.Component {
     }
 }
 
-export default RegisterForm;
+export default Register;

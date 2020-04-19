@@ -2,10 +2,10 @@ import React from 'react';
 import {Badge} from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import auth from "../../Auth";
-import LoginFormInputs from "../../components/Forms/FormsTemplates/LoginForm/LoginFormInputs";
+import LoginFormInputs from "../../components/Forms/FormsTemplates/LoginForm/LoginForm";
 import axios from 'axios'
 
-class LoginForm extends React.Component {
+class Login extends React.Component {
 
     emptyUser = {
         token: '',
@@ -98,4 +98,4 @@ class LoginForm extends React.Component {
     }
 };
 
-export default LoginForm;
+export default Login;

@@ -36,7 +36,7 @@ public class RegisterForm {
 
     @Override
     public String toString() {
-        return "RegisterForm{" +
+        return "Register{" +
                 "album='" + album + '\'' +
                 ", code='" + code + '\'' +
                 ", email='" + email + '\'' +

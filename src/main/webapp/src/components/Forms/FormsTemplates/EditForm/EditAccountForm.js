@@ -5,7 +5,7 @@ import EmailPasswordChangeInput from "./FormInputs/EmailPasswordChangeInput";
 import ConfirmPasswordInput from "./FormInputs/ConfirmPasswordInput";
 import classes from '../Forms.module.css'
 
-const editAccountInputs = (props) => {
+const editAccountForm = (props) => {
 
     let nameDetails;
     const name = !props.person.name ? "Administrator" : props.person.name + " " + props.person.surname;
@@ -65,4 +65,4 @@ const editAccountInputs = (props) => {
     )
 };
 
-export default editAccountInputs;
+export default editAccountForm;

@@ -3,7 +3,6 @@ import AccountDetailsCard from "../../../UI/AccountDetailsCard/AccountDetailsCar
 import TeacherAccountControls from "./TeacherAccountControls";
 import Messages from "../../../Messages/Messages";
 import ListSections from "../../../../containers/Lists/ListSections";
-import ListStudents from "../../../../containers/Lists/ListStudents";
 
 const teacherPageElements = (props) => (
     <div className="container-fluid h-100 mt-5">

@@ -23,7 +23,8 @@ class ListStudents extends Component {
             personRole: '',
             deletePerson: false,
             personToDelete: '',
-            loading: true
+            loading: true,
+            addStudentToSection: this.props.addStudentToSection ? this.props.addStudentToSection : false,
         };
     }
 
@@ -61,11 +62,6 @@ class ListStudents extends Component {
         });
     };
 
-    onStudentEditHandler = (index) => {
-        const person = this.state.studentsFiltered[index];
-        this.props.editPerson("/api/admin/modifyStudent", person.album, 'S');
-    };
-
     onConditionChanged = (event) => {
         this.setState({
             condition: event.currentTarget.value,
@@ -74,9 +70,25 @@ class ListStudents extends Component {
         });
     };
 
+    onStudentEditHandler = (index) => {
+        const student = this.state.studentsFiltered[index];
+        this.props.editPerson("/api/admin/modifyStudent", student.album, 'S');
+    };
+
     onStudentDeleteHandler = (index) => {
-        const person = this.state.studentsFiltered[index];
-        this.props.deletePerson(person, 'S');
+        const student = this.state.studentsFiltered[index];
+        this.props.deletePerson(student, 'S');
+    };
+
+    addToSectionHandler = (index) =>{
+        const student = this.state.studentsFiltered[index];
+        this.props.addToSection(student);
+    };
+
+    removeFromSectionHandler=(index)=>
+    {
+        const student = this.state.studentsFiltered[index];
+        this.props.removeFromSection(student);
     };
 
     render() {
@@ -103,6 +115,9 @@ class ListStudents extends Component {
                             condition: this.state.condition,
                             search: this.state.search,
                             delete: this.onStudentDeleteHandler,
+                            addStudentToSection: this.state.addStudentToSection,
+                            addToSection: this.addToSectionHandler,
+                            removeFromSection: this.removeFromSectionHandler
                         }}>
                         <div className={classes.Students}>
                             <FilterPersonsList

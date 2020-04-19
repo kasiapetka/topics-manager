@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import auth from "../../Auth";
 import {Badge, Alert} from "reactstrap";
-import EditAccountInputs from "../../components/Forms/FormsTemplates/EditForm/EditAccountInputs";
-import EditPersonInputs from "../../components/Forms/FormsTemplates/EditForm/EditPersonInputs";
+import EditAccountInputs from "../../components/Forms/FormsTemplates/EditForm/EditAccountForm";
+import EditPersonForm from "../../components/Forms/FormsTemplates/EditForm/EditPersonForm";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -151,7 +151,7 @@ class EditAccount extends Component {
             console.log('1')
         }
         else if(this.state.personEdition){
-            form= <EditPersonInputs
+            form= <EditPersonForm
                 credentialsChangedSuccess={credentialsChangedSuccess}
                 submit={this.handleSubmit}
                 change={this.handleChange}

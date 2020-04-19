@@ -7,7 +7,7 @@ import NameSurnameChangeInput from "./FormInputs/NameSurnameChangeInput";
 import ConfirmPasswordInput from "./FormInputs/ConfirmPasswordInput";
 import classes from "../Forms.module.css";
 
-const EditPersonInputs = (props) => {
+const EditPersonForm = (props) => {
 
     let label = props.personRole === 'T' ? 'Teachers' : 'Students';
     let albumDetails;
@@ -77,4 +77,4 @@ const EditPersonInputs = (props) => {
     )
 };
 
-export default EditPersonInputs;
+export default EditPersonForm;
