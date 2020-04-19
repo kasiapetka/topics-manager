@@ -15,7 +15,7 @@ const addStudentToSectionForm = (props) => {
 
     return (
         <Form className={classNames} onSubmit={props.onSubmit}>
-            <h3 className="text-center mt-2">Add Students to Section</h3>
+            <h3 className="text-center mt-2">Add max.{props.section.size} Students to Section</h3>
 
             <p>Students in section: </p>
             <ul>
@@ -26,7 +26,8 @@ const addStudentToSectionForm = (props) => {
                 path='/api/teacher/students'
                 addStudentToSection={true}
                 addToSection={props.addToSection}
-                removeFromSection={props.removeFromSection}/>
+                removeFromSection={props.removeFromSection}
+                sectionSize={props.section.size}/>
 
 
             <div className="form-row text-center pt-4">

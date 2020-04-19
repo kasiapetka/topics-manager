@@ -28,7 +28,7 @@ const Student = (props) => {
                     null
             }
             {
-                props.addStudentToSection && !removeStudentFromSection
+                props.addStudentsToSection && !removeStudentFromSection
                     ?
                     <Row className="pt-2 pb-3 mr-0 ml-0">
                         <Col><Button className="d-inline-block" onClick={()=>{
@@ -39,7 +39,7 @@ const Student = (props) => {
                     null
             }
             {
-                removeStudentFromSection
+               removeStudentFromSection
                     ?
                     <Row className="pt-2 pb-3 mr-0 ml-0">
                         <Col><Button className="d-inline-block" color="danger" onClick={()=> {

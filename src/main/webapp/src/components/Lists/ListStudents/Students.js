@@ -17,9 +17,8 @@ const Students =()=>{
                 edit={() =>studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
                 addToSection={()=>studentsContext.addToSection(index)}
-                addStudentToSection={studentsContext.addStudentToSection}
+                addStudentsToSection={studentsContext.addStudentsToSection}
                 removeFromSection={()=>studentsContext.removeFromSection(index)}
-                removeStudentFromSection={studentsContext.removeStudentFromSection}
             />
         })
     )

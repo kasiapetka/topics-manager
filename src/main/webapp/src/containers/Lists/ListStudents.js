@@ -24,7 +24,8 @@ class ListStudents extends Component {
             deletePerson: false,
             personToDelete: '',
             loading: true,
-            addStudentToSection: this.props.addStudentToSection ? this.props.addStudentToSection : false,
+            addStudentsToSection: this.props.addStudentToSection ? this.props.addStudentToSection : false,
+            studentsInSection:0
         };
     }
 
@@ -82,12 +83,38 @@ class ListStudents extends Component {
 
     addToSectionHandler = (index) =>{
         const student = this.state.studentsFiltered[index];
+        let size =  this.state.studentsInSection;
+        size = size +1;
+        if(size >= this.props.sectionSize){
+            this.setState({
+                addStudentsToSection: false,
+            });
+        }
+
+        this.setState((prevState)=> {
+            return{
+                studentsInSection: size
+            }
+        });
         this.props.addToSection(student);
     };
 
     removeFromSectionHandler=(index)=>
     {
         const student = this.state.studentsFiltered[index];
+        let size =  this.state.studentsInSection;
+        if(size >= this.props.sectionSize){
+            this.setState({
+                addStudentsToSection: true,
+            });
+        }
+        size = size -1;
+
+        this.setState((prevState)=> {
+            return{
+                studentsInSection: size
+            }
+        });
         this.props.removeFromSection(student);
     };
 
@@ -115,9 +142,9 @@ class ListStudents extends Component {
                             condition: this.state.condition,
                             search: this.state.search,
                             delete: this.onStudentDeleteHandler,
-                            addStudentToSection: this.state.addStudentToSection,
+                            addStudentsToSection: this.state.addStudentsToSection,
                             addToSection: this.addToSectionHandler,
-                            removeFromSection: this.removeFromSectionHandler
+                            removeFromSection: this.removeFromSectionHandler,
                         }}>
                         <div className={classes.Students}>
                             <FilterPersonsList
