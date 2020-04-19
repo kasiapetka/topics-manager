@@ -4,11 +4,11 @@ import {Alert} from "reactstrap";
 import axios from 'axios'
 import AddStudentToSectionForm
     from "../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
-import student from "../../components/Lists/ListStudents/Student";
 
 class AddSection extends Component {
 
     emptySection = {
+        id:'',
         name: '',
         size: '',
         semester: '',
@@ -30,7 +30,7 @@ class AddSection extends Component {
         axios.get('/api/teacher/subjects').then(response => {
             let subjects = [...response.data];
             this.setState({
-                subjects: subjects,
+                subjects: subjects
             });
         }).catch(error => {
             this.setState({
@@ -53,10 +53,10 @@ class AddSection extends Component {
 
     onSectionAdditionHandler = (event) => {
         event.preventDefault();
-        const section = {...this.state.section};
+        let section = {...this.state.section};
 
         for (let [key, value] of Object.entries(section)) {
-            if (value === '') {
+            if (key !== 'id' && value === '') {
                 this.setState({
                     emptyForm: true
                 });
@@ -65,8 +65,10 @@ class AddSection extends Component {
         }
 
         axios.post('/api/teacher/addSection', section).then(response => {
+            section.id = response.data;
             this.setState({
                 addStudents: true,
+                section: section
             })
         }).catch(error => {
             this.setState({
@@ -112,7 +114,24 @@ class AddSection extends Component {
     };
 
     onStudentsAdditionHandler=()=>{
+        let studentsAlbums=[];
 
+        for (let [key, value] of Object.entries(this.state.students)) {
+           studentsAlbums.push(value.album);
+        }
+
+        let studentSection={
+            studentsAlbums: studentsAlbums,
+            sectionId: this.state.section.id
+        };
+
+        axios.put('/api/teacher/addStudentsToSection', studentSection).then(response => {
+
+        }).catch(error => {
+            this.setState({
+                error: true,
+            })
+        })
     };
 
     render() {
@@ -140,7 +159,8 @@ class AddSection extends Component {
                 addToSection={this.addStudentToSectionHandler}
                 removeFromSection={this.removeStudentFromSectionHandler}
                 students={this.state.students}
-                onSubmit={this.onStudentsAdditionHandler}/>
+                onSubmit={this.onStudentsAdditionHandler}
+                section={this.state.section}/>
         }
 
         return content;
