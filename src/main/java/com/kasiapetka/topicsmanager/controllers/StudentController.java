@@ -3,7 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.services.UserService;
@@ -35,7 +35,7 @@ public class StudentController {
     }
 
     @GetMapping("/api/student/info")
-    ResponseEntity<?> returnStudent(){
+    ResponseEntity<?> returnStudent() {
         User studentUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.ok(studentService.findStudentByUser(studentUser));
     }
@@ -48,20 +48,20 @@ public class StudentController {
         User studentUser = userService.findUserByEmail(oldEmail);
         Student student = studentService.findStudentByUser(studentUser);
 
-        EditAccount result = new EditAccount(student.getAlbum(),studentUser.getEmail(), "",
-                student.getName(), student.getSurname(),"","" ,"",
+        EditAccount result = new EditAccount(student.getAlbum(), studentUser.getEmail(), "",
+                student.getName(), student.getSurname(), "", "", "",
                 "");
 
-        if(editAccount.getPassword().equals("")){
+        if (editAccount.getPassword().equals("")) {
             return ResponseEntity.ok(result);
         }
 
         int responseCode;
 
-        if(userService.checkCrudentials(editAccount.getPassword(), studentUser.getPassword())){
+        if (userService.checkCrudentials(editAccount.getPassword(), studentUser.getPassword())) {
             responseCode = userService.changeCredentials(editAccount, studentUser);
 
-            if(responseCode == 201){
+            if (responseCode == 201) {
                 responseCode = 200;
                 result.setEmail(editAccount.getNewEmail());
             }

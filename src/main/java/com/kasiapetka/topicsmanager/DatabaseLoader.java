@@ -5,22 +5,13 @@ import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.*;
 import com.kasiapetka.topicsmanager.services.CodeService;
 import com.kasiapetka.topicsmanager.services.SectionService;
-
-import com.kasiapetka.topicsmanager.model.Role;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.repositories.RoleRepository;
-import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
-import com.kasiapetka.topicsmanager.repositories.UserRepository;
-import com.kasiapetka.topicsmanager.services.CodeService;
-
 import com.kasiapetka.topicsmanager.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 ///import org.springframework.security.core.authority.AuthorityUtils;
@@ -69,14 +60,14 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        codeService.encode("100000");
-        codeService.encode("100001");
-        codeService.encode("100002");
-        codeService.encode("100003");
-        codeService.encode("100004");
-        codeService.encode("100005");
-        codeService.encode("100006");
-        codeService.encode("100007");
+//        codeService.encode("100000");
+//        codeService.encode("100001");
+//        codeService.encode("100002");
+//        codeService.encode("100003");
+//        codeService.encode("100004");
+//        codeService.encode("100005");
+//        codeService.encode("100006");
+//        codeService.encode("100007");
 
 //        for(int i=0;i<1000; i++){
 //            int value = (int)(Math.random() * ((999999 - 100000) + 1)) + 100000;
@@ -197,10 +188,51 @@ public class DatabaseLoader implements CommandLineRunner {
         teacher.setIsActive(true);
         teacherRepository.save(teacher);
 
+        // ======================================================================
+        // Semesters
+
+        Integer year = Integer.valueOf(LocalDate.now().toString().split("-")[0]);
+
         Semester semester = new Semester();
         semester.setFaculty("Indica");
-        semester.setYear(2002);
+        semester.setYear(year);
         semester.setSemester(1);
+        semesterRepository.save(semester);
+
+        semester = new Semester();
+        semester.setFaculty("Sativa");
+        semester.setYear(year);
+        semester.setSemester(2);
+        semesterRepository.save(semester);
+
+        semester = new Semester();
+        semester.setFaculty("Ursynowski Domestos Haze");
+        semester.setYear(year);
+        semester.setSemester(3);
+        semesterRepository.save(semester);
+
+        semester = new Semester();
+        semester.setFaculty("Chemol Haze");
+        semester.setYear(year);
+        semester.setSemester(4);
+        semesterRepository.save(semester);
+
+        semester = new Semester();
+        semester.setFaculty("Amnezja");
+        semester.setYear(year);
+        semester.setSemester(5);
+        semesterRepository.save(semester);
+
+        semester = new Semester();
+        semester.setFaculty("K0S10R");
+        semester.setYear(year);
+        semester.setSemester(6);
+        semesterRepository.save(semester);
+
+        semester = new Semester();
+        semester.setFaculty("Lemon Super Haze");
+        semester.setYear(year);
+        semester.setSemester(7);
         semesterRepository.save(semester);
 
         Topic topic = new Topic();

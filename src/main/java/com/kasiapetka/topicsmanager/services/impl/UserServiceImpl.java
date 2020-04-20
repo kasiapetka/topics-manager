@@ -1,7 +1,7 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import com.kasiapetka.topicsmanager.services.UserService;

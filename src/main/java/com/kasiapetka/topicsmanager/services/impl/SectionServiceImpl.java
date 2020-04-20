@@ -1,11 +1,10 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
+import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
 import com.kasiapetka.topicsmanager.model.*;
-import com.kasiapetka.topicsmanager.parsingClasses.NewSection;
+import com.kasiapetka.topicsmanager.DTO.NewSection;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
-import com.kasiapetka.topicsmanager.repositories.SemesterRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.repositories.TopicRepository;
 import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.SemesterService;
 import com.kasiapetka.topicsmanager.services.StudentService;
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.time.LocalDate;
 
 
 @Service
@@ -30,7 +29,7 @@ public class SectionServiceImpl implements SectionService {
     @Autowired
     public SectionServiceImpl(SectionRepository sectionRepository, StudentRepository studentRepository,
                               TopicService topicService, SemesterService semesterService,
-                              StudentService studentService){
+                              StudentService studentService) {
         this.sectionRepository = sectionRepository;
         this.studentRepository = studentRepository;
 
@@ -47,48 +46,56 @@ public class SectionServiceImpl implements SectionService {
     //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
     @Override
     //@Transactional
-    public Boolean addNewSection(NewSection newSection) {
-        try{
+    public Long addNewSection(NewSection newSection) {
+        try {
             Section section = new Section();
             section.setName(newSection.getName());
             section.setSizeOfSection(newSection.getSize());
             section.setIsOpen(newSection.getState());
 
             Topic topic = topicService.findTopicById(newSection.getTopic());
-            Semester semester = semesterService.findSemesterBySemester(newSection.getSemester());
+
+            //todo rozkminic ten rok
+            Semester semester = semesterService.findSemesterBySemesterAndYear(newSection.getSemester(),
+                    Integer.valueOf(LocalDate.now().toString().split("-")[0]));
             section.setTopic(topic);
             section.setSemester(semester);
 
             sectionRepository.save(section);
-            return true;
-        } catch (HibernateException he){
-            return false;
+
+            return section.getId();
+        } catch (HibernateException he) {
+            return -1L;
         }
     }
 
     @Override
     @Transactional
-    public Boolean addStudentToSection(Long studentAlbum, Long sectionId) {
+    public Boolean addStudentsToSection(AddStudentsToSectionDTO addStudentsToSectionDTO) {
+        try {
+            Section section = findSectionById(addStudentsToSectionDTO.getSectionId());
 
-        try{
-            Student student = studentService.findStudentByAlbum(studentAlbum);
-            Section section = findSectionById(sectionId);
-
-            if(!section.getIsOpen()){
+            if (!section.getIsOpen()) {
                 return false;
             }
 
-            StudentSection studentSection = new StudentSection();
-            studentSection.setStudent(student);
-            studentSection.setSection(section);
+            for (Long album : addStudentsToSectionDTO.getStudentsAlbums()) {
+                Student student = studentService.findStudentByAlbum(album);
 
-            section.addStudentSection(studentSection);
+                StudentSection studentSection = new StudentSection();
+                studentSection.setStudent(student);
+                studentSection.setSection(section);
 
-            sectionRepository.save(section);
-            return true;
-        } catch (HibernateException he){
-            he.printStackTrace();
+                section.addStudentSection(studentSection);
+
+                sectionRepository.save(section);
+            }
+
+        } catch (HibernateException e) {
+            e.printStackTrace();
             return false;
         }
+
+        return true;
     }
 }

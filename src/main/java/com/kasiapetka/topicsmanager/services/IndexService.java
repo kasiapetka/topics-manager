@@ -1,7 +1,7 @@
 package com.kasiapetka.topicsmanager.services;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
+import com.kasiapetka.topicsmanager.DTO.RegisterForm;
 
 public interface IndexService {
     User findUserByEmail(String email);

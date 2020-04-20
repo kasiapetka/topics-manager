@@ -3,8 +3,8 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.AuthenticationResponse;
-import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
+import com.kasiapetka.topicsmanager.DTO.AuthenticationResponse;
+import com.kasiapetka.topicsmanager.DTO.RegisterForm;
 import com.kasiapetka.topicsmanager.services.CodeService;
 import com.kasiapetka.topicsmanager.services.IndexService;
 import com.kasiapetka.topicsmanager.services.StudentService;
@@ -18,8 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 
@@ -45,7 +45,7 @@ public class IndexController {
     }
 
     @RequestMapping({"/api/hello"})
-    public String hello(){
+    public String hello() {
         return "Hello world";
     }
 
@@ -57,7 +57,7 @@ public class IndexController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new Exception("Bad login creds",e);
+            throw new Exception("Bad login creds", e);
         }
 
         final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getEmail());
@@ -78,18 +78,18 @@ public class IndexController {
 
     //@TODO refactor this FFS
     @PostMapping("/api/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) throws Exception{
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterForm newStudent) throws Exception {
         User userExists = indexService.findUserByEmail(newStudent.getEmail());
         Long album = Long.parseLong(newStudent.getAlbum());
         Student studentExists = studentService.findStudentByAlbum(album);
 
-        if(userExists != null || studentExists == null)
+        if (userExists != null || studentExists == null)
             return ResponseEntity.status(401).build();
         else {
             System.out.println(newStudent);
-            if(codeService.matches(newStudent.getCode(), newStudent.getAlbum())){
-                User newUser = new User(newStudent.getEmail(),newStudent.getPassword());
-                indexService.create(newUser,studentExists);
+            if (codeService.matches(newStudent.getCode(), newStudent.getAlbum())) {
+                User newUser = new User(newStudent.getEmail(), newStudent.getPassword());
+                indexService.create(newUser, studentExists);
             } else {
                 return ResponseEntity.status(401).build();
             }
@@ -97,7 +97,7 @@ public class IndexController {
             try {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newStudent.getEmail(), newStudent.getPassword()));
             } catch (BadCredentialsException e) {
-                throw new Exception("Bad login creds",e);
+                throw new Exception("Bad login creds", e);
             }
 
             final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(newStudent.getEmail());

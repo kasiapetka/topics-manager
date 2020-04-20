@@ -3,7 +3,7 @@ package com.kasiapetka.topicsmanager.services.impl;
 import com.kasiapetka.topicsmanager.model.Role;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.RegisterForm;
+import com.kasiapetka.topicsmanager.DTO.RegisterForm;
 import com.kasiapetka.topicsmanager.repositories.RoleRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
