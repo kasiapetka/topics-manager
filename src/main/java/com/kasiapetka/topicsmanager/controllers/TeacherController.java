@@ -1,8 +1,9 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
+import com.kasiapetka.topicsmanager.DTO.NewSection;
 import com.kasiapetka.topicsmanager.model.*;
-import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
-import com.kasiapetka.topicsmanager.parsingClasses.NewSection;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -41,30 +42,30 @@ public class TeacherController {
     }
 
     @GetMapping("/api/teacher/info")
-    ResponseEntity<?> returnStudent(){
+    ResponseEntity<?> returnStudent() {
         User teacherUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.ok(teacherService.findTeacherByUser(teacherUser));
     }
 
     @PutMapping("/api/teacher/modify")
-    ResponseEntity<?> updateTeacher(@Valid @RequestBody EditAccount editAccount) throws Exception{
+    ResponseEntity<?> updateTeacher(@Valid @RequestBody EditAccount editAccount) throws Exception {
 
         User teacherUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         Teacher teacher = teacherService.findTeacherByUser(teacherUser);
 
-        EditAccount result = new EditAccount(teacher.getId(),teacherUser.getEmail(), "",
-                 teacher.getName(), teacher.getSurname(),"","","","");
+        EditAccount result = new EditAccount(teacher.getId(), teacherUser.getEmail(), "",
+                teacher.getName(), teacher.getSurname(), "", "", "", "");
 
-        if(editAccount.getPassword().equals("")){
+        if (editAccount.getPassword().equals("")) {
             return ResponseEntity.ok(result);
         }
 
         int responseCode;
 
-        if(userService.checkCrudentials(editAccount.getPassword(), teacherUser.getPassword())){
+        if (userService.checkCrudentials(editAccount.getPassword(), teacherUser.getPassword())) {
             responseCode = userService.changeCredentials(editAccount, teacherUser);
 
-            if(responseCode == 201){
+            if (responseCode == 201) {
                 responseCode = 200;
                 result.setEmail(editAccount.getNewEmail());
             }
@@ -76,32 +77,35 @@ public class TeacherController {
     }
 
     @GetMapping("/api/teacher/students")
-    List<Student> listStudents(){
+    List<Student> listStudents() {
         return teacherService.listStudents();
     }
 
     @GetMapping("/api/teacher/subjects")
-    List<Subject> listSubjects(){
+    List<Subject> listSubjects() {
         return subjectService.getSubjectsList();
     }
 
     @GetMapping("/api/teacher/topics/{id}")
-    List<Topic> listTopics(@PathVariable Long id){
+    List<Topic> listTopics(@PathVariable Long id) {
         return subjectService.getTopicListBySubjectId(id);
     }
 
     @PostMapping("/api/teacher/addSection")
-    ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection){
-        if(sectionService.addNewSection(newSection)){
-            return ResponseEntity.ok().build();
+    ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection) {
+
+        Long id = sectionService.addNewSection(newSection);
+
+        if (id > -1) {
+            return ResponseEntity.ok().body(id);
         } else {
             return ResponseEntity.status(500).build();
         }
     }
 
-    @PostMapping("/api/teacher/addStudentToSection")
-    ResponseEntity<?> addStudentToSection(@Valid @RequestBody Long studentAlbum, @Valid @RequestBody Long sectionId){
-        if(sectionService.addStudentToSection(studentAlbum, sectionId)){
+    @PutMapping("/api/teacher/addStudentsToSection")
+    ResponseEntity<?> addStudentToSection(@Valid @RequestBody AddStudentsToSectionDTO addStudentsToSectionDTO) {
+        if (sectionService.addStudentsToSection(addStudentsToSectionDTO)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(500).build();

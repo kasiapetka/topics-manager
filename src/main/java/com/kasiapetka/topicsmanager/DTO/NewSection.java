@@ -1,4 +1,4 @@
-package com.kasiapetka.topicsmanager.parsingClasses;
+package com.kasiapetka.topicsmanager.DTO;
 
 import lombok.Data;
 

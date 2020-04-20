@@ -1,4 +1,4 @@
-package com.kasiapetka.topicsmanager.parsingClasses;
+package com.kasiapetka.topicsmanager.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class EditAccount {
     private String newName;
     private String newSurname;
 
-    public EditAccount(){
+    public EditAccount() {
 
     }
 

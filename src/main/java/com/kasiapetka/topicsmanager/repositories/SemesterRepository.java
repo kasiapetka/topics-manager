@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface SemesterRepository extends CrudRepository<Semester, Long> {
     Optional<Semester> findBySemester(Integer semester);
+    Optional<Semester> findBySemesterAndYear(Integer semester, Integer year);
 }

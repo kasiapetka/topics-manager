@@ -1,7 +1,7 @@
 package com.kasiapetka.topicsmanager.services;
 
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
 
 public interface UserService {
     User findUserByEmail(String email);

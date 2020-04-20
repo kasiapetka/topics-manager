@@ -3,7 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.parsingClasses.EditAccount;
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -56,10 +56,10 @@ public class AdminController {
 
         int responseCode;
 
-        if(userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())){
+        if (userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())) {
             responseCode = userService.changeCredentials(editAccount, adminUser);
 
-            if(responseCode == 201){
+            if (responseCode == 201) {
                 responseCode = 200;
                 result.setEmail(editAccount.getNewEmail());
             }
@@ -94,7 +94,7 @@ public class AdminController {
         }
 
         int responseCode;
-        if(userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())){
+        if (userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())) {
             responseCode = userService.changeCredentials(editAccount, teacherUser);
 
             if (responseCode == 201 || responseCode == 200) {
@@ -141,7 +141,7 @@ public class AdminController {
         }
 
         int responseCode;
-        if(userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())){
+        if (userService.checkCrudentials(editAccount.getPassword(), adminUser.getPassword())) {
             responseCode = userService.changeCredentials(editAccount, studentUser);
 
             if (responseCode == 201 || responseCode == 200) {
@@ -176,8 +176,8 @@ public class AdminController {
     }
 
     @PutMapping("/api/admin/deleteTeacher")
-    ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id){
-        if(teacherService.deleteTeacher(id)){
+    ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id) {
+        if (teacherService.deleteTeacher(id)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(500).build();
@@ -185,8 +185,8 @@ public class AdminController {
     }
 
     @PutMapping("/api/admin/deleteStudent")
-    ResponseEntity<?> deleteStudent(@Valid @RequestBody Long album){
-        if(studentService.deleteStudent(album)){
+    ResponseEntity<?> deleteStudent(@Valid @RequestBody Long album) {
+        if (studentService.deleteStudent(album)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(500).build();
