@@ -47,13 +47,13 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher findTeacherByUser(User user) {
-        return teacherRepository.findByUser(user);
+        return teacherRepository.findByUser(user).orElse(null);
     }
 
     @Override
     public List<Student> listStudents() {
         List<Student> students = new ArrayList<>();
-        studentRepository.findAllByIsActive(true).iterator().forEachRemaining(students::add);
+        studentRepository.findAllByIsActive(true).orElse(null).iterator().forEachRemaining(students::add);
         return students;
     }
 
@@ -79,5 +79,12 @@ public class TeacherServiceImpl implements TeacherService {
         } catch (HibernateException he){
             return false;
         }
+    }
+
+    @Override
+    public List<Teacher> listActiveTeachers() {
+        List<Teacher> teachers = new ArrayList<>();
+        teacherRepository.findAllByIsActive(true).orElse(null).iterator().forEachRemaining(teachers::add);
+        return teachers;
     }
 }

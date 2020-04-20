@@ -8,6 +8,8 @@ import com.kasiapetka.topicsmanager.repositories.RoleRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import com.kasiapetka.topicsmanager.services.IndexService;
+import com.kasiapetka.topicsmanager.services.RoleService;
+import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,26 +23,35 @@ public class IndexServiceImpl implements IndexService {
     protected UserRepository userRepository;
     protected RoleRepository roleRepository;
     protected StudentRepository studentRepository;
+
+    protected RoleService roleService;
+    protected UserService userService;
+
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public IndexServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                            BCryptPasswordEncoder bCryptPasswordEncoder, StudentRepository studentRepository) {
+                            BCryptPasswordEncoder bCryptPasswordEncoder, StudentRepository studentRepository,
+                            RoleService roleService, UserService userService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.studentRepository = studentRepository;
+
+        this.roleService = roleService;
+        this.userService = userService;
+
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userService.findUserByEmail(email);
     }
 
     @Override
     public void create(User user, Student student) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Role userRole = roleRepository.findByRoleName("Student");
+        Role userRole = roleService.findRoleByRoleName("Student");
         user.setRole(userRole);
         userRepository.save(user);
         student.setUser(user);

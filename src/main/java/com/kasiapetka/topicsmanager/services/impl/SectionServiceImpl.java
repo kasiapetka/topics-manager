@@ -41,16 +41,12 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public Section findSectionById(Long id) {
-        Optional<Section> optionalSection = sectionRepository.findById(id);
-        if(!optionalSection.isPresent()){
-            return null;
-        }
-        return optionalSection.get();
+        return sectionRepository.findById(id).orElse(null);
     }
 
     //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
     @Override
-    @Transactional
+    //@Transactional
     public Boolean addNewSection(NewSection newSection) {
         try{
             Section section = new Section();

@@ -20,19 +20,11 @@ public class SemesterServiceImpl implements SemesterService {
 
     @Override
     public Semester findSemesterById(Long id) {
-        Optional<Semester> semesterOptional = semesterRepository.findById(id);
-        if(!semesterOptional.isPresent()){
-            return null;
-        }
-        return semesterOptional.get();
+        return semesterRepository.findById(id).orElse(null);
     }
 
     @Override
     public Semester findSemesterBySemester(Integer semester) {
-        Optional<Semester> semesterOptional = semesterRepository.findBySemester(semester);
-        if(!semesterOptional.isPresent()){
-            return null;
-        }
-        return semesterOptional.get();
+        return semesterRepository.findBySemester(semester).orElse(null);
     }
 }

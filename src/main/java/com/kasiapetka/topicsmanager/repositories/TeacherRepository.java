@@ -6,10 +6,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TeacherRepository extends CrudRepository<Teacher, Long> {
-    Teacher findByUser(User user);
-    Teacher findByName(String name);
-    List<Teacher> findAllByIsActive(Boolean isActive);
+    Optional<Teacher> findByUser(User user);
+    Optional<List<Teacher>> findAllByIsActive(Boolean isActive);
 }

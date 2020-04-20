@@ -167,7 +167,7 @@ public class AdminController {
 
     @GetMapping("/api/admin/teachers")
     List<Teacher> listTeachers() {
-        return adminService.listTeachers();
+        return teacherService.listActiveTeachers();
     }
 
     @GetMapping("/api/admin/students")

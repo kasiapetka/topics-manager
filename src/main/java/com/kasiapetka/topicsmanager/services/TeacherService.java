@@ -11,6 +11,7 @@ public interface TeacherService {
 //    void changePassword(Teacher student, String password);
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
+    List<Teacher> listActiveTeachers();
     List<Student> listStudents();
     void changeName(Teacher teacher, String name);
     void changeSurname(Teacher teacher, String surname);

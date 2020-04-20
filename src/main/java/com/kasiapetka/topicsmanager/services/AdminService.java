@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface AdminService {
     //    void changePassword(User admin, String password);
-    List<Teacher> listTeachers();
     List<Student> listStudents();
 }
