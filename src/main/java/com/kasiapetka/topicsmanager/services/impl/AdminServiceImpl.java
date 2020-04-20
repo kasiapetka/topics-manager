@@ -2,7 +2,6 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.repositories.AdminRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.repositories.UserRepository;
@@ -19,27 +18,18 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     protected UserRepository userRepository;
-    protected AdminRepository adminRepository;
     protected TeacherRepository teacherRepository;
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
     protected StudentRepository studentRepository;
 
 
-    public AdminServiceImpl(UserRepository userRepository, AdminRepository adminRepository,
-                            TeacherRepository teacherRepository, BCryptPasswordEncoder bCryptPasswordEncode,
+    public AdminServiceImpl(UserRepository userRepository, TeacherRepository teacherRepository,
+                            BCryptPasswordEncoder bCryptPasswordEncode,
                             StudentRepository studentRepository) {
         this.userRepository = userRepository;
-        this.adminRepository = adminRepository;
         this.teacherRepository = teacherRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.studentRepository =studentRepository;
-    }
-
-    @Override
-    public List<Teacher> listTeachers() {
-        List<Teacher> teachers = new ArrayList<>();
-        teacherRepository.findAllByIsActive(true).iterator().forEachRemaining(teachers::add);
-        return teachers;
     }
 
     @Override

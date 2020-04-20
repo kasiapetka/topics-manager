@@ -31,16 +31,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findStudentByAlbum(Long album) {
-        Optional<Student> studentOptional =  studentRepository.findById(album);
-        if(!studentOptional.isPresent()){
-           return null;
-        }
-        return studentOptional.get();
+        return studentRepository.findById(album).orElse(null);
     }
 
     @Override
     public Student findStudentByUser(User user) {
-        return studentRepository.findByUser(user);
+        return studentRepository.findByUser(user).orElse(null);
     }
 
     @Override

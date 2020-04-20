@@ -141,7 +141,6 @@ public class CodeServiceImpl implements CodeService {
 
     @Override
     public boolean matches(String code, String album) {
-
         if(code.equals(encode(album))){
             return true;
         } else {

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends CrudRepository<Student, Long> {
-    Student findByName(String name);
-    Student findByUser(User user);
-    List<Student> findAllByIsActive(Boolean isActive);
+    Optional<Student> findByName(String name);
+    Optional<Student> findByUser(User user);
+    Optional<List<Student>> findAllByIsActive(Boolean isActive);
 }
