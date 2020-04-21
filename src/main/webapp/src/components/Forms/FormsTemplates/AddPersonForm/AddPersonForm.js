@@ -3,12 +3,28 @@ import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 import ConfirmPasswordInput from "../ConfirmPasswordInput/ConfirmPasswordInput";
+import AddTeacherInputs from "./FormInputs/AddTeacherInputs";
+import AddStudentInputs from "./FormInputs/AddStudentInputs";
 
 const addPersonForm =(props)=>{
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.Form;
     let label;
-    if(props.personRole === 'T') label="Teacher";
-    if(props.personRole === 'S') label="Student";
+    let content;
+
+    if(props.personRole === 'T') {
+        label="Teacher";
+        content=<AddTeacherInputs
+        person={props.person}
+        change={props.change}
+        invalid={props.emptyForm}/>
+    }
+    if(props.personRole === 'S'){
+        label="Student";
+        content=<AddStudentInputs
+            person={props.person}
+            change={props.change}
+            invalid={props.emptyForm}/>
+    }
 
     return(
         <Form className={classNames} onSubmit={props.submit}>
@@ -31,21 +47,7 @@ const addPersonForm =(props)=>{
             </FormGroup>
             </div>
 
-            <FormGroup className="p-2 mb-2 mt-2">
-                <Label for="exampleEmail" className="mr-2 pl-1">Email Address</Label>
-                <Input type="email" name="newEmail" id="exampleEmail" placeholder="Enter Email"
-                       value={props.person.newEmail || ''}
-                       onChange={props.change}
-                       invalid={props.emptyForm}/>
-            </FormGroup>
-
-            <FormGroup className="p-2 mb-2 mt-2">
-                <Label for="personPassword" className="mr-2 pl-1">Password</Label>
-                <Input type="password" name="newPassword" id="personPassword" placeholder="Enter Password"
-                       value={props.person.newPassword || ''}
-                       onChange={props.change}
-                       invalid={props.emptyForm}/>
-            </FormGroup>
+            {content}
 
             <ConfirmPasswordInput
                 credsChanged={props.changed}

@@ -11,6 +11,7 @@ class AddPerson extends Component {
         newPassword: '',
         newName: '',
         newSurname: '',
+        semester: '',
     };
 
     state = {
