@@ -4,7 +4,7 @@ import {Alert} from "reactstrap";
 import TeacherPageElements from "../../components/Pages/TeacherPages/TeacherPageLayout/TeacherPageElements";
 import axios from 'axios'
 import ListStudents from "../Lists/ListStudents";
-import AddSection from "../AddSection/AddSection";
+import AddSection from "../FormsPages/AddSection/AddSection";
 
 class TeacherPage extends Component {
     state = {

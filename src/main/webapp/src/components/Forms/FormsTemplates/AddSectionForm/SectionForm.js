@@ -35,7 +35,7 @@ const sectionForm = (props) => {
         <Form className={classNames} onSubmit={props.onSubmit}>
             <h3 className="text-center mt-2">Add New Section</h3>
             {/*--------------------Subject Topic and Name---------------------------------- */}
-            <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
+            <FormGroup className="p-2 mb-2 mt-2">
                 <Label for="exampleSubject" className="mr-2 pl-1">Subject</Label>
                 <Input type="select" name="subject" id="exampleSubject"
                        defaultValue='default' onChange={props.onSubjectChange}
@@ -48,7 +48,7 @@ const sectionForm = (props) => {
             {
                 props.topics
                     ?
-                    <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
+                    <FormGroup className="p-2 mb-2 mt-2">
                         <Label for="exampleTopic" className="mr-2 pl-1">Topic</Label>
                         <Input type="select" name="topic" id="exampleTopic"
                                defaultValue='default' onChange={props.onChange}
@@ -61,7 +61,7 @@ const sectionForm = (props) => {
                     null
             }
 
-            <FormGroup className="mb-2 ml-auto mr-auto mt-3 p-2">
+            <FormGroup className="p-2 mb-2 mt-2">
                 <Label for="exampleName" className="mr-2 pl-1">Name</Label>
                 <Input type="text" name="name" id="exampleName"
                        minLength="5" placeholder="Enter Section Name"

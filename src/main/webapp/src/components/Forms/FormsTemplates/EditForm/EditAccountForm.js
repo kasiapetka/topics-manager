@@ -2,7 +2,7 @@ import React from 'react';
 import {FaUserAlt} from "react-icons/fa";
 import {Button, Form, FormGroup, Label} from "reactstrap";
 import EmailPasswordChangeInput from "./FormInputs/EmailPasswordChangeInput";
-import ConfirmPasswordInput from "./FormInputs/ConfirmPasswordInput";
+import ConfirmPasswordInput from "../ConfirmPasswordInput/ConfirmPasswordInput";
 import classes from '../Forms.module.css'
 
 const editAccountForm = (props) => {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
-import DeletePersonCard from "../../components/UI/DeletePersonCard/DeletePersonCard";
+import DeletePersonCard from "../../../components/UI/DeletePersonCard/DeletePersonCard";
 import {Alert} from "reactstrap";
 
 class DeletePerson extends Component {
@@ -22,11 +22,13 @@ class DeletePerson extends Component {
         }
 
         axios.put(path,id).then(response => {
-                alert('udao sie')
         })
             .catch(error => {
                 this.setState({error: true});
             });
+
+        this.props.cancelClicked();
+        this.props.deleteClicked(this.props.person,this.props.personRole);
     };
 
     render() {
@@ -41,6 +43,7 @@ class DeletePerson extends Component {
 
         return (
             <DeletePersonCard
+                deleted={false}
                 person={this.props.person}
                 cancel={this.props.cancelClicked}
                 delete={this.personDeleteHandler}/>

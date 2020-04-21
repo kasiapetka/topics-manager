@@ -3,8 +3,10 @@ import PageNavbar from "../../components/UI/Layout/PageNavbar";
 import AdminPageElements from "../../components/Pages/AdminPages/AdminPageLayout/AdminPageElements";
 import ListTeachers from "../Lists/ListTeachers";
 import ListStudents from "../Lists/ListStudents";
-import EditAccount from "../FormsPages/EditAccount";
+import EditAccount from "../FormsPages/EditAccount/EditAccount";
 import auth from "../../Auth";
+import AddPerson from "../FormsPages/AddPerson/AddPerson";
+import DeletePersonCard from "../../components/UI/DeletePersonCard/DeletePersonCard";
 
 class AdminPage extends Component {
 
@@ -18,7 +20,9 @@ class AdminPage extends Component {
             modifyPath: '',
             personRole: '',
             deletePerson:'',
-            personToDelete:''
+            personToDelete:'',
+            deletedPerson: null,
+            addPerson: false,
         };
     }
 
@@ -28,6 +32,8 @@ class AdminPage extends Component {
                 showTeachers: !this.state.showTeachers,
                 showStudents: false,
                 editPerson: false,
+                addPerson: false,
+                deletedPerson: null,
             }
         });
     };
@@ -38,6 +44,8 @@ class AdminPage extends Component {
                 showStudents: !this.state.showStudents,
                 showTeachers: false,
                 editPerson: false,
+                addPerson: false,
+                deletedPerson: null,
             }
         });
     };
@@ -49,7 +57,8 @@ class AdminPage extends Component {
             editPersonId: editPersonId,
             personRole: personRole,
             showStudents: false,
-           showTeachers: false
+            showTeachers: false,
+            addPerson: false,
         })
     };
 
@@ -58,7 +67,39 @@ class AdminPage extends Component {
             return {
                 deletePerson: !this.state.deletePerson,
                 personToDelete: personToDelete,
-                personRole: personRole
+                personRole: personRole,
+            }
+        });
+    };
+
+    personDeletedHandler=(personDeleted,personRole)=>{
+        let role;
+        if(personRole==='T') role='Teacher';
+        if(personRole==='S') role='Student';
+        const person= {
+            role:role,
+            person: {...personDeleted}
+        };
+
+        this.setState((prevState) => {
+            return {
+                deletePerson: !this.state.deletePerson,
+                deletedPerson: person,
+                showStudents: false,
+                showTeachers: false,
+            }
+        });
+    };
+
+    addPersonHandler=(personRole)=>{
+        this.setState((prevState) => {
+            return {
+                showStudents: false,
+                showTeachers: false,
+                editPerson: false,
+                addPerson: true,
+                deletedPerson: null,
+                personRole: personRole,
             }
         });
     };
@@ -67,6 +108,9 @@ class AdminPage extends Component {
         let showTeachers = this.state.showTeachers;
         let showStudents = this.state.showStudents;
         let editPerson = this.state.editPerson;
+        let addPerson = this.state.addPerson;
+        let deletedPerson = this.state.deletedPerson;
+
         let content;
         if(showStudents){
             content=( <ListStudents
@@ -88,6 +132,19 @@ class AdminPage extends Component {
                 personRole={this.state.personRole}
             />)
         }
+        if(addPerson){
+            content=( <AddPerson
+                personRole={this.state.personRole}
+            />)
+        }
+        if(deletedPerson){
+            content=( <React.Fragment>
+                <h4 className="mt-4 text-center">Deleted {this.state.deletedPerson.role}</h4>
+                <DeletePersonCard
+                deleted={true}
+                person={this.state.deletedPerson.person}/>
+            </React.Fragment>)
+        }
 
         return (
             <React.Fragment>
@@ -96,9 +153,13 @@ class AdminPage extends Component {
                 content={content}
                 toggleStudents={this.toggleStudents}
                 toggleTeachers={this.toggleTeachers}
+                showTeachers={this.state.showTeachers}
+                showStudents={this.state.showStudents}
                 deletePerson={this.state.deletePerson}
                 personToDelete={this.state.personToDelete}
                 deletePersonHandler={this.deletePersonHandler}
+                personDeletedHandler={this.personDeletedHandler}
+                addPerson={this.addPersonHandler}
                 personRole={this.state.personRole}/>
             </React.Fragment>
         );

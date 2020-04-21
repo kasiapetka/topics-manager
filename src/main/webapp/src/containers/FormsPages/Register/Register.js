@@ -1,8 +1,8 @@
 import React from 'react';
 import {Badge} from 'reactstrap';
 import {Redirect} from 'react-router-dom';
-import auth from "../../Auth";
-import RegisterFormInputs from "../../components/Forms/FormsTemplates/RegisterForm/RegisterForm";
+import auth from "../../../Auth";
+import RegisterFormInputs from "../../../components/Forms/FormsTemplates/RegisterForm/RegisterForm";
 import axios from 'axios'
 
 export class Register extends React.Component {
