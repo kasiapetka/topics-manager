@@ -6,11 +6,11 @@ import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.SemesterRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.repositories.UserRepository;
+import com.kasiapetka.topicsmanager.services.RoleService;
 import com.kasiapetka.topicsmanager.services.SemesterService;
 import com.kasiapetka.topicsmanager.services.StudentService;
+import com.kasiapetka.topicsmanager.services.UserService;
 import org.hibernate.HibernateException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Primary
@@ -28,20 +27,19 @@ public class StudentServiceImpl implements StudentService {
     protected StudentRepository studentRepository;
     protected SemesterRepository semesterRepository; //TODO usunac
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
-    protected UserRepository userRepository;
-
+    protected UserService userService;
     protected SemesterService semesterService;
+    protected RoleService roleService;
 
-    @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, SemesterService semesterService,
-                            BCryptPasswordEncoder bCryptPasswordEncoder,UserRepository userRepository,
-                              SemesterRepository semesterRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, SemesterRepository semesterRepository,
+                              BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService,
+                              SemesterService semesterService, RoleService roleService) {
         this.studentRepository = studentRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userRepository = userRepository;
         this.semesterRepository = semesterRepository;
-
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userService = userService;
         this.semesterService = semesterService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -73,7 +71,7 @@ public class StudentServiceImpl implements StudentService {
             student.setIsActive(false);
             studentRepository.save(student);
             return true;
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             return false;
         }
     }
@@ -85,24 +83,72 @@ public class StudentServiceImpl implements StudentService {
         return students;
     }
 
-    //TODO moze to zrefactorowac?
     @Override
     @Transactional
-    public Boolean addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO) {
+    // adding student with email???
+    public Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO) {
+
+//        User user = userService.findUserByEmail(studentOrTeacherDTO.getNewEmail());
+//
+//        if(user != null){
+//            return 409;
+//        }
+
+//        user = new User();
+//        user.setEmail(studentOrTeacherDTO.getNewEmail());
+//        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getNewPassword()));
+//        user.setRole(roleService.findRoleByRoleName("Student"));
+
         Student student = new Student();
-        student.setName(studentOrTeacherDTO.getName());
-        student.setSurname(studentOrTeacherDTO.getSurname());
+        student.setName(studentOrTeacherDTO.getNewName());
+        student.setSurname(studentOrTeacherDTO.getNewSurname());
         student.setIsActive(true);
+//        student.setUser(user);/
+
         try {
             Semester semester = semesterService.findSemesterBySemesterAndYear(studentOrTeacherDTO.getSemester(),
                     Integer.valueOf(LocalDate.now().toString().split("-")[0]));
             semester.addStudent(student);
             semesterRepository.save(semester);
-            return true;
-        } catch (HibernateException he){
+            return 200;
+        } catch (HibernateException he) {
             he.printStackTrace();
-            return false;
+            return 500;
         }
     }
+
+//    @Override
+//    @Transactional
+//    // adding student with email???
+//    public Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO) {
+//
+//        User user = userService.findUserByEmail(studentOrTeacherDTO.getNewEmail());
+//
+//        if(user != null){
+//            return 409;
+//        }
+//
+//        user = new User();
+//        user.setEmail(studentOrTeacherDTO.getNewEmail());
+//        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getNewPassword()));
+//        user.setRole(roleService.findRoleByRoleName("Student"));
+//
+//        Student student = new Student();
+//        student.setName(studentOrTeacherDTO.getNewName());
+//        student.setSurname(studentOrTeacherDTO.getNewSurname());
+//        student.setIsActive(true);
+//        student.setUser(user);
+//
+//        try {
+//            Semester semester = semesterService.findSemesterBySemesterAndYear(studentOrTeacherDTO.getSemester(),
+//                    Integer.valueOf(LocalDate.now().toString().split("-")[0]));
+//            semester.addStudent(student);
+//            semesterRepository.save(semester);
+//            return 200;
+//        } catch (HibernateException he) {
+//            he.printStackTrace();
+//            return 500;
+//        }
+//    }
 
 }

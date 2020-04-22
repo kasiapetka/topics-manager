@@ -246,20 +246,20 @@ public class DatabaseLoader implements CommandLineRunner {
         topicRepository.save(topic);
 
 //        NewStudentOrTeacherDTO studentOrTeacherDTO = new NewStudentOrTeacherDTO();
-//        studentOrTeacherDTO.setName("quebonafajde");
-//        studentOrTeacherDTO.setSurname("lmfao");
+//        studentOrTeacherDTO.setNewName("quebonafajde");
+//        studentOrTeacherDTO.setNewSurname("lmfao");
 //        studentOrTeacherDTO.setSemester(1);
 //        studentService.addNewStudent(studentOrTeacherDTO);
 //
-//        studentOrTeacherDTO.setEmail("ebe@ebe.com");
-//        studentOrTeacherDTO.setPassword("iksde");
+//        studentOrTeacherDTO.setNewEmail("ebe@ebe.com");
+//        studentOrTeacherDTO.setNewPassword("iksde");
 //        teacherService.addNewTeacher(studentOrTeacherDTO);
 
 
 
         //Creating a new Section
 //        Section section = new Section();
-//        section.setName("we the best");
+//        section.setNewName("we the best");
 //        section.setSizeOfSection(69);
 //        section.setIsOpen(true);
 //
@@ -268,8 +268,8 @@ public class DatabaseLoader implements CommandLineRunner {
 //
 //        //Adding a new Student to Section
 //        Student student = new Student();
-//        student.setName("mati");
-//        student.setSurname("kolmanowski");
+//        student.setNewName("mati");
+//        student.setNewSurname("kolmanowski");
 //        student.setIsActive(true);
 //        studentRepository.save(student);
 //

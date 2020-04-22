@@ -42,7 +42,7 @@ class AddSubject extends Component {
 
         const subject = {...this.state.subject};
 
-        axios.post('/admin/addSubject', subject).then(response => {
+        axios.post('/api/admin/addsubject', subject).then(response => {
 
         }).catch(error => {
             this.setState({

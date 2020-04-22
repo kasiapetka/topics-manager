@@ -59,10 +59,10 @@ public class EditAccount {
     public String toString() {
         return "EditAccount{" +
                 "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", newEmail='" + email + '\'' +
+                ", newPassword='" + password + '\'' +
+                ", newName='" + name + '\'' +
+                ", newSurname='" + surname + '\'' +
                 ", newEmail='" + newEmail + '\'' +
                 ", newPassword='" + newPassword + '\'' +
                 ", newName='" + newName + '\'' +
