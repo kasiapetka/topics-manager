@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
 @Service
 public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
@@ -18,7 +19,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findRoleByRoleName(String roleName) {
-        return roleRepository.findByRoleName(roleName).orElse(null);
+        return roleRepository.findByRoleName(roleName).orElse(new Role());
 
     }
 }
