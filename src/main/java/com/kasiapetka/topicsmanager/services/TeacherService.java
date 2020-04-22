@@ -1,6 +1,7 @@
 package com.kasiapetka.topicsmanager.services;
 
 
+import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
@@ -12,7 +13,8 @@ public interface TeacherService {
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
     List<Teacher> listActiveTeachers();
-    List<Student> listStudents();
+    Boolean addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO);
+
     void changeName(Teacher teacher, String name);
     void changeSurname(Teacher teacher, String surname);
     Boolean deleteTeacher(Long id);
