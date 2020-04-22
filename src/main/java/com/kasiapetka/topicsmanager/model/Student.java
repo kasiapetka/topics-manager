@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -38,7 +39,7 @@ public class Student {
     private List<Attachment> attachments;
 
     @JsonBackReference
-    @ManyToMany(mappedBy = "students")
+    @ManyToMany(mappedBy = "students", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Semester> semesters;
 
 }

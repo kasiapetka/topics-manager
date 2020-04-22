@@ -1,11 +1,10 @@
 package com.kasiapetka.topicsmanager;
 
 
+import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.*;
-import com.kasiapetka.topicsmanager.services.CodeService;
-import com.kasiapetka.topicsmanager.services.SectionService;
-import com.kasiapetka.topicsmanager.services.SubjectService;
+import com.kasiapetka.topicsmanager.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +30,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private final SectionService sectionService;
     private final SubjectService subjectService;
+    private final StudentService studentService;
+    private final TeacherService teacherService;
 
     @Autowired
     private CodeService codeService;
@@ -43,7 +44,8 @@ public class DatabaseLoader implements CommandLineRunner {
                           TeacherRepository teacherRepository,RoleRepository roleRepository,
                           SubjectRepository subjectRepository, SemesterRepository semesterRepository,
                           SectionService sectionService, TopicRepository topicRepository,
-                          SectionRepository sectionRepository, SubjectService subjectService) {
+                          SectionRepository sectionRepository, SubjectService subjectService,
+                          StudentService studentService, TeacherService teacherService) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -52,9 +54,11 @@ public class DatabaseLoader implements CommandLineRunner {
         this.semesterRepository = semesterRepository;
         this.topicRepository = topicRepository;
         this.sectionRepository = sectionRepository;
+        this.studentService = studentService;
 
         this.sectionService = sectionService;
         this.subjectService = subjectService;
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -241,6 +245,18 @@ public class DatabaseLoader implements CommandLineRunner {
         topic.setSubject(subject);
         topic.setTeacher(teacher);
         topicRepository.save(topic);
+
+        NewStudentOrTeacherDTO studentOrTeacherDTO = new NewStudentOrTeacherDTO();
+        studentOrTeacherDTO.setName("quebonafajde");
+        studentOrTeacherDTO.setSurname("lmfao");
+        studentOrTeacherDTO.setSemester(1);
+        studentService.addNewStudent(studentOrTeacherDTO);
+
+        studentOrTeacherDTO.setEmail("ebe@ebe.com");
+        studentOrTeacherDTO.setPassword("iksde");
+        teacherService.addNewTeacher(studentOrTeacherDTO);
+
+
 
         //Creating a new Section
 //        Section section = new Section();

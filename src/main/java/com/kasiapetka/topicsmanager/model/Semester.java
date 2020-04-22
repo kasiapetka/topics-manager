@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,4 +37,11 @@ public class Semester {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private List<Student> students;
+
+    public void addStudent(Student student){
+        if(students == null){
+            students = new ArrayList<>();
+        }
+        students.add(student);
+    }
 }
