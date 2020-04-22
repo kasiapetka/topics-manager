@@ -42,14 +42,14 @@ class AddPerson extends Component {
 
         const person = {...this.state.person};
 
-        for (let [key, value] of Object.entries(person)) {
-            if (key !== 'id' && value === '') {
-                this.setState({
-                    emptyForm: true
-                });
-                return;
-            }
-        }
+        // for (let [key, value] of Object.entries(person)) {
+        //     if (key !== 'id' && value === '') {
+        //         this.setState({
+        //             emptyForm: true
+        //         });
+        //         return;
+        //     }
+        // }
 
         let path;
         const role = this.props.match.params.role;
@@ -62,7 +62,7 @@ class AddPerson extends Component {
         }
 
         axios.post(path, person).then(response => {
-            //tu
+           console.log("udao sie")
         }).catch(error => {
             if (error.response.status === 409) {
                 this.setState({
