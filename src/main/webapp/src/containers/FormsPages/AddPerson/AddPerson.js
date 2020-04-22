@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AddPersonForm from "../../../components/Forms/FormsTemplates/AddPersonForm/AddPersonForm";
 import axios from "axios";
 import {Alert} from "reactstrap";
+import {withRouter} from "react-router-dom";
 
 class AddPerson extends Component {
 
@@ -19,6 +20,8 @@ class AddPerson extends Component {
         emptyForm: false,
         changed: false,
         person: this.emptyPerson,
+        wrongEmail: false,
+        wrongPassword: false
     };
 
     handleChange = (event) => {
@@ -34,24 +37,44 @@ class AddPerson extends Component {
         });
     };
 
-    handleSubmit=(event) => {
-        event.preventDefault();
-        let path;
-       if(this.props.personRole === 'S'){
-           path='/api/admin/addStudent'
-       }
-        if(this.props.personRole === 'T'){
-            path='/api/admin/addTeacher'
+    handleSubmit = () => {
+        const person = {...this.state.person};
+
+        for (let [key, value] of Object.entries(person)) {
+            if (key !== 'id' && value === '') {
+                this.setState({
+                    emptyForm: true
+                });
+                return;
+            }
         }
 
-        const person = this.state.person;
+        let path;
+        const role = this.props.match.params.role;
+
+        if (role === 'S') {
+            path = '/api/admin/addStudent'
+        }
+        if (role === 'T') {
+            path = '/api/admin/addTeacher'
+        }
 
         axios.post(path, person).then(response => {
-
+            //tu
         }).catch(error => {
-            this.setState({
-                error: true,
-            })
+            if (error.response.status === 409) {
+                this.setState({
+                    wrongEmail: true,
+                })
+            } else if (error.response.status === 406) {
+                this.setState({
+                    wrongPassword: true,
+                })
+            } else {
+                this.setState({
+                    error: true,
+                })
+            }
         })
 
     };
@@ -62,18 +85,20 @@ class AddPerson extends Component {
         let content;
 
         if (error) {
-            content= (
+            content = (
                 <Alert color="danger">
                     Server Error, Please Try Again.
                 </Alert>
             )
         } else {
-            content=(
+            content = (
                 <AddPersonForm
                     personRole={this.props.personRole}
                     person={this.state.person}
                     change={this.handleChange}
                     emptyForm={this.state.emptyForm}
+                    wrongEmail={this.state.wrongEmail}
+                    wrongPassword={this.state.wrongPassword}
                     changed={this.state.changed}
                     submit={this.handleSubmit}/>
             )
@@ -83,4 +108,4 @@ class AddPerson extends Component {
     }
 }
 
-export default AddPerson;
+export default withRouter(AddPerson);

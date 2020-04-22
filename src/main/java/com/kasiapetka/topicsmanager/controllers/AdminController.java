@@ -202,11 +202,10 @@ public class AdminController {
 
     @PostMapping("/api/admin/addTeacher")
     ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
-        if(teacherService.addNewTeacher(studentOrTeacherDTO)){
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(500).build();
-        }
+
+        Integer responseCode = teacherService.addNewTeacher(studentOrTeacherDTO);
+
+        return ResponseEntity.status(responseCode).build();
     }
 
 

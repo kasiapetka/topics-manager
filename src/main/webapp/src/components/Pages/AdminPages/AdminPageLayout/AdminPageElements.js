@@ -3,6 +3,17 @@ import Messages from "../../../Messages/Messages";
 import AdminAccountControls from "./AdminAccountControls";
 import DeletePersonModal from "../../../UI/DeletePersonModal/DeletePersonModal";
 import DeletePerson from "../../../../containers/FormsPages/DeletePerson/DeletePerson";
+import PrivateAdminRoute from "../../../PrivateRoutes/PrivateAdminRoute";
+
+import {Switch} from "react-router-dom";
+import ListStudents from "../../../../containers/Lists/ListStudents";
+import ListTeachers from "../../../../containers/Lists/ListTeachers";
+import AddPerson from "../../../../containers/FormsPages/AddPerson/AddPerson";
+import EditAccount from "../../../../containers/FormsPages/EditAccount/EditAccount";
+import auth from "../../../../Auth";
+import DeletePersonCard from "../../../UI/DeletePersonCard/DeletePersonCard";
+import PrivateTeacherRoute from "../../../PrivateRoutes/PrivateTeacherRoute";
+import AddSubject from "../../../../containers/FormsPages/AddSubject/AddSubject";
 
 const adminPageElements = (props) =>
     (
@@ -20,15 +31,37 @@ const adminPageElements = (props) =>
             <div className="row h-100">
                 <div className="col-md-2 border-right">
                     <AdminAccountControls
-                        toggleStudents={props.toggleStudents}
-                        toggleTeachers={props.toggleTeachers}
-                        addPerson={props.addPerson}
-                        showTeachers={props.showTeachers}
-                        showStudents={props.showStudents}/>
+                        addPerson={props.addPersonHandler}/>
                     <Messages/>
                 </div>
                 <div className="col-md-9">
-                    {props.content}
+
+                    <PrivateAdminRoute exact path="/admin/addSubject" component={() => <AddSubject/>}/>
+
+                    <PrivateAdminRoute exact path ="/admin/deleted" component={() =>  <DeletePersonCard
+                        deleted={true}
+                        person={props.deletedPerson.person}/>}/>
+
+                    <PrivateAdminRoute exact path ="/admin/add/:role" component={() =>  <AddPerson
+                        personRole={props.personRole}/>}/>
+
+                    <PrivateAdminRoute exact path ="/admin/edit" component={() =>  <EditAccount
+                        path={props.modifyPath}
+                        id={props.editPersonId}
+                        token={auth.getToken()}
+                        personEdition={true}
+                        personRole={props.personRole}
+                        />}/>
+
+                    <PrivateAdminRoute exact path ="/admin/students" component={() => <ListStudents
+                        editPerson={props.editPersonHandler}
+                        deletePerson={props.deletePersonHandler}
+                        path='/api/admin/students'/>}/>
+
+                    <PrivateAdminRoute exact path="/admin" component={()=><ListTeachers
+                        editPerson={props.editPersonHandler}
+                        deletePerson={props.deletePersonHandler}/>}/>
+
                 </div>
                 <div className="col-md-1 border-left"></div>
             </div>

@@ -23,7 +23,8 @@ class AddSection extends Component {
         topics: null,
         section: this.emptySection,
         addStudents: false,
-        students: null
+        students: null,
+        sectionAdded: false
     };
 
     componentDidMount() {
@@ -113,7 +114,9 @@ class AddSection extends Component {
         })
     };
 
-    onStudentsAdditionHandler=()=>{
+    onStudentsAdditionHandler= (event) => {
+        event.preventDefault();
+
         let studentsAlbums=[];
 
         for (let [key, value] of Object.entries(this.state.students)) {
@@ -126,6 +129,9 @@ class AddSection extends Component {
         };
 
         axios.put('/api/teacher/addStudentsToSection', studentSection).then(response => {
+            this.setState({
+                sectionAdded: true,
+            })
 
         }).catch(error => {
             this.setState({
@@ -137,6 +143,7 @@ class AddSection extends Component {
     render() {
         const error = this.state.error;
         const addStudents = this.state.addStudents;
+        const sectionAdded = this.state.sectionAdded;
         let content;
 
         if (error) {
@@ -154,13 +161,15 @@ class AddSection extends Component {
                 section={this.state.section}
                 onSubmit={this.onSectionAdditionHandler}
                 emptyForm={this.state.emptyForm}/>
-        } else {
+        } else if(!sectionAdded){
             content = <AddStudentToSectionForm
                 addToSection={this.addStudentToSectionHandler}
                 removeFromSection={this.removeStudentFromSectionHandler}
                 students={this.state.students}
                 onSubmit={this.onStudentsAdditionHandler}
                 section={this.state.section}/>
+        }else{
+            content=<div>added</div>
         }
 
         return content;

@@ -8,7 +8,7 @@ const addStudentInputs = (props) => (
             <Label for="exampleSem" className="mr-2 pl-1">Semester</Label>
             <Input type="number" name="semester" id="exampleSem"
                    min='1' max='7' onChange={props.change} value={props.person.semester || ''}
-                   invalid={props.emptyForm}/>
+                   invalid={props.emptyForm && props.person.semester===''}/>
         </FormGroup>
     </React.Fragment>
 );

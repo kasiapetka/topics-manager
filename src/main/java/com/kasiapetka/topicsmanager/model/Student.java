@@ -1,9 +1,12 @@
 package com.kasiapetka.topicsmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.ToString;
 import lombok.Data;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -48,6 +51,7 @@ public class Student {
     private List<Attachment> attachments;
 
     @JsonBackReference
+    @ToString.Exclude
     @ManyToMany(mappedBy = "students", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Semester> semesters;
 
