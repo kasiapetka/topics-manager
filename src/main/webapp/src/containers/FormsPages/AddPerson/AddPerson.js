@@ -37,7 +37,9 @@ class AddPerson extends Component {
         });
     };
 
-    handleSubmit = () => {
+    handleSubmit = (event) => {
+        event.preventDefault();
+
         const person = {...this.state.person};
 
         for (let [key, value] of Object.entries(person)) {
