@@ -12,6 +12,8 @@ import AddPerson from "../../../../containers/FormsPages/AddPerson/AddPerson";
 import EditAccount from "../../../../containers/FormsPages/EditAccount/EditAccount";
 import auth from "../../../../Auth";
 import DeletePersonCard from "../../../UI/DeletePersonCard/DeletePersonCard";
+import PrivateTeacherRoute from "../../../PrivateRoutes/PrivateTeacherRoute";
+import AddSubject from "../../../../containers/FormsPages/AddSubject/AddSubject";
 
 const adminPageElements = (props) =>
     (
@@ -34,11 +36,13 @@ const adminPageElements = (props) =>
                 </div>
                 <div className="col-md-9">
 
+                    <PrivateAdminRoute exact path="/admin/addSubject" component={() => <AddSubject/>}/>
+
                     <PrivateAdminRoute exact path ="/admin/deleted" component={() =>  <DeletePersonCard
                         deleted={true}
                         person={props.deletedPerson.person}/>}/>
 
-                    <PrivateAdminRoute exact path ="/admin/add" component={() =>  <AddPerson
+                    <PrivateAdminRoute exact path ="/admin/add/:role" component={() =>  <AddPerson
                         personRole={props.personRole}/>}/>
 
                     <PrivateAdminRoute exact path ="/admin/edit" component={() =>  <EditAccount

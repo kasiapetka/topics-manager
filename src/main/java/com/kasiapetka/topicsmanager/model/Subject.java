@@ -17,7 +17,7 @@ public class Subject {
     private long id;
     @NotNull
     private String name;
-    @NotNull
+
     private String summary;
 
     @JsonManagedReference

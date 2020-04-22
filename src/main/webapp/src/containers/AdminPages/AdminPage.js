@@ -66,7 +66,7 @@ class AdminPage extends Component {
         });
     };
 
-    addPersonHandler=(personRole)=>{
+    addPersonHandler=()=>{
         this.setState((prevState) => {
             return {
                 showStudents: false,
@@ -74,7 +74,6 @@ class AdminPage extends Component {
                 editPerson: false,
                 addPerson: true,
                 deletedPerson: null,
-                personRole: personRole,
             }
         });
     };
