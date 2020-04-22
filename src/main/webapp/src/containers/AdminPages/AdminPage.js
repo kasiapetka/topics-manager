@@ -13,8 +13,6 @@ class AdminPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showTeachers: true,
-            showStudents: false,
             editPerson: false,
             editPersonId: '',
             modifyPath: '',
@@ -26,29 +24,6 @@ class AdminPage extends Component {
         };
     }
 
-    toggleTeachers = () => {
-        this.setState((prevState) => {
-            return {
-                showTeachers: !this.state.showTeachers,
-                showStudents: false,
-                editPerson: false,
-                addPerson: false,
-                deletedPerson: null,
-            }
-        });
-    };
-
-    toggleStudents = () => {
-        this.setState((prevState) => {
-            return {
-                showStudents: !this.state.showStudents,
-                showTeachers: false,
-                editPerson: false,
-                addPerson: false,
-                deletedPerson: null,
-            }
-        });
-    };
 
     editPersonHandler = (modifyPath, editPersonId, personRole) => {
        this.setState({
@@ -105,62 +80,23 @@ class AdminPage extends Component {
     };
 
     render() {
-        let showTeachers = this.state.showTeachers;
-        let showStudents = this.state.showStudents;
-        let editPerson = this.state.editPerson;
-        let addPerson = this.state.addPerson;
-        let deletedPerson = this.state.deletedPerson;
-
-        let content;
-        if(showStudents){
-            content=( <ListStudents
-                editPerson={this.editPersonHandler}
-                deletePerson={this.deletePersonHandler}
-                path='/api/admin/students'/>)
-        }
-        if(showTeachers){
-            content=( <ListTeachers
-                editPerson={this.editPersonHandler}
-                deletePerson={this.deletePersonHandler}/>)
-        }
-        if(editPerson){
-            content=( <EditAccount
-                path={this.state.modifyPath}
-                id={this.state.editPersonId}
-                token={auth.getToken()}
-                personEdition={true}
-                personRole={this.state.personRole}
-            />)
-        }
-        if(addPerson){
-            content=( <AddPerson
-                personRole={this.state.personRole}
-            />)
-        }
-        if(deletedPerson){
-            content=( <React.Fragment>
-                <h4 className="mt-4 text-center">Deleted {this.state.deletedPerson.role}</h4>
-                <DeletePersonCard
-                deleted={true}
-                person={this.state.deletedPerson.person}/>
-            </React.Fragment>)
-        }
 
         return (
             <React.Fragment>
                 <PageNavbar/>
                 <AdminPageElements
-                content={content}
-                toggleStudents={this.toggleStudents}
-                toggleTeachers={this.toggleTeachers}
-                showTeachers={this.state.showTeachers}
-                showStudents={this.state.showStudents}
                 deletePerson={this.state.deletePerson}
                 personToDelete={this.state.personToDelete}
                 deletePersonHandler={this.deletePersonHandler}
                 personDeletedHandler={this.personDeletedHandler}
-                addPerson={this.addPersonHandler}
-                personRole={this.state.personRole}/>
+                addPersonHandler={this.addPersonHandler}
+                editPersonHandler={this.editPersonHandler}
+                personRole={this.state.personRole}
+                modifyPath={this.state.modifyPath}
+                editPersonId={this.state.editPersonId}
+                deletedPerson = {this.state.deletedPerson}
+      />
+
             </React.Fragment>
         );
     }

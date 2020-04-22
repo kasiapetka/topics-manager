@@ -4,6 +4,7 @@ import {
     CardTitle, CardSubtitle, Button
 } from "reactstrap";
 import classes from './DeletePersonCard.module.css'
+import {Link} from "react-router-dom";
 
 const deletePersonCard = (props) => {
     const classNames= "pt-2 pr-2 pb-2 pl-2 "+classes.CardStyle;
@@ -31,7 +32,7 @@ const deletePersonCard = (props) => {
                 <CardBody>
                     <CardText>Are You sure You want to delete that person?</CardText>
                     <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-                    <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
+                    <Link to="/admin/deleted"><Button onClick={props.delete} className='ml-4' color="danger">Delete</Button></Link>
                 </CardBody>
             }
 
