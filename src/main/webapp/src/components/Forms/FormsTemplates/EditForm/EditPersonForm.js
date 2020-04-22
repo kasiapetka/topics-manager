@@ -4,7 +4,7 @@ import {Button, Form, Label} from "reactstrap";
 import PersonInfo from "./FormLabels/PersonInfo";
 import EmailPasswordChangeInput from "./FormInputs/EmailPasswordChangeInput";
 import NameSurnameChangeInput from "./FormInputs/NameSurnameChangeInput";
-import ConfirmPasswordInput from "./FormInputs/ConfirmPasswordInput";
+import ConfirmPasswordInput from "../ConfirmPasswordInput/ConfirmPasswordInput";
 import classes from "../Forms.module.css";
 
 const EditPersonForm = (props) => {

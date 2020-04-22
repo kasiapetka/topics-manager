@@ -44,6 +44,6 @@ const accountDetailsCard =(props)=> {
                 </CardBody>
             </Card>
     )
-}
+};
 
 export default accountDetailsCard;

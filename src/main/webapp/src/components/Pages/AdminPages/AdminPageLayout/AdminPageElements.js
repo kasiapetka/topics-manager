@@ -2,7 +2,7 @@ import React from "react";
 import Messages from "../../../Messages/Messages";
 import AdminAccountControls from "./AdminAccountControls";
 import DeletePersonModal from "../../../UI/DeletePersonModal/DeletePersonModal";
-import DeletePerson from "../../../../containers/FormsPages/DeletePerson";
+import DeletePerson from "../../../../containers/FormsPages/DeletePerson/DeletePerson";
 
 const adminPageElements = (props) =>
     (
@@ -13,6 +13,7 @@ const adminPageElements = (props) =>
                 <DeletePerson
                 person = {props.personToDelete}
                 cancelClicked={props.deletePersonHandler}
+                deleteClicked={props.personDeletedHandler}
                 personRole={props.personRole}/>
             </DeletePersonModal>
 
@@ -20,7 +21,10 @@ const adminPageElements = (props) =>
                 <div className="col-md-2 border-right">
                     <AdminAccountControls
                         toggleStudents={props.toggleStudents}
-                        toggleTeachers={props.toggleTeachers}/>
+                        toggleTeachers={props.toggleTeachers}
+                        addPerson={props.addPerson}
+                        showTeachers={props.showTeachers}
+                        showStudents={props.showStudents}/>
                     <Messages/>
                 </div>
                 <div className="col-md-9">

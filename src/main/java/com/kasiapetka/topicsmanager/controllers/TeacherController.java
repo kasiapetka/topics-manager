@@ -78,7 +78,7 @@ public class TeacherController {
 
     @GetMapping("/api/teacher/students")
     List<Student> listStudents() {
-        return teacherService.listStudents();
+        return studentService.listActiveStudents();
     }
 
     @GetMapping("/api/teacher/subjects")

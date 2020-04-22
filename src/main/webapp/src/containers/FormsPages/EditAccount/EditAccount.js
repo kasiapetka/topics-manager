@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import auth from "../../Auth";
+import auth from "../../../Auth";
 import {Badge, Alert} from "reactstrap";
-import EditAccountInputs from "../../components/Forms/FormsTemplates/EditForm/EditAccountForm";
-import EditPersonForm from "../../components/Forms/FormsTemplates/EditForm/EditPersonForm";
+import EditAccountInputs from "../../../components/Forms/FormsTemplates/EditForm/EditAccountForm";
+import EditPersonForm from "../../../components/Forms/FormsTemplates/EditForm/EditPersonForm";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
-import Spinner from "../../components/UI/Spinner/Spinner";
+import Spinner from "../../../components/UI/Spinner/Spinner";
 
 class EditAccount extends Component {
 

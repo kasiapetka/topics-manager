@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
@@ -9,10 +10,7 @@ import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -172,7 +170,7 @@ public class AdminController {
 
     @GetMapping("/api/admin/students")
     List<Student> listStudents() {
-        return adminService.listStudents();
+        return studentService.listActiveStudents();
     }
 
     @PutMapping("/api/admin/deleteTeacher")
@@ -192,5 +190,24 @@ public class AdminController {
             return ResponseEntity.status(500).build();
         }
     }
+
+    @PostMapping("/api/admin/addStudent")
+    ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
+        if(studentService.addNewStudent(studentOrTeacherDTO)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PostMapping("/api/admin/addTeacher")
+    ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
+        if(teacherService.addNewTeacher(studentOrTeacherDTO)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
 
 }

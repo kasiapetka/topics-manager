@@ -1,6 +1,6 @@
 import React from 'react';
 import PageNavbar from "../../UI/Layout/PageNavbar";
-import EditAccount from '../../../containers/FormsPages/EditAccount';
+import EditAccount from '../../../containers/FormsPages/EditAccount/EditAccount';
 import auth from "../../../Auth";
 
 const adminAccountModification =()=> {

@@ -3,10 +3,12 @@ import {
     Card, CardText, CardBody,
     CardTitle, CardSubtitle, Button
 } from "reactstrap";
+import classes from './DeletePersonCard.module.css'
 
-const deletePersonCard =(props)=> {
+const deletePersonCard = (props) => {
+    const classNames= "pt-2 pr-2 pb-2 pl-2 "+classes.CardStyle;
     return (
-        <Card className="pt-2 pr-2 pb-2 pl-2 ">
+        <Card className={classNames}>
             <CardBody>
                 <CardTitle>Name: <em>{props.person.name}</em></CardTitle>
                 <CardTitle className="pb-2 border-bottom">Surname: <em>{props.person.surname}</em></CardTitle>
@@ -17,13 +19,22 @@ const deletePersonCard =(props)=> {
                         :
                         null
                 }
-                <CardSubtitle className="mt-2">Email: <em>{props.person.user ? props.person.user.email : 'No Account'}</em></CardSubtitle>
+                <CardSubtitle
+                    className="mt-2">Email: <em>{props.person.user ? props.person.user.email : 'No Account'}</em></CardSubtitle>
             </CardBody>
-            <CardBody>
-                <CardText>Are You sure You want to delete that person?</CardText>
-                <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-                <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
-            </CardBody>
+
+            {
+                props.deleted
+                ?
+                null
+                :
+                <CardBody>
+                    <CardText>Are You sure You want to delete that person?</CardText>
+                    <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
+                    <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
+                </CardBody>
+            }
+
         </Card>
     )
 };
