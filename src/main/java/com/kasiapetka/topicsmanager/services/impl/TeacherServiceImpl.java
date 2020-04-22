@@ -2,14 +2,13 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
-import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
-import com.kasiapetka.topicsmanager.repositories.UserRepository;
 import com.kasiapetka.topicsmanager.services.RoleService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
+import com.kasiapetka.topicsmanager.services.UserService;
 import org.hibernate.HibernateException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,19 +24,17 @@ public class TeacherServiceImpl implements TeacherService {
 
     protected TeacherRepository teacherRepository;
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
-    protected UserRepository userRepository;
+    protected UserService userService;
     protected StudentRepository studentRepository;
     protected RoleService roleService;
 
 
-    public TeacherServiceImpl(TeacherRepository teacherRepository,
-                              BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository,
-                              StudentRepository studentRepository, RoleService roleService) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.userRepository = userRepository;
+    public TeacherServiceImpl(TeacherRepository teacherRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+                              UserService userService, StudentRepository studentRepository, RoleService roleService) {
         this.teacherRepository = teacherRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userService = userService;
         this.studentRepository = studentRepository;
-
         this.roleService = roleService;
     }
 
@@ -87,25 +84,34 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Boolean addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO) {
+    public Integer addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO) {
+
+        User user = userService.findUserByEmail(studentOrTeacherDTO.getEmail());
+
+        if (user != null) {
+            // mail exists
+            return 409;
+        }
+
+        user = new User();
+        user.setEmail(studentOrTeacherDTO.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getPassword()));
+        user.setRole(roleService.findRoleByRoleName("Teacher"));
+
+        Teacher teacher = new Teacher();
+        teacher.setName(studentOrTeacherDTO.getName());
+        teacher.setSurname(studentOrTeacherDTO.getSurname());
+        teacher.setIsActive(true);
+        teacher.setUser(user);
 
         try {
-            User user = new User();
-            user.setEmail(studentOrTeacherDTO.getEmail());
-            user.setPassword(studentOrTeacherDTO.getPassword());
-            user.setRole(roleService.findRoleByRoleName("Teacher"));
-
-            Teacher teacher = new Teacher();
-            teacher.setName(studentOrTeacherDTO.getName());
-            teacher.setSurname(studentOrTeacherDTO.getSurname());
-            teacher.setIsActive(true);
-            teacher.setUser(user);
-
             teacherRepository.save(teacher);
-            return true;
+            //everything is fine
+            return 200;
         } catch (HibernateException he) {
             he.printStackTrace();
-            return false;
+            // sth went wrong
+            return 500;
         }
     }
 }
