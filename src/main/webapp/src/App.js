@@ -22,13 +22,15 @@ const App = () => {
                         <Route exact path ="/" component={MainPage}/>
                         <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true} />}/>
                         <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
+                        
                         <PrivateStudentRoute exact path ="/student" component={() => <StudentPage/>}/>
                         <PrivateStudentRoute exact path ="/student/modifyAccount" component={() => <StudentAccountModification/>}/>
 
-                        <PrivateTeacherRoute exact path ="/teacher" component={() => <TeacherPage/>}/>
+                        <PrivateTeacherRoute path ="/teacher" component={() => <TeacherPage/>}/>
                         <PrivateTeacherRoute exact path ="/teacher/modifyAccount" component={() => <TeacherAccountModification/>}/>
 
-                        <PrivateAdminRoute exact path ="/admin" component={() => <AdminPage/>}/>
+
+                        <PrivateAdminRoute path ="/admin" component={() => <AdminPage/>}/>
                         <PrivateAdminRoute exact path ="/admin/modifyAccount" component={() => <AdminAccountModification/>}/>
 
                         <Route component={ErrorPage}/>

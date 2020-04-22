@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import classes from './ListStudents.module.css'
 import {Button, Row, Col} from "reactstrap";
 import auth from '../../../Auth'
+import {Link} from "react-router-dom";
 
 const Student = (props) => {
     const [removeStudentFromSection, setRemoveStudentFromSection] = useState(false);
@@ -20,7 +21,7 @@ const Student = (props) => {
                 auth.getRole() === 'A'
                     ?
                     <Row className="pt-2 pb-3 mr-0 ml-0">
-                        <Col><Button className="d-inline-block" onClick={props.edit}>Edit</Button></Col>
+                        <Col><Link to="/admin/edit"><Button className="d-inline-block" onClick={props.edit}>Edit</Button></Link></Col>
                         <Col><Button className="d-inline-block" onClick={props.delete} outline
                                      color="danger">Delete</Button></Col>
                     </Row>
