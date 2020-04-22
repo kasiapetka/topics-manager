@@ -1,11 +1,9 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
-import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.model.Subject;
-import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
-import com.kasiapetka.topicsmanager.repositories.TopicRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Service;
@@ -24,12 +22,28 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    // for database loader probably to delete later
     public Boolean addNewSubject(Subject subject) {
         try{
             subjectRepository.save(subject);
             return true;
         } catch (HibernateException he){
             return false;
+        }
+    }
+
+    @Override
+    public Integer addNewSubject(AddSubjectDTO addSubjectDTO) {
+
+        Subject subject = new Subject();
+        subject.setName(addSubjectDTO.getName());
+        subject.setSummary(addSubjectDTO.getSummary());
+
+        try{
+            subjectRepository.save(subject);
+            return 200;
+        } catch (HibernateException he){
+            return 500;
         }
     }
 

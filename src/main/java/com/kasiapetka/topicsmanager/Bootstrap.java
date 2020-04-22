@@ -34,14 +34,14 @@
 //        role.setRole('s');
 //
 //        User user = new User();
-//        user.setEmail("a@a.com");
-//        user.setPassword("a");
+//        user.setNewEmail("a@a.com");
+//        user.setNewPassword("a");
 //        user.setActive(1);
 //        user.setRole(role);
 //
 //        Student student = new Student();
-//        student.setName("a");
-//        student.setSurname("ab");
+//        student.setNewName("a");
+//        student.setNewSurname("ab");
 //        student.setUser(user);
 //
 //        roleRepository.save(role);

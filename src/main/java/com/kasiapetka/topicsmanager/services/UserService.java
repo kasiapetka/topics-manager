@@ -5,8 +5,8 @@ import com.kasiapetka.topicsmanager.DTO.EditAccount;
 
 public interface UserService {
     User findUserByEmail(String email);
-//    boolean changeEmail(User user, String email);
-//    void changePassword(User user, String password);
+//    boolean changeEmail(User user, String newEmail);
+//    void changePassword(User user, String newPassword);
     boolean checkCrudentials(String given, String actual);
     int changeCredentials(EditAccount editAccount, User user);
 }

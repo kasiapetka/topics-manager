@@ -60,7 +60,7 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public int createStudent(RegisterForm newStudent) {
-//        User userExists = findUserByEmail(newStudent.getEmail());
+//        User userExists = findUserByEmail(newStudent.getNewEmail());
 //        Long album = Long.parseLong(newStudent.getAlbum());
 //
         return 0;
