@@ -37,9 +37,7 @@ class AddPerson extends Component {
         });
     };
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-
+    handleSubmit = () => {
         const person = {...this.state.person};
 
         for (let [key, value] of Object.entries(person)) {
@@ -53,7 +51,7 @@ class AddPerson extends Component {
 
         let path;
         const role = this.props.match.params.role;
-        
+
         if (role === 'S') {
             path = '/api/admin/addStudent'
         }
