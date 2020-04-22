@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AddPersonForm from "../../../components/Forms/FormsTemplates/AddPersonForm/AddPersonForm";
 import axios from "axios";
 import {Alert} from "reactstrap";
+import {withRouter} from "react-router-dom";
 
 class AddPerson extends Component {
 
@@ -20,7 +21,7 @@ class AddPerson extends Component {
         changed: false,
         person: this.emptyPerson,
         wrongEmail: false,
-        wrongPassword:false
+        wrongPassword: false
     };
 
     handleChange = (event) => {
@@ -51,29 +52,27 @@ class AddPerson extends Component {
         }
 
         let path;
-        if (this.props.personRole === 'S') {
+        const role = this.props.match.params.role;
+        
+        if (role === 'S') {
             path = '/api/admin/addStudent'
         }
-        if (this.props.personRole === 'T') {
+        if (role === 'T') {
             path = '/api/admin/addTeacher'
         }
 
         axios.post(path, person).then(response => {
-
+            //tu
         }).catch(error => {
-            if(error.response.status === 409)
-            {
+            if (error.response.status === 409) {
                 this.setState({
                     wrongEmail: true,
                 })
-            }
-            else if(error.response.status === 406)
-            {
+            } else if (error.response.status === 406) {
                 this.setState({
                     wrongPassword: true,
                 })
-            }
-            else{
+            } else {
                 this.setState({
                     error: true,
                 })
@@ -111,4 +110,4 @@ class AddPerson extends Component {
     }
 }
 
-export default AddPerson;
+export default withRouter(AddPerson);
