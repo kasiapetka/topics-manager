@@ -34,14 +34,15 @@ class AddPerson extends Component {
         });
     };
 
-    handleSubmit=(event) => {
+    handleSubmit = (event) => {
         event.preventDefault();
+
         let path;
-       if(this.props.personRole === 'S'){
-           path='/api/admin/addStudent'
-       }
-        if(this.props.personRole === 'T'){
-            path='/api/admin/addTeacher'
+        if (this.props.personRole === 'S') {
+            path = '/api/admin/addStudent'
+        }
+        if (this.props.personRole === 'T') {
+            path = '/api/admin/addTeacher'
         }
 
         const person = this.state.person;
@@ -62,13 +63,13 @@ class AddPerson extends Component {
         let content;
 
         if (error) {
-            content= (
+            content = (
                 <Alert color="danger">
                     Server Error, Please Try Again.
                 </Alert>
             )
         } else {
-            content=(
+            content = (
                 <AddPersonForm
                     personRole={this.props.personRole}
                     person={this.state.person}

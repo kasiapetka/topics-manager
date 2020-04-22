@@ -113,7 +113,8 @@ class AddSection extends Component {
         })
     };
 
-    onStudentsAdditionHandler=()=>{
+    onStudentsAdditionHandler= (event) => {
+        event.preventDefault();
         let studentsAlbums=[];
 
         for (let [key, value] of Object.entries(this.state.students)) {

@@ -59,9 +59,7 @@ const addPersonForm =(props)=>{
 
             <div className="form-row text-center pt-3">
                 <div className="col-md-12">
-                    <Link to="/register">
                         <Button type="submit" className="btn btn-primary mt-2">Add {label}</Button>
-                    </Link>
                 </div>
             </div>
         </Form>
