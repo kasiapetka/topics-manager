@@ -96,10 +96,9 @@ public class DatabaseLoader implements CommandLineRunner {
         Student sa = new Student();
         sa.setName("Album");
         sa.setSurname("Album");
-        sa.setAlbum(333333);
+//        sa.setAlbum(333333);
         sa.setIsActive(true);
 
-        codeService.encode(String.valueOf(sa.getAlbum()));
         this.studentRepository.save(sa);
 
         User u = new User();
@@ -113,21 +112,21 @@ public class DatabaseLoader implements CommandLineRunner {
         s.setName("aaaa");
         s.setSurname("bbbbbb");
         s.setUser(u);
-        s.setAlbum(1000000);
+//        s.setAlbum(1000000);
         s.setIsActive(true);
         this.studentRepository.save(s);
 
         Student s2 = new Student();
         s2.setName("jhjjj");
         s2.setSurname("bbbbbb");
-        s2.setAlbum(1111111);
+//        s2.setAlbum(1111111);
         s2.setIsActive(true);
         this.studentRepository.save(s2);
 
         Student s3 = new Student();
         s3.setName("ryyyy");
         s3.setSurname("nnnnnn");
-        s3.setAlbum(2222222);
+//        s3.setAlbum(2222222);
         s3.setIsActive(true);
         this.studentRepository.save(s3);
 
@@ -246,15 +245,15 @@ public class DatabaseLoader implements CommandLineRunner {
         topic.setTeacher(teacher);
         topicRepository.save(topic);
 
-        NewStudentOrTeacherDTO studentOrTeacherDTO = new NewStudentOrTeacherDTO();
-        studentOrTeacherDTO.setName("quebonafajde");
-        studentOrTeacherDTO.setSurname("lmfao");
-        studentOrTeacherDTO.setSemester(1);
-        studentService.addNewStudent(studentOrTeacherDTO);
-
-        studentOrTeacherDTO.setEmail("ebe@ebe.com");
-        studentOrTeacherDTO.setPassword("iksde");
-        teacherService.addNewTeacher(studentOrTeacherDTO);
+//        NewStudentOrTeacherDTO studentOrTeacherDTO = new NewStudentOrTeacherDTO();
+//        studentOrTeacherDTO.setName("quebonafajde");
+//        studentOrTeacherDTO.setSurname("lmfao");
+//        studentOrTeacherDTO.setSemester(1);
+//        studentService.addNewStudent(studentOrTeacherDTO);
+//
+//        studentOrTeacherDTO.setEmail("ebe@ebe.com");
+//        studentOrTeacherDTO.setPassword("iksde");
+//        teacherService.addNewTeacher(studentOrTeacherDTO);
 
 
 

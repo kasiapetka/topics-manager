@@ -45,7 +45,6 @@ public class SectionServiceImpl implements SectionService {
 
     //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
     @Override
-    //@Transactional
     public Long addNewSection(NewSection newSection) {
         try {
             Section section = new Section();

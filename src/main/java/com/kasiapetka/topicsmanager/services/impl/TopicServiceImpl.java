@@ -20,10 +20,6 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic findTopicById(Long id) {
-        Optional<Topic> topicOptional =  topicRepository.findById(id);
-        if(!topicOptional.isPresent()){
-            return null;
-        }
-        return topicOptional.get();
+        return topicRepository.findById(id).orElse(new Topic());
     }
 }
