@@ -1,29 +1,31 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 import ConfirmPasswordInput from "../ConfirmPasswordInput/ConfirmPasswordInput";
 import AddTeacherInputs from "./FormInputs/AddTeacherInputs";
 import AddStudentInputs from "./FormInputs/AddStudentInputs";
+import {withRouter} from "react-router-dom";
 
 const addPersonForm =(props)=>{
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.Form;
     let label;
     let content;
 
-    if(props.personRole === 'T') {
+    const role = props.match.params.role;
+
+    if(role === 'T') {
         label="Teacher";
         content=<AddTeacherInputs
         person={props.person}
         change={props.change}
-        invalid={props.emptyForm}/>
+        emptyForm={props.emptyForm}/>
     }
-    if(props.personRole === 'S'){
+    if(role === 'S'){
         label="Student";
         content=<AddStudentInputs
             person={props.person}
             change={props.change}
-            invalid={props.emptyForm}/>
+            emptyForm={props.emptyForm}/>
     }
 
     return(
@@ -36,14 +38,14 @@ const addPersonForm =(props)=>{
                 <Input type="text" name="newName" id="exampleName" placeholder="Enter Name"
                        value={props.person.newName || ''}
                        onChange={props.change}
-                       invalid={props.emptyForm}/>
+                       invalid={props.emptyForm && props.person.newName===''}/>
             </FormGroup>
             <FormGroup className="col-md-6 mb-2 mt-3">
                 <Label for="exampleSurname" className="mr-2 pl-1">{label}'s Surname</Label>
                 <Input type="text" name="newSurname" id="exampleSurname" placeholder="Enter Surname"
                        value={props.person.newSurname || ''}
                        onChange={props.change}
-                       invalid={props.emptyForm}/>
+                       invalid={props.emptyForm && props.person.newSurname===''}/>
             </FormGroup>
             </div>
 
@@ -66,4 +68,4 @@ const addPersonForm =(props)=>{
     )
 };
 
-export default addPersonForm;
+export default withRouter(addPersonForm);

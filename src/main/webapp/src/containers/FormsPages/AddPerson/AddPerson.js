@@ -37,6 +37,17 @@ class AddPerson extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
+        const person = {...this.state.person};
+
+        for (let [key, value] of Object.entries(person)) {
+            if (key !== 'id' && value === '') {
+                this.setState({
+                    emptyForm: true
+                });
+                return;
+            }
+        }
+
         let path;
         if (this.props.personRole === 'S') {
             path = '/api/admin/addStudent'
@@ -44,8 +55,6 @@ class AddPerson extends Component {
         if (this.props.personRole === 'T') {
             path = '/api/admin/addTeacher'
         }
-
-        const person = this.state.person;
 
         axios.post(path, person).then(response => {
 
