@@ -19,6 +19,8 @@ class AddPerson extends Component {
         emptyForm: false,
         changed: false,
         person: this.emptyPerson,
+        wrongEmail: false,
+        wrongPassword:false
     };
 
     handleChange = (event) => {
@@ -59,9 +61,23 @@ class AddPerson extends Component {
         axios.post(path, person).then(response => {
 
         }).catch(error => {
-            this.setState({
-                error: true,
-            })
+            if(error.response.status === 409)
+            {
+                this.setState({
+                    wrongEmail: true,
+                })
+            }
+            else if(error.response.status === 406)
+            {
+                this.setState({
+                    wrongPassword: true,
+                })
+            }
+            else{
+                this.setState({
+                    error: true,
+                })
+            }
         })
 
     };
@@ -84,6 +100,8 @@ class AddPerson extends Component {
                     person={this.state.person}
                     change={this.handleChange}
                     emptyForm={this.state.emptyForm}
+                    wrongEmail={this.state.wrongEmail}
+                    wrongPassword={this.state.wrongPassword}
                     changed={this.state.changed}
                     submit={this.handleSubmit}/>
             )

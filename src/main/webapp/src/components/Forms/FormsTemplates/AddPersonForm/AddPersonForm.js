@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Badge, Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 import ConfirmPasswordInput from "../ConfirmPasswordInput/ConfirmPasswordInput";
 import AddTeacherInputs from "./FormInputs/AddTeacherInputs";
@@ -18,7 +18,8 @@ const addPersonForm =(props)=>{
         content=<AddTeacherInputs
         person={props.person}
         change={props.change}
-        emptyForm={props.emptyForm}/>
+        emptyForm={props.emptyForm}
+        wrongEmail={props.wrongEmail}/>
     }
     if(role === 'S'){
         label="Student";
@@ -50,6 +51,14 @@ const addPersonForm =(props)=>{
             </div>
 
             {content}
+            {
+                props.wrongEmail
+                ?
+                    <Badge color="danger" className="p-2 mb-2 mt-2">
+                        Email occupied</Badge>
+                :
+                null
+            }
 
             <ConfirmPasswordInput
                 credsChanged={props.changed}

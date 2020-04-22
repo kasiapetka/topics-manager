@@ -19,7 +19,7 @@ const addSubjectForm = (props) => {
             </FormGroup>
             <FormGroup className="p-2 mb-2 mt-2">
                 <Label for="exampleText">Subject Summary</Label>
-                <Input type="textarea" rows={4} name="text" id="exampleText"
+                <Input type="textarea" rows={4} name="summary" id="exampleText"
                        value={props.subject.summary || ''}
                        onChange={props.change}/>
             </FormGroup>
