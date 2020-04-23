@@ -1,10 +1,11 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,18 @@ public class AdminController {
     private BCryptPasswordEncoder passwordEncoder;
     private TeacherService teacherService;
     private StudentService studentService;
+    private SubjectService subjectService;
 
     public AdminController(UserService userService, AdminService adminService,
                            UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
-                           TeacherService teacherService, StudentService studentService) {
+                           TeacherService teacherService, StudentService studentService, SubjectService subjectService) {
         this.userService = userService;
         this.adminService = adminService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
         this.teacherService = teacherService;
         this.studentService = studentService;
+        this.subjectService = subjectService;
     }
 
 
@@ -99,12 +102,12 @@ public class AdminController {
                 responseCode = 200;
                 result.setEmail(editAccount.getNewEmail());
                 if (!editAccount.getNewName().equals("")) {
-                    System.out.println("Changing name");
+                    System.out.println("Changing newName");
                     teacherService.changeName(teacher, editAccount.getNewName());
                     result.setName(editAccount.getNewName());
                 }
                 if (!editAccount.getNewSurname().equals("")) {
-                    System.out.println("Changing surname");
+                    System.out.println("Changing newSurname");
                     teacherService.changeSurname(teacher, editAccount.getNewSurname());
                     result.setSurname(editAccount.getNewSurname());
                 }
@@ -146,12 +149,12 @@ public class AdminController {
                 responseCode = 200;
                 result.setEmail(editAccount.getNewEmail());
                 if (!editAccount.getNewName().equals("")) {
-                    System.out.println("Changing name");
+                    System.out.println("Changing newName");
                     studentService.changeName(student, editAccount.getNewName());
                     result.setName(editAccount.getNewName());
                 }
                 if (!editAccount.getNewSurname().equals("")) {
-                    System.out.println("Changing surname");
+                    System.out.println("Changing newSurname");
                     studentService.changeSurname(student, editAccount.getNewSurname());
                     result.setSurname(editAccount.getNewSurname());
                 }
@@ -193,17 +196,24 @@ public class AdminController {
 
     @PostMapping("/api/admin/addStudent")
     ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
-        if(studentService.addNewStudent(studentOrTeacherDTO)){
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(500).build();
-        }
+
+        Integer responseCode = studentService.addNewStudent(studentOrTeacherDTO);
+
+        return ResponseEntity.status(responseCode).build();
     }
 
     @PostMapping("/api/admin/addTeacher")
     ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
 
         Integer responseCode = teacherService.addNewTeacher(studentOrTeacherDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @PostMapping("/api/admin/addsubject")
+    ResponseEntity<?> addSubject(@Valid @RequestBody AddSubjectDTO addSubjectDTO){
+
+        Integer responseCode = subjectService.addNewSubject(addSubjectDTO);
 
         return ResponseEntity.status(responseCode).build();
     }

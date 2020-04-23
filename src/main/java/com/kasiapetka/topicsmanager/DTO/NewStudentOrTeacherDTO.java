@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class NewStudentOrTeacherDTO {
-    private String name;
-    private String surname;
-    private String email;
     private String password;
+    private String newEmail;
+    private String newPassword;
+    private String newName;
+    private String newSurname;
     private Integer semester;
-    private Character role;
+//    private Character role;
 }

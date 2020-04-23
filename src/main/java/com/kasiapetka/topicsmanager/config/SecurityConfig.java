@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     //@Value("${spring.queries.users-query}")
-    @Value("select email, password, active from users where email=?")
+    @Value("select newEmail, newPassword, active from users where newEmail=?")
     private String usersQuery;
 
     @Value("${spring.queries.roles-query}")
@@ -54,9 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication()
-//                .withUser("student").password("{noop}test123").roles("Student")
+//                .withUser("student").newPassword("{noop}test123").roles("Student")
 //                .and()
-//                .withUser("teacher").password("{noop}test123").roles("Teacher");
+//                .withUser("teacher").newPassword("{noop}test123").roles("Teacher");
 
      /*   auth. jdbcAuthentication()
                 .usersByUsernameQuery(usersQuery)

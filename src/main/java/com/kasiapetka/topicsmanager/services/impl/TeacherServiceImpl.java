@@ -86,7 +86,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Integer addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO) {
 
-        User user = userService.findUserByEmail(studentOrTeacherDTO.getEmail());
+        User user = userService.findUserByEmail(studentOrTeacherDTO.getNewEmail());
 
         if (user != null) {
             // mail exists
@@ -94,13 +94,13 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         user = new User();
-        user.setEmail(studentOrTeacherDTO.getEmail());
-        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getPassword()));
+        user.setEmail(studentOrTeacherDTO.getNewEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getNewPassword()));
         user.setRole(roleService.findRoleByRoleName("Teacher"));
 
         Teacher teacher = new Teacher();
-        teacher.setName(studentOrTeacherDTO.getName());
-        teacher.setSurname(studentOrTeacherDTO.getSurname());
+        teacher.setName(studentOrTeacherDTO.getNewName());
+        teacher.setSurname(studentOrTeacherDTO.getNewSurname());
         teacher.setIsActive(true);
         teacher.setUser(user);
 

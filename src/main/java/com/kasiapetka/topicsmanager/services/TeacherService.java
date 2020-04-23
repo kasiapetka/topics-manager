@@ -8,7 +8,7 @@ import com.kasiapetka.topicsmanager.model.User;
 import java.util.List;
 
 public interface TeacherService {
-//    void changePassword(Teacher student, String password);
+//    void changePassword(Teacher student, String newPassword);
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
     List<Teacher> listActiveTeachers();

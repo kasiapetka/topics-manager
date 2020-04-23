@@ -39,8 +39,8 @@ public class RegisterForm {
         return "Register{" +
                 "album='" + album + '\'' +
                 ", code='" + code + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", newEmail='" + email + '\'' +
+                ", newPassword='" + password + '\'' +
                 '}';
     }
 

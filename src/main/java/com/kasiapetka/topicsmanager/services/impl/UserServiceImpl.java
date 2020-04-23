@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService {
     // returns response code
     public int changeCredentials(EditAccount editAccount, User user) {
 
-//        if(checkCrudentials(editAccount.getPassword(), user.getPassword())){
+//        if(checkCrudentials(editAccount.getNewPassword(), user.getNewPassword())){
 
-        // password changing
+        // newPassword changing
         if (!editAccount.getNewPassword().equals("")) {
             changePassword(user, editAccount.getNewPassword());
         }
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         }
 
 //        } else {
-//            // bad password given
+//            // bad newPassword given
 //            return 406;
 //        }
 
