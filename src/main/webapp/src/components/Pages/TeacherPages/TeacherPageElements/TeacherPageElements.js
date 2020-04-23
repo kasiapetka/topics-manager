@@ -8,6 +8,7 @@ import AddSection from "../../../../containers/FormsPages/AddSection/AddSection"
 import ListStudents from "../../../../containers/Lists/ListStudents";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
 import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
+import ListTopics from "../../../../containers/Lists/ListTopics";
 
 const teacherPageElements = (props) => (
     <div className="container-fluid h-100 mt-5">
@@ -24,6 +25,7 @@ const teacherPageElements = (props) => (
             <div className="col-md-8">
 
                 <PrivateTeacherRoute exact path="/teacher/subjects" component={() => <ListSubjects/>}/>
+                <PrivateTeacherRoute exact path="/teacher/topics" component={() => <ListTopics/>}/>
                 <PrivateTeacherRoute exact path="/teacher/addtopic" component={() => <AddTopic/>}/>
                 <PrivateTeacherRoute exact path="/teacher/addsection" component={() => <AddSection/>}/>
                 <PrivateTeacherRoute exact path="/teacher/sections" component={() => <ListSections/>}/>

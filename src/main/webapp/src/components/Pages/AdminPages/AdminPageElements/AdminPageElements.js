@@ -13,6 +13,7 @@ import DeletePersonCard from "../../../UI/DeletePersonCard/DeletePersonCard";
 import AddSubject from "../../../../containers/FormsPages/AddSubject/AddSubject";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
 import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
+import ListTopics from "../../../../containers/Lists/ListTopics";
 
 const adminPageElements = (props) =>
     (
@@ -38,6 +39,8 @@ const adminPageElements = (props) =>
                     <PrivateAdminRoute exact path="/admin/subjects" component={() => <ListSubjects/>}/>
 
                     <PrivateAdminRoute exact path="/admin/addsubject" component={() => <AddSubject/>}/>
+
+                    <PrivateAdminRoute exact path="/admin/topics" component={() => <ListTopics/>}/>
 
                     <PrivateAdminRoute exact path="/admin/addtopic" component={() => <AddTopic/>}/>
 

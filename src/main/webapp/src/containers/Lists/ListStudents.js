@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Students from "../../components/Lists/ListStudents/Students";
 import classes from '../../components/Lists/ListStudents/ListStudents.module.css'
 import FilterPersonsList from "../../components/Lists/FilterPersonsList";
-import auth from "../../Auth";
 import axios from "axios";
 import filterList from "../../components/Lists/FilterList";
 import PersonsContext from "../../context/listPersonsContext";
@@ -24,7 +23,7 @@ class ListStudents extends Component {
             personToDelete: '',
             loading: true,
             addStudentsToSection: this.props.addStudentToSection ? this.props.addStudentToSection : false,
-            studentsInSection:0
+            studentsInSection: 0
         };
     }
 
@@ -74,37 +73,36 @@ class ListStudents extends Component {
         this.props.deletePerson(student, 'S');
     };
 
-    addToSectionHandler = (index) =>{
+    addToSectionHandler = (index) => {
         const student = this.state.studentsFiltered[index];
-        let size =  this.state.studentsInSection;
-        size = size +1;
-        if(size >= this.props.sectionSize){
+        let size = this.state.studentsInSection;
+        size = size + 1;
+        if (size >= this.props.sectionSize) {
             this.setState({
                 addStudentsToSection: false,
             });
         }
 
-        this.setState((prevState)=> {
-            return{
+        this.setState((prevState) => {
+            return {
                 studentsInSection: size
             }
         });
         this.props.addToSection(student);
     };
 
-    removeFromSectionHandler=(index)=>
-    {
+    removeFromSectionHandler = (index) => {
         const student = this.state.studentsFiltered[index];
-        let size =  this.state.studentsInSection;
-        if(size >= this.props.sectionSize){
+        let size = this.state.studentsInSection;
+        if (size >= this.props.sectionSize) {
             this.setState({
                 addStudentsToSection: true,
             });
         }
-        size = size -1;
+        size = size - 1;
 
-        this.setState((prevState)=> {
-            return{
+        this.setState((prevState) => {
+            return {
                 studentsInSection: size
             }
         });
@@ -121,9 +119,9 @@ class ListStudents extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else if(this.state.loading){
+        } else if (this.state.loading) {
             list = (<Spinner/>)
-        }else if (this.state.students) {
+        } else if (this.state.students) {
             list = (
                 <React.Fragment>
                     <PersonsContext.Provider
@@ -139,11 +137,9 @@ class ListStudents extends Component {
                             addToSection: this.addToSectionHandler,
                             removeFromSection: this.removeFromSectionHandler,
                         }}>
-                        <div className={classes.Students}>
-                            <FilterPersonsList
-                                list="S"/>
-                            <Students/>
-                        </div>
+
+                        <Students/>
+
                     </PersonsContext.Provider>
 
                 </React.Fragment>
