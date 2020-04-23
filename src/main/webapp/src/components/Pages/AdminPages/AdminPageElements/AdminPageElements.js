@@ -12,6 +12,7 @@ import auth from "../../../../Auth";
 import DeletePersonCard from "../../../UI/DeletePersonCard/DeletePersonCard";
 import AddSubject from "../../../../containers/FormsPages/AddSubject/AddSubject";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
+import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
 
 const adminPageElements = (props) =>
     (
@@ -38,6 +39,8 @@ const adminPageElements = (props) =>
 
                     <PrivateAdminRoute exact path="/admin/addsubject" component={() => <AddSubject/>}/>
 
+                    <PrivateAdminRoute exact path="/admin/addtopic" component={() => <AddTopic/>}/>
+
                     <PrivateAdminRoute exact path="/admin/deleted" component={() => <DeletePersonCard
                         deleted={true}
                         person={props.deletedPerson.person}/>}/>
@@ -55,8 +58,7 @@ const adminPageElements = (props) =>
 
                     <PrivateAdminRoute exact path="/admin/students" component={() => <ListStudents
                         editPerson={props.editPersonHandler}
-                        deletePerson={props.deletePersonHandler}
-                        path='/api/admin/students'/>}/>
+                        deletePerson={props.deletePersonHandler}/>}/>
 
                     <PrivateAdminRoute exact path="/admin" component={() => <ListTeachers
                         editPerson={props.editPersonHandler}
