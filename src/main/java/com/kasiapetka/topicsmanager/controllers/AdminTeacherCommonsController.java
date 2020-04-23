@@ -1,15 +1,16 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.SubjectService;
+import com.kasiapetka.topicsmanager.services.TopicService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,10 +18,13 @@ public class AdminTeacherCommonsController {
 
     private SubjectService subjectService;
     private StudentService studentService;
+    private TopicService topicService;
 
-    public AdminTeacherCommonsController(SubjectService subjectService, StudentService studentService){
+    public AdminTeacherCommonsController(SubjectService subjectService, StudentService studentService,
+                                         TopicService topicService){
         this.subjectService = subjectService;
         this.studentService = studentService;
+        this.topicService = topicService;
     }
 
 
@@ -41,6 +45,12 @@ public class AdminTeacherCommonsController {
     @GetMapping("/api/adminteacher/students")
     List<Student> listStudents() {
         return studentService.listActiveStudents();
+    }
+
+    @PostMapping("/api/adminteacher/addtopic")
+    ResponseEntity<?> addTopic(@Valid @RequestBody NewTopicDTO newTopicDTO){
+        Integer repsonseCode = topicService.addNewTopic(newTopicDTO);
+        return ResponseEntity.status(repsonseCode).build();
     }
 
 
