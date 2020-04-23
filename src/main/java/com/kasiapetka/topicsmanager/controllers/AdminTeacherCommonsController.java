@@ -49,8 +49,8 @@ public class AdminTeacherCommonsController {
 
     @PostMapping("/api/adminteacher/addtopic")
     ResponseEntity<?> addTopic(@Valid @RequestBody NewTopicDTO newTopicDTO){
-        Integer repsonseCode = topicService.addNewTopic(newTopicDTO);
-        return ResponseEntity.status(repsonseCode).build();
+        Integer responseCode = topicService.addNewTopic(newTopicDTO);
+        return ResponseEntity.status(responseCode).build();
     }
 
 
