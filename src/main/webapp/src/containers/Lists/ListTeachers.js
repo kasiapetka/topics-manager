@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-import FilterPersonsList from "../../components/Lists/FilterPersonsList";
 import Teachers from "../../components/Lists/ListTeachers/Teachers";
-import classes from '../../components/Lists/ListTeachers/ListTeachers.module.css'
-import auth from "../../Auth";
 import axios from "axios";
 import filterList from "../../components/Lists/FilterList";
 import {Alert} from "reactstrap";
@@ -99,11 +96,7 @@ class ListTeachers extends Component {
                             search: this.state.search,
                             delete: this.onTeachersDeleteHandler,
                         }}>
-                        <div className={classes.Teachers}>
-                            <FilterPersonsList
-                                list="T"/>
                             <Teachers/>
-                        </div>
                     </PersonsContext.Provider>
                 </React.Fragment>)
         }

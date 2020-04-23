@@ -1,12 +1,13 @@
-import React , {useContext} from "react";
+import React, {useContext} from "react";
 import Student from "./Student";
 import PersonsContext from "../../../context/listPersonsContext";
+import FilterPersonsList from "../FilterPersonsList";
+import classes from "./ListStudents.module.css";
 
-const Students =()=>{
+const Students = () => {
 
     const studentsContext = useContext(PersonsContext);
-
-    return(
+    const students =
         studentsContext.persons.map((student, index) => {
             return <Student
                 name={student.name}
@@ -14,13 +15,20 @@ const Students =()=>{
                 email={student.user ? student.user.email : "No Account"}
                 album={student.album}
                 key={student.album}
-                edit={() =>studentsContext.edit(index)}
+                edit={() => studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
-                addToSection={()=>studentsContext.addToSection(index)}
+                addToSection={() => studentsContext.addToSection(index)}
                 addStudentsToSection={studentsContext.addStudentsToSection}
-                removeFromSection={()=>studentsContext.removeFromSection(index)}
+                removeFromSection={() => studentsContext.removeFromSection(index)}
             />
-        })
+        });
+
+    return (
+        <div className={classes.Students}>
+            <FilterPersonsList
+                list="S"/>
+            {students}
+        </div>
     )
 };
 
