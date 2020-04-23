@@ -10,6 +10,7 @@ public interface SubjectService {
     // for database loader probably to delete later
     Boolean addNewSubject(Subject subject);
     Subject findSubjectById(Long id);
+    Subject findSubjectByName(String name);
     Integer addNewSubject(AddSubjectDTO addSubjectDTO);
     List<Subject> getSubjectsList();
     List<Topic> getTopicListBySubjectId(Long id);
