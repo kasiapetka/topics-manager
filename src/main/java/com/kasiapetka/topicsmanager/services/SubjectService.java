@@ -9,7 +9,7 @@ import java.util.List;
 public interface SubjectService {
     // for database loader probably to delete later
     Boolean addNewSubject(Subject subject);
-
+    Subject findSubjectById(Long id);
     Integer addNewSubject(AddSubjectDTO addSubjectDTO);
     List<Subject> getSubjectsList();
     List<Topic> getTopicListBySubjectId(Long id);

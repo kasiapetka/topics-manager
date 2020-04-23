@@ -63,4 +63,9 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return subjectOptional.get().getTopics();
     }
+
+    @Override
+    public Subject findSubjectById(Long id) {
+        return subjectRepository.findById(id).orElse(new Subject());
+    }
 }
