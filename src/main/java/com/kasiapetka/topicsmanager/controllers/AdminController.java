@@ -171,10 +171,7 @@ public class AdminController {
         return teacherService.listActiveTeachers();
     }
 
-    @GetMapping("/api/admin/students")
-    List<Student> listStudents() {
-        return studentService.listActiveStudents();
-    }
+
 
     @PutMapping("/api/admin/deleteteacher")
     ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id) {
