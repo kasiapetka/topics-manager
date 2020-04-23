@@ -41,28 +41,33 @@ class AddPerson extends Component {
         event.preventDefault();
 
         const person = {...this.state.person};
-
-        // for (let [key, value] of Object.entries(person)) {
-        //     if (key !== 'id' && value === '') {
-        //         this.setState({
-        //             emptyForm: true
-        //         });
-        //         return;
-        //     }
-        // }
-
-        let path;
         const role = this.props.match.params.role;
+        let path;
+
+        if (person.newName === '' ||
+            person.newSurname === ''){
+            this.setState({emptyForm: true});
+            return;
+        }
 
         if (role === 'S') {
-            path = '/api/admin/addStudent'
+            path = '/api/admin/addStudent';
+            if (person.semester === '') {
+                this.setState({emptyForm: true});
+                return;
+            }
         }
         if (role === 'T') {
-            path = '/api/admin/addTeacher'
+            path = '/api/admin/addTeacher';
+            if (person.newEmail === '' ||
+                person.newPassword === '') {
+                this.setState({emptyForm: true});
+                return;
+            }
         }
 
         axios.post(path, person).then(response => {
-           console.log("udao sie")
+            console.log("udao sie")
         }).catch(error => {
             if (error.response.status === 409) {
                 this.setState({
