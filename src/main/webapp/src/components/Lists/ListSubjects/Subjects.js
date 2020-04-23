@@ -6,8 +6,8 @@ const Subjects =(props)=>{
         props.subjects.map((subject, index) => {
             return <Subject
                 name={subject.name}
-                surname={subject.surname}
-                key={subject.album}
+                summary={subject.summary}
+                key={subject.id}
             />
         })
     )

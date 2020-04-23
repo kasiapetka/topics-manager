@@ -30,7 +30,7 @@ class ListStudents extends Component {
 
     componentDidMount = () => {
 
-        axios.get(this.props.path).then(response => {
+        axios.get('/api/adminteacher/students').then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,

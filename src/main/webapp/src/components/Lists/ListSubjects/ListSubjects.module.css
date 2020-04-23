@@ -1,5 +1,5 @@
 .Subject{
-    width: 80%;
+    max-width: 500px;
     margin: 30px auto;
     border: 1px solid #eee;
     box-shadow: 0 4px 4px #ccc;
@@ -12,7 +12,6 @@
 .Subjects{
     max-height: 750px;
     min-height: 400px;
-    max-width: 700px;
     border: 1px solid #e1e1e1;
     overflow-y: auto;
     border-radius: 10px;

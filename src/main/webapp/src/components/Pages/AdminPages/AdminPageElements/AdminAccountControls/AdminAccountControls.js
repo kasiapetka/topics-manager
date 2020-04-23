@@ -37,6 +37,13 @@ const AdminAccountControls = (props) => {
                             secondLink='/admin/addsubject'
                             secondButton='Add Subject'
                         />
+
+                        <AdminAccountControl
+                            firstLink='/admin/topics'
+                            firstButton="List Topics"
+                            secondLink='/admin/addtopics'
+                            secondButton='Add Topics'
+                        />
                     </React.Fragment>
                     :
                     null

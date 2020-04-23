@@ -3,6 +3,7 @@ import AddSubjectForm from "../../../components/Forms/FormsTemplates/AddSubjectF
 import {Alert} from "reactstrap";
 import axios from "axios";
 import AddedSubjectCard from "../../../components/UI/AddedCards/AddedSubjectCard/AddedSubjectCard";
+import AddTopicForm from "../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
 
 class AddSubject extends Component {
 
@@ -16,6 +17,7 @@ class AddSubject extends Component {
         emptyForm: false,
         changed: false,
         subject: this.emptySubject,
+        wrongName: false,
         subjectAdded: false
     };
 
@@ -47,9 +49,11 @@ class AddSubject extends Component {
         axios.post('/api/admin/addsubject', subject).then(response => {
             this.setState({subjectAdded: true})
         }).catch(error => {
-            this.setState({
-                error: true,
-            })
+            if (error.response.status === 409) {
+                this.setState({wrongName: true})
+            } else {
+                this.setState({error: true,})
+            }
         })
 
     };
@@ -73,7 +77,8 @@ class AddSubject extends Component {
                     change={this.handleChange}
                     emptyForm={this.state.emptyForm}
                     changed={this.state.changed}
-                    submit={this.handleSubmit}/>
+                    submit={this.handleSubmit}
+                    wrongName={this.state.wrongName}/>
             )
         }else {
             content = (

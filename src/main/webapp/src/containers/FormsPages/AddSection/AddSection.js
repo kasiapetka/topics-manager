@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SectionFormInputs from "../../../components/Forms/FormsTemplates/AddSectionForm/SectionForm";
+import SectionFormInputs from "../../../components/Forms/FormsTemplates/AddSectionForm/AddSectionForm";
 import {Alert} from "reactstrap";
 import axios from 'axios'
 import AddStudentToSectionForm
@@ -15,6 +15,7 @@ class AddSection extends Component {
         semester: '',
         state: 'true',
         topic: '',
+        subject: null
     };
 
     state = {
@@ -29,7 +30,7 @@ class AddSection extends Component {
     };
 
     componentDidMount() {
-        axios.get('/api/teacher/subjects').then(response => {
+        axios.get('/api/adminteacher/subjects').then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects
@@ -88,7 +89,7 @@ class AddSection extends Component {
 
     onSubjectChangeHandler = (event) => {
         const id = event.target.value;
-        axios.get('/api/teacher/topics/' + id).then(response => {
+        axios.get('/api/adminteacher/topics/' + id).then(response => {
             let topics = [...response.data];
             this.setState({
                 topics: topics,

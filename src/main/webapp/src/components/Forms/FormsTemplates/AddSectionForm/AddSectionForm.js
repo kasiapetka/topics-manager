@@ -3,7 +3,7 @@ import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 import SizeSemStateInputs from "./FormInputs/SizeSemStateInputs";
 
-const sectionForm = (props) => {
+const addSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.Form;
 
     const subjectOptions = props.subjects.map(subject => {
@@ -83,4 +83,4 @@ const sectionForm = (props) => {
     )
 };
 
-export default sectionForm;
+export default addSectionForm;
