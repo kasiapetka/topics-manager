@@ -5,7 +5,6 @@ import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
-import jdk.internal.loader.AbstractClassLoaderValue;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -7,22 +7,21 @@ const Topics = (props) => {
 
     let topics;
     if(props.topics !== null){
-        topics=props.topics.map((topic, index) => {
-            return <Topic
-                name={topic.name}
-                summary={topic.summary}
-                key={topic.id}
-            />
-        });
+        if(props.topics.length !== 0){
+            topics=props.topics.map((topic, index) => {
+                return <Topic
+                    name={topic.name}
+                    summary={topic.summary}
+                    key={topic.id}
+                />
+            });
+        }else{
+            topics=<div><h4 className="text-center mt-4">No topics in this subject.</h4></div>
+        }
     }
 
     return (
         <div className={classes.Topics}>
-            <PickSubjectInput
-                subjects={props.subjects}
-                subject={props.subject}
-                onSubjectChange = {props.onSubjectChange}
-            />
             {
                 props.topics
                     ?

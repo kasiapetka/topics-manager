@@ -41,7 +41,7 @@ const AdminAccountControls = (props) => {
                         <AdminAccountControl
                             firstLink='/admin/topics'
                             firstButton="List Topics"
-                            secondLink='/admin/addtopics'
+                            secondLink='/admin/addtopic'
                             secondButton='Add Topics'
                         />
                     </React.Fragment>

@@ -3,6 +3,8 @@ import {Alert} from "reactstrap";
 import axios from 'axios'
 import Topics from "../../components/Lists/ListTopics/Topics";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import PickSubjectInput from "../../components/Lists/ListTopics/PickSubjectInput/PickSubjectInput";
+import {Redirect} from "react-router-dom";
 
 class ListTopics extends Component {
     state = {
@@ -30,7 +32,6 @@ class ListTopics extends Component {
 
     onSubjectChangeHandler = (event) => {
         this.setState({loading: true});
-
         const id = event.target.value;
 
         this.setState({
@@ -62,18 +63,28 @@ class ListTopics extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else if(loading){
+        } else if (loading) {
             content = <Spinner/>
         } else {
-            content = <Topics
-            subject={this.state.subject}
-            subjects={this.state.subjects}
-            onSubjectChange = {this.onSubjectChangeHandler}
-            topics={this.state.topics}
-            />;
+            content =
+                <React.Fragment>
+                    <Topics
+                        topics={this.state.topics}
+                    />
+                </React.Fragment>
+            ;
         }
 
-        return content;
+        return (
+            <React.Fragment>
+                <PickSubjectInput
+                    subjects={this.state.subjects}
+                    subject={this.state.subject}
+                    onSubjectChange={this.onSubjectChangeHandler}
+                />
+                {content}
+            </React.Fragment>
+        );
     }
 }
 
