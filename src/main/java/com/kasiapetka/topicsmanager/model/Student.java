@@ -17,12 +17,10 @@ import java.util.List;
 @Entity
 public class Student {
 
-    //@ToDo zmienic generation type na wlasny (chyba SEQUENCE to najlepiej umozliwia)
-    //@ToDo stworzyc algorytm generowania kodow do rejestracji powiazanych z numerem albumu
     @Id
-    @GeneratedValue(generator = "sequence-generator")
+    @GeneratedValue(generator = "studentID-sequence-generator")
     @GenericGenerator(
-            name = "sequence-generator",
+            name = "studentID-sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "student_sequence"),

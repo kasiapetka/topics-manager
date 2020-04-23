@@ -76,20 +76,7 @@ public class TeacherController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-    @GetMapping("/api/teacher/students")
-    List<Student> listStudents() {
-        return studentService.listActiveStudents();
-    }
 
-    @GetMapping("/api/teacher/subjects")
-    List<Subject> listSubjects() {
-        return subjectService.getSubjectsList();
-    }
-
-    @GetMapping("/api/teacher/topics/{id}")
-    List<Topic> listTopics(@PathVariable Long id) {
-        return subjectService.getTopicListBySubjectId(id);
-    }
 
     @PostMapping("/api/teacher/addSection")
     ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection) {
