@@ -1,0 +1,44 @@
+.Subject{
+    width: 80%;
+    margin: 30px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 4px #ccc;
+    padding: 10px;
+    text-align: center;
+    overflow-x:auto;
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(241,241,241,0.5));
+}
+
+.Subjects{
+    max-height: 750px;
+    min-height: 400px;
+    max-width: 700px;
+    border: 1px solid #e1e1e1;
+    overflow-y: auto;
+    border-radius: 10px;
+    background-color:  rgba(248, 248, 248,0.7);
+    margin: 10px auto;
+}
+
+/* width */
+.Subjects::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+.Subjects::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    box-shadow: inset 0 0 3px grey;
+    border-radius: 4px;
+}
+
+/* Handle */
+.Subjects::-webkit-scrollbar-thumb {
+    background: #B3B3B3;
+    border-radius: 4px;
+}
+
+/* Handle on hover */
+.Subjects::-webkit-scrollbar-thumb:hover {
+    background: #8f8f8f;
+}

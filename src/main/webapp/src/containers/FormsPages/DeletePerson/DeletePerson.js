@@ -14,11 +14,11 @@ class DeletePerson extends Component {
 
         if(this.props.personRole==='S'){
             id=this.props.person.album;
-            path='/api/admin/deleteStudent';
+            path='/api/admin/deletestudent';
         }
         else if(this.props.personRole==='T'){
             id=this.props.person.id;
-            path='/api/admin/deleteTeacher';
+            path='/api/admin/deleteteacher';
         }
 
         axios.put(path,id).then(response => {

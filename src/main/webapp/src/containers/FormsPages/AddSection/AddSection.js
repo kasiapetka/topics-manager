@@ -4,6 +4,7 @@ import {Alert} from "reactstrap";
 import axios from 'axios'
 import AddStudentToSectionForm
     from "../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
+import AddedSectionCard from "../../../components/UI/AddedCards/AddedSectionCard/AddedSectionCard";
 
 class AddSection extends Component {
 
@@ -64,9 +65,16 @@ class AddSection extends Component {
                 return;
             }
         }
-
-        axios.post('/api/teacher/addSection', section).then(response => {
+        axios.post('/api/teacher/addsection', section).then(response => {
             section.id = response.data;
+            const topics = [...this.state.topics];
+            topics.filter((topic)=>topic.id === section.topic);
+            section.topic = topics[0].name;
+
+            const subjects = [...this.state.subjects];
+            subjects.filter((subject)=>subject.id === section.subject);
+            section.subject = subjects[0].name;
+
             this.setState({
                 addStudents: true,
                 section: section
@@ -128,7 +136,7 @@ class AddSection extends Component {
             sectionId: this.state.section.id
         };
 
-        axios.put('/api/teacher/addStudentsToSection', studentSection).then(response => {
+        axios.put('/api/teacher/addstudentstosection', studentSection).then(response => {
             this.setState({
                 sectionAdded: true,
             })
@@ -169,7 +177,10 @@ class AddSection extends Component {
                 onSubmit={this.onStudentsAdditionHandler}
                 section={this.state.section}/>
         }else{
-            content=<div>added</div>
+            content=<AddedSectionCard
+            students={this.state.students}
+            section={this.state.section}
+            />
         }
 
         return content;

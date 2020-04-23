@@ -1,0 +1,16 @@
+.Toggle{
+    display:none;
+}
+
+.Caption{
+    display:block;
+}
+
+@media (max-width: 767px) {
+    .Toggle{
+        display:block;
+    }
+    .Caption{
+        display:none;
+    }
+}

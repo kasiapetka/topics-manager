@@ -148,7 +148,6 @@ class EditAccount extends Component {
 
         if(this.state.loading){
             form=<Spinner/>
-            console.log('1')
         }
         else if(this.state.personEdition){
             form= <EditPersonForm
@@ -162,7 +161,6 @@ class EditAccount extends Component {
                 wrongEmail={this.state.wrongEmail}
                 emptyForm={this.state.emptyForm}
             />
-            console.log('2')
         }
         else{
             form = <EditAccountInputs
@@ -176,7 +174,6 @@ class EditAccount extends Component {
                 wrongEmail={this.state.wrongEmail}
                 emptyForm={this.state.emptyForm}
             />
-            console.log('3')
         }
 
         return form;

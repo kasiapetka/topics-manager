@@ -16,7 +16,6 @@ class ListStudents extends Component {
         this.state = {
             students: [],
             error: false,
-            showStudents: false,
             search: '',
             studentsFiltered: [],
             condition: 'Email',
@@ -30,14 +29,8 @@ class ListStudents extends Component {
     }
 
     componentDidMount = () => {
-        const request = {
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken(),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-        axios.get(this.props.path, request).then(response => {
+
+        axios.get(this.props.path).then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,
@@ -73,7 +66,7 @@ class ListStudents extends Component {
 
     onStudentEditHandler = (index) => {
         const student = this.state.studentsFiltered[index];
-        this.props.editPerson("/api/admin/modifyStudent", student.album, 'S');
+        this.props.editPerson("/api/admin/modifystudent", student.album, 'S');
     };
 
     onStudentDeleteHandler = (index) => {

@@ -3,6 +3,7 @@ import AddPersonForm from "../../../components/Forms/FormsTemplates/AddPersonFor
 import axios from "axios";
 import {Alert} from "reactstrap";
 import {withRouter} from "react-router-dom";
+import AddedPersonCard from '../../../components/UI/AddedCards/AddedPersonCard/AddedPersonCard'
 
 class AddPerson extends Component {
 
@@ -21,7 +22,8 @@ class AddPerson extends Component {
         changed: false,
         person: this.emptyPerson,
         wrongEmail: false,
-        wrongPassword: false
+        wrongPassword: false,
+        personAdded: false,
     };
 
     handleChange = (event) => {
@@ -51,14 +53,14 @@ class AddPerson extends Component {
         }
 
         if (role === 'S') {
-            path = '/api/admin/addStudent';
+            path = '/api/admin/addstudent';
             if (person.semester === '') {
                 this.setState({emptyForm: true});
                 return;
             }
         }
         if (role === 'T') {
-            path = '/api/admin/addTeacher';
+            path = '/api/admin/addteacher';
             if (person.newEmail === '' ||
                 person.newPassword === '') {
                 this.setState({emptyForm: true});
@@ -67,7 +69,7 @@ class AddPerson extends Component {
         }
 
         axios.post(path, person).then(response => {
-            console.log("udao sie")
+            this.setState({personAdded:true});
         }).catch(error => {
             if (error.response.status === 409) {
                 this.setState({
@@ -87,8 +89,8 @@ class AddPerson extends Component {
     };
 
     render() {
-
         const error = this.state.error;
+        const personAdded = this.state.personAdded;
         let content;
 
         if (error) {
@@ -97,7 +99,7 @@ class AddPerson extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else {
+        } else if(!personAdded){
             content = (
                 <AddPersonForm
                     personRole={this.props.personRole}
@@ -108,6 +110,11 @@ class AddPerson extends Component {
                     wrongPassword={this.state.wrongPassword}
                     changed={this.state.changed}
                     submit={this.handleSubmit}/>
+            )
+        }else{
+            content = (
+                <AddedPersonCard
+                person={this.state.person}/>
             )
         }
 

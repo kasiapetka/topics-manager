@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/UI/Layout/PageNavbar";
-import AdminPageElements from "../../components/Pages/AdminPages/AdminPageLayout/AdminPageElements";
+import AdminPageElements from "../../components/Pages/AdminPages/AdminPageElements/AdminPageElements";
 import ListTeachers from "../Lists/ListTeachers";
 import ListStudents from "../Lists/ListStudents";
 import EditAccount from "../FormsPages/EditAccount/EditAccount";
@@ -24,15 +24,12 @@ class AdminPage extends Component {
         };
     }
 
-
     editPersonHandler = (modifyPath, editPersonId, personRole) => {
        this.setState({
             editPerson: true,
             modifyPath: modifyPath,
             editPersonId: editPersonId,
             personRole: personRole,
-            showStudents: false,
-            showTeachers: false,
             addPerson: false,
         })
     };
@@ -60,8 +57,6 @@ class AdminPage extends Component {
             return {
                 deletePerson: !this.state.deletePerson,
                 deletedPerson: person,
-                showStudents: false,
-                showTeachers: false,
             }
         });
     };
@@ -69,8 +64,6 @@ class AdminPage extends Component {
     addPersonHandler=()=>{
         this.setState((prevState) => {
             return {
-                showStudents: false,
-                showTeachers: false,
                 editPerson: false,
                 addPerson: true,
                 deletedPerson: null,

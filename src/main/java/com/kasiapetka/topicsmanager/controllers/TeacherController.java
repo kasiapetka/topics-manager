@@ -91,7 +91,7 @@ public class TeacherController {
         return subjectService.getTopicListBySubjectId(id);
     }
 
-    @PostMapping("/api/teacher/addSection")
+    @PostMapping("/api/teacher/addsection")
     ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection) {
 
         Long id = sectionService.addNewSection(newSection);
@@ -103,7 +103,7 @@ public class TeacherController {
         }
     }
 
-    @PutMapping("/api/teacher/addStudentsToSection")
+    @PutMapping("/api/teacher/addstudentstosection")
     ResponseEntity<?> addStudentToSection(@Valid @RequestBody AddStudentsToSectionDTO addStudentsToSectionDTO) {
         if (sectionService.addStudentsToSection(addStudentsToSectionDTO)) {
             return ResponseEntity.ok().build();

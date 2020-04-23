@@ -71,7 +71,7 @@ public class AdminController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-    @PutMapping("/api/admin/modifyTeacher")
+    @PutMapping("/api/admin/modifyteacher")
     ResponseEntity<?> updateTeacher(@Valid @RequestBody EditAccount editAccount) throws Exception {
 
         Teacher teacher = teacherService.findTeacherById(editAccount.getId());
@@ -120,7 +120,7 @@ public class AdminController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-    @PutMapping("/api/admin/modifyStudent")
+    @PutMapping("/api/admin/modifystudent")
     ResponseEntity<?> updateStudent(@Valid @RequestBody EditAccount editAccount) throws Exception {
 
         Student student = studentService.findStudentByAlbum(editAccount.getId());
@@ -176,7 +176,7 @@ public class AdminController {
         return studentService.listActiveStudents();
     }
 
-    @PutMapping("/api/admin/deleteTeacher")
+    @PutMapping("/api/admin/deleteteacher")
     ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id) {
         if (teacherService.deleteTeacher(id)) {
             return ResponseEntity.ok().build();
@@ -185,7 +185,7 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/api/admin/deleteStudent")
+    @PutMapping("/api/admin/deletestudent")
     ResponseEntity<?> deleteStudent(@Valid @RequestBody Long album) {
         if (studentService.deleteStudent(album)) {
             return ResponseEntity.ok().build();
@@ -194,7 +194,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/api/admin/addStudent")
+    @PostMapping("/api/admin/addstudent")
     ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
 
         Integer responseCode = studentService.addNewStudent(studentOrTeacherDTO);
@@ -202,7 +202,7 @@ public class AdminController {
         return ResponseEntity.status(responseCode).build();
     }
 
-    @PostMapping("/api/admin/addTeacher")
+    @PostMapping("/api/admin/addteacher")
     ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
 
         Integer responseCode = teacherService.addNewTeacher(studentOrTeacherDTO);

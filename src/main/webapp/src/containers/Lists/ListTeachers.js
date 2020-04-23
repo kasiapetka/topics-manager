@@ -28,14 +28,8 @@ class ListTeachers extends Component {
     }
 
     componentDidMount = () => {
-        const request = {
-            headers: {
-                'Authorization': 'Bearer ' + auth.getToken(),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-        };
-        axios.get('/api/admin/teachers', request).then(response => {
+
+        axios.get('/api/admin/teachers').then(response => {
 
                 let teachers = [...response.data];
                 this.setState({
@@ -64,7 +58,7 @@ class ListTeachers extends Component {
 
     onTeachersEditHandler = (index) => {
         const person = this.state.teachersFiltered[index];
-        this.props.editPerson("/api/admin/modifyTeacher", person.id, 'T');
+        this.props.editPerson("/api/admin/modifyteacher", person.id, 'T');
     };
 
     onConditionChanged = (event) => {

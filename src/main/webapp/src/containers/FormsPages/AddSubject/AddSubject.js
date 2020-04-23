@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AddSubjectForm from "../../../components/Forms/FormsTemplates/AddSubjectForm/AddSubjectForm";
 import {Alert} from "reactstrap";
 import axios from "axios";
+import AddedSubjectCard from "../../../components/UI/AddedCards/AddedSubjectCard/AddedSubjectCard";
 
 class AddSubject extends Component {
 
@@ -15,6 +16,7 @@ class AddSubject extends Component {
         emptyForm: false,
         changed: false,
         subject: this.emptySubject,
+        subjectAdded: false
     };
 
     handleChange = (event) => {
@@ -43,7 +45,7 @@ class AddSubject extends Component {
         const subject = {...this.state.subject};
 
         axios.post('/api/admin/addsubject', subject).then(response => {
-
+            this.setState({subjectAdded: true})
         }).catch(error => {
             this.setState({
                 error: true,
@@ -55,6 +57,7 @@ class AddSubject extends Component {
     render() {
 
         const error = this.state.error;
+        const subjectAdded = this.state.subjectAdded;
         let content;
 
         if (error) {
@@ -63,7 +66,7 @@ class AddSubject extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else {
+        } else if(!subjectAdded){
             content = (
                 <AddSubjectForm
                     subject={this.state.subject}
@@ -71,6 +74,11 @@ class AddSubject extends Component {
                     emptyForm={this.state.emptyForm}
                     changed={this.state.changed}
                     submit={this.handleSubmit}/>
+            )
+        }else {
+            content = (
+                <AddedSubjectCard
+                subject={this.state.subject}/>
             )
         }
 
