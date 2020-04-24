@@ -14,8 +14,7 @@ const pickSubjectInput = (props) => {
             <div className="p-4 mb-2 mt-2">
                 <Label for="exampleSubject" className="mr-2 pl-1">Subject</Label>
                 <Input type="select" name="subject" id="exampleSubject"
-                       defaultValue='default' onChange={props.onSubjectChange}
-                      >
+                       defaultValue='default' onChange={props.onSubjectChange}>
                     <option disabled={true} value='default'>Choose Subject</option>
                     {subjectOptions}
                 </Input>

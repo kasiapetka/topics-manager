@@ -32,7 +32,7 @@ const addTopicForm = (props) => {
                 <Input type="text" name="name" id="exampleName"
                        minLength="5" placeholder="Enter Section Name"
                        onChange={props.onChange} value={props.topic.name || ''}
-                       invalid={props.wrongName || props.emptyForm && props.topic.name===''}/>
+                       invalid={props.wrongName || (props.emptyForm && props.topic.name==='')}/>
             </FormGroup>
 
             <FormGroup className="p-2 mb-2 mt-2">

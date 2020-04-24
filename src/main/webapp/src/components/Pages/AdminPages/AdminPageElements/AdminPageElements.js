@@ -14,6 +14,8 @@ import AddSubject from "../../../../containers/FormsPages/AddSubject/AddSubject"
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
 import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
 import ListTopics from "../../../../containers/Lists/ListTopics";
+import ListSections from "../../../../containers/Lists/ListSections";
+import AddSection from "../../../../containers/FormsPages/AddSection/AddSection";
 
 const adminPageElements = (props) =>
     (
@@ -35,22 +37,21 @@ const adminPageElements = (props) =>
                 </div>
                 <div className="col-md-8">
 
-                    <PrivateAdminRoute exact path="/admin/subjects" component={() => <ListSubjects/>}/>
+                    <PrivateAdminRoute exact path="/admin/sections" component={() => <ListSections/>}/>
+                    <PrivateAdminRoute exact path="/admin/addsection" component={() => <AddSection/>}/>
 
+                    <PrivateAdminRoute exact path="/admin/subjects" component={() => <ListSubjects/>}/>
                     <PrivateAdminRoute exact path="/admin/addsubject" component={() => <AddSubject/>}/>
 
                     <PrivateAdminRoute exact path="/admin/topics" component={() => <ListTopics/>}/>
-
                     <PrivateAdminRoute exact path="/admin/addtopic" component={() => <AddTopic/>}/>
 
                     <PrivateAdminRoute exact path="/admin/deleted" component={() => <DeletePersonCard
                         deleted={true}
                         person={props.deletedPerson.person}/>}/>
-
-                    <PrivateAdminRoute exact path="/admin/add/:role" component={() => <AddPerson
+                        <PrivateAdminRoute exact path="/admin/add/:role" component={() => <AddPerson
                         personRole={props.personRole}/>}/>
-
-                    <PrivateAdminRoute exact path="/admin/edit" component={() => <EditAccount
+                        <PrivateAdminRoute exact path="/admin/edit" component={() => <EditAccount
                         path={props.modifyPath}
                         id={props.editPersonId}
                         token={auth.getToken()}

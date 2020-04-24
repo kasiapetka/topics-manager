@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import Student from "./Student";
 import PersonsContext from "../../../context/listPersonsContext";
 import FilterPersonsList from "../FilterPersonsList";
-import classes from "./ListStudents.module.css";
+import classes from '../Lists.module.css'
 
 const Students = () => {
 
@@ -18,13 +18,14 @@ const Students = () => {
                 edit={() => studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
                 addToSection={() => studentsContext.addToSection(index)}
+                sectionCreation={studentsContext.sectionCreation}
                 addStudentsToSection={studentsContext.addStudentsToSection}
                 removeFromSection={() => studentsContext.removeFromSection(index)}
             />
         });
 
     return (
-        <div className={classes.Students}>
+        <div className={classes.List}>
             <FilterPersonsList
                 list="S"/>
             {students}

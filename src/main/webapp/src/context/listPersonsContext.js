@@ -10,6 +10,7 @@ const personsContext = React.createContext({
     conditionChange: (event)=>{},
     personRole:'',
     addStudentsToSection: false,
+    sectionCreation: false,
     addToSection: (index)=>{},
     removeFromSection: (index)=>{},
 });

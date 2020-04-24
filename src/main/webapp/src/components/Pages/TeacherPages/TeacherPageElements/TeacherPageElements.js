@@ -1,6 +1,5 @@
 import React from "react";
 import AccountDetailsCard from "../../../UI/AccountDetailsCard/AccountDetailsCard";
-import TeacherAccountControls from "./TeacherAccountControls/TeacherAccountControls";
 import Messages from "../../../Messages/Messages";
 import PrivateTeacherRoute from "../../../PrivateRoutes/PrivateTeacherRoute";
 import ListSections from "../../../../containers/Lists/ListSections";

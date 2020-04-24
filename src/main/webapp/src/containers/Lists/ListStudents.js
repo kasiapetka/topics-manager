@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
 import Students from "../../components/Lists/ListStudents/Students";
-import classes from '../../components/Lists/ListStudents/ListStudents.module.css'
-import FilterPersonsList from "../../components/Lists/FilterPersonsList";
 import axios from "axios";
 import filterList from "../../components/Lists/FilterList";
 import PersonsContext from "../../context/listPersonsContext";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
 
 class ListStudents extends Component {
 
@@ -21,15 +20,18 @@ class ListStudents extends Component {
             personRole: '',
             deletePerson: false,
             personToDelete: '',
+            semester: 1,
             loading: true,
             addStudentsToSection: this.props.addStudentToSection ? this.props.addStudentToSection : false,
+            sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
             studentsInSection: 0
         };
     }
 
     componentDidMount = () => {
+        const sem  =this.state.semester;
 
-        axios.get('/api/adminteacher/students').then(response => {
+        axios.get('/api/adminteacher/students'+sem).then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,
@@ -61,6 +63,30 @@ class ListStudents extends Component {
             studentsFiltered: this.state.students,
             search: ''
         });
+    };
+
+    onSemesterChangeHandler = (event) => {
+        this.setState({loading: true});
+        const id = event.target.value;
+
+        console.log(id)
+        this.setState({
+            semester: id,
+        });
+
+        axios.get('/api/adminteacher/students/' + id).then(response => {
+            let students = [...response.data];
+            this.setState({
+                students: students,
+                studentsFiltered: students,
+                loading: false
+            });
+        }).catch(error => {
+            this.setState({
+                error: true,
+                loading: false
+            })
+        })
     };
 
     onStudentEditHandler = (index) => {
@@ -124,6 +150,10 @@ class ListStudents extends Component {
         } else if (this.state.students) {
             list = (
                 <React.Fragment>
+                    <PickSemesterInput
+                        semester={this.state.semester}
+                        onSemesterChange={this.onSemesterChangeHandler}
+                    />
                     <PersonsContext.Provider
                         value={{
                             persons: this.state.studentsFiltered,
@@ -136,10 +166,9 @@ class ListStudents extends Component {
                             addStudentsToSection: this.state.addStudentsToSection,
                             addToSection: this.addToSectionHandler,
                             removeFromSection: this.removeFromSectionHandler,
+                            sectionCreation: this.state.sectionCreation
                         }}>
-
                         <Students/>
-
                     </PersonsContext.Provider>
 
                 </React.Fragment>

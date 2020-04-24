@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/Navigation/Navbar/Navbar";
 import AdminPageElements from "../../components/Pages/AdminPages/AdminPageElements/AdminPageElements";
-import ListTeachers from "../Lists/ListTeachers";
-import ListStudents from "../Lists/ListStudents";
-import EditAccount from "../FormsPages/EditAccount/EditAccount";
-import auth from "../../Auth";
-import AddPerson from "../FormsPages/AddPerson/AddPerson";
-import DeletePersonCard from "../../components/UI/DeletePersonCard/DeletePersonCard";
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
-import {Button} from "reactstrap";
 
 class AdminPage extends Component {
 

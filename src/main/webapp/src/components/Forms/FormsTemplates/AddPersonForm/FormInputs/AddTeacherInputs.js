@@ -1,7 +1,6 @@
 import React from "react";
 import {FormGroup, Input, Label} from "reactstrap";
 
-
 const addTeacherInputs = (props) => (
     <React.Fragment>
         <FormGroup className="p-2 mb-2 mt-2">
@@ -17,7 +16,7 @@ const addTeacherInputs = (props) => (
             <Input type="password" name="newPassword" id="personPassword" placeholder="Enter Password"
                    value={props.person.newPassword || ''}
                    onChange={props.change}
-                   invalid={props.emptyForm && props.person.newPassword==='' || props.wrongEmail}/>
+                   invalid={(props.emptyForm && props.person.newPassword==='') || props.wrongEmail}/>
         </FormGroup>
     </React.Fragment>
 );

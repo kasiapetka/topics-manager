@@ -1,11 +1,11 @@
 import React from 'react'
-import classes from './ListTeachers.module.css'
+import classes from '../Lists.module.css'
 import {Button, Col, Row} from "reactstrap";
 import {Link} from "react-router-dom";
 
 const teacher = (props) => {
     return (
-        <div className={classes.Teacher}>
+        <div className={classes.Element}>
             <Row className="pt-2 pb-2 mr-0 ml-0">
                 <Col><span className="float-left ml-3"><strong>Name:</strong> <em>{props.name}</em></span></Col>
                 <Col><span className="float-left ml-3"><strong>Surname:</strong> <em>{props.surname}</em></span></Col>

@@ -2,7 +2,6 @@ import React from 'react'
 import TeacherAccountControl from "./TeacherAccountControl/TeacherAccountControl";
 import classes from './TeacherAccountControls.module.css'
 
-
 const TeacherAccountControls = () => {
 
     return (
@@ -17,6 +16,12 @@ const TeacherAccountControls = () => {
                 firstLink='/teacher/subjects'
                 firstButton="List Subjects"
             />
+            <TeacherAccountControl
+                firstLink='/teacher/sections'
+                firstButton="List Sections"
+                secondLink='/teacher/addsection'
+                secondButton='Add Section'
+            />
 
             <TeacherAccountControl
                 firstLink='/teacher/topics'
@@ -25,12 +30,6 @@ const TeacherAccountControls = () => {
                 secondButton='Add Topic'
             />
 
-            <TeacherAccountControl
-                firstLink='/teacher/sections'
-                firstButton="List Sections"
-                secondLink='/teacher/addsection'
-                secondButton='Add Section'
-            />
         </React.Fragment>
     );
 };
