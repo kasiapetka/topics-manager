@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import PageNavbar from "../../components/UI/Layout/PageNavbar";
+import PageNavbar from "../../components/Navigation/Navbar/Navbar";
 import {Alert} from "reactstrap";
 import TeacherPageElements from "../../components/Pages/TeacherPages/TeacherPageElements/TeacherPageElements";
 import axios from 'axios'
+import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
 
 class TeacherPage extends Component {
@@ -12,7 +13,8 @@ class TeacherPage extends Component {
         modifyPath: '',
         personRole: '',
         deletePerson: '',
-        personToDelete: ''
+        personToDelete: '',
+        showSideDrawer: false,
     };
 
 
@@ -27,6 +29,14 @@ class TeacherPage extends Component {
 
     }
 
+    sideDrawerToggleHandler = () => {
+        this.setState((prevState) => {
+            return {
+                showSideDrawer: !this.state.showSideDrawer
+            }
+        });
+    };
+
     render() {
 
         if (this.state.error) {
@@ -39,11 +49,13 @@ class TeacherPage extends Component {
 
         return (
             <React.Fragment>
-                <PageNavbar/>
-
+                <PageNavbar logoClicked={this.sideDrawerToggleHandler}/>
+                <SideDrawer
+                    clicked={this.sideDrawerToggleHandler}
+                    show={this.state.showSideDrawer}
+                    addPerson={this.addPersonHandler}/>
                 <TeacherPageElements
-                    teacher={this.state.teacher}
-                />
+                    teacher={this.state.teacher}/>
 
             </React.Fragment>
         );

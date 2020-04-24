@@ -2,15 +2,25 @@
     display: block;
     width: 65%;
 }
-
 .Buttons{
     display: block;
     width: 200px;
 }
+.BigButton{
+    width:100%;
+}
+.SmallButton{
+    width:80%;
+}
 
 @media (max-width: 767px) {
+    .BigButton{
+        width:90%;
+    }
+    .SmallButton{
+        width:70%;
+    }
     .Buttons{
-        display: inline-block;
         margin: auto 20px;
         padding: 0 25px;
     }

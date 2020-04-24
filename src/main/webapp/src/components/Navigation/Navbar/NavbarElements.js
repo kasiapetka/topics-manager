@@ -4,7 +4,7 @@ import logo from "../../../img/list.png";
 
 const pageNavbar = (props) => (
     <Navbar color="light" light expand="md">
-        <NavbarBrand href={props.path}><img
+        <NavbarBrand onClick={props.logoClicked}><img
             alt=""
             src={logo}
             width="32"

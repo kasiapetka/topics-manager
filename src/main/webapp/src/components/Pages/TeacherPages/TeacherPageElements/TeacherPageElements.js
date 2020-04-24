@@ -9,6 +9,7 @@ import ListStudents from "../../../../containers/Lists/ListStudents";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
 import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
 import ListTopics from "../../../../containers/Lists/ListTopics";
+import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
 
 const teacherPageElements = (props) => (
     <div className="container-fluid h-100 mt-5">
@@ -16,9 +17,7 @@ const teacherPageElements = (props) => (
             <div className="col-md-3 border-right">
                 <AccountDetailsCard
                     person={props.teacher}/>
-
-                        <TeacherAccountControls/>
-
+                <SideNavbar/>
                 <Messages/>
             </div>
 

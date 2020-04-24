@@ -9,9 +9,9 @@ import {
 import { FaUserAlt } from "react-icons/fa";
 import {Link} from "react-router-dom";
 import auth from "../../../Auth"
-import PageNavbarElements from './PageNavbarElements'
+import PageNavbarElements from './NavbarElements'
 
-const PageNavbar = () => {
+const Navbar = (props) => {
 
     const [dropdownOpen, setOpen] = useState(false);
     const toggleButton = () => setOpen(!dropdownOpen);
@@ -58,6 +58,7 @@ const PageNavbar = () => {
     }
     return (
       <PageNavbarElements
+        logoClicked={props.logoClicked}
         toggle={toggle}
         isOpen={isOpen}
         account={account}
@@ -65,4 +66,4 @@ const PageNavbar = () => {
     );
 }
 
-export default React.memo(PageNavbar);
+export default React.memo(Navbar);

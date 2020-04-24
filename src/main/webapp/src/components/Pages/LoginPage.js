@@ -1,5 +1,5 @@
 import React from "react";
-import PageNavbar from "../UI/Layout/PageNavbar";
+import PageNavbar from "../Navigation/Navbar/Navbar";
 import Login from "../../containers/FormsPages/Login/Login";
 import Register from "../../containers/FormsPages/Register/Register";
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PageNavbar from "../../components/UI/Layout/PageNavbar";
+import PageNavbar from "../../components/Navigation/Navbar/Navbar";
 import AdminPageElements from "../../components/Pages/AdminPages/AdminPageElements/AdminPageElements";
 import ListTeachers from "../Lists/ListTeachers";
 import ListStudents from "../Lists/ListStudents";
@@ -7,6 +7,8 @@ import EditAccount from "../FormsPages/EditAccount/EditAccount";
 import auth from "../../Auth";
 import AddPerson from "../FormsPages/AddPerson/AddPerson";
 import DeletePersonCard from "../../components/UI/DeletePersonCard/DeletePersonCard";
+import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
+import {Button} from "reactstrap";
 
 class AdminPage extends Component {
 
@@ -21,6 +23,7 @@ class AdminPage extends Component {
             personToDelete:'',
             deletedPerson: null,
             addPerson: false,
+            showSideDrawer: false
         };
     }
 
@@ -71,11 +74,24 @@ class AdminPage extends Component {
         });
     };
 
+    sideDrawerToggleHandler=()=>{
+        this.setState((prevState)=>{
+            return {
+                showSideDrawer: !this.state.showSideDrawer
+            }
+        });
+    };
+
     render() {
 
         return (
             <React.Fragment>
-                <PageNavbar/>
+                <PageNavbar logoClicked={this.sideDrawerToggleHandler}/>
+                <SideDrawer
+                    clicked={this.sideDrawerToggleHandler}
+                    show={this.state.showSideDrawer}
+                    addPerson={this.addPersonHandler}/>
+
                 <AdminPageElements
                 deletePerson={this.state.deletePerson}
                 personToDelete={this.state.personToDelete}

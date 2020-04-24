@@ -1,6 +1,6 @@
 import React from "react";
 import Messages from "../../../Messages/Messages";
-import AdminAccountControls from "./AdminAccountControls/AdminAccountControls";
+import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
 import DeletePersonModal from "../../../UI/DeletePersonModal/DeletePersonModal";
 import DeletePerson from "../../../../containers/FormsPages/DeletePerson/DeletePerson";
 import PrivateAdminRoute from "../../../PrivateRoutes/PrivateAdminRoute";
@@ -30,8 +30,7 @@ const adminPageElements = (props) =>
 
             <div className="row h-100">
                 <div className="col-md-3 border-right">
-                    <AdminAccountControls
-                        addPerson={props.addPersonHandler}/>
+                    <SideNavbar/>
                     <Messages/>
                 </div>
                 <div className="col-md-8">
