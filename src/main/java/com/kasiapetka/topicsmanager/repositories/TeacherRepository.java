@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface TeacherRepository extends CrudRepository<Teacher, Long> {
     Optional<Teacher> findByUser(User user);
     Optional<List<Teacher>> findAllByIsActive(Boolean isActive);
+    //Optional<List<Teacher>> findAllByIsActiveAndSubjects(Boolean isActive, Long subjectId);
 }

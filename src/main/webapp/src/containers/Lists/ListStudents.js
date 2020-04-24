@@ -6,6 +6,8 @@ import PersonsContext from "../../context/listPersonsContext";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
+import DeletePersonModal from "../../components/UI/DeletePersonModal/DeletePersonModal";
+import DeletePerson from "../FormsPages/DeletePerson/DeletePerson";
 
 class ListStudents extends Component {
 
@@ -22,16 +24,16 @@ class ListStudents extends Component {
             personToDelete: '',
             semester: 1,
             loading: true,
-            addStudentsToSection: this.props.addStudentToSection ? this.props.addStudentToSection : false,
+            oversize: false,
             sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
             studentsInSection: 0
         };
     }
 
     componentDidMount = () => {
-        const sem  =this.state.semester;
+        const sem = this.state.semester;
 
-        axios.get('/api/adminteacher/students'+sem).then(response => {
+        axios.get('/api/adminteacher/students').then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,
@@ -105,7 +107,7 @@ class ListStudents extends Component {
         size = size + 1;
         if (size >= this.props.sectionSize) {
             this.setState({
-                addStudentsToSection: false,
+                oversize: true,
             });
         }
 
@@ -122,7 +124,7 @@ class ListStudents extends Component {
         let size = this.state.studentsInSection;
         if (size >= this.props.sectionSize) {
             this.setState({
-                addStudentsToSection: true,
+                oversize: false,
             });
         }
         size = size - 1;
@@ -163,16 +165,17 @@ class ListStudents extends Component {
                             condition: this.state.condition,
                             search: this.state.search,
                             delete: this.onStudentDeleteHandler,
-                            addStudentsToSection: this.state.addStudentsToSection,
-                            addToSection: this.addToSectionHandler,
-                            removeFromSection: this.removeFromSectionHandler,
-                            sectionCreation: this.state.sectionCreation
                         }}>
-                        <Students/>
-                    </PersonsContext.Provider>
+                        <Students
+                            oversize={this.state.oversize}
+                            addToSection={this.addToSectionHandler}
+                            removeFromSection={this.removeFromSectionHandler}
+                            sectionCreation={this.state.sectionCreation}/>
 
-                </React.Fragment>
-            )
+                </PersonsContext.Provider>
+
+        </React.Fragment>
+        )
         }
         return list;
     }

@@ -171,7 +171,10 @@ public class AdminController {
         return teacherService.listActiveTeachers();
     }
 
-
+//    @GetMapping("/api/admin/teachers/{id}")
+//    List<Teacher> listTeachers(@PathVariable Long id) {
+//        return teacherService.listActiveTeachers(id);
+//    }
 
     @PutMapping("/api/admin/deleteteacher")
     ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id) {

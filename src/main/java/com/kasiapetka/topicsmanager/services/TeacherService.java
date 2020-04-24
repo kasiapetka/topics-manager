@@ -12,6 +12,7 @@ public interface TeacherService {
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
     List<Teacher> listActiveTeachers();
+//    List<Teacher> listActiveTeachers(Long subjectId);
     Integer addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO);
 
     void changeName(Teacher teacher, String name);

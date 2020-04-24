@@ -5,6 +5,7 @@ import filterList from "../../components/Lists/FilterList";
 import {Alert} from "reactstrap";
 import PersonsContext from "../../context/listPersonsContext";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import Teacher from "../../components/Lists/ListTeachers/Teacher";
 
 class ListTeachers extends Component {
 
@@ -20,20 +21,32 @@ class ListTeachers extends Component {
             personRole: '',
             deletePerson: false,
             personToDelete: '',
+            addTeacherToSubject: props.addTeacherToSubject ? props.addTeacherToSubject : null,
             loading: true
         };
     }
 
     componentDidMount = () => {
-
         axios.get('/api/admin/teachers').then(response => {
+            let teachers = [...response.data];
+            this.setState({
+                teachers: teachers,
+                teachersFiltered: teachers,
+                loading: false
+            });
 
-                let teachers = [...response.data];
-                this.setState({
-                    teachers: teachers,
-                    teachersFiltered: teachers,
-                    loading: false
+            if (this.state.addTeacherToSubject) {
+                teachers.forEach(teacher => {
+                    this.props.teachersInSubject.forEach(teacherInSubject => {
+                        if(teacherInSubject.id === teacher.id){
+                            teacher.isInSubject = true;
+                        }
+                        else{
+                            teacher.isInSubject = false;
+                        }
+                    });
                 });
+            }
         }).catch(error => {
             this.setState({
                 error: true,
@@ -68,7 +81,7 @@ class ListTeachers extends Component {
 
     onTeachersDeleteHandler = (index) => {
         const person = this.state.teachersFiltered[index];
-        this.props.deletePerson(person,'T');
+        this.props.deletePerson(person, 'T');
     };
 
     render() {
@@ -81,9 +94,9 @@ class ListTeachers extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else if(this.state.loading){
+        } else if (this.state.loading) {
             list = (<Spinner/>)
-        }else if (this.state.teachers) {
+        } else if (this.state.teachers) {
             list = (
                 <React.Fragment>
                     <PersonsContext.Provider
@@ -96,7 +109,10 @@ class ListTeachers extends Component {
                             search: this.state.search,
                             delete: this.onTeachersDeleteHandler,
                         }}>
-                            <Teachers/>
+                        <Teachers
+                            addToSubject={this.props.addToSubject}
+                            removeFromSubject={this.props.removeFromSubject}
+                        />
                     </PersonsContext.Provider>
                 </React.Fragment>)
         }

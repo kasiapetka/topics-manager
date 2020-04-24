@@ -4,7 +4,7 @@ import PersonsContext from "../../../context/listPersonsContext";
 import FilterPersonsList from "../FilterPersonsList";
 import classes from '../Lists.module.css'
 
-const Students = () => {
+const Students = (props) => {
 
     const studentsContext = useContext(PersonsContext);
     const students =
@@ -17,10 +17,10 @@ const Students = () => {
                 key={student.album}
                 edit={() => studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
-                addToSection={() => studentsContext.addToSection(index)}
-                sectionCreation={studentsContext.sectionCreation}
-                addStudentsToSection={studentsContext.addStudentsToSection}
-                removeFromSection={() => studentsContext.removeFromSection(index)}
+                addToSection={() => props.addToSection(index)}
+                sectionCreation={props.sectionCreation}
+                oversize={props.oversize}
+                removeFromSection={() => props.removeFromSection(index)}
             />
         });
 

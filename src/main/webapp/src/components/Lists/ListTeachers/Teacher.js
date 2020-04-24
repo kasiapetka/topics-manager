@@ -3,7 +3,25 @@ import classes from '../Lists.module.css'
 import {Button, Col, Row} from "reactstrap";
 import {Link} from "react-router-dom";
 
-const teacher = (props) => {
+const Teacher = (props) => {
+
+    let addButton, removeButton;
+
+    if (!props.isInSubject) {
+        addButton = <Row className="pt-2 pb-3 mr-0 ml-0">
+            <Col><Button className="d-inline-block" onClick={() => {
+                props.addToSubject()
+            }}>Add</Button></Col>
+        </Row>
+    }
+    if (props.isInSubject) {
+        removeButton = <Row className="pt-2 pb-3 mr-0 ml-0">
+            <Col><Button className="d-inline-block" color="danger" onClick={() => {
+                props.removeFromSubject()
+            }}>Remove</Button></Col>
+        </Row>
+    }
+
     return (
         <div className={classes.Element}>
             <Row className="pt-2 pb-2 mr-0 ml-0">
@@ -18,8 +36,10 @@ const teacher = (props) => {
                 <Col><Link to="/admin/edit"><Button className="d-inline-block" onClick={props.edit}>Edit</Button></Link></Col>
                 <Col><Button className="d-inline-block" onClick={props.delete} outline color="danger">Delete</Button></Col>
             </Row>
+            {addButton}
+            {removeButton}
         </div>
     )
 };
 
-export default teacher;
+export default Teacher;
