@@ -23,7 +23,6 @@ const addStudentToSectionForm = (props) => {
             </ul>
 
             <ListStudents
-                path='/api/teacher/students'
                 addStudentToSection={true}
                 addToSection={props.addToSection}
                 removeFromSection={props.removeFromSection}

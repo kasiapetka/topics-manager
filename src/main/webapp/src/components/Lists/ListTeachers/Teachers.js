@@ -4,7 +4,7 @@ import PersonsContext from "../../../context/listPersonsContext";
 import classes from '../Lists.module.css'
 import FilterPersonsList from "../FilterPersonsList";
 
-const Teachers = () => {
+const Teachers = (props) => {
 
     const teachersContext = useContext(PersonsContext);
     const teachers = teachersContext.persons.map((teacher, index) => {
@@ -15,6 +15,9 @@ const Teachers = () => {
             key={teacher.id}
             edit={() => teachersContext.edit(index)}
             delete={() => teachersContext.delete(index)}
+            isInSubject={teacher.isInSubject}
+            addToSubject={() => props.addToSubject(index)}
+            removeFromSubject={() => props.removeFromSubject(index)}
         />
     });
 

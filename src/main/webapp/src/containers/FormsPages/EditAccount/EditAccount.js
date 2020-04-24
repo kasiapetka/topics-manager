@@ -44,7 +44,7 @@ class EditAccount extends Component {
     componentDidMount = async () => {
         let user = {...this.state.person};
          if (!this.state.changed) {
-              axios.put(this.props.path, JSON.stringify(user)).then(response => {
+              axios.put(this.props.path,user).then(response => {
                     let person = {...response.data};
                     this.setState({
                         person: person,

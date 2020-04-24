@@ -83,6 +83,13 @@ public class TeacherServiceImpl implements TeacherService {
         return teachers;
     }
 
+//    @Override
+//    public List<Teacher> listActiveTeachers(Long subjectId) {
+//        List<Teacher> teachers = new ArrayList<>();
+//        teacherRepository.findAllByIsActive(true).orElse(new ArrayList<>()).iterator().forEachRemaining(teachers::add);
+//        return teachers;
+//    }
+
     @Override
     public Integer addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO) {
 

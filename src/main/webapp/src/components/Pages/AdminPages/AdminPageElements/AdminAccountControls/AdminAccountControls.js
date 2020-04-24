@@ -33,6 +33,10 @@ const AdminAccountControls = (props) => {
                 secondButton='Add Subject'/>
 
             <AdminAccountControl
+                secondLink='/admin/addteachertosubject'
+                secondButton='Add Teachers To Subject'/>
+
+            <AdminAccountControl
                 firstLink='/admin/topics'
                 firstButton="List Topics"
                 secondLink='/admin/addtopic'
