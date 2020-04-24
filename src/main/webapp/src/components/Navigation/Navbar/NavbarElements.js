@@ -1,10 +1,19 @@
 import React from "react";
-import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from "reactstrap";
+import {
+    Collapse,
+    Nav,
+    Navbar,
+    NavbarBrand,
+    NavbarToggler,
+    NavItem,
+    NavLink
+} from "reactstrap";
 import logo from "../../../img/list.png";
 
 const pageNavbar = (props) => (
     <Navbar color="light" light expand="md">
-        <NavbarBrand onClick={props.logoClicked}><img
+        <NavbarToggler onClick={props.logoClicked} className="mr-1"/>
+        <NavbarBrand href={props.path}><img
             alt=""
             src={logo}
             width="32"
@@ -17,9 +26,7 @@ const pageNavbar = (props) => (
                 <NavItem>
                     <NavLink href='/'>Home</NavLink>
                 </NavItem>
-                <NavItem>
-                    <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-                </NavItem>
+                {props.items}
             </Nav>
             {props.account}
         </Collapse>

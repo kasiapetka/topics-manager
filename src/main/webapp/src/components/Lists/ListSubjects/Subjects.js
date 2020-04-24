@@ -1,6 +1,6 @@
 import React  from "react";
 import Subject from "./Subject";
-import classes from "./ListSubjects.module.css"
+import classes from '../Lists.module.css'
 
 const Subjects =(props)=>{
 
@@ -13,7 +13,7 @@ const Subjects =(props)=>{
     });
 
     return(
-        <div className={classes.Subjects}>
+        <div className={classes.List}>
             {subjects}
         </div>
     )

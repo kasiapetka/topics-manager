@@ -1,23 +1,25 @@
-import React , {useContext} from "react";
+import React  from "react";
 import Section from "./Section";
-//import PersonsContext from "../../../context/listPersonsContext";
+import classes from '../Lists.module.css'
 
-const Sections =()=>{
+const Sections =(props)=>{
 
-    const sectionsContext = useContext();
+    const sections =   props.sections.map((section, index) => {
+        return <Section
+            name={section.name}
+            size={section.size}
+            topic={section.topic}
+            semester={section.semester}
+            key={section.id}
+            edit={() =>props.edit(index)}
+            delete={() => props.delete(index)}
+        />
+    });
 
     return(
-        sectionsContext.sections.map((section, index) => {
-            return <Section
-                name={section.name}
-                size={section.size}
-                topic={section.topic}
-                semester={section.semester}
-                key={section.id}
-                edit={() =>sectionsContext.edit(index)}
-                delete={() => sectionsContext.delete(index)}
-            />
-        })
+        <div className={classes.List}>
+            {sections}
+        </div>
     )
 };
 

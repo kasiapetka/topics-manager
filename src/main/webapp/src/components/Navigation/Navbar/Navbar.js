@@ -1,54 +1,49 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Button,
-    ButtonDropdown,
+    Button, NavItem, NavLink,
 } from 'reactstrap';
-import { FaUserAlt } from "react-icons/fa";
+import {FaUserAlt} from "react-icons/fa";
 import {Link} from "react-router-dom";
 import auth from "../../../Auth"
 import PageNavbarElements from './NavbarElements'
 
 const Navbar = (props) => {
 
-    const [dropdownOpen, setOpen] = useState(false);
-    const toggleButton = () => setOpen(!dropdownOpen);
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
-    let account;
-    let path='/',modifyPath;
+    let account, items;
+    let path = '/', modifyPath;
     const role = auth.getRole();
 
     if (role === 'S') {
         path = '/student';
-        modifyPath = '/student/modifyAccount';
+        modifyPath = '/student/modifyaccount';
     }
     if (role === 'T') {
         path = '/teacher';
-        modifyPath = '/teacher/modifyAccount';
+        modifyPath = '/teacher/modifyaccount';
     }
     if (role === 'A') {
         path = '/admin';
-        modifyPath = '/admin/modifyAccount';
+        modifyPath = '/admin/modifyaccount';
     }
 
     if (auth.isAuthenticated()) {
-        account =
-            (<ButtonDropdown isOpen={dropdownOpen} className="float-right mr-2" toggle={toggleButton}>
-                <DropdownToggle caret>
-                    <FaUserAlt className="ml-2 pb-1 mr-1"></FaUserAlt>My Account
-                </DropdownToggle>
-                <DropdownMenu className="mr-2">
-                    <DropdownItem header>Account Settings</DropdownItem>
-                    <DropdownItem tag={Link} to={path}>My Account Page</DropdownItem>
-                    <DropdownItem tag={Link} to={modifyPath}>Edit Account</DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem onClick={auth.logout} tag={Link} to='/'>Log Out</DropdownItem>
-                </DropdownMenu>
-            </ButtonDropdown>)
+        account = <Link to="/">
+            <Button onClick={auth.logout} className="float-right" variant="outlined">
+                <FaUserAlt className="pb-1 mr-1"></FaUserAlt>Log Out
+            </Button>
+        </Link>;
+        items = (
+            <React.Fragment>
+                <NavItem>
+                    <NavLink href={path}>My Account</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href={modifyPath}>Edit Account</NavLink>
+                </NavItem>
+            </React.Fragment>)
     } else {
         account = <Link to="/login">
             <Button className="float-right" variant="outlined">
@@ -57,13 +52,14 @@ const Navbar = (props) => {
         </Link>;
     }
     return (
-      <PageNavbarElements
-        logoClicked={props.logoClicked}
-        toggle={toggle}
-        isOpen={isOpen}
-        account={account}
-        path={path}/>
+        <PageNavbarElements
+            logoClicked={props.logoClicked}
+            toggle={toggle}
+            isOpen={isOpen}
+            account={account}
+            path={path}
+            items={items}/>
     );
-}
+};
 
 export default React.memo(Navbar);

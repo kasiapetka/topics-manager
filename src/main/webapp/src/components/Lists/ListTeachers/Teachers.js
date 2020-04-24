@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import Teacher from "./Teacher";
 import PersonsContext from "../../../context/listPersonsContext";
-import classes from "./ListTeachers.module.css";
+import classes from '../Lists.module.css'
 import FilterPersonsList from "../FilterPersonsList";
 
 const Teachers = () => {
@@ -19,7 +19,7 @@ const Teachers = () => {
     });
 
     return (
-        <div className={classes.Teachers}>
+        <div className={classes.List}>
             <FilterPersonsList
                 list="T"/>
             {teachers}

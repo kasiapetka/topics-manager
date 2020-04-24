@@ -3,7 +3,6 @@ import AddSubjectForm from "../../../components/Forms/FormsTemplates/AddSubjectF
 import {Alert} from "reactstrap";
 import axios from "axios";
 import AddedSubjectCard from "../../../components/UI/AddedCards/AddedSubjectCard/AddedSubjectCard";
-import AddTopicForm from "../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
 
 class AddSubject extends Component {
 

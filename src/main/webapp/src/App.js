@@ -11,9 +11,9 @@ import AdminPage from "./containers/AdminPages/AdminPage";
 import PrivateStudentRoute from "./components/PrivateRoutes/PrivateStudentRoute";
 import PrivateTeacherRoute from "./components/PrivateRoutes/PrivateTeacherRoute";
 import PrivateAdminRoute from "./components/PrivateRoutes/PrivateAdminRoute";
-import TeacherAccountModification from "./components/Pages/TeacherPages/TeacherAccountModification";
-import StudentAccountModification from "./components/Pages/StudentPages/StudentAccountModification";
-import AdminAccountModification from "./components/Pages/AdminPages/AdminAccountModification";
+import TeacherAccountModification from "./containers/TeacherPages/TeacherAccountModification";
+import StudentAccountModification from "./containers/StudentPages/StudentAccountModification";
+import AdminAccountModification from "./containers/AdminPages/AdminAccountModification";
 
 const App = () => {
         return(
@@ -22,21 +22,20 @@ const App = () => {
                         <Route exact path ="/" component={MainPage}/>
                         <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true} />}/>
                         <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
-                        
+
+                        <PrivateStudentRoute exact path ="/student/modifyaccount" component={() => <StudentAccountModification/>}/>
                         <PrivateStudentRoute exact path ="/student" component={() => <StudentPage/>}/>
-                        <PrivateStudentRoute exact path ="/student/modifyAccount" component={() => <StudentAccountModification/>}/>
 
+                        <PrivateTeacherRoute exact path ="/teacher/modifyaccount" component={() => <TeacherAccountModification/>}/>
                         <PrivateTeacherRoute path ="/teacher" component={() => <TeacherPage/>}/>
-                        <PrivateTeacherRoute exact path ="/teacher/modifyAccount" component={() => <TeacherAccountModification/>}/>
 
-
+                        <PrivateAdminRoute exact path ="/admin/modifyaccount" component={() => <AdminAccountModification/>}/>
                         <PrivateAdminRoute path ="/admin" component={() => <AdminPage/>}/>
-                        <PrivateAdminRoute exact path ="/admin/modifyAccount" component={() => <AdminAccountModification/>}/>
 
                         <Route component={ErrorPage}/>
                     </Switch>
                 </Router>
         );
-}
+};
 
 export default App;

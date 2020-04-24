@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {Col, Input, Label, Row} from "reactstrap";
 import listPersonsContext from '../../context/listPersonsContext';
-import classes from './ListTeachers/ListTeachers.module.css'
+import classes from './Lists.module.css'
 
 const FilterPersonsList = (props) => {
 

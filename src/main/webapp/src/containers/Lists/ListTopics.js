@@ -3,8 +3,7 @@ import {Alert} from "reactstrap";
 import axios from 'axios'
 import Topics from "../../components/Lists/ListTopics/Topics";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import PickSubjectInput from "../../components/Lists/ListTopics/PickSubjectInput/PickSubjectInput";
-import {Redirect} from "react-router-dom";
+import PickSubjectInput from "../../components/Lists/PickSubjectInput/PickSubjectInput";
 
 class ListTopics extends Component {
     state = {

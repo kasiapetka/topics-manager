@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import AdminAccountControl from "./AdminAccountControl/AdminAccountControl";
 import classes from './AdminAccountControls.module.css'
 
@@ -10,15 +10,21 @@ const AdminAccountControls = (props) => {
             <AdminAccountControl
                 firstLink='/admin'
                 firstButton="List Teachers"
-                secondLink={'/admin/add/' + 'T'}
+                secondLink={'/admin/add/T'}
                 secondButton='Add Teacher'
                 onClick={props.addPerson}/>
             <AdminAccountControl
                 firstLink='/admin/students'
                 firstButton="List Students"
-                secondLink={'/admin/add/' + 'S'}
+                secondLink={'/admin/add/S'}
                 secondButton='Add Student'
                 onClick={props.addPerson}/>
+
+            <AdminAccountControl
+                firstLink='/admin/sections'
+                firstButton="List Sections"
+                secondLink='/admin/addsection'
+                secondButton='Add Section'/>
 
             <AdminAccountControl
                 firstLink='/admin/subjects'

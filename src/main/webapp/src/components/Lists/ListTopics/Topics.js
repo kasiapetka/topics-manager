@@ -1,5 +1,4 @@
-import classes from './ListTopics.module.css'
-import PickSubjectInput from "./PickSubjectInput/PickSubjectInput";
+import classes from '../Lists.module.css'
 import React from "react";
 import Topic from "./Topic";
 
@@ -21,7 +20,7 @@ const Topics = (props) => {
     }
 
     return (
-        <div className={classes.Topics}>
+        <div className={classes.List}>
             {
                 props.topics
                     ?

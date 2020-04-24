@@ -1,8 +1,6 @@
 import React from 'react';
 import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
-import AddTopicForm from "../AddTopicForm/AddTopicForm";
-
 
 const addSubjectForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.Form;
@@ -16,7 +14,7 @@ const addSubjectForm = (props) => {
                 <Input type="text" name="name" id="exampleName" placeholder="Enter Name"
                        value={props.subject.name || ''}
                        onChange={props.change}
-                       invalid={props.wrongName || props.emptyForm && props.subject.name===""}/>
+                       invalid={props.wrongName || (props.emptyForm && props.subject.name==="")}/>
             </FormGroup>
             <FormGroup className="p-2 mb-2 mt-2">
                 <Label for="exampleText">Subject Summary</Label>

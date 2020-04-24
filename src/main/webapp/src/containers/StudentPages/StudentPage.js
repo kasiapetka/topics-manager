@@ -5,6 +5,7 @@ import {Alert} from "reactstrap";
 import ListStudentSectionsComponent from "../../components/Pages/StudentPages/ListStudentSections/ListStudentSections";
 import Messages from "../../components/Messages/Messages";
 import axios from 'axios'
+import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 
 class StudentPage extends Component {
 
@@ -25,6 +26,14 @@ class StudentPage extends Component {
             });
     }
 
+    sideDrawerToggleHandler = () => {
+        this.setState((prevState) => {
+            return {
+                showSideDrawer: !this.state.showSideDrawer
+            }
+        });
+    };
+
     render() {
 
         if (this.state.error) {
@@ -37,7 +46,12 @@ class StudentPage extends Component {
 
         return (
             <React.Fragment>
-                <PageNavbar/>
+                <PageNavbar logoClicked={this.sideDrawerToggleHandler}/>
+                <SideDrawer
+                    clicked={this.sideDrawerToggleHandler}
+                    show={this.state.showSideDrawer}
+                    addPerson={this.addPersonHandler}/>
+
                 <div className="container-fluid h-100 mt-5">
                     <div className="row h-100">
                         <div className="col-md-3">
