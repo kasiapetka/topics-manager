@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -45,18 +47,35 @@ public class SectionServiceImpl implements SectionService {
 
     //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
     @Override
+    @Transactional
     public Long addNewSection(NewSection newSection) {
+        Topic topic;
+        Semester semester;
+        List<Section> sectionList = new ArrayList<>();
+        try {
+            //todo rozkminic ten rok
+            topic = topicService.findTopicById(newSection.getTopic());
+            semester = semesterService.findSemesterBySemesterAndYear(newSection.getSemester(),
+                    Integer.valueOf(LocalDate.now().toString().split("-")[0]));
+
+            sectionList = semester.getSections();
+        } catch (HibernateException he){
+            he.printStackTrace();
+            return -1L;
+        }
+
+        for(Section semestersSections : sectionList){
+            if(semestersSections.getName().equals(newSection.getName())){
+                return -2L;
+            }
+        }
+
         try {
             Section section = new Section();
             section.setName(newSection.getName());
             section.setSizeOfSection(newSection.getSize());
             section.setIsOpen(newSection.getState());
 
-            Topic topic = topicService.findTopicById(newSection.getTopic());
-
-            //todo rozkminic ten rok
-            Semester semester = semesterService.findSemesterBySemesterAndYear(newSection.getSemester(),
-                    Integer.valueOf(LocalDate.now().toString().split("-")[0]));
             section.setTopic(topic);
             section.setSemester(semester);
 
