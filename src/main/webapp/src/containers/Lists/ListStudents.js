@@ -33,7 +33,7 @@ class ListStudents extends Component {
     componentDidMount = () => {
         const sem = this.state.semester;
 
-        axios.get('/api/adminteacher/students').then(response => {
+        axios.get('/api/adminteacher/students'+sem).then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,
@@ -139,7 +139,14 @@ class ListStudents extends Component {
 
     render() {
         const error = this.state.error;
-        let list;
+        let list, sem;
+
+        if(!this.state.sectionCreation){
+            sem=<PickSemesterInput
+                semester={this.state.semester}
+                onSemesterChange={this.onSemesterChangeHandler}
+            />
+        }
 
         if (error) {
             list = (
@@ -152,10 +159,7 @@ class ListStudents extends Component {
         } else if (this.state.students) {
             list = (
                 <React.Fragment>
-                    <PickSemesterInput
-                        semester={this.state.semester}
-                        onSemesterChange={this.onSemesterChangeHandler}
-                    />
+                    {sem}
                     <PersonsContext.Provider
                         value={{
                             persons: this.state.studentsFiltered,
