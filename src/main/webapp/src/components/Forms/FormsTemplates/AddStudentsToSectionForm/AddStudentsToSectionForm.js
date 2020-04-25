@@ -7,7 +7,7 @@ const addStudentToSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.ListForm;
     let students = <p>No students</p>;
 
-    if(props.students){
+    if(props.students.length !== 0){
         students = props.students.map(student=>{
             return <li key={student.album}>{student.name +' '+ student.surname}</li>
         })
