@@ -35,8 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     JwtFilter jwtFilter;
 
     private final String[] WHITELIST = {
-            "/h2-console/**",
-            "../public/"
+            "/h2-console/**"
     };
 
     //@Value("${spring.queries.users-query}")

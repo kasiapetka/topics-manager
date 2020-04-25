@@ -32,6 +32,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private final SubjectService subjectService;
     private final StudentService studentService;
     private final TeacherService teacherService;
+    private final SemesterService semesterService;
 
     @Autowired
     private CodeService codeService;
@@ -45,7 +46,8 @@ public class DatabaseLoader implements CommandLineRunner {
                           SubjectRepository subjectRepository, SemesterRepository semesterRepository,
                           SectionService sectionService, TopicRepository topicRepository,
                           SectionRepository sectionRepository, SubjectService subjectService,
-                          StudentService studentService, TeacherService teacherService) {
+                          StudentService studentService, TeacherService teacherService,
+                          SemesterService semesterService) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -59,6 +61,7 @@ public class DatabaseLoader implements CommandLineRunner {
         this.sectionService = sectionService;
         this.subjectService = subjectService;
         this.teacherService = teacherService;
+        this.semesterService = semesterService;
     }
 
     @Override
@@ -194,7 +197,7 @@ public class DatabaseLoader implements CommandLineRunner {
         // ======================================================================
         // Semesters
 
-        Integer year = Integer.valueOf(LocalDate.now().toString().split("-")[0]);
+        Integer year = semesterService.getCurrentYear();
 
         Semester semester = new Semester();
         semester.setFaculty("Indica");

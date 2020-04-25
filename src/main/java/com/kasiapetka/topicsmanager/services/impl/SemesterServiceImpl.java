@@ -6,6 +6,8 @@ import com.kasiapetka.topicsmanager.services.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class SemesterServiceImpl implements SemesterService {
     private SemesterRepository semesterRepository;
@@ -28,5 +30,10 @@ public class SemesterServiceImpl implements SemesterService {
     @Override
     public Semester findSemesterBySemesterAndYear(Integer semester, Integer year) {
         return semesterRepository.findBySemesterAndYear(semester, year).orElse(null);
+    }
+
+    @Override
+    public Integer getCurrentYear() {
+        return Integer.valueOf(LocalDate.now().toString().split("-")[0]);
     }
 }
