@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @Service
 @Primary
 public class StudentServiceImpl implements StudentService {
@@ -84,7 +85,6 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    @Transactional
     // adding student with email???
     public Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO) {
 
@@ -107,7 +107,7 @@ public class StudentServiceImpl implements StudentService {
 
         try {
             Semester semester = semesterService.findSemesterBySemesterAndYear(studentOrTeacherDTO.getSemester(),
-                    Integer.valueOf(LocalDate.now().toString().split("-")[0]));
+                    semesterService.getCurrentYear());
             semester.addStudent(student);
             semesterRepository.save(semester);
             return 200;
@@ -151,4 +151,20 @@ public class StudentServiceImpl implements StudentService {
 //        }
 //    }
 
+    @Override
+    public List<Student> listActiveStudentsBySemester(Integer semester_number) {
+        List<Student> studentList = this.listActiveStudents();
+        List<Student> studentsFromThisSemester = new ArrayList<>();
+        for(Student student : studentList){
+            List<Semester> semesterList = student.getSemesters();
+            for(Semester semester : semesterList){
+                if(semester.getSemester() == semester_number &&
+                        semester.getYear() == semesterService.getCurrentYear()){
+                    studentsFromThisSemester.add(student);
+                }
+            }
+        }
+        return studentsFromThisSemester;
+    }
 }
+

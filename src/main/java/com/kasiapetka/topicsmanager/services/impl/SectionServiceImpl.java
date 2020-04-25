@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Transactional
 @Service
 public class SectionServiceImpl implements SectionService {
     private SectionRepository sectionRepository;
@@ -47,7 +47,6 @@ public class SectionServiceImpl implements SectionService {
 
     //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
     @Override
-    @Transactional
     public Long addNewSection(NewSection newSection) {
         Topic topic;
         Semester semester;
@@ -56,7 +55,7 @@ public class SectionServiceImpl implements SectionService {
             //todo rozkminic ten rok
             topic = topicService.findTopicById(newSection.getTopic());
             semester = semesterService.findSemesterBySemesterAndYear(newSection.getSemester(),
-                    Integer.valueOf(LocalDate.now().toString().split("-")[0]));
+                    semesterService.getCurrentYear());
 
             sectionList = semester.getSections();
         } catch (HibernateException he){
@@ -88,7 +87,6 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    @Transactional
     public Boolean addStudentsToSection(AddStudentsToSectionDTO addStudentsToSectionDTO) {
         try {
             Section section = findSectionById(addStudentsToSectionDTO.getSectionId());
@@ -115,5 +113,29 @@ public class SectionServiceImpl implements SectionService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<Section> listSections() {
+        List<Section> sectionList = new ArrayList<>();
+        sectionRepository.findAll().iterator().forEachRemaining(sectionList::add);
+        return sectionList;
+    }
+
+    @Override
+    public List<Section> listSectionBySemester(Integer semester_number) {
+//        List<Section> sectionList = this.listSections();
+//        List<Section> sectionsFromThisSemester = new ArrayList<>();
+//        for(Section section : sectionList){
+//            System.out.println("section semester" + section.getSemester().getSemester() + "\t" + semester_number + "\n" +
+//                                "section year" + section.getSemester().getYear() + "\t" + semesterService.getCurrentYear());
+//            if(section.getSemester().getSemester() == semester_number &&
+//                    section.getSemester().getYear() == semesterService.getCurrentYear()){
+//                sectionsFromThisSemester.add(section);
+//            }
+//        }
+//        return sectionsFromThisSemester;
+        Semester semester = semesterService.findSemesterBySemesterAndYear(semester_number, semesterService.getCurrentYear());
+        return semester.getSections();
     }
 }
