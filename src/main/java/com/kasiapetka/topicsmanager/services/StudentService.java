@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StudentService {
     List<Student> listActiveStudents();
-    List<Student> listActiveStudentsBySemester(Integer semester_number);
+    List<Student> listActiveStudentsBySemester(Integer semesterNumber);
     Student findStudentByAlbum(Long album);
     Student findStudentByUser(User user);
     Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO);

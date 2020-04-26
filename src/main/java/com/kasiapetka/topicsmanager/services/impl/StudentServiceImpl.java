@@ -151,13 +151,13 @@ public class StudentServiceImpl implements StudentService {
 //    }
 
     @Override
-    public List<Student> listActiveStudentsBySemester(Integer semester_number) {
+    public List<Student> listActiveStudentsBySemester(Integer semesterNumber) {
         List<Student> studentList = this.listActiveStudents();
         List<Student> studentsFromThisSemester = new ArrayList<>();
         for(Student student : studentList){
             List<Semester> semesterList = student.getSemesters();
             for(Semester semester : semesterList){
-                if((semester.getSemester() == semester_number) &&
+                if((semester.getSemester() == semesterNumber) &&
                         (semester.getYear().equals(semesterService.getCurrentYear()))){
                     studentsFromThisSemester.add(student);
                 }
