@@ -218,4 +218,11 @@ public class AdminController {
         return ResponseEntity.status(responseCode).build();
     }
 
+    @PostMapping("/api/admin/editteachersinsubject/{subjectID}")
+    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody List<Teacher> teacherList, @PathVariable Long subjectID){
+        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
 }

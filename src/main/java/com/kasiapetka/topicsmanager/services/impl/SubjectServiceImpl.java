@@ -19,17 +19,17 @@ import java.util.Optional;
 public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepository;
 
-    public SubjectServiceImpl(SubjectRepository subjectRepository){
+    public SubjectServiceImpl(SubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
     }
 
     @Override
     // for database loader probably to delete later
     public Boolean addNewSubject(Subject subject) {
-        try{
+        try {
             subjectRepository.save(subject);
             return true;
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             return false;
         }
     }
@@ -37,14 +37,14 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Integer addNewSubject(AddSubjectDTO addSubjectDTO) {
         List<Subject> subjectList = new ArrayList<>();
-        try{
+        try {
             subjectList = this.getSubjectsList();
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
-        for(Subject subject1 : subjectList){
-            if(subject1.getName().equals(addSubjectDTO.getName())){
+        for (Subject subject1 : subjectList) {
+            if (subject1.getName().equals(addSubjectDTO.getName())) {
                 return 409;
             }
         }
@@ -54,10 +54,10 @@ public class SubjectServiceImpl implements SubjectService {
         subject.setName(addSubjectDTO.getName());
         subject.setSummary(addSubjectDTO.getSummary());
 
-        try{
+        try {
             subjectRepository.save(subject);
             return 200;
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
@@ -73,8 +73,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public List<Topic> getTopicListBySubjectId(Long id) {
-        Optional<Subject> subjectOptional =  subjectRepository.findById(id);
-        if(!subjectOptional.isPresent()){
+        Optional<Subject> subjectOptional = subjectRepository.findById(id);
+        if (!subjectOptional.isPresent()) {
             return null;
         }
         return subjectOptional.get().getTopics();
@@ -96,30 +96,30 @@ public class SubjectServiceImpl implements SubjectService {
         Subject subject = new Subject();
         try {
             subject = this.findSubjectById(subjectID);
-        }   catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
 
-        if(subject.getName().isEmpty()){
+        if (subject.getName().isEmpty()) {
             //Subject with given id does not exist
             return 409;
         }
 
         try {
             subject.setTeachers(teacherList);
-        }   catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
 
         return 200;
-       }
-  
+    }
+
     @Override
     public List<Teacher> getTeachersBySubjectId(Long id) {
         Subject subject = subjectRepository.findById(id).orElse(null);
-        if(subject == null){
+        if (subject == null) {
             return new ArrayList<>();
         }
         return subject.getTeachers();
