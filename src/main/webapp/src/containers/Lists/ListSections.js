@@ -15,48 +15,48 @@ class ListSections extends Component {
     };
 
     componentDidMount() {
+        //
+        // const s = [
+        //     {
+        //         name: 'kasdia',
+        //         size: '4',
+        //         topic: 'bd',
+        //         semester: '5',
+        //         id: 'df'
+        //     },
+        //     {
+        //         name: 'mikus',
+        //         size: '1',
+        //         topic: 'dfgdf',
+        //         semester: '3',
+        //         id: 'tytr'
+        //     },
+        //     {
+        //         name: 'karol',
+        //         size: '5',
+        //         topic: 'dsf',
+        //         semester: '1',
+        //         id: 'sdsd'
+        //     },
+        // ]
+        //
+        // this.setState({
+        //             sections: s,
+        //             loading: false,
+        //         });
 
-        const s = [
-            {
-                name: 'kasdia',
-                size: '4',
-                topic: 'bd',
-                semester: '5',
-                id: 'df'
-            },
-            {
-                name: 'mikus',
-                size: '1',
-                topic: 'dfgdf',
-                semester: '3',
-                id: 'tytr'
-            },
-            {
-                name: 'karol',
-                size: '5',
-                topic: 'dsf',
-                semester: '1',
-                id: 'sdsd'
-            },
-        ]
-
-        this.setState({
-                    sections: s,
-                    loading: false,
-                });
-
-        // axios.get('/api/adminteacher/sections/'+this.state.semester).then(response => {
-        //     let sections = [...response.data];
-        //     this.setState({
-        //         sections: sections,
-        //         loading: false,
-        //     });
-        // }).catch(error => {
-        //     this.setState({
-        //         error: true,
-        //         loading: false,
-        //     })
-        // })
+        axios.get('/api/adminteacher/sections/'+this.state.semester).then(response => {
+            let sections = [...response.data];
+            this.setState({
+                sections: sections,
+                loading: false,
+            });
+        }).catch(error => {
+            this.setState({
+                error: true,
+                loading: false,
+            })
+        })
     }
 
     onSemesterChangeHandler = (event) => {

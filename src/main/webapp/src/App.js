@@ -20,17 +20,17 @@ const App = () => {
                 <Router>
                     <Switch>
                         <Route exact path ="/" component={MainPage}/>
-                        <Route exact path ="/login" component={() => <LoginPage isLoginOnAct={true} />}/>
-                        <Route exact path ="/register" component={() => <LoginPage isLoginOnAct={false}/>}/>
+                        <Route exact path ="/login" render={() => <LoginPage isLoginOnAct={true}/>}/>
+                        <Route exact path ="/register" render={() => <LoginPage isLoginOnAct={false}/>}/>
 
-                        <PrivateStudentRoute exact path ="/student/modifyaccount" component={() => <StudentAccountModification/>}/>
-                        <PrivateStudentRoute exact path ="/student" component={() => <StudentPage/>}/>
+                        <PrivateStudentRoute exact path ="/student/modifyaccount" component={StudentAccountModification}/>
+                        <PrivateStudentRoute exact path ="/student" component={StudentPage}/>
 
-                        <PrivateTeacherRoute exact path ="/teacher/modifyaccount" component={() => <TeacherAccountModification/>}/>
-                        <PrivateTeacherRoute path ="/teacher" component={() => <TeacherPage/>}/>
+                        <PrivateTeacherRoute exact path ="/teacher/modifyaccount" component={TeacherAccountModification}/>
+                        <PrivateTeacherRoute path ="/teacher" component={TeacherPage}/>
 
-                        <PrivateAdminRoute exact path ="/admin/modifyaccount" component={() => <AdminAccountModification/>}/>
-                        <PrivateAdminRoute path ="/admin" component={() => <AdminPage/>}/>
+                        <PrivateAdminRoute exact path ="/admin/modifyaccount" component={AdminAccountModification}/>
+                        <PrivateAdminRoute path ="/admin" component={AdminPage}/>
 
                         <Route component={ErrorPage}/>
                     </Switch>

@@ -1,12 +1,8 @@
 package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Subject;
-import com.kasiapetka.topicsmanager.model.Topic;
-import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.SubjectService;
-import com.kasiapetka.topicsmanager.services.TopicService;
+import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +15,14 @@ public class AdminTeacherCommonsController {
     private SubjectService subjectService;
     private StudentService studentService;
     private TopicService topicService;
+    private SectionService sectionService;
 
     public AdminTeacherCommonsController(SubjectService subjectService, StudentService studentService,
-                                         TopicService topicService){
+                                         TopicService topicService, SectionService sectionService){
         this.subjectService = subjectService;
         this.studentService = studentService;
         this.topicService = topicService;
+        this.sectionService = sectionService;
     }
 
 
@@ -47,12 +45,21 @@ public class AdminTeacherCommonsController {
         return studentService.listActiveStudents();
     }
 
+    @GetMapping("/api/adminteacher/students/{semester_number}")
+    List<Student> listStudentsBySemester(@PathVariable Integer semester_number){
+        return studentService.listActiveStudentsBySemester(semester_number);
+    }
+
     @PostMapping("/api/adminteacher/addtopic")
     ResponseEntity<?> addTopic(@Valid @RequestBody NewTopicDTO newTopicDTO){
         Integer responseCode = topicService.addNewTopic(newTopicDTO);
         return ResponseEntity.status(responseCode).build();
     }
 
+    @GetMapping("/api/adminteacher/sections/{semester_number}")
+    List<Section> listSectionsBySemester(@PathVariable Integer semester_number){
+        return sectionService.listSectionBySemester(semester_number);
+    }
 
 
 }

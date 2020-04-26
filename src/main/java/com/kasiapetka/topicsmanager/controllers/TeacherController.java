@@ -86,7 +86,11 @@ public class TeacherController {
         if (id > -1) {
             return ResponseEntity.ok().body(id);
         } else {
-            return ResponseEntity.status(500).build();
+            if(id == -1){
+                return ResponseEntity.status(500).build();
+            } else{
+                return ResponseEntity.status(409).build();
+            }
         }
     }
 

@@ -8,9 +8,11 @@ const addStudentToSectionForm = (props) => {
     let students = <p>No students</p>;
 
     if(props.students){
-        students = props.students.map(student=>{
-            return <li key={student.album}>{student.name +' '+ student.surname}</li>
-        })
+        if(props.students.length !== 0){
+            students = props.students.map(student=>{
+                return <li key={student.album}>{student.name +' '+ student.surname}</li>
+            })
+        }
     }
 
     return (

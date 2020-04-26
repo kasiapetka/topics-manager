@@ -16,8 +16,8 @@ const pickSemesterInput = (props) => {
                 <Label for="exampleSem" className="mr-2 pl-1">Semester</Label>
 
                 <Input type="select" name="semester" id="exampleSem"
-                       defaultValue='default' onChange={props.onSemesterChange}>
-                    <option value='default'>1</option>
+                       onChange={props.onSemesterChange}>
+                    <option value='1'>1</option>
                     {options}
                 </Input>
 
