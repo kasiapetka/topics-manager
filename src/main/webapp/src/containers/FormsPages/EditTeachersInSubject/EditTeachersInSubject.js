@@ -66,8 +66,22 @@ class EditTeachersInSubject extends Component{
 
     onTeachersInSubjectEditSubmit=(event)=>{
         event.preventDefault();
+        const teachers = this.state.teachers;
 
-        alert('onTeachersInSubjectEditSubmit')
+        teachers.forEach(teacher => {
+            delete teacher.isInSubject;
+        });
+        this.setState({
+            teachers: teachers
+        });
+
+        axios.post('/api/admin/editteachersinsubject',teachers).then(response => {
+           alert('Teachers in subject edited')
+        }).catch(error => {
+            this.setState({
+                error: true,
+            })
+        })
     };
 
     render() {
