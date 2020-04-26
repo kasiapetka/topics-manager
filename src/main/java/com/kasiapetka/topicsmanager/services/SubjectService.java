@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.services;
 
 import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.model.Subject;
+import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface SubjectService {
     Integer addNewSubject(AddSubjectDTO addSubjectDTO);
     List<Subject> getSubjectsList();
     List<Topic> getTopicListBySubjectId(Long id);
+    List<Teacher> getTeachersBySubjectId(Long id);
 }
