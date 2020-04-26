@@ -16,6 +16,7 @@ const Teachers = (props) => {
             edit={() => teachersContext.edit(index)}
             delete={() => teachersContext.delete(index)}
             isInSubject={teacher.isInSubject}
+            addingToSubject={props.addingToSubject}
             addToSubject={() => props.addToSubject(index)}
             removeFromSubject={() => props.removeFromSubject(index)}
         />

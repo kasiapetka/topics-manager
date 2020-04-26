@@ -7,12 +7,10 @@ const addStudentToSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.ListForm;
     let students = <p>No students</p>;
 
-    if(props.students){
-        if(props.students.length !== 0){
-            students = props.students.map(student=>{
-                return <li key={student.album}>{student.name +' '+ student.surname}</li>
-            })
-        }
+    if (props.students) {
+        students = props.students.map(student => {
+            return <li key={student.album}>{student.name + ' ' + student.surname}</li>
+        })
     }
 
     return (
@@ -28,7 +26,8 @@ const addStudentToSectionForm = (props) => {
                 addStudentToSection={true}
                 addToSection={props.addToSection}
                 removeFromSection={props.removeFromSection}
-                sectionSize={props.section.size}/>
+                sectionSize={props.section.size}
+                sectionSemester={props.section.semester}/>
 
 
             <div className="form-row text-center pt-4">

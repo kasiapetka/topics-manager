@@ -31,7 +31,14 @@ class ListStudents extends Component {
     }
 
     componentDidMount = () => {
-        const sem = this.state.semester;
+        let sem;
+
+        if(this.props.sectionSemester){
+            sem=this.props.sectionSemester;
+        }
+        else{
+            sem= this.state.semester;
+        }
 
         axios.get('/api/adminteacher/students/'+sem).then(response => {
             let students = [...response.data];

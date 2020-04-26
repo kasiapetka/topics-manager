@@ -21,8 +21,8 @@ class ListTeachers extends Component {
             personRole: '',
             deletePerson: false,
             personToDelete: '',
-            addTeacherToSubject: props.addTeacherToSubject ? props.addTeacherToSubject : null,
-            loading: true
+            addingToSubject: props.addingToSubject ? props.addingToSubject : null,
+            loading: true,
         };
     }
 
@@ -112,6 +112,7 @@ class ListTeachers extends Component {
                         <Teachers
                             addToSubject={this.props.addToSubject}
                             removeFromSubject={this.props.removeFromSubject}
+                            addingToSubject={this.state.addingToSubject}
                         />
                     </PersonsContext.Provider>
                 </React.Fragment>)
