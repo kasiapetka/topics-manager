@@ -19,10 +19,10 @@ const Students = (props) => {
                 key={student.album}
                 edit={() => studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
-                addToSection={() => props.addToSection(index)}
+                addToSection={() => props.addToSection(student)}
                 sectionCreation={props.sectionCreation}
                 oversize={props.oversize}
-                removeFromSection={() => props.removeFromSection(index)}
+                removeFromSection={() => props.removeFromSection(student)}
             />
         });
     } else{

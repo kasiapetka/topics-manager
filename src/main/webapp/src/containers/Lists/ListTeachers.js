@@ -5,7 +5,6 @@ import filterList from "../../components/Lists/FilterList";
 import {Alert} from "reactstrap";
 import PersonsContext from "../../context/listPersonsContext";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import Teacher from "../../components/Lists/ListTeachers/Teacher";
 
 class ListTeachers extends Component {
 
@@ -21,32 +20,33 @@ class ListTeachers extends Component {
             personRole: '',
             deletePerson: false,
             personToDelete: '',
-            addingToSubject: props.addingToSubject ? props.addingToSubject : null,
-            loading: true,
+            addingToSubjectTopic: props.addingToSubjectTopic ? props.addingToSubjectTopic : null,
+            loading: false,
+            mounted: false
         };
     }
 
     componentDidMount = () => {
+        this.setState({loading: true});
         axios.get('/api/admin/teachers').then(response => {
             let teachers = [...response.data];
-            this.setState({
-                teachers: teachers,
-                teachersFiltered: teachers,
-                loading: false
-            });
-
-            if (this.state.addTeacherToSubject) {
+            if (this.state.addingToSubjectTopic) {
                 teachers.forEach(teacher => {
                     this.props.teachersInSubject.forEach(teacherInSubject => {
-                        if(teacherInSubject.id === teacher.id){
+                        if (teacherInSubject.id === teacher.id) {
                             teacher.isInSubject = true;
-                        }
-                        else{
+                        } else if (teacher.isInSubject !== true) {
                             teacher.isInSubject = false;
                         }
                     });
                 });
             }
+            this.setState({
+                teachers: teachers,
+                teachersFiltered: teachers,
+                loading: false,
+                mounted: true
+            });
         }).catch(error => {
             this.setState({
                 error: true,
@@ -54,6 +54,36 @@ class ListTeachers extends Component {
             })
         })
     };
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (!this.state.addingToSubjectTopic || !this.state.mounted) {
+            return true;
+        }
+
+        if (this.props.teachersInSubject !== nextProps.teachersInSubject) {
+            let teachers = [...nextState.teachers];
+            teachers.forEach(teacher => {
+                teacher.isInSubject = false;
+            });
+
+            teachers.forEach(teacher => {
+                nextProps.teachersInSubject.forEach(teacherInSubject => {
+                    if (teacherInSubject.id === teacher.id) {
+                        teacher.isInSubject = true;
+                    } else if (teacher.isInSubject !== true) {
+                        teacher.isInSubject = false;
+                    }
+                });
+            });
+
+            this.setState({
+                teachers: teachers,
+                teachersFiltered: teachers,
+            });
+            return true;
+        }
+        return false;
+    }
 
     handleChange = (event) => {
         const target = event.target;
@@ -112,7 +142,7 @@ class ListTeachers extends Component {
                         <Teachers
                             addToSubject={this.props.addToSubject}
                             removeFromSubject={this.props.removeFromSubject}
-                            addingToSubject={this.state.addingToSubject}
+                            addingToSubjectTopic={this.state.addingToSubjectTopic}
                         />
                     </PersonsContext.Provider>
                 </React.Fragment>)

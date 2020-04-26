@@ -108,8 +108,7 @@ class ListStudents extends Component {
         this.props.deletePerson(student, 'S');
     };
 
-    addToSectionHandler = (index) => {
-        const student = this.state.studentsFiltered[index];
+    addToSectionHandler = (student) => {
         let size = this.state.studentsInSection;
         size = size + 1;
         if (size >= this.props.sectionSize) {
@@ -117,7 +116,6 @@ class ListStudents extends Component {
                 oversize: true,
             });
         }
-
         this.setState((prevState) => {
             return {
                 studentsInSection: size
@@ -126,8 +124,7 @@ class ListStudents extends Component {
         this.props.addToSection(student);
     };
 
-    removeFromSectionHandler = (index) => {
-        const student = this.state.studentsFiltered[index];
+    removeFromSectionHandler = (student) => {
         let size = this.state.studentsInSection;
         if (size >= this.props.sectionSize) {
             this.setState({
@@ -135,7 +132,6 @@ class ListStudents extends Component {
             });
         }
         size = size - 1;
-
         this.setState((prevState) => {
             return {
                 studentsInSection: size

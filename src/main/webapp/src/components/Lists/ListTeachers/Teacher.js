@@ -7,14 +7,14 @@ const Teacher = (props) => {
 
     let addButton, removeButton,adminControls;
 
-    if (!props.isInSubject && props.addingToSubject) {
+    if (!props.isInSubject && props.addingToSubjectTopic) {
         addButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button className="d-inline-block" onClick={() => {
                 props.addToSubject()
             }}>Add</Button></Col>
         </Row>
     }
-    if (props.isInSubject && props.addingToSubject) {
+    if (props.isInSubject && props.addingToSubjectTopic) {
         removeButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button className="d-inline-block" color="danger" onClick={() => {
                 props.removeFromSubject()
@@ -22,7 +22,7 @@ const Teacher = (props) => {
         </Row>
     }
 
-    if(!props.addingToSubject){
+    if(!props.addingToSubjectTopic){
         adminControls = <Row className="pt-2 pb-2 mr-0 ml-0">
             <Col><Link to="/admin/edit"><Button className="d-inline-block" onClick={props.edit}>Edit</Button></Link></Col>
             <Col><Button className="d-inline-block" onClick={props.delete} outline color="danger">Delete</Button></Col>
