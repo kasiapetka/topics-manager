@@ -4,7 +4,7 @@ import classes from "../Forms.module.css";
 import ListStudents from "../../../../containers/Lists/ListStudents";
 
 const addStudentToSectionForm = (props) => {
-    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.ListForm;
+    const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.ListForm;
     let students = <p>No students</p>;
 
     if (props.students) {

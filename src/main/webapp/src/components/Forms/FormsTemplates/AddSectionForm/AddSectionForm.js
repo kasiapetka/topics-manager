@@ -4,7 +4,7 @@ import classes from "../Forms.module.css";
 import SizeSemStateInputs from "./FormInputs/SizeSemStateInputs";
 
 const addSectionForm = (props) => {
-    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.Form;
+    const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.Form;
 
     const subjectOptions = props.subjects.map(subject => {
         return <option

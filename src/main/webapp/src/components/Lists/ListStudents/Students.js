@@ -7,8 +7,10 @@ import classes from '../Lists.module.css'
 const Students = (props) => {
 
     const studentsContext = useContext(PersonsContext);
-    const students =
-        studentsContext.persons.map((student, index) => {
+    let students;
+
+    if(studentsContext.persons.length !== 0){
+        students = studentsContext.persons.map((student, index) => {
             return <Student
                 name={student.name}
                 surname={student.surname}
@@ -23,6 +25,9 @@ const Students = (props) => {
                 removeFromSection={() => props.removeFromSection(index)}
             />
         });
+    } else{
+        students = <h4 className="mt-4 text-center">No students on this semester yet.</h4>
+    }
 
     return (
         <div className={classes.List}>

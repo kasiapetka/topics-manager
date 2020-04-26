@@ -21,7 +21,7 @@ const editAccountForm = (props) => {
 
     console.log(props.wrongEmail)
 
-    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-5 " + classes.Form;
+    const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-5 " + classes.Form;
 
     return (
         <Form className={classNames} onSubmit={props.submit}>
