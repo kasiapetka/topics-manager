@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

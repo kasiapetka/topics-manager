@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepository;
@@ -89,6 +90,32 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectRepository.findByName(name).orElse(new Subject());
     }
 
+    @Override
+    public Integer editSubjectsTeachers(List<Teacher> teacherList, Long subjectID) {
+
+        Subject subject = new Subject();
+        try {
+            subject = this.findSubjectById(subjectID);
+        }   catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
+
+        if(subject.getName().isEmpty()){
+            //Subject with given id does not exist
+            return 409;
+        }
+
+        try {
+            subject.setTeachers(teacherList);
+        }   catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
+
+        return 200;
+       }
+  
     @Override
     public List<Teacher> getTeachersBySubjectId(Long id) {
         Subject subject = subjectRepository.findById(id).orElse(null);

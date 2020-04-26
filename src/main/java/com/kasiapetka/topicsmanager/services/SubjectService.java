@@ -13,6 +13,7 @@ public interface SubjectService {
     Subject findSubjectById(Long id);
     Subject findSubjectByName(String name);
     Integer addNewSubject(AddSubjectDTO addSubjectDTO);
+    Integer editSubjectsTeachers(List<Teacher> teacherList, Long subjectID);
     List<Subject> getSubjectsList();
     List<Topic> getTopicListBySubjectId(Long id);
     List<Teacher> getTeachersBySubjectId(Long id);

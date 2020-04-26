@@ -95,104 +95,12 @@ public class DatabaseLoader implements CommandLineRunner {
         r2.setRoleName("Admin");
         roleRepository.save(r2);
 
-        // for checking albmus
-        Student sa = new Student();
-        sa.setName("Album");
-        sa.setSurname("Album");
-//        sa.setAlbum(333333);
-        sa.setIsActive(true);
-
-        this.studentRepository.save(sa);
 
         User u = new User();
-        u.setEmail("aaa@aaa.com");
-        u.setPassword(bCryptPasswordEncoder.encode("aaaaa"));
-        u.setRole(r);
-
-       // this.userRepository.save(u);
-
-        Student s = new Student();
-        s.setName("aaaa");
-        s.setSurname("bbbbbb");
-        s.setUser(u);
-//        s.setAlbum(1000000);
-        s.setIsActive(true);
-        this.studentRepository.save(s);
-
-        Student s2 = new Student();
-        s2.setName("jhjjj");
-        s2.setSurname("bbbbbb");
-//        s2.setAlbum(1111111);
-        s2.setIsActive(true);
-        this.studentRepository.save(s2);
-
-        Student s3 = new Student();
-        s3.setName("ryyyy");
-        s3.setSurname("nnnnnn");
-//        s3.setAlbum(2222222);
-        s3.setIsActive(true);
-        this.studentRepository.save(s3);
-
-        User u1 = new User();
-        u1.setEmail("admin@admin.com");
-        u1.setPassword(bCryptPasswordEncoder.encode("admin"));
-        u1.setRole(r2);
-        this.userRepository.save(u1);
-
-        User u2 = new User();
-        u2.setEmail("ttt@ttt.com");
-        u2.setPassword(bCryptPasswordEncoder.encode("ttttt"));
-        u2.setRole(r1);
-
-//        this.userRepository.save(u2);
-
-        Teacher t = new Teacher();
-        t.setName("teacher");
-        t.setSurname("wersdfs");
-        t.setUser(u2);
-        t.setIsActive(true);
-        this.teacherRepository.save(t);
-
-        Teacher t1 = new Teacher();
-        t1.setName("mateusz");
-        t1.setSurname("klimas");
-        t1.setIsActive(true);
-        this.teacherRepository.save(t1);
-
-        Teacher t2 = new Teacher();
-        t2.setName("kasia");
-        t2.setSurname("petka");
-        t2.setIsActive(true);
-        this.teacherRepository.save(t2);
-
-        Teacher t3 = new Teacher();
-        t3.setName("mikolaj");
-        t3.setSurname("kolman");
-        t3.setIsActive(true);
-        this.teacherRepository.save(t3);
-
-
-        //Testing services
-        Subject subject = new Subject();
-        subject.setName("Smoking dope");
-        subject.setSummary("420420420");
-        subjectService.addNewSubject(subject);
-
-        Subject subject1 = new Subject();
-        subject1.setName("Bazy danych");
-        subject1.setSummary("wrwerwer");
-        subjectService.addNewSubject(subject1);
-
-        Subject subject2 = new Subject();
-        subject2.setName("Pk2");
-        subject2.setSummary("erertert");
-        subjectService.addNewSubject(subject2);
-
-        Teacher teacher = new Teacher();
-        teacher.setName("Seth");
-        teacher.setSurname("Rogen");
-        teacher.setIsActive(true);
-        teacherRepository.save(teacher);
+        u.setEmail("admin@admin.com");
+        u.setPassword(bCryptPasswordEncoder.encode("admin"));
+        u.setRole(r2);
+        userRepository.save(u);
 
         // ======================================================================
         // Semesters
@@ -241,48 +149,112 @@ public class DatabaseLoader implements CommandLineRunner {
         semester.setSemester(7);
         semesterRepository.save(semester);
 
+        //Creating students for database
+        NewStudentOrTeacherDTO s1 = new NewStudentOrTeacherDTO();
+        s1.setNewName("student1");
+        s1.setNewSurname("imastudent");
+        s1.setSemester(2);
+
+        NewStudentOrTeacherDTO s2 = new NewStudentOrTeacherDTO();
+        s2.setNewName("student2");
+        s2.setNewSurname("imastudenttoo");
+        s2.setSemester(2);
+
+        NewStudentOrTeacherDTO s3 = new NewStudentOrTeacherDTO();
+        s3.setNewName("student3");
+        s3.setNewSurname("afkjds");
+        s3.setSemester(1);
+
+        NewStudentOrTeacherDTO s4 = new NewStudentOrTeacherDTO();
+        s4.setNewName("student4");
+        s4.setNewSurname("ertyu");
+        s4.setSemester(3);
+
+        studentService.addNewStudent(s1);
+        studentService.addNewStudent(s2);
+        studentService.addNewStudent(s3);
+        studentService.addNewStudent(s4);
+        //end
+
+
+        //Creating Teachers for database
+        NewStudentOrTeacherDTO t1 = new NewStudentOrTeacherDTO();
+        t1.setNewEmail("ttt@ttt.com");
+        t1.setNewPassword("ttttt");
+        t1.setNewName("Mikolaj");
+        t1.setNewSurname("Kolman");
+
+        NewStudentOrTeacherDTO t2 = new NewStudentOrTeacherDTO();
+        t2.setNewEmail("ttt1@ttt1.com");
+        t2.setNewPassword("ttttt");
+        t2.setNewName("Mateusz");
+        t2.setNewSurname("Klimas");
+
+        NewStudentOrTeacherDTO t3 = new NewStudentOrTeacherDTO();
+        t3.setNewEmail("ttt2@ttt2.com");
+        t3.setNewPassword("ttttt");
+        t3.setNewName("Katarzyna");
+        t3.setNewSurname("Petka");
+
+        NewStudentOrTeacherDTO t4 = new NewStudentOrTeacherDTO();
+        t4.setNewEmail("ttt3@ttt3.com");
+        t4.setNewPassword("ttttt");
+        t4.setNewName("Kasia");
+        t4.setNewSurname("Petka");
+
+        NewStudentOrTeacherDTO t5 = new NewStudentOrTeacherDTO();
+        t5.setNewEmail("ttt4@ttt4.com");
+        t5.setNewPassword("ttttt");
+        t5.setNewName("Janusz");
+        t5.setNewSurname("Korwin-Mikke");
+
+        NewStudentOrTeacherDTO t6 = new NewStudentOrTeacherDTO();
+        t6.setNewEmail("ttt5@ttt5.com");
+        t6.setNewPassword("ttttt");
+        t6.setNewName("Jonathan");
+        t6.setNewSurname("Joestar");
+
+        NewStudentOrTeacherDTO t7 = new NewStudentOrTeacherDTO();
+        t7.setNewEmail("ttt6@ttt6.com");
+        t7.setNewPassword("ttttt");
+        t7.setNewName("Naruto");
+        t7.setNewSurname("Uzumaki");
+
+        teacherService.addNewTeacher(t1);
+        teacherService.addNewTeacher(t2);
+        teacherService.addNewTeacher(t3);
+        teacherService.addNewTeacher(t4);
+        teacherService.addNewTeacher(t5);
+        teacherService.addNewTeacher(t6);
+        teacherService.addNewTeacher(t7);
+
+
+        Subject subject = new Subject();
+        subject.setName("Smoking dope");
+        subject.setSummary("420420420");
+        subjectService.addNewSubject(subject);
+
+        Subject subject1 = new Subject();
+        subject1.setName("Bazy danych");
+        subject1.setSummary("wrwerwer");
+        subjectService.addNewSubject(subject1);
+
+        Subject subject2 = new Subject();
+        subject2.setName("Pk2");
+        subject2.setSummary("erertert");
+        subjectService.addNewSubject(subject2);
+
+
+        //end
+
+
+
         Topic topic = new Topic();
         topic.setName("eszkeret");
         topic.setSummary("gucci gang");
         topic.setSubject(subject);
-        topic.setTeacher(teacher);
         topicRepository.save(topic);
 
-//        NewStudentOrTeacherDTO studentOrTeacherDTO = new NewStudentOrTeacherDTO();
-//        studentOrTeacherDTO.setNewName("quebonafajde");
-//        studentOrTeacherDTO.setNewSurname("lmfao");
-//        studentOrTeacherDTO.setSemester(1);
-//        studentService.addNewStudent(studentOrTeacherDTO);
-//
-//        studentOrTeacherDTO.setNewEmail("ebe@ebe.com");
-//        studentOrTeacherDTO.setNewPassword("iksde");
-//        teacherService.addNewTeacher(studentOrTeacherDTO);
-
-
-
-        //Creating a new Section
-//        Section section = new Section();
-//        section.setNewName("we the best");
-//        section.setSizeOfSection(69);
-//        section.setIsOpen(true);
-//
-//        sectionService.addNewSection(topic, semester, section);
-//        //end
-//
-//        //Adding a new Student to Section
-//        Student student = new Student();
-//        student.setNewName("mati");
-//        student.setNewSurname("kolmanowski");
-//        student.setIsActive(true);
-//        studentRepository.save(student);
-//
-//        Section section1 = sectionRepository.findByName("we the best");
-//        Student student1 = studentRepository.findByName("mati");
-//
-//        sectionService.addStudentToSection(student1.getAlbum(), section1.getId());
-       //end
-
-       //end
 
         System.out.println("------------------------------------ DatabaseLoader ended ------------------------------------");
 
