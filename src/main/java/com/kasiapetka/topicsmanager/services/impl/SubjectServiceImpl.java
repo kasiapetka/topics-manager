@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.model.Subject;
+import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepository;
@@ -86,5 +88,31 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject findSubjectByName(String name) {
         return subjectRepository.findByName(name).orElse(new Subject());
+    }
+
+    @Override
+    public Integer editSubjectsTeachers(List<Teacher> teacherList, Long subjectID) {
+
+        Subject subject = new Subject();
+        try {
+            subject = this.findSubjectById(subjectID);
+        }   catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
+
+        if(subject.getName().isEmpty()){
+            //Subject with given id does not exist
+            return 409;
+        }
+
+        try {
+            subject.setTeachers(teacherList);
+        }   catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
+
+        return 200;
     }
 }
