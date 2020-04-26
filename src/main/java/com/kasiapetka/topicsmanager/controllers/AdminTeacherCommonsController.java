@@ -45,9 +45,9 @@ public class AdminTeacherCommonsController {
         return studentService.listActiveStudents();
     }
 
-    @GetMapping("/api/adminteacher/students/{semester_number}")
-    List<Student> listStudentsBySemester(@PathVariable Integer semester_number){
-        return studentService.listActiveStudentsBySemester(semester_number);
+    @GetMapping("/api/adminteacher/students/{semesterNumber}")
+    List<Student> listStudentsBySemester(@PathVariable Integer semesterNumber){
+        return studentService.listActiveStudentsBySemester(semesterNumber);
     }
 
     @PostMapping("/api/adminteacher/addtopic")

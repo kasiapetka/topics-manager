@@ -22,7 +22,7 @@ const EditPersonForm = (props) => {
                     {props.person.id}</div>
             </div>)
     }
-    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-3 " + classes.Form;
+    const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
     return (
         <Form className={classNames} onSubmit={props.submit}>
             <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>

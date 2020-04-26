@@ -16,4 +16,5 @@ public interface SubjectService {
     Integer editSubjectsTeachers(List<Teacher> teacherList, Long subjectID);
     List<Subject> getSubjectsList();
     List<Topic> getTopicListBySubjectId(Long id);
+    List<Teacher> getTeachersBySubjectId(Long id);
 }

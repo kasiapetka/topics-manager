@@ -114,5 +114,14 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         return 200;
+       }
+  
+    @Override
+    public List<Teacher> getTeachersBySubjectId(Long id) {
+        Subject subject = subjectRepository.findById(id).orElse(null);
+        if(subject == null){
+            return new ArrayList<>();
+        }
+        return subject.getTeachers();
     }
 }

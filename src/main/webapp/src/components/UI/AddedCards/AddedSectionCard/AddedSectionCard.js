@@ -6,12 +6,16 @@ import {
 import classes from './AddedSectionCard.module.css'
 
 const addedSectionCard = (props) => {
-
-    const students = props.students.map((student, index) => {
-        return <li key={student.album}>
-            Name: {student.name}, Surname: {student.surname},
-            Album: {student.album}</li>
-    });
+    let students;
+    if (props.students) {
+        students = props.students.map((student, index) => {
+            return <li key={student.album}>
+                Name: {student.name}, Surname: {student.surname},
+                Album: {student.album}</li>
+        });
+    } else {
+        students = <li>No students added to section yet.</li>
+    }
 
     const classNames = "pt-2 pr-2 pb-2 pl-2 " + classes.CardStyle;
     return (

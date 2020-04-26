@@ -128,8 +128,12 @@ class AddSection extends Component {
 
         let studentsAlbums=[];
 
-        for (let [key, value] of Object.entries(this.state.students)) {
-           studentsAlbums.push(value.album);
+        if(this.state.students){
+            if(this.state.students.length !== 0) {
+                for (let [key, value] of Object.entries(this.state.students)) {
+                    studentsAlbums.push(value.album);
+                }
+            }
         }
 
         let studentSection={

@@ -3,7 +3,6 @@ import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Sections from "../../components/Lists/ListSections/Sections";
-import PickSubjectInput from "../../components/Lists/PickSubjectInput/PickSubjectInput";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
 
 class ListSections extends Component {
@@ -15,7 +14,7 @@ class ListSections extends Component {
     };
 
     componentDidMount() {
-        //
+
         // const s = [
         //     {
         //         name: 'kasdia',
@@ -47,6 +46,8 @@ class ListSections extends Component {
 
         axios.get('/api/adminteacher/sections/'+this.state.semester).then(response => {
             let sections = [...response.data];
+            console.log(sections)
+
             this.setState({
                 sections: sections,
                 loading: false,

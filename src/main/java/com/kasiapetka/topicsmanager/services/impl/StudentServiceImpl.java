@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,14 +151,14 @@ public class StudentServiceImpl implements StudentService {
 //    }
 
     @Override
-    public List<Student> listActiveStudentsBySemester(Integer semester_number) {
+    public List<Student> listActiveStudentsBySemester(Integer semesterNumber) {
         List<Student> studentList = this.listActiveStudents();
         List<Student> studentsFromThisSemester = new ArrayList<>();
         for(Student student : studentList){
             List<Semester> semesterList = student.getSemesters();
             for(Semester semester : semesterList){
-                if(semester.getSemester() == semester_number &&
-                        semester.getYear() == semesterService.getCurrentYear()){
+                if((semester.getSemester() == semesterNumber) &&
+                        (semester.getYear().equals(semesterService.getCurrentYear()))){
                     studentsFromThisSemester.add(student);
                 }
             }

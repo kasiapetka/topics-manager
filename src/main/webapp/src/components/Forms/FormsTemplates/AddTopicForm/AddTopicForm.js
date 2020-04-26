@@ -3,7 +3,7 @@ import {Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 
 const addTopicForm = (props) => {
-    const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 " + classes.Form;
+    const classNames = "border rounded pt-4 pb-5 mb-4 mt-5 pr-3 pl-3 " + classes.Form;
 
     const subjectOptions = props.subjects.map(subject => {
         return <option

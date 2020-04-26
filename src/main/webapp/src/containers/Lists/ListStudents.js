@@ -31,7 +31,14 @@ class ListStudents extends Component {
     }
 
     componentDidMount = () => {
-        const sem = this.state.semester;
+        let sem;
+
+        if(this.props.sectionSemester){
+            sem=this.props.sectionSemester;
+        }
+        else{
+            sem= this.state.semester;
+        }
 
         axios.get('/api/adminteacher/students/'+sem).then(response => {
             let students = [...response.data];
@@ -101,8 +108,7 @@ class ListStudents extends Component {
         this.props.deletePerson(student, 'S');
     };
 
-    addToSectionHandler = (index) => {
-        const student = this.state.studentsFiltered[index];
+    addToSectionHandler = (student) => {
         let size = this.state.studentsInSection;
         size = size + 1;
         if (size >= this.props.sectionSize) {
@@ -110,7 +116,6 @@ class ListStudents extends Component {
                 oversize: true,
             });
         }
-
         this.setState((prevState) => {
             return {
                 studentsInSection: size
@@ -119,8 +124,7 @@ class ListStudents extends Component {
         this.props.addToSection(student);
     };
 
-    removeFromSectionHandler = (index) => {
-        const student = this.state.studentsFiltered[index];
+    removeFromSectionHandler = (student) => {
         let size = this.state.studentsInSection;
         if (size >= this.props.sectionSize) {
             this.setState({
@@ -128,7 +132,6 @@ class ListStudents extends Component {
             });
         }
         size = size - 1;
-
         this.setState((prevState) => {
             return {
                 studentsInSection: size
