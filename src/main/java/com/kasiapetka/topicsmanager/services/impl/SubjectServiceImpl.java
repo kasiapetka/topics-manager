@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.model.Subject;
+import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
@@ -86,5 +87,14 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject findSubjectByName(String name) {
         return subjectRepository.findByName(name).orElse(new Subject());
+    }
+
+    @Override
+    public List<Teacher> getTeachersBySubjectId(Long id) {
+        Subject subject = subjectRepository.findById(id).orElse(null);
+        if(subject == null){
+            return new ArrayList<>();
+        }
+        return subject.getTeachers();
     }
 }

@@ -171,10 +171,10 @@ public class AdminController {
         return teacherService.listActiveTeachers();
     }
 
-//    @GetMapping("/api/admin/teachers/{id}")
-//    List<Teacher> listTeachers(@PathVariable Long id) {
-//        return teacherService.listActiveTeachers(id);
-//    }
+    @GetMapping("/api/admin/teachers/{id}")
+    List<Teacher> listTeachersBySubject(@PathVariable Long id) {
+        return subjectService.getTeachersBySubjectId(id);
+    }
 
     @PutMapping("/api/admin/deleteteacher")
     ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id) {
@@ -217,6 +217,5 @@ public class AdminController {
 
         return ResponseEntity.status(responseCode).build();
     }
-
 
 }
