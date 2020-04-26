@@ -17,7 +17,7 @@ const addStudentToSectionForm = (props) => {
         <Form className={classNames} onSubmit={props.onSubmit}>
             <h3 className="text-center mt-2">Add max.{props.section.size} Students to Section</h3>
 
-            <p>Students in section: </p>
+            <p>Students in Section: </p>
             <ul>
                 {students}
             </ul>

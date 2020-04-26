@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import axios from "axios";
-import AddTeacherToSubjectForm
-    from "../../../components/Forms/FormsTemplates/AddTeacherToSubjectForm/AddTeacherToSubjectForm";
+import EditTeachersInSubjectForm
+    from "../../../components/Forms/FormsTemplates/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
 
-class AddTeacherToSubject extends Component{
+class EditTeachersInSubject extends Component{
 
     state={
         loading: true,
@@ -32,6 +32,7 @@ class AddTeacherToSubject extends Component{
 
         axios.get('/api/admin/teachers/' + id).then(response => {
             let teachers = [...response.data];
+
             this.setState({teachers: teachers,});
         }).catch(error => {
             this.setState({
@@ -40,26 +41,51 @@ class AddTeacherToSubject extends Component{
         })
     };
 
-    addTeacherToSubjectHandler=()=>{
-        alert('addTeacherToSubjectHandler')
+    addTeacherToSubjectHandler=(teacher)=>{
+        let teachers = this.state.teachers ? [...this.state.teachers] : [];
+        teachers.push(teacher);
+        this.setState((prevState) => {
+            return {
+                teachers: teachers
+            }
+        })
     };
 
-    removeTeacherFromSubjectHandler=()=>{
-        alert('removeTeacherFromSubjectHandler')
+    removeTeacherFromSubjectHandler=(teacher)=>{
+        let teachers = this.state.teachers ? [...this.state.teachers] : [];
+        let removed = teachers.filter((toRem, index, arr)=>{
+            return toRem.id !== teacher.id;
+        });
+
+        this.setState((prevState) => {
+            return {
+                teachers: removed
+            }
+        })
+    };
+
+    onTeachersInSubjectEditSubmit=(event)=>{
+        event.preventDefault();
+
+        alert('onTeachersInSubjectEditSubmit')
     };
 
     render() {
+
         return(
-            <AddTeacherToSubjectForm
+
+            <React.Fragment>
+            <EditTeachersInSubjectForm
                 addToSubject={this.addTeacherToSubjectHandler}
                 removeFromSubject={this.removeTeacherFromSubjectHandler}
                 subjects={this.state.subjects}
                 subject={this.state.subject}
                 onSubjectChange={this.onSubjectChangeHandler}
-                teachersInSubject={this.state.teachers}/>
-
+                teachersInSubject={this.state.teachers}
+                onSubmit={this.onTeachersInSubjectEditSubmit}/>
+            </React.Fragment>
         );
     }
 }
 
-export default AddTeacherToSubject;
+export default EditTeachersInSubject;

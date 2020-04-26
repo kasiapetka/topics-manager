@@ -16,7 +16,7 @@ import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
 import ListTopics from "../../../../containers/Lists/ListTopics";
 import ListSections from "../../../../containers/Lists/ListSections";
 import AddSection from "../../../../containers/FormsPages/AddSection/AddSection";
-import AddTeacherToSubject from "../../../../containers/FormsPages/AddTeacherToSubject/AddTeacherToSubject";
+import EditTeachersInSubject from "../../../../containers/FormsPages/EditTeachersInSubject/EditTeachersInSubject";
 
 const adminPageElements = (props) =>
     (
@@ -38,15 +38,15 @@ const adminPageElements = (props) =>
                 </div>
                 <div className="col-md-8">
 
-                    <PrivateAdminRoute exact path="/admin/sections" component={() => <ListSections/>}/>
-                    <PrivateAdminRoute exact path="/admin/addsection" component={() => <AddSection/>}/>
+                    <PrivateAdminRoute exact path="/admin/sections" component={ListSections}/>
+                    <PrivateAdminRoute exact path="/admin/addsection" component={AddSection}/>
 
-                    <PrivateAdminRoute exact path="/admin/subjects" component={() => <ListSubjects/>}/>
-                    <PrivateAdminRoute exact path="/admin/addsubject" component={() => <AddSubject/>}/>
-                    <PrivateAdminRoute exact path="/admin/addteachertosubject" component={() => <AddTeacherToSubject/>}/>
+                    <PrivateAdminRoute exact path="/admin/subjects" component={ListSubjects}/>
+                    <PrivateAdminRoute exact path="/admin/addsubject" component={AddSubject}/>
+                    <PrivateAdminRoute exact path="/admin/editteachersinsubject" component={EditTeachersInSubject}/>
 
-                    <PrivateAdminRoute exact path="/admin/topics" component={() => <ListTopics/>}/>
-                    <PrivateAdminRoute exact path="/admin/addtopic" component={() => <AddTopic/>}/>
+                    <PrivateAdminRoute exact path="/admin/topics" component={ListTopics}/>
+                    <PrivateAdminRoute exact path="/admin/addtopic" component={AddTopic}/>
 
                     <PrivateAdminRoute exact path="/admin/deleted" component={() => <DeletePersonCard
                         deleted={true}
