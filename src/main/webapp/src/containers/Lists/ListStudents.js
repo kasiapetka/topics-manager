@@ -6,8 +6,6 @@ import PersonsContext from "../../context/listPersonsContext";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
-import DeletePersonModal from "../../components/UI/DeletePersonModal/DeletePersonModal";
-import DeletePerson from "../FormsPages/DeletePerson/DeletePerson";
 
 class ListStudents extends Component {
 

@@ -79,7 +79,6 @@ class AddTopic extends Component {
     };
 
     render() {
-
         const error = this.state.error;
         const topicAdded = this.state.topicAdded;
         let content;

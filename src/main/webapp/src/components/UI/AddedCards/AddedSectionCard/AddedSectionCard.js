@@ -3,15 +3,15 @@ import {
     Card, CardBody,
     CardTitle, CardSubtitle, CardHeader
 } from "reactstrap";
-import classes from './AddedSectionCard.module.css'
+import classes from '../AddedCards.module.css'
 
 const addedSectionCard = (props) => {
     let students;
     if (props.students) {
         students = props.students.map((student, index) => {
             return <li key={student.album}>
-                Name: {student.name}, Surname: {student.surname},
-                Album: {student.album}</li>
+                Name: <strong>{student.name}</strong>, Surname: <strong>{student.surname}</strong>,
+                Album: <strong>{student.album}</strong></li>
         });
     } else {
         students = <li>No students added to section yet.</li>

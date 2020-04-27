@@ -3,7 +3,7 @@ import {
     Card, CardBody,
     CardTitle, CardSubtitle, CardHeader, CardText
 } from "reactstrap";
-import classes from './AddedTopicCard.module.css'
+import classes from '../AddedCards.module.css'
 
 const addedTopicCard = (props) => {
 

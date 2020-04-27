@@ -2,15 +2,19 @@ import React, {Component} from "react";
 import axios from "axios";
 import EditTeachersInSubjectForm
     from "../../../components/Forms/FormsTemplates/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
+import {Alert} from "reactstrap";
+import EditTeachersInSubjectCard
+    from "../../../components/UI/EditCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
 
-class EditTeachersInSubject extends Component{
+class EditTeachersInSubject extends Component {
 
-    state={
+    state = {
         loading: true,
         error: false,
         subjects: [],
         subject: null,
         teachers: [],
+        teachersEdited: false
     };
 
     componentDidMount() {
@@ -41,7 +45,7 @@ class EditTeachersInSubject extends Component{
         })
     };
 
-    addTeacherToSubjectHandler=(teacher)=>{
+    addTeacherToSubjectHandler = (teacher) => {
         let teachers = this.state.teachers ? [...this.state.teachers] : [];
         teachers.push(teacher);
         this.setState((prevState) => {
@@ -51,9 +55,9 @@ class EditTeachersInSubject extends Component{
         })
     };
 
-    removeTeacherFromSubjectHandler=(teacher)=>{
+    removeTeacherFromSubjectHandler = (teacher) => {
         let teachers = this.state.teachers ? [...this.state.teachers] : [];
-        let removed = teachers.filter((toRem, index, arr)=>{
+        let removed = teachers.filter((toRem, index, arr) => {
             return toRem.id !== teacher.id;
         });
 
@@ -64,19 +68,25 @@ class EditTeachersInSubject extends Component{
         })
     };
 
-    onTeachersInSubjectEditSubmit=(event)=>{
+    onTeachersInSubjectEditSubmit = (event) => {
         event.preventDefault();
         const teachers = this.state.teachers;
-
+        let subjectId, subjectName;
         teachers.forEach(teacher => {
             delete teacher.isInSubject;
         });
-        this.setState({
-            teachers: teachers
-        });
 
-        axios.post('/api/admin/editteachersinsubject',teachers).then(response => {
-           alert('Teachers in subject edited')
+        subjectId = this.state.subject;
+        let subjects = [...this.state.subjects];
+        subjects = subjects.filter((subject) => subject.id === +subjectId);
+        subjectName = subjects[0].name;
+
+        axios.post('/api/admin/editteachersinsubject/' + this.state.subject, teachers).then(response => {
+            this.setState({
+                teachers: teachers,
+                teachersEdited: true,
+                subject: subjectName
+            });
         }).catch(error => {
             this.setState({
                 error: true,
@@ -86,10 +96,16 @@ class EditTeachersInSubject extends Component{
 
     render() {
 
-        return(
+        let content;
+        const error = this.state.error;
+        const teachersEdited = this.state.teachersEdited;
 
-            <React.Fragment>
-            <EditTeachersInSubjectForm
+        if (error) {
+            content = <Alert color="danger">
+                Server Error, Please Try Again.
+            </Alert>
+        } else if (!teachersEdited) {
+            content = <EditTeachersInSubjectForm
                 addToSubject={this.addTeacherToSubjectHandler}
                 removeFromSubject={this.removeTeacherFromSubjectHandler}
                 subjects={this.state.subjects}
@@ -97,6 +113,16 @@ class EditTeachersInSubject extends Component{
                 onSubjectChange={this.onSubjectChangeHandler}
                 teachersInSubject={this.state.teachers}
                 onSubmit={this.onTeachersInSubjectEditSubmit}/>
+        } else {
+            content = <EditTeachersInSubjectCard
+                subject={this.state.subject}
+                teachers={this.state.teachers}
+            />
+        }
+
+        return (
+            <React.Fragment>
+                {content}
             </React.Fragment>
         );
     }

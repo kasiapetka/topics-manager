@@ -4,7 +4,7 @@ import {Alert} from "reactstrap";
 import TeacherPageElements from "../../components/Pages/TeacherPages/TeacherPageElements/TeacherPageElements";
 import axios from 'axios'
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
-
+import auth from "../../Auth";
 
 class TeacherPage extends Component {
     state = {
@@ -20,8 +20,9 @@ class TeacherPage extends Component {
 
     componentDidMount() {
         axios.get('/api/teacher/info').then(response => {
-            let student = {...response.data};
-            this.setState({teacher: student})
+            let teacher = {...response.data};
+            auth.saveId(teacher.id);
+            this.setState({teacher: teacher})
         })
             .catch(error => {
                 this.setState({error: true})
