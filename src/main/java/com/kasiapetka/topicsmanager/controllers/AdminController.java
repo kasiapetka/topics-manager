@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
+import com.kasiapetka.topicsmanager.DTO.TeacherListDTO;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -219,8 +221,8 @@ public class AdminController {
     }
 
     @PostMapping("/api/admin/editteachersinsubject/{subjectID}")
-    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody List<Teacher> teacherList, @PathVariable Long subjectID){
-        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
+    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subjectID){
+        Integer responseCode = subjectService.editSubjectsTeachers(teacherList.getTeachers(), subjectID);
 
         return ResponseEntity.status(responseCode).build();
     }
