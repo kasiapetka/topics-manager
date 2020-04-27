@@ -31,7 +31,7 @@ public class Teacher {
     @OneToMany(mappedBy = "teacher")
     private List<Topic> topics;
 
-    @JsonBackReference(value = "subjects-teachers")
+    @JsonBackReference
     @ManyToMany(mappedBy = "teachers")
     private List<Subject> subjects;
 }

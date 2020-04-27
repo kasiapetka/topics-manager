@@ -1,11 +1,14 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
+import com.kasiapetka.topicsmanager.DTO.TeacherDTO;
+import com.kasiapetka.topicsmanager.DTO.TeacherListDTO;
 import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
+import com.kasiapetka.topicsmanager.services.TeacherService;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +21,11 @@ import java.util.Optional;
 @Service
 public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepository;
+    private TeacherService teacherService;
 
-    public SubjectServiceImpl(SubjectRepository subjectRepository) {
+    public SubjectServiceImpl(SubjectRepository subjectRepository, TeacherService teacherService) {
         this.subjectRepository = subjectRepository;
+        this.teacherService = teacherService;
     }
 
     @Override
@@ -91,9 +96,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Integer editSubjectsTeachers(List<Teacher> teacherList, Long subjectID) {
+    public Integer editSubjectsTeachers(TeacherListDTO teacherListDTO, Long subjectID) {
 
-        Subject subject = new Subject();
+        List<Teacher> teachers = new ArrayList<>();
+
+        for(TeacherDTO teacherDTO : teacherListDTO.getTeachers()){
+            Teacher teacher = teacherService.findTeacherById(teacherDTO.getId());
+            teachers.add(teacher);
+        }
+
+        System.out.println(teachers);
+
+        Subject subject;
         try {
             subject = this.findSubjectById(subjectID);
         } catch (HibernateException he) {
@@ -107,7 +121,8 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         try {
-            subject.setTeachers(teacherList);
+            subject.setTeachers(teachers);
+            subjectRepository.save(subject);
         } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
