@@ -22,12 +22,12 @@ const teacherPageElements = (props) => (
 
             <div className="col-md-8">
 
-                <PrivateTeacherRoute exact path="/teacher/subjects" component={() => <ListSubjects/>}/>
-                <PrivateTeacherRoute exact path="/teacher/topics" component={() => <ListTopics/>}/>
-                <PrivateTeacherRoute exact path="/teacher/addtopic" component={() => <AddTopic/>}/>
-                <PrivateTeacherRoute exact path="/teacher/addsection" component={() => <AddSection/>}/>
-                <PrivateTeacherRoute exact path="/teacher/sections" component={() => <ListSections/>}/>
-                <PrivateTeacherRoute exact path="/teacher" component={() => <ListStudents/>}/>
+                <PrivateTeacherRoute exact path="/teacher/subjects" component={ListSubjects}/>
+                <PrivateTeacherRoute exact path="/teacher/topics" component={ListTopics}/>
+                <PrivateTeacherRoute exact path="/teacher/addtopic" component={AddTopic}/>
+                <PrivateTeacherRoute exact path="/teacher/addsection" component={AddSection}/>
+                <PrivateTeacherRoute exact path="/teacher/sections" component={ListSections}/>
+                <PrivateTeacherRoute exact path="/teacher" component={ListStudents}/>
 
             </div>
             <div className="col-md-1"></div>
