@@ -8,7 +8,7 @@ const addTeacherInputs = (props) => (
             <Input type="email" name="newEmail" id="exampleEmail" placeholder="Enter Email"
                    value={props.person.newEmail || ''}
                    onChange={props.change}
-                   invalid={props.emptyForm && props.person.newEmail===''}/>
+                   invalid={(props.emptyForm && props.person.newEmail==='') || props.wrongEmail}/>
         </FormGroup>
 
         <FormGroup className="p-2 mb-2 mt-2">
@@ -16,7 +16,7 @@ const addTeacherInputs = (props) => (
             <Input type="password" name="newPassword" id="personPassword" placeholder="Enter Password"
                    value={props.person.newPassword || ''}
                    onChange={props.change}
-                   invalid={(props.emptyForm && props.person.newPassword==='') || props.wrongEmail}/>
+                   invalid={props.emptyForm && props.person.newPassword===''}/>
         </FormGroup>
     </React.Fragment>
 );

@@ -4,47 +4,24 @@ import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Sections from "../../components/Lists/ListSections/Sections";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
+import DeleteModal from "../../components/UI/DeleteModal/DeleteModal";
+import DeletePerson from "../FormsPages/DeletePerson/DeletePerson";
+import DeletePersonCard from "../../components/UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
+import DeleteSectionCard from "../../components/UI/Cards/SectionCards/DeleteSectionCard/DeleteSectionCard";
 
 class ListSections extends Component {
     state = {
         error: false,
         sections: [],
         loading: true,
-        semester: 1
+        semester: 1,
+        sectionDelete: false,
+        sectionToDelete: null
     };
 
     componentDidMount() {
 
-        // const s = [
-        //     {
-        //         name: 'kasdia',
-        //         size: '4',
-        //         topic: 'bd',
-        //         semester: '5',
-        //         id: 'df'
-        //     },
-        //     {
-        //         name: 'mikus',
-        //         size: '1',
-        //         topic: 'dfgdf',
-        //         semester: '3',
-        //         id: 'tytr'
-        //     },
-        //     {
-        //         name: 'karol',
-        //         size: '5',
-        //         topic: 'dsf',
-        //         semester: '1',
-        //         id: 'sdsd'
-        //     },
-        // ]
-        //
-        // this.setState({
-        //             sections: s,
-        //             loading: false,
-        //         });
-
-        axios.get('/api/adminteacher/sections/'+this.state.semester).then(response => {
+        axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
             let sections = [...response.data];
             console.log(sections)
 
@@ -88,14 +65,30 @@ class ListSections extends Component {
     };
 
     onSectionDeleteHandler = (index) => {
-        //const section = this.state.sections[index];
-        alert('onSectionDeleteHandler')
+        const section = this.state.sections[index];
+
+        console.log(section)
+        this.setState((prev) => {
+            return {
+                sectionDelete: !this.state.sectionDelete,
+                sectionToDelete: section,
+            };
+        })
+    };
+
+    deleteSectionHandler=()=>{
+        this.setState((prevState) => {
+            return {
+                sectionDelete: !this.state.sectionDelete,
+            }
+        });
     };
 
     render() {
         const error = this.state.error;
         const loading = this.state.loading;
-        let content;
+        const sectionDelete = this.state.sectionDelete;
+        let content, deleteModal;
 
         if (error) {
             return (
@@ -117,8 +110,21 @@ class ListSections extends Component {
             ;
         }
 
+        if (sectionDelete) {
+            deleteModal = (<DeleteModal
+                show={sectionDelete}
+                modalClosed={this.deleteSectionHandler}>
+                <DeleteSectionCard
+                    deleted={false}
+                    section={this.state.sectionToDelete}
+                    cancel={this.deleteSectionHandler}
+                    delete={this.deleteSectionHandler}/>
+            </DeleteModal>)
+        }
+
         return (
             <React.Fragment>
+                {deleteModal}
                 <PickSemesterInput
                     semester={this.state.semester}
                     onSemesterChange={this.onSemesterChangeHandler}

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import SectionFormInputs from "../../../components/Forms/FormsTemplates/AddSectionForm/AddSectionForm";
+import AddSectionForm from "../../../components/Forms/FormsTemplates/AddSectionForm/AddSectionForm";
 import {Alert} from "reactstrap";
 import axios from 'axios'
 import AddStudentToSectionForm
     from "../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
-import AddedSectionCard from "../../../components/UI/AddedCards/AddedSectionCard/AddedSectionCard";
+import AddedSectionCard from "../../../components/UI/Cards/SectionCards/AddedSectionCard/AddedSectionCard";
 
 class AddSection extends Component {
 
@@ -26,7 +26,8 @@ class AddSection extends Component {
         section: this.emptySection,
         addStudents: false,
         students: null,
-        sectionAdded: false
+        sectionAdded: false,
+        wrongName: false
     };
 
     componentDidMount() {
@@ -81,9 +82,15 @@ class AddSection extends Component {
                 section: section
             })
         }).catch(error => {
-            this.setState({
-                error: true,
-            })
+            if (error.response.status === 409) {
+                this.setState({
+                    wrongName: true,
+                })
+            } else{
+                this.setState({
+                    error: true,
+                })
+            }
         })
     };
 
@@ -166,14 +173,15 @@ class AddSection extends Component {
                 </Alert>
             )
         } else if (!addStudents) {
-            content = <SectionFormInputs
+            content = <AddSectionForm
                 subjects={this.state.subjects}
                 topics={this.state.topics}
                 onSubjectChange={this.onSubjectChangeHandler}
                 onChange={this.handleChange}
                 section={this.state.section}
                 onSubmit={this.onSectionAdditionHandler}
-                emptyForm={this.state.emptyForm}/>
+                emptyForm={this.state.emptyForm}
+                wrongName={this.state.wrongName}/>
         } else if(!sectionAdded){
             content = <AddStudentToSectionForm
                 addToSection={this.addStudentToSectionHandler}

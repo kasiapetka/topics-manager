@@ -3,7 +3,7 @@ import {
     Card, CardText, CardBody,
     CardTitle, CardSubtitle, Button
 } from "reactstrap";
-import classes from './DeletePersonCard.module.css'
+import classes from '../../Card.module.css'
 import {Link} from "react-router-dom";
 
 const deletePersonCard = (props) => {

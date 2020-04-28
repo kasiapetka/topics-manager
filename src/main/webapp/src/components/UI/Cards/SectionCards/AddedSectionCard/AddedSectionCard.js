@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-    Card, CardBody,
-    CardTitle, CardSubtitle, CardHeader
+    Card,
+    CardTitle, CardHeader, CardBody, CardSubtitle
 } from "reactstrap";
-import classes from '../AddedCards.module.css'
+import classes from '../../Card.module.css'
 
 const addedSectionCard = (props) => {
     let students;

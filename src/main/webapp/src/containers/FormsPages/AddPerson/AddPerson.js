@@ -3,7 +3,7 @@ import AddPersonForm from "../../../components/Forms/FormsTemplates/AddPersonFor
 import axios from "axios";
 import {Alert} from "reactstrap";
 import {withRouter} from "react-router-dom";
-import AddedPersonCard from '../../../components/UI/AddedCards/AddedPersonCard/AddedPersonCard'
+import AddedPersonCard from '../../../components/UI/Cards/PersonCards/AddedPersonCard/AddedPersonCard'
 
 class AddPerson extends Component {
 

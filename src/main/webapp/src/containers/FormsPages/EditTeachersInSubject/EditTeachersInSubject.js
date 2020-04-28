@@ -4,7 +4,7 @@ import EditTeachersInSubjectForm
     from "../../../components/Forms/FormsTemplates/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
 import {Alert} from "reactstrap";
 import EditTeachersInSubjectCard
-    from "../../../components/UI/EditCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
+    from "../../../components/UI/Cards/SubjectCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
 
 class EditTeachersInSubject extends Component {
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, CardBody, CardHeader, CardSubtitle, CardTitle} from "reactstrap";
-import classes from '../EditCards.module.css'
+import classes from '../../Card.module.css'
 
 const editTeachersInSubjectCard=(props)=>{
     let teachers;

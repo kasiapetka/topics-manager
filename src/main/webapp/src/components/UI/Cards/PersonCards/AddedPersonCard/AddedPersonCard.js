@@ -3,7 +3,7 @@ import {
     Card, CardBody,
     CardTitle, CardHeader
 } from "reactstrap";
-import classes from '../AddedCards.module.css'
+import classes from '../../Card.module.css'
 import {withRouter} from "react-router-dom";
 import AddedStudentCard from "./AddedStudentCard/AddedStudentCard";
 import AddedTeacherCard from "./AddedTeacherCard/AddedTeacherCard";

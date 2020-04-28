@@ -4,7 +4,7 @@ import {
     CardTitle, CardSubtitle, Button
 } from "reactstrap";
 import classes from "./AccountDetailsCard.module.css"
-import auth from '../../../Auth'
+import auth from '../../../../Auth'
 import {Link} from "react-router-dom";
 
 const accountDetailsCard =(props)=> {
