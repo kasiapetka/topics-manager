@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AddSubjectForm from "../../../components/Forms/FormsTemplates/AddSubjectForm/AddSubjectForm";
 import {Alert} from "reactstrap";
 import axios from "axios";
-import AddedSubjectCard from "../../../components/UI/AddedCards/AddedSubjectCard/AddedSubjectCard";
+import AddedSubjectCard from "../../../components/UI/Cards/SubjectCards/AddedSubjectCard/AddedSubjectCard";
 
 class AddSubject extends Component {
 

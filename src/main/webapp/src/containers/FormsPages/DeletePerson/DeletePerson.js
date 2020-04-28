@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
-import DeletePersonCard from "../../../components/UI/DeletePersonCard/DeletePersonCard";
+import DeletePersonCard from "../../../components/UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
 import {Alert} from "reactstrap";
 
 class DeletePerson extends Component {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PageNavbar from "../../components/Navigation/Navbar/Navbar";
-import AccountDetailsCard from "../../components/UI/AccountDetailsCard/AccountDetailsCard";
+import AccountDetailsCard from "../../components/UI/Cards/AccountDetailsCard/AccountDetailsCard";
 import {Alert} from "reactstrap";
 import ListStudentSectionsComponent from "../../components/Pages/StudentPages/ListStudentSections/ListStudentSections";
 import Messages from "../../components/Messages/Messages";

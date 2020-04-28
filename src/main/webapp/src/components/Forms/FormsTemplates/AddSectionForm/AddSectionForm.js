@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Badge, Button, Form, FormGroup, Input, Label} from "reactstrap";
 import classes from "../Forms.module.css";
 import SizeSemStateInputs from "./FormInputs/SizeSemStateInputs";
 
@@ -14,7 +14,14 @@ const addSectionForm = (props) => {
         </option>
     });
 
-    let topicOptions;
+    let topicOptions, wrongName;
+
+    if (props.wrongName) {
+        wrongName = <div className="form-row p-2">
+            <Badge color="danger" className="col-md-6 p-2 ml-auto mr-auto">
+                Name occupied</Badge>
+        </div>
+    }
 
     if (props.topics) {
         if (props.topics.length !== 0) {
@@ -39,7 +46,7 @@ const addSectionForm = (props) => {
                 <Label for="exampleSubject" className="mr-2 pl-1">Subject</Label>
                 <Input type="select" name="subject" id="exampleSubject"
                        defaultValue='default' onChange={props.onSubjectChange}
-                       invalid={props.emptyForm && props.section.subject===''}>
+                       invalid={props.emptyForm && props.section.subject === ''}>
                     <option disabled={true} value='default'>Choose Subject</option>
                     {subjectOptions}
                 </Input>
@@ -52,7 +59,7 @@ const addSectionForm = (props) => {
                         <Label for="exampleTopic" className="mr-2 pl-1">Topic</Label>
                         <Input type="select" name="topic" id="exampleTopic"
                                defaultValue='default' onChange={props.onChange}
-                               invalid={props.emptyForm && props.section.topic===''}>
+                               invalid={props.emptyForm && props.section.topic === ''}>
                             <option disabled={true} value='default'>Choose Topic</option>
                             {topicOptions}
                         </Input>
@@ -66,8 +73,10 @@ const addSectionForm = (props) => {
                 <Input type="text" name="name" id="exampleName"
                        minLength="5" placeholder="Enter Section Name"
                        onChange={props.onChange} value={props.section.name || ''}
-                       invalid={props.emptyForm && props.section.name===''}/>
+                       invalid={(props.emptyForm && props.section.name === '') || props.wrongName}/>
             </FormGroup>
+
+            {wrongName}
             {/*-------------------------------------------------------------------------------------- */}
             <SizeSemStateInputs
                 onChange={props.onChange}

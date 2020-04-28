@@ -1,7 +1,7 @@
 import React from "react";
 import Messages from "../../../Messages/Messages";
 import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
-import DeletePersonModal from "../../../UI/DeletePersonModal/DeletePersonModal";
+import DeleteModal from "../../../UI/DeleteModal/DeleteModal";
 import DeletePerson from "../../../../containers/FormsPages/DeletePerson/DeletePerson";
 import PrivateAdminRoute from "../../../PrivateRoutes/PrivateAdminRoute";
 import ListStudents from "../../../../containers/Lists/ListStudents";
@@ -9,7 +9,7 @@ import ListTeachers from "../../../../containers/Lists/ListTeachers";
 import AddPerson from "../../../../containers/FormsPages/AddPerson/AddPerson";
 import EditAccount from "../../../../containers/FormsPages/EditAccount/EditAccount";
 import auth from "../../../../Auth";
-import DeletePersonCard from "../../../UI/DeletePersonCard/DeletePersonCard";
+import DeletePersonCard from "../../../UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
 import AddSubject from "../../../../containers/FormsPages/AddSubject/AddSubject";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
 import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
@@ -21,7 +21,7 @@ import EditTeachersInSubject from "../../../../containers/FormsPages/EditTeacher
 const adminPageElements = (props) =>
     (
         <div className="container-fluid h-100 mt-2">
-            <DeletePersonModal
+            <DeleteModal
                 show={props.deletePerson}
                 modalClosed={props.deletePersonHandler}>
                 <DeletePerson
@@ -29,7 +29,7 @@ const adminPageElements = (props) =>
                     cancelClicked={props.deletePersonHandler}
                     deleteClicked={props.personDeletedHandler}
                     personRole={props.personRole}/>
-            </DeletePersonModal>
+            </DeleteModal>
 
             <div className="row h-100">
                 <div className="col-md-3 border-right">
