@@ -87,22 +87,22 @@ public class StudentServiceImpl implements StudentService {
     // adding student with email???
     public Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO) {
 
-//        User user = userService.findUserByEmail(studentOrTeacherDTO.getNewEmail());
-//
-//        if(user != null){
-//            return 409;
-//        }
+        User user = userService.findUserByEmail(studentOrTeacherDTO.getNewEmail());
 
-//        user = new User();
-//        user.setEmail(studentOrTeacherDTO.getNewEmail());
-//        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getNewPassword()));
-//        user.setRole(roleService.findRoleByRoleName("Student"));
+        if(user != null){
+            return 409;
+        }
+
+        user = new User();
+        user.setEmail(studentOrTeacherDTO.getNewEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(studentOrTeacherDTO.getNewPassword()));
+        user.setRole(roleService.findRoleByRoleName("Student"));
 
         Student student = new Student();
         student.setName(studentOrTeacherDTO.getNewName());
         student.setSurname(studentOrTeacherDTO.getNewSurname());
         student.setIsActive(true);
-//        student.setUser(user);/
+        student.setUser(user);
 
         try {
             Semester semester = semesterService.findSemesterBySemesterAndYear(studentOrTeacherDTO.getSemester(),

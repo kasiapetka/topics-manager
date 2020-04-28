@@ -84,7 +84,7 @@ class EditTeachersInSubject extends Component {
 
         let teachersObj = {
             teachers
-        }
+        };
 
         axios.post('/api/admin/editteachersinsubject/' + this.state.subject, teachersObj).then(response => {
 

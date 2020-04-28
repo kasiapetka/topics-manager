@@ -154,21 +154,29 @@ public class DatabaseLoader implements CommandLineRunner {
         s1.setNewName("student1");
         s1.setNewSurname("imastudent");
         s1.setSemester(2);
+        s1.setNewEmail("aaa@aaa.com");
+        s1.setNewPassword("aaaaa");
 
         NewStudentOrTeacherDTO s2 = new NewStudentOrTeacherDTO();
         s2.setNewName("student2");
         s2.setNewSurname("imastudenttoo");
         s2.setSemester(2);
+        s2.setNewEmail("aaa@aaa2.com");
+        s2.setNewPassword("aaaaa2");
 
         NewStudentOrTeacherDTO s3 = new NewStudentOrTeacherDTO();
         s3.setNewName("student3");
         s3.setNewSurname("afkjds");
         s3.setSemester(1);
+        s3.setNewEmail("aaa@aaa3.com");
+        s3.setNewPassword("aaaaa3");
 
         NewStudentOrTeacherDTO s4 = new NewStudentOrTeacherDTO();
         s4.setNewName("student4");
         s4.setNewSurname("ertyu");
         s4.setSemester(3);
+        s4.setNewEmail("aaa@aaa4.com");
+        s4.setNewPassword("aaaaa4");
 
         studentService.addNewStudent(s1);
         studentService.addNewStudent(s2);
@@ -247,13 +255,17 @@ public class DatabaseLoader implements CommandLineRunner {
 
         //end
 
-
-
         Topic topic = new Topic();
         topic.setName("eszkeret");
         topic.setSummary("gucci gang");
         topic.setSubject(subject);
         topicRepository.save(topic);
+
+        Topic topic1 = new Topic();
+        topic1.setName("Hibernate");
+        topic1.setSummary("sdsd");
+        topic1.setSubject(subject1);
+        topicRepository.save(topic1);
 
 
         System.out.println("------------------------------------ DatabaseLoader ended ------------------------------------");
