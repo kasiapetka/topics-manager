@@ -19,7 +19,7 @@ public class Subject {
     private String name;
     private String summary;
 
-    @JsonManagedReference(value = "subjects-teachers")
+    @JsonManagedReference
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "subject_teacher",

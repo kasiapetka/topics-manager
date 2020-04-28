@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -222,7 +221,8 @@ public class AdminController {
 
     @PostMapping("/api/admin/editteachersinsubject/{subjectID}")
     ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subjectID){
-        Integer responseCode = subjectService.editSubjectsTeachers(teacherList.getTeachers(), subjectID);
+
+        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
 
         return ResponseEntity.status(responseCode).build();
     }

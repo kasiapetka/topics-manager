@@ -51,11 +51,12 @@
         <div class="col-6 col-md-2 border-right"><h4> Documentation:</h4>
             <ul>
                 <li><a href="#spec" class="text-secondary">Project Specification.</a></li>
-                <li><a href="#req" class="text-secondary">Requirements.</a></li>
-                <ul>
-                    <li><a href="#fun" class="text-secondary">Functional.</a></li>
-                    <li><a href="#nonfun" class="text-secondary">Nonfunctional.</a></li>
-                </ul>
+                <!--<li><a href="#req" class="text-secondary">Requirements.</a></li>-->
+                <!--<ul>-->
+                <!--<li><a href="#fun" class="text-secondary">Functional.</a></li>-->
+                <!--<li><a href="#nonfun" class="text-secondary">Nonfunctional.</a></li>-->
+                <!--</ul>-->
+                <li><a href="#workflow" class="text-secondary">Workflow.</a></li>
                 <li><a href="#gantt" class="text-secondary">Gantt chart.</a></li>
                 <li><a href="#usecase" class="text-secondary">Use case diagram.</a></li>
                 <li><a href="#erd" class="text-secondary">ERD database model.</a></li>
@@ -71,6 +72,18 @@
                     </ul>
                 </li>
 
+                <li><a href="user" class="text-secondary">What is User</a></li>
+                <li><a href="#accounts" class="text-secondary">Accounts</a>
+                    <ul>
+                        <li><a href="#admin" class="text-secondary">Admin Account</a></li>
+                        <li><a href="#teacher" class="text-secondary">Teacher Account</a></li>
+                        <li><a href="#student" class="text-secondary">Student Account</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="section" class="text-secondary">Section</a></li>
+                <li><a href="subject" class="text-secondary">Subject</a></li>
+                <li><a href="topic" class="text-secondary"></a>Topic</li>
 
             </ul>
         </div>
@@ -85,134 +98,135 @@
                     features are
                     shown on multiple diagrams and charts below. Please feel encouraged to get acquainted with the
                     application
-                    and its documentation as it may serve You as an instruction for using it.</p></div>
-
-            <hr>
-
-            <div id="req"><h4>Requirements: </h4>
-                <h4 style="margin-left: 40px;">FUNCTIONAL</h4>
-                <div class="container-fluid" id="fun" style="margin-left: 60px;">
-                    <h5>Student Module:</h5>
-                    <ul>
-                        <li> Log in.</li>
-                        <li> Create new account.</li>
-                        <li> Manage topics:</li>
-                        <ul>
-                            <li> View students topics.</li>
-                            <li> View grades.</li>
-                            <li> Add report.</li>
-                            <li> View presence.</li>
-                        </ul>
-                        <li> Modify profile and account:</li>
-                        <ul>
-                            <li> Change password.</li>
-                            <li> Change email.</li>
-                            <li> Change name.</li>
-                            <li> Change surname.</li>
-                            <li> Delete account.</li>
-                        </ul>
-                        <li> Log out.</li>
-                    </ul>
-                    <hr>
-                    <h5>Teacher Module.</h5>
-                    <ul>
-                        <li> Log in.</li>
-                        <li> Manage topics:</li>
-                        <ul>
-                            <li> Add new topic.</li>
-                            <li> View and issue grades.</li>
-                            <li> View and issue presence.</li>
-                            <li> Generate final summary of topic.</li>
-                        </ul>
-                        <li> Manage sections:</li>
-                        <ul>
-                            <li> Add section.</li>
-                            <li> Delete section.</li>
-                            <li> Modification of section composition.</li>
-                            <li> Issue topic to section.</li>
-                            <li> Import data about students.</li>
-                        </ul>
-                        <li> Modify profile and account:</li>
-                        <ul>
-                            <li> Change password.</li>
-                            <li> Change email.</li>
-                            <li> Change name.</li>
-                            <li> Change surname.</li>
-                            <li> Delete account.</li>
-                        </ul>
-                        <li> Log out.</li>
-                    </ul>
-                    <hr>
-                    <h5>Administrator Module.</h5>
-                    <ul>
-                        <li> Log in.</li>
-                        <li> Manage teachers:</li>
-                        <ul>
-                            <li> Add teacher.</li>
-                            <li> Delete teacher.</li>
-                            <li> Modify teachers account and profile (change password, email, name, surname).</li>
-                        </ul>
-                        <li> Manage students</li>
-                        <ul>
-                            <li> Add students.</li>
-                            <li> Delete student.</li>
-                            <li> Modify students account and profile (change password, email, name, surname).</li>
-                        </ul>
-                        <li> Modify profile and account:</li>
-                        <ul>
-                            <li> Change password.</li>
-                            <li> Change email.</li>
-                            <li> Change name.</li>
-                            <li> Change surname.</li>
-                            <li> Delete account.</li>
-                        </ul>
-                        <li> Log out.</li>
-                    </ul>
-                    <hr>
-                    <h5> System Module:</h5>
-                    <ul> Send email:
-                        <li> Notificate student about new grade.</li>
-                        <li> Notificate student about being added into new section.</li>
-                        <li> Notificate teacher about new report.</li>
-                    </ul>
-                    <hr>
-                </div>
-                <h4 style="margin-left: 40px;">NONFUNCTIONAL</h4>
-                <div class="container-fluid" id="nonfun" style="margin-left: 60px;">
-                    <h5>Product:</h5>
-                    <ul>
-                        <li> One aministrator.</li>
-                        <li> System of adding teachers by administrator.</li>
-                    </ul>
-                    <hr>
-                    <h5>Technology:</h5>
-                    <ul>
-                        <li> Database PostgreSQL.</li>
-                        <li> REST web application.</li>
-                        <li> Frontend with React.</li>
-                        <li> Backend with Spring Boot framework.</li>
-                        <li> Connection with database.</li>
-                    </ul>
-                    <hr>
-                    <h5>Security:</h5>
-                    <ul>
-                        <li> Passwords securing account access.</li>
-                        <li> Users authentication.</li>
-                        <li> Encrypting users passwords in database.</li>
-                    </ul>
-                    <hr>
-                    <h5>Law:</h5>
-                    <ul>
-                        <li> Users accept regulations and accept their personal data processing.</li>
-                        <li> Displaying and storing data according to RODO.</li>
-                        <li> Users accept cookies.</li>
-                    </ul>
-                    </ul>
-                </div>
+                    and its documentation as it may serve You as an instruction for using it.</p>
             </div>
-
             <hr>
 
+            <div>
+                <!--<div id="req"><h4>Requirements: </h4>-->
+                <!--<h4 style="margin-left: 40px;">FUNCTIONAL</h4>-->
+                <!--<div class="container-fluid" id="fun" style="margin-left: 60px;">-->
+                <!--<h5>Student Module:</h5>-->
+                <!--<ul>-->
+                <!--<li> Log in.</li>-->
+                <!--<li> Create new account.</li>-->
+                <!--<li> Manage topics:</li>-->
+                <!--<ul>-->
+                <!--<li> View students topics.</li>-->
+                <!--<li> View grades.</li>-->
+                <!--<li> Add report.</li>-->
+                <!--<li> View presence.</li>-->
+                <!--</ul>-->
+                <!--<li> Modify profile and account:</li>-->
+                <!--<ul>-->
+                <!--<li> Change password.</li>-->
+                <!--<li> Change email.</li>-->
+                <!--<li> Change name.</li>-->
+                <!--<li> Change surname.</li>-->
+                <!--<li> Delete account.</li>-->
+                <!--</ul>-->
+                <!--<li> Log out.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--<h5>Teacher Module.</h5>-->
+                <!--<ul>-->
+                <!--<li> Log in.</li>-->
+                <!--<li> Manage topics:</li>-->
+                <!--<ul>-->
+                <!--<li> Add new topic.</li>-->
+                <!--<li> View and issue grades.</li>-->
+                <!--<li> View and issue presence.</li>-->
+                <!--<li> Generate final summary of topic.</li>-->
+                <!--</ul>-->
+                <!--<li> Manage sections:</li>-->
+                <!--<ul>-->
+                <!--<li> Add section.</li>-->
+                <!--<li> Delete section.</li>-->
+                <!--<li> Modification of section composition.</li>-->
+                <!--<li> Issue topic to section.</li>-->
+                <!--<li> Import data about students.</li>-->
+                <!--</ul>-->
+                <!--<li> Modify profile and account:</li>-->
+                <!--<ul>-->
+                <!--<li> Change password.</li>-->
+                <!--<li> Change email.</li>-->
+                <!--<li> Change name.</li>-->
+                <!--<li> Change surname.</li>-->
+                <!--<li> Delete account.</li>-->
+                <!--</ul>-->
+                <!--<li> Log out.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--<h5>Administrator Module.</h5>-->
+                <!--<ul>-->
+                <!--<li> Log in.</li>-->
+                <!--<li> Manage teachers:</li>-->
+                <!--<ul>-->
+                <!--<li> Add teacher.</li>-->
+                <!--<li> Delete teacher.</li>-->
+                <!--<li> Modify teachers account and profile (change password, email, name, surname).</li>-->
+                <!--</ul>-->
+                <!--<li> Manage students</li>-->
+                <!--<ul>-->
+                <!--<li> Add students.</li>-->
+                <!--<li> Delete student.</li>-->
+                <!--<li> Modify students account and profile (change password, email, name, surname).</li>-->
+                <!--</ul>-->
+                <!--<li> Modify profile and account:</li>-->
+                <!--<ul>-->
+                <!--<li> Change password.</li>-->
+                <!--<li> Change email.</li>-->
+                <!--<li> Change name.</li>-->
+                <!--<li> Change surname.</li>-->
+                <!--<li> Delete account.</li>-->
+                <!--</ul>-->
+                <!--<li> Log out.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--<h5> System Module:</h5>-->
+                <!--<ul> Send email:-->
+                <!--<li> Notificate student about new grade.</li>-->
+                <!--<li> Notificate student about being added into new section.</li>-->
+                <!--<li> Notificate teacher about new report.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--</div>-->
+                <!--<h4 style="margin-left: 40px;">NONFUNCTIONAL</h4>-->
+                <!--<div class="container-fluid" id="nonfun" style="margin-left: 60px;">-->
+                <!--<h5>Product:</h5>-->
+                <!--<ul>-->
+                <!--<li> One aministrator.</li>-->
+                <!--<li> System of adding teachers by administrator.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--<h5>Technology:</h5>-->
+                <!--<ul>-->
+                <!--<li> Database PostgreSQL.</li>-->
+                <!--<li> REST web application.</li>-->
+                <!--<li> Frontend with React.</li>-->
+                <!--<li> Backend with Spring Boot framework.</li>-->
+                <!--<li> Connection with database.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--<h5>Security:</h5>-->
+                <!--<ul>-->
+                <!--<li> Passwords securing account access.</li>-->
+                <!--<li> Users authentication.</li>-->
+                <!--<li> Encrypting users passwords in database.</li>-->
+                <!--</ul>-->
+                <!--<hr>-->
+                <!--<h5>Law:</h5>-->
+                <!--<ul>-->
+                <!--<li> Users accept regulations and accept their personal data processing.</li>-->
+                <!--<li> Displaying and storing data according to RODO.</li>-->
+                <!--<li> Users accept cookies.</li>-->
+                <!--</ul>-->
+                <!--</ul>-->
+                <!--</div>-->
+                <!--</div>-->
+
+                <!--<hr>-->
+            </div>
             <div id="gantt">
                 <a href="GanttChart.html" target="_blank" class="btn btn-secondary gantt"><h4>Gantts Chart Link </h4>
                 </a>
@@ -222,6 +236,21 @@
             </div>
             <hr>
 
+            <div id="workflow">
+                <h4>Workflow</h4>
+                <p>We are trying to use Agile Developement. We are making a lot of meetings where we discuss what is
+                    the best for our project. We are trying to follow our Gantt Chart and sometimes we have to make
+                    decisions to leave some ideas behind in order to get most important functionality working.</p>
+
+                <p>Unfortanently this software isn't made in TDD technique, however we're trying to follow desing
+                    patterns
+                    and create clean code which is sometimes not that simple. After implementing bigger part of
+                    functionality
+                    we are reading our code and trying to make it cleaner. We are removing code duplication, splitting
+                    some functions
+                    into shorter ones or renaming functions, variables, classes etc to follow naming conventions.</p>
+            </div>
+
             <div id="usecase">
                 <h4>Usecase diagram: </h4>
                 <img src="img/usecase.jpg" width="100%" height="100%" class="d-inline-block align-top">
@@ -230,15 +259,15 @@
             <hr>
 
             <div id="erd">
-                <h4>ERD database model: </h4>
+                <!--<h4>ERD database model: </h4>-->
                 <a href="https://app.diagrams.net/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=Entity%20Relationship%20Diagram.drawio#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1PzVnE_kUBoD2CicWhIOnfhJdU3MO_gEu%26export%3Ddownload"
-                   target="_blank" class="btn btn-secondary gantt"><h4>ERD</h4>
+                   target="_blank" class="btn btn-secondary gantt"><h4>Entity-Relationship Model</h4>
                 </a>
             </div>
             <hr>
 
             <div id="classdiag">
-                <h4>Class Diagram</h4>
+                <!--<h4>Class Diagram</h4>-->
                 <a href="https://app.diagrams.net/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=class%20diagram#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D10lfIIfturhHd8W1v2NOIA3Q_7YGt4uZh%26export%3Ddownload"
                    target="_blank" class="btn btn-secondary gantt"><h4>Class Diagram</h4></a>
             </div>
@@ -255,9 +284,9 @@
             <div id="servicelayer">
                 <h4>ServiceLayer</h4>
                 <p>Since this application uses Spring MVC framework and its capability of using dependency injection and
-                    inversion of control ServiceLayer has been created.
+                    inversion of control ServiceLayer has been created.</p>
 
-                    Service Layer specifies interfaces with functions which are neccesary for application to work. Then
+                <p>Service Layer specifies interfaces with functions which are neccesary for application to work. Then
                     they these functions are implemented and injected into placere where they are needed. Thanks to
                     Spring's Dependency Incjection it's very easy to implement different functionality and incject
                     it.</p>
@@ -280,13 +309,20 @@
             <hr>
 
             <div id="auth">
+                <h4>Authentication and Authorization</h4>
+                <p>Authentication and authorization is achieved with using two main components: Spring Security and JWT.
+                    In Topics Manager every User that is registered into system has login which is email, and password.
+                    Aditionally every user has its role: Admin, Teacher or Student.</p>
                 <div id="springsecurity">
-                    <h4>Spring Security</h4>
-                    <p>SPRING SECURITY</p>
+                    <h5>Spring Security</h5>
+                    <p>Spring Security is configured to listen for requests on /api/login endpoint. When it gets correct
+                        request it is performing two queries for database. First query checks if given credentials were
+                        correct
+                        and second is checking which role this user has.</p>
                 </div>
 
                 <div id="jwt">
-                    <h4>Authorization using Json Web Tokens: </h4>
+                    <h5>Authorization using Json Web Tokens: </h5>
                     <p>Authorization in Topics Manager Application is implemented using Json Web Tokens. When the user
                         wants to log in and passes correct credentials server responds with a token that holds user
                         email
@@ -304,8 +340,63 @@
                     </ul>
                 </div>
             </div>
-
             <hr>
+
+            <div id="users">
+                <h4>Users</h4>
+                <p>Every user is stored in the same table called "users". Users consist of email, password, id and role
+                    which is assigned when user is registered. Every user is assigned to Student or Teacher object
+                    except admin
+                    who doesn't have name, surname etc.</p>
+
+                <p>This structure of tables in database makes it easy for searching and making operations only on
+                    accounts
+                    or only on teacher or stundent objects. Also this operation was neccesary because there is
+                    possibility
+                    that Student exists in database without account.</p>
+            </div>
+            <hr>
+
+            <div id="accounts">
+                <h4>Accounts</h4>
+                <p>In topic Manager there are three types of accounts: admin account, teacher account and student
+                    account.
+                    Every type of account has different role and different capabilities of managing the system</p>
+
+                <div id="admin">
+                    <h5>Admin Account</h5>
+                    <p>Admin Account description here</p>
+                </div>
+
+                <div id="teacher">
+                    <h5>Teacher Account</h5>
+                    <p>Teacher Account desc here</p>
+                </div>
+
+                <div id="student">
+                    <h5>Student Account</h5>
+                    <p>Student Account here</p>
+                </div>
+            </div>
+            <hr>
+
+            <div id="section">
+                <h4>Sections</h4>
+                <p>Section description here</p>
+            </div>
+            <hr>
+
+            <div id="subject">
+                <h4>Subject</h4>
+                <p>Subject description here</p>
+            </div>
+            <hr>
+
+            <div id="topic">
+                <h4>Topic</h4>
+                <p>Topic description here</p>
+            </div>
+
         </div>
         <div class="col-6 col-md-1 bg-light"></div>
     </div>

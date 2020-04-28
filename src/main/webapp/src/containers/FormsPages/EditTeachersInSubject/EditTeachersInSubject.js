@@ -81,8 +81,13 @@ class EditTeachersInSubject extends Component {
         subjects = subjects.filter((subject) => subject.id === +subjectId);
         subjectName = subjects[0].name;
 
-        console.log(teachers)
-        axios.post('/api/admin/editteachersinsubject/' + this.state.subject, teachers).then(response => {
+
+        let teachersObj = {
+            teachers
+        }
+
+        axios.post('/api/admin/editteachersinsubject/' + this.state.subject, teachersObj).then(response => {
+
             this.setState({
                 teachers: teachers,
                 teachersEdited: true,
