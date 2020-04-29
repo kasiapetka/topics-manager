@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import AddPersonForm from "../../../components/Forms/FormsTemplates/AddPersonForm/AddPersonForm";
+import AddPersonForm from "../../../../components/Forms/FormsTemplates/AddPersonForm/AddPersonForm";
 import axios from "axios";
 import {Alert} from "reactstrap";
 import {withRouter} from "react-router-dom";
-import AddedPersonCard from '../../../components/UI/Cards/PersonCards/AddedPersonCard/AddedPersonCard'
+import AddedPersonCard from '../../../../components/UI/Cards/PersonCards/AddedPersonCard/AddedPersonCard'
 
 class AddPerson extends Component {
 

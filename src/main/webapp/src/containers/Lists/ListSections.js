@@ -4,9 +4,9 @@ import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Sections from "../../components/Lists/ListSections/Sections";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
-import DeleteModal from "../../components/UI/DeleteModal/DeleteModal";
-import DeletePerson from "../FormsPages/DeletePerson/DeletePerson";
-import DeletePersonCard from "../../components/UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
+import Modal from "../../components/UI/Modal/Modal";
+import DeleteSection from "../FormsPages/SectionForms/DeleteSection/DeleteSection";
+import PrivateAdminRoute from "../../components/PrivateRoutes/PrivateAdminRoute";
 import DeleteSectionCard from "../../components/UI/Cards/SectionCards/DeleteSectionCard/DeleteSectionCard";
 
 class ListSections extends Component {
@@ -16,15 +16,15 @@ class ListSections extends Component {
         loading: true,
         semester: 1,
         sectionDelete: false,
-        sectionToDelete: null
+        sectionToDelete: null,
+        deletedSection: null,
+        deletedSectionPage: false
     };
 
     componentDidMount() {
 
         axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
             let sections = [...response.data];
-            console.log(sections)
-
             this.setState({
                 sections: sections,
                 loading: false,
@@ -76,7 +76,7 @@ class ListSections extends Component {
         })
     };
 
-    deleteSectionHandler=()=>{
+    showDeleteModalHandler = () => {
         this.setState((prevState) => {
             return {
                 sectionDelete: !this.state.sectionDelete,
@@ -84,12 +84,18 @@ class ListSections extends Component {
         });
     };
 
+    sectionDeletedHandler = (section) => {
+        this.setState({
+            deletedSection: section,
+        });
+    };
+
+
     render() {
         const error = this.state.error;
         const loading = this.state.loading;
         const sectionDelete = this.state.sectionDelete;
         let content, deleteModal;
-
         if (error) {
             return (
                 <Alert color="danger">
@@ -99,37 +105,38 @@ class ListSections extends Component {
         } else if (loading) {
             content = <Spinner/>
         } else {
-            content =
-                <React.Fragment>
-                    <Sections
+            content = <Sections
                         sections={this.state.sections}
                         delete={this.onSectionDeleteHandler}
                         edit={this.onSectionEditHandler}
-                    />
-                </React.Fragment>
-            ;
+                    />;
         }
-
         if (sectionDelete) {
-            deleteModal = (<DeleteModal
+            deleteModal = (<Modal
                 show={sectionDelete}
-                modalClosed={this.deleteSectionHandler}>
-                <DeleteSectionCard
-                    deleted={false}
+                modalClosed={this.showDeleteModalHandler}>
+                <DeleteSection
                     section={this.state.sectionToDelete}
-                    cancel={this.deleteSectionHandler}
-                    delete={this.deleteSectionHandler}/>
-            </DeleteModal>)
+                    cancelClicked={this.showDeleteModalHandler}
+                    deleteClicked={this.sectionDeletedHandler}
+                />
+            </Modal>)
         }
-
         return (
             <React.Fragment>
                 {deleteModal}
-                <PickSemesterInput
-                    semester={this.state.semester}
-                    onSemesterChange={this.onSemesterChangeHandler}
-                />
-                {content}
+                <PrivateAdminRoute exact path="/admin/sections/deletedsection" component={() => <DeleteSectionCard
+                    deleted={true}
+                    section={this.state.deletedSection}
+                />}/>
+                <PrivateAdminRoute exact path="/admin/sections" component={() =>
+                    <React.Fragment>
+                        <PickSemesterInput
+                            semester={this.state.semester}
+                            onSemesterChange={this.onSemesterChangeHandler}/>
+                        {content}
+                    </React.Fragment>
+                }/>
             </React.Fragment>
         );
     }

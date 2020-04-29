@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Alert} from "reactstrap";
 import axios from "axios";
-import AddTopicForm from "../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
-import AddedTopicCard from "../../../components/UI/Cards/TopicCards/AddedTopicCard/AddedTopicCard";
+import AddTopicForm from "../../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
+import AddedTopicCard from "../../../../components/UI/Cards/TopicCards/AddedTopicCard/AddedTopicCard";
 
 class AddTopic extends Component {
 

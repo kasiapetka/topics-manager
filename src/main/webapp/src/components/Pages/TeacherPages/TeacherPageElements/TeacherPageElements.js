@@ -3,10 +3,10 @@ import AccountDetailsCard from "../../../UI/Cards/AccountDetailsCard/AccountDeta
 import Messages from "../../../Messages/Messages";
 import PrivateTeacherRoute from "../../../PrivateRoutes/PrivateTeacherRoute";
 import ListSections from "../../../../containers/Lists/ListSections";
-import AddSection from "../../../../containers/FormsPages/AddSection/AddSection";
+import AddSection from "../../../../containers/FormsPages/SectionForms/AddSection/AddSection";
 import ListStudents from "../../../../containers/Lists/ListStudents";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
-import AddTopic from "../../../../containers/FormsPages/AddTopic/AddTopic";
+import AddTopic from "../../../../containers/FormsPages/TopicForms/AddTopic/AddTopic";
 import ListTopics from "../../../../containers/Lists/ListTopics";
 import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
 

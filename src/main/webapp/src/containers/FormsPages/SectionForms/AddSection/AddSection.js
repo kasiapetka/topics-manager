@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import AddSectionForm from "../../../components/Forms/FormsTemplates/AddSectionForm/AddSectionForm";
+import AddSectionForm from "../../../../components/Forms/FormsTemplates/AddSectionForm/AddSectionForm";
 import {Alert} from "reactstrap";
 import axios from 'axios'
 import AddStudentToSectionForm
-    from "../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
-import AddedSectionCard from "../../../components/UI/Cards/SectionCards/AddedSectionCard/AddedSectionCard";
+    from "../../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
+import AddedSectionCard from "../../../../components/UI/Cards/SectionCards/AddedSectionCard/AddedSectionCard";
 
 class AddSection extends Component {
 

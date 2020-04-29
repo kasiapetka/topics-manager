@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import axios from "axios";
 import EditTeachersInSubjectForm
-    from "../../../components/Forms/FormsTemplates/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
+    from "../../../../components/Forms/FormsTemplates/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
 import {Alert} from "reactstrap";
 import EditTeachersInSubjectCard
-    from "../../../components/UI/Cards/SubjectCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
+    from "../../../../components/UI/Cards/SubjectCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
 
 class EditTeachersInSubject extends Component {
 
