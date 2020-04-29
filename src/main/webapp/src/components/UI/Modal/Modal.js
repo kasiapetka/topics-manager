@@ -1,8 +1,8 @@
 import React from "react";
-import classes from './DeleteModal.module.css'
+import classes from './Modal.module.css'
 import Backdrop from "../Backdrop/Backdrop";
 
-const deleteModal = (props) => {
+const modal = (props) => {
     console.log(props.show);
     return (
         <React.Fragment>
@@ -20,4 +20,4 @@ const deleteModal = (props) => {
     );
 };
 
-export default deleteModal;
+export default modal;

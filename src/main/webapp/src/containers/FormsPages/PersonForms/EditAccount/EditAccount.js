@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import auth from "../../../Auth";
+import auth from "../../../../Auth";
 import {Badge, Alert} from "reactstrap";
-import EditAccountInputs from "../../../components/Forms/FormsTemplates/EditForm/EditAccountForm";
-import EditPersonForm from "../../../components/Forms/FormsTemplates/EditForm/EditPersonForm";
+import EditAccountInputs from "../../../../components/Forms/FormsTemplates/EditForm/EditAccountForm";
+import EditPersonForm from "../../../../components/Forms/FormsTemplates/EditForm/EditPersonForm";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
-import Spinner from "../../../components/UI/Spinner/Spinner";
+import Spinner from "../../../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../../../../hoc/withErrorHandler";
 
 class EditAccount extends Component {
 
@@ -43,18 +44,18 @@ class EditAccount extends Component {
 
     componentDidMount = async () => {
         let user = {...this.state.person};
-         if (!this.state.changed) {
-              axios.put(this.props.path,user).then(response => {
-                    let person = {...response.data};
-                    this.setState({
-                        person: person,
-                        loading:false
-                    });
+        if (!this.state.changed) {
+            axios.put(this.props.path, user).then(response => {
+                let person = {...response.data};
+                this.setState({
+                    person: person,
+                    loading: false
+                });
             })
                 .catch(error => {
                     this.setState({
                         serverError: true,
-                        loading:false
+                        loading: false
                     });
                 });
         }
@@ -94,19 +95,19 @@ class EditAccount extends Component {
             return;
         }
 
-        axios.put(this.props.path,user).then(response => {
-                let person = {...response.data};
-                this.setState({
-                    person: person,
-                    loading: false,
-                    credsChanged: true
-                });
-                if (response.data.email !== user.email && !this.state.personEdition) {
-                    this.setState({redirect: true});
-                }
+        axios.put(this.props.path, user).then(response => {
+            let person = {...response.data};
+            this.setState({
+                person: person,
+                loading: false,
+                credsChanged: true
+            });
+            if (response.data.email !== user.email && !this.state.personEdition) {
+                this.setState({redirect: true});
+            }
         })
             .catch(error => {
-                this.setState({ loading:false });
+                this.setState({loading: false});
                 if (error.response.status === 406) {
                     this.setState({wrongPassword: true});
                 } else if (error.response.status === 409) {
@@ -146,11 +147,10 @@ class EditAccount extends Component {
                     Credentails Changed</Badge>)
         }
 
-        if(this.state.loading){
-            form=<Spinner/>
-        }
-        else if(this.state.personEdition){
-            form= <EditPersonForm
+        if (this.state.loading) {
+            form = <Spinner/>
+        } else if (this.state.personEdition) {
+            form = <EditPersonForm
                 credentialsChangedSuccess={credentialsChangedSuccess}
                 submit={this.handleSubmit}
                 change={this.handleChange}
@@ -161,8 +161,7 @@ class EditAccount extends Component {
                 wrongEmail={this.state.wrongEmail}
                 emptyForm={this.state.emptyForm}
             />
-        }
-        else{
+        } else {
             form = <EditAccountInputs
                 credentialsChangedSuccess={credentialsChangedSuccess}
                 submit={this.handleSubmit}
@@ -180,4 +179,4 @@ class EditAccount extends Component {
     }
 };
 
-export default EditAccount;
+export default withErrorHandler(EditAccount,axios);

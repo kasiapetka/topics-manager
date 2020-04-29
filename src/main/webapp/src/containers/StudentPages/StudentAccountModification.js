@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PageNavbar from "../../components/Navigation/Navbar/Navbar";
-import EditAccount from '../FormsPages/EditAccount/EditAccount';
+import EditAccount from '../FormsPages/PersonForms/EditAccount/EditAccount';
 import auth from '../../Auth'
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 

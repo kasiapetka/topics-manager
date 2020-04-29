@@ -141,14 +141,12 @@ class ListStudents extends Component {
     render() {
         const error = this.state.error;
         let list, sem;
-
         if(!this.state.sectionCreation){
             sem=<PickSemesterInput
                 semester={this.state.semester}
                 onSemesterChange={this.onSemesterChangeHandler}
             />
         }
-
         if (error) {
             list = (
                 <Alert color="danger">
@@ -178,9 +176,7 @@ class ListStudents extends Component {
                             sectionCreation={this.state.sectionCreation}/>
 
                 </PersonsContext.Provider>
-
-        </React.Fragment>
-        )
+        </React.Fragment>)
         }
         return list;
     }

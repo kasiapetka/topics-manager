@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
-import DeletePersonCard from "../../../components/UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
+import DeletePersonCard from "../../../../components/UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
 import {Alert} from "reactstrap";
 
 class DeletePerson extends Component {
@@ -28,7 +28,7 @@ class DeletePerson extends Component {
             });
 
         this.props.cancelClicked();
-        this.props.deleteClicked(this.props.person,this.props.personRole);
+        this.props.deleteClicked(this.props.person);
     };
 
     render() {

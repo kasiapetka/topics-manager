@@ -40,19 +40,11 @@ class AdminPage extends Component {
         });
     };
 
-    personDeletedHandler=(personDeleted,personRole)=>{
-        let role;
-        if(personRole==='T') role='Teacher';
-        if(personRole==='S') role='Student';
-        const person= {
-            role:role,
-            person: {...personDeleted}
-        };
-
+    personDeletedHandler=(personDeleted)=>{
         this.setState((prevState) => {
             return {
                 deletePerson: !this.state.deletePerson,
-                deletedPerson: person,
+                deletedPerson: personDeleted,
             }
         });
     };
@@ -76,7 +68,6 @@ class AdminPage extends Component {
     };
 
     render() {
-
         return (
             <React.Fragment>
                 <PageNavbar logoClicked={this.sideDrawerToggleHandler}/>
@@ -96,7 +87,7 @@ class AdminPage extends Component {
                 modifyPath={this.state.modifyPath}
                 editPersonId={this.state.editPersonId}
                 deletedPerson = {this.state.deletedPerson}
-      />
+                />
 
             </React.Fragment>
         );
