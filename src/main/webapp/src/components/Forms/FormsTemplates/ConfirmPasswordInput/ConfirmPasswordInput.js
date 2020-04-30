@@ -1,5 +1,6 @@
 import React from "react";
 import {FormGroup, Input, Label} from "reactstrap";
+import TextInput from "../../Inputs/TextInput/TextInput";
 
 const confirmPasswordInput = (props) => {
 
@@ -14,17 +15,12 @@ const confirmPasswordInput = (props) => {
             ?
             <React.Fragment>
                 {loggin}
-                <FormGroup className="p-2 mb-2 mt-2">
-                    <Label for="examplePassword" className="mr-2 pl-1">
-                        Confirm Changes With Password
-                    </Label>
-                    <Input type="password" name="password"
-                           id="examplePassword" minLength="5"
+                <TextInput type="password" name="password"
+                           label='Confirm Changes With Password' minLength="5"
                            placeholder="Your Password"
                            value={props.password || ''}
                            onChange={props.change}
                            invalid={props.wrongPassword}/>
-                </FormGroup>
             </React.Fragment>
             :
             null
