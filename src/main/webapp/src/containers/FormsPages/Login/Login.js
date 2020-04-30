@@ -23,8 +23,6 @@ class Login extends React.Component {
             serverError: false,
             role: role,
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (event) => {
@@ -33,14 +31,14 @@ class Login extends React.Component {
         const name = target.name;
         let user = {...this.state.user};
         user[name] = value;
-        this.setState({user});
+        this.setState({
+            user: user,
+            wrongCred: false});
     };
 
-      handleSubmit=async(event)=> {
+      handleSubmit=(event)=> {
         event.preventDefault();
         const {user} = this.state;
-
-        console.log(JSON.stringify(user))
 
         axios.post('/api/login', user).then(response => {
                 let user = {...this.state.user};

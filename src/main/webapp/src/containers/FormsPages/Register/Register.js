@@ -8,7 +8,6 @@ import axios from 'axios'
 export class Register extends React.Component {
 
     emptyUser = {
-        album: '',
         code: '',
         email: '',
         password: '',
@@ -23,30 +22,38 @@ export class Register extends React.Component {
             wrongCred: false,
             redirectToReferrer: redirect,
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange=(event)=>{
         const target = event.target;
         const value = target.value;
         const name = target.name;
 
         let user = {...this.state.user};
         user[name] = value;
-        this.setState({user});
-    }
+        this.setState({
+            user: user,
+            wrongCred: false});
+    };
 
-    handleSubmit(event) {
+    handleSubmit=(event)=>{
         event.preventDefault();
-        const {user} = this.state;
 
+        for (let key in this.state.user) {
+            if(this.state.user[key] === ''){
+                this.setState({
+                    wrongCred: true
+                });
+                return;
+            }
+        }
+
+        const user =  {...this.state.user};
         axios.post('/api/register', user).then(response => {
-
             let user = {...this.state.user};
             user.token = response.data.token;
             auth.login(response.data.role, user.token);
-            this.setState({user});
+            this.setState({user: user});
             this.setState({redirectToReferrer: true})
         })
             .catch(error => {
@@ -60,7 +67,7 @@ export class Register extends React.Component {
                     });
                 }
             });
-    }
+    };
 
     render() {
         const {user} = this.state;
@@ -71,7 +78,7 @@ export class Register extends React.Component {
         if (wrongCred) {
             wrongCredentials =
                 <Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
-                    Wrong Login Credentials</Badge>
+                    Wrong Register Credentials</Badge>
         }
 
         if (redirectToReferrer) {

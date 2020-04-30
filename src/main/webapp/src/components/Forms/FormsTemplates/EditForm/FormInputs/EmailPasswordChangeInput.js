@@ -1,30 +1,23 @@
 import React from "react";
-import {FormGroup, Input, Label} from "reactstrap";
+import TextInput from "../../../Inputs/TextInput/TextInput";
 
 
 const emailPasswordChangeInput =(props)=>(
-    <div className="form-row p-2">
-        <FormGroup className="mt-3 col-md-6 mb-2 ml-auto mr-auto">
-            <Label for="exampleEmail" className="mr-sm-2 pl-1">
-                New Email Address
-            </Label>
-            <Input type="email" name="newEmail"
-                   id="exampleEmail" placeholder="Enter New Email"
+    <div className="form-row p-1">
+        <TextInput label='New Email Address' type="email" name="newEmail"
+                   placeholder="Enter New Email"
+                   groupclasses="col-md-6 ml-auto mr-auto"
                    value={props.newEmail || ''}
                    onChange={props.change}
                    invalid={props.wrongEmail || props.emptyForm}/>
-        </FormGroup>
-        <FormGroup className="mb-2 mt-3 col-md-6 mr-auto ml-auto">
-            <Label for="newPassword" className="mr-sm-2 pl-1">
-                New Password
-            </Label>
-            <Input type="password" name="newPassword"
+
+        <TextInput label='New Password' type="password" name="newPassword"
                    id="newPassword" minLength="5"
+                   groupclasses="col-md-6 ml-auto mr-auto"
                    placeholder="Enter New Password"
                    value={props.newPassword || ''}
                    onChange={props.change}
                    invalid={props.emptyForm}/>
-        </FormGroup>
     </div>
 );
 
