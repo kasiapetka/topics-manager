@@ -1,7 +1,9 @@
 import React from 'react';
-import {Badge, Button, Form, FormGroup, Input, Label} from "reactstrap";
+import {Badge, Form} from "reactstrap";
 import classes from "../Forms.module.css";
 import SizeSemStateInputs from "./FormInputs/SizeSemStateInputs";
+import Input from "../../Input/Input";
+import Button from "../../Button/Button";
 
 const addSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.Form;
@@ -42,39 +44,31 @@ const addSectionForm = (props) => {
         <Form className={classNames} onSubmit={props.onSubmit}>
             <h3 className="text-center mt-2">Add New Section</h3>
             {/*--------------------Subject Topic and Name---------------------------------- */}
-            <FormGroup className="p-2 mb-2 mt-2">
-                <Label for="exampleSubject" className="mr-2 pl-1">Subject</Label>
-                <Input type="select" name="subject" id="exampleSubject"
-                       defaultValue='default' onChange={props.onSubjectChange}
-                       invalid={props.emptyForm && props.section.subject === ''}>
-                    <option disabled={true} value='default'>Choose Subject</option>
-                    {subjectOptions}
-                </Input>
-            </FormGroup>
+
+            <Input type="select" name="subject" label="subject"
+                   defaultValue='default' onChange={props.onSubjectChange}
+                   invalid={props.emptyForm && props.section.subject === ''}>
+                <option disabled={true} value='default'>Choose Subject</option>
+                {subjectOptions}
+            </Input>
 
             {
                 props.topics
                     ?
-                    <FormGroup className="p-2 mb-2 mt-2">
-                        <Label for="exampleTopic" className="mr-2 pl-1">Topic</Label>
-                        <Input type="select" name="topic" id="exampleTopic"
-                               defaultValue='default' onChange={props.onChange}
-                               invalid={props.emptyForm && props.section.topic === ''}>
-                            <option disabled={true} value='default'>Choose Topic</option>
-                            {topicOptions}
-                        </Input>
-                    </FormGroup>
+                    <Input type="select" name="topic" label="topic"
+                           defaultValue='default' onChange={props.onChange}
+                           invalid={props.emptyForm && props.section.topic === ''}>
+                        <option disabled={true} value='default'>Choose Topic</option>
+                        {topicOptions}
+                    </Input>
                     :
                     null
             }
 
-            <FormGroup className="p-2 mb-2 mt-2">
-                <Label for="exampleName" className="mr-2 pl-1">Name</Label>
-                <Input type="text" name="name" id="exampleName"
-                       minLength="5" placeholder="Enter Section Name"
-                       onChange={props.onChange} value={props.section.name || ''}
-                       invalid={(props.emptyForm && props.section.name === '') || props.wrongName}/>
-            </FormGroup>
+            <Input type="text" name="name" label="name"
+                   minLength="5" placeholder="Enter Section Name"
+                   onChange={props.onChange} value={props.section.name || ''}
+                   invalid={(props.emptyForm && props.section.name === '') || props.wrongName}/>
 
             {wrongName}
             {/*-------------------------------------------------------------------------------------- */}
@@ -83,11 +77,7 @@ const addSectionForm = (props) => {
                 section={props.section}
                 emptyForm={props.emptyForm}/>
 
-            <div className="form-row text-center pt-4">
-                <div className="col-md-12">
-                    <Button type="submit" className="btn btn-primary">Create Section</Button>
-                </div>
-            </div>
+            <Button label='add section'/>
         </Form>
     )
 };

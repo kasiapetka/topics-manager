@@ -6,7 +6,6 @@ import EditPersonForm from "../../../../components/Forms/FormsTemplates/EditForm
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import Spinner from "../../../../components/UI/Spinner/Spinner";
-import withErrorHandler from "../../../../hoc/withErrorHandler";
 
 class EditAccount extends Component {
 
@@ -38,8 +37,6 @@ class EditAccount extends Component {
             emptyForm: false,
             loading: true
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount = async () => {
@@ -179,4 +176,4 @@ class EditAccount extends Component {
     }
 };
 
-export default withErrorHandler(EditAccount,axios);
+export default EditAccount;

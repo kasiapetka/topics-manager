@@ -1,6 +1,5 @@
 import React from "react";
-import {FormGroup, Input, Label} from "reactstrap";
-import TextInput from "../../Inputs/TextInput/TextInput";
+import Input from "../../Input/Input";
 
 const confirmPasswordInput = (props) => {
 
@@ -15,7 +14,7 @@ const confirmPasswordInput = (props) => {
             ?
             <React.Fragment>
                 {loggin}
-                <TextInput type="password" name="password"
+                <Input type="password" name="password"
                            label='Confirm Changes With Password' minLength="5"
                            placeholder="Your Password"
                            value={props.password || ''}

@@ -1,7 +1,7 @@
 import React from "react";
 import {Label, Input, FormGroup} from "reactstrap";
 
-const textInput = (props) => {
+const input = (props) => {
 
     let formGroupClasses ="p-2 mb-2 mt-2 ";
     if(props.groupclasses)
@@ -10,9 +10,11 @@ const textInput = (props) => {
     return (
         <FormGroup className={formGroupClasses}>
             <Label className="mr-2 pl-1 text-capitalize">{props.label}</Label>
-            <Input {...props}/>
+            <Input {...props} autoComplete="on">
+                {props.children}
+            </Input>
         </FormGroup>
     );
 };
 
-export default textInput;
+export default input;
