@@ -33,5 +33,5 @@ public class Teacher {
 
     @JsonBackReference(value = "subjects-teachers")
     @ManyToMany(mappedBy = "teachers")
-    private List<Subject> subjects;
+    transient private List<Subject> subjects;
 }
