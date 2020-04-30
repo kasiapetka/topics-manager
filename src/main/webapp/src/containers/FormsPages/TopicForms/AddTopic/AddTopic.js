@@ -59,6 +59,7 @@ class AddTopic extends Component {
             return;
         }
         const topic = {...this.state.topic};
+        topic.subject = +this.state.topic.subject;
 
         axios.post('/api/adminteacher/addtopic', topic).then(response => {
             let subjects = [...this.state.subjects];

@@ -1,6 +1,8 @@
 import React from 'react';
-import {Button, Form, FormGroup, Input, Label} from "reactstrap";
+import { Form} from "reactstrap";
 import classes from "../Forms.module.css";
+import Input from '../../Input/Input'
+import Button from "../../Button/Button";
 
 const addSubjectForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.Form;
@@ -9,25 +11,18 @@ const addSubjectForm = (props) => {
         <Form className={classNames} onSubmit={props.submit}>
             <h3 className="text-center">Fill in subject's form</h3>
 
-            <FormGroup className="p-2 mb-2 mt-2">
-                <Label for="exampleName" className="mr-2 pl-1"> Name</Label>
-                <Input type="text" name="name" id="exampleName" placeholder="Enter Name"
-                       value={props.subject.name || ''}
-                       onChange={props.change}
-                       invalid={props.wrongName || (props.emptyForm && props.subject.name==="")}/>
-            </FormGroup>
-            <FormGroup className="p-2 mb-2 mt-2">
-                <Label for="exampleText">Subject Summary</Label>
-                <Input type="textarea" rows={4} name="summary" id="exampleText"
-                       value={props.subject.summary || ''}
-                       onChange={props.change}/>
-            </FormGroup>
+            <Input type="text" name="name"
+                   label='name' placeholder="Enter Name"
+                   value={props.subject.name || ''}
+                   onChange={props.change}
+                   invalid={props.wrongName || (props.emptyForm && props.subject.name === "")}/>
 
-            <div className="form-row text-center pt-3">
-                <div className="col-md-12">
-                    <Button type="submit" className="btn btn-primary mt-2">Add Subject</Button>
-                </div>
-            </div>
+            <Input type="textarea" rows={4} name="summary"
+                   label='subject summary'
+                   value={props.subject.summary || ''}
+                   onChange={props.change}/>
+
+            <Button label='add subject'/>
         </Form>
     )
 };

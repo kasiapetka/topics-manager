@@ -1,9 +1,10 @@
 import React from 'react';
 import {FaUserAlt} from "react-icons/fa";
-import {Button, Form, FormGroup, Label} from "reactstrap";
+import {Form, FormGroup, Label} from "reactstrap";
 import EmailPasswordChangeInput from "./FormInputs/EmailPasswordChangeInput";
 import ConfirmPasswordInput from "../ConfirmPasswordInput/ConfirmPasswordInput";
 import classes from '../Forms.module.css'
+import Button from "../../Button/Button";
 
 const editAccountForm = (props) => {
 
@@ -56,11 +57,7 @@ const editAccountForm = (props) => {
                 wrongPassword={props.wrongPassword}
                 loggin={true}
             />
-            <div className="form-row text-center pt-4">
-                <div className="col-md-12">
-                    <Button type="submit" className="btn btn-primary">Save Changes</Button>
-                </div>
-            </div>
+            <Button label='save changes'/>
         </Form>
     )
 };

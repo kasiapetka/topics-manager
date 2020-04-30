@@ -1,33 +1,27 @@
 import React from "react";
-import {FormGroup, Input, Label} from "reactstrap";
+import Input from "../../../Input/Input";
 
 
 const sizeSemStateInputs =(props)=>(
-    <div className="form-row p-2">
-        <FormGroup className="mb-2 mt-3 col-md-3">
-            <Label for="exampleSize" className="mr-2 pl-1">Size</Label>
-            <Input type="number" name="size" id="exampleSize"
-                   min='1' onChange={props.onChange} value={props.section.size || ''}
-                   invalid={props.emptyForm && props.section.size===''}/>
-        </FormGroup>
+    <div className="form-row p-1">
+        <Input type="number" name="size" label="size"
+               groupclasses='col-md-3'
+               min='1' onChange={props.onChange} value={props.section.size || ''}
+               invalid={props.emptyForm && props.section.size === ''}/>
 
-        <FormGroup className="mb-2 mt-3 col-md-3 mr-auto ml-auto">
-            <Label for="exampleSem" className="mr-2 pl-1">Semester</Label>
-            <Input type="number" name="semester" id="exampleSem"
-                   min='1' max='7' onChange={props.onChange} value={props.section.semester || ''}
-                   invalid={props.emptyForm && props.section.semester===''}/>
-        </FormGroup>
+        <Input type="number" name="semester" label="semester"
+               groupclasses='col-md-3 mr-auto ml-auto'
+               min='1' max='7' onChange={props.onChange} value={props.section.semester || ''}
+               invalid={props.emptyForm && props.section.semester === ''}/>
 
-        <FormGroup className="mb-2 mt-3 col-md-3">
-            <Label for="exampleState" className="mr-2 pl-1">State</Label>
-            <Input type="select" name="state" id="exampleSate"
-                   onChange={props.onChange} value={props.section.state}>
-                <option value={true}>Opened</option>
-                <option value={false}>Closed</option>
-            </Input>
-        </FormGroup>
-
+        <Input type="select" name="state" label="state"
+               groupclasses='col-md-3'
+               onChange={props.onChange} value={props.section.state}>
+            <option value={true}>Opened</option>
+            <option value={false}>Closed</option>
+        </Input>
     </div>
 );
 
 export default sizeSemStateInputs;
+
