@@ -6,6 +6,7 @@ import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.DTO.TeacherListDTO;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Teacher;
+import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
@@ -27,10 +28,12 @@ public class AdminController {
     private TeacherService teacherService;
     private StudentService studentService;
     private SubjectService subjectService;
+    private TopicService topicService;
 
     public AdminController(UserService userService, AdminService adminService,
                            UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
-                           TeacherService teacherService, StudentService studentService, SubjectService subjectService) {
+                           TeacherService teacherService, StudentService studentService, SubjectService subjectService,
+                           TopicService topicService) {
         this.userService = userService;
         this.adminService = adminService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
@@ -38,6 +41,7 @@ public class AdminController {
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.subjectService = subjectService;
+        this.topicService = topicService;
     }
 
 
@@ -225,6 +229,11 @@ public class AdminController {
         Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
 
         return ResponseEntity.status(responseCode).build();
+    }
+
+    @GetMapping("/api/admin/teacherstopics/{teacherID}")
+    List<Topic> listTeachersTopics(@PathVariable Long teacherID){
+        return topicService.getTopicListByTeacherID(teacherID);
     }
 
 }

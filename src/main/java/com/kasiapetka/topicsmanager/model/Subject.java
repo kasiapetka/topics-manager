@@ -28,7 +28,7 @@ public class Subject {
     )
     private List<Teacher> teachers;
 
-    @JsonBackReference
+    @JsonBackReference(value = "subjects-topics")
     @OneToMany(mappedBy = "subject")
     private List<Topic> topics;
 
