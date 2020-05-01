@@ -10,5 +10,5 @@ import java.util.List;
 public interface TopicService {
     Topic findTopicById(Long id);
     Integer addNewTopic(NewTopicDTO newTopicDTO);
-    List<Topic> getTopicListByTeacherID(Long id);
+    List<Topic> getTopicListByTeacherID(Long teacherID, Long subjectID);
 }

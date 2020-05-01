@@ -231,9 +231,9 @@ public class AdminController {
         return ResponseEntity.status(responseCode).build();
     }
 
-    @GetMapping("/api/admin/teacherstopics/{teacherID}")
-    List<Topic> listTeachersTopics(@PathVariable Long teacherID){
-        return topicService.getTopicListByTeacherID(teacherID);
+    @GetMapping("/api/admin/topics/{teacherID}/{subjectID}")
+    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
+        return topicService.getTopicListByTeacherID(teacherID, subjectID);
     }
 
 }
