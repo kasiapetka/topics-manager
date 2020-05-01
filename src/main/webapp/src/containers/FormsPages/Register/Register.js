@@ -14,6 +14,16 @@ export class Register extends React.Component {
         if (auth.isAuthenticated()) redirect = true;
         this.state = {
             user: {
+                album: {
+                    value: '',
+                    validation: {
+                        valid: false,
+                        touched: false,
+                        required: true,
+                        minLength: 8,
+                        maxLength: 8
+                    }
+                },
                 code: {
                     value: '',
                     validation: {
@@ -60,6 +70,7 @@ export class Register extends React.Component {
         event.preventDefault();
 
         const user = {
+            album: this.state.user.album.value,
             code: this.state.user.code.value,
             email: this.state.user.email.value,
             password: this.state.user.password.value,

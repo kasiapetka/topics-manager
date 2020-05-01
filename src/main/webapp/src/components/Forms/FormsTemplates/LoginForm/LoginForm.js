@@ -1,7 +1,7 @@
 import React from 'react';
 import {FaUserAlt} from "react-icons/fa";
 import {Link} from 'react-router-dom';
-import {Form,Button} from "reactstrap";
+import {Form, Button} from "reactstrap";
 import classes from "../Forms.module.css";
 import Input from "../../Input/Input";
 import SubmitButton from "../../Button/Button";
@@ -15,16 +15,20 @@ const loginForm = (props) => {
             <h3 className="text-center">Sign In</h3>
 
             <Input type="email" name="email" label="email"
-                       placeholder="Enter Email" value={props.user.email || ''}
-                       onChange={props.change}/>
+                   placeholder="Enter Email"
+                   value={props.user.email.value}
+                   onChange={props.change}
+                   isinvalid={props.user.email.validation}/>
 
             <Input type="password" name="password" label="password"
-                       minLength="5" placeholder="Enter Password"
-                       value={props.user.password || ''} onChange={props.change}/>
+                   placeholder="Enter Password"
+                   value={props.user.password.value}
+                   onChange={props.change}
+                   isinvalid={props.user.password.validation}/>
 
             {props.wrongCreds}
             {props.serverProblem}
-            <SubmitButton label='sign in'/>
+            <SubmitButton label='sign in' disabled={!props.formValid}/>
 
             <div className="form-row text-center pt-3">
                 <div className="col-md-12">

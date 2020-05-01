@@ -46,8 +46,9 @@ const addSectionForm = (props) => {
             {/*--------------------Subject Topic and Name---------------------------------- */}
 
             <Input type="select" name="subject" label="subject"
-                   defaultValue='default' onChange={props.onSubjectChange}
-                   invalid={props.emptyForm && props.section.subject === ''}>
+                   defaultValue='default'
+                   onChange={props.onSubjectChange}
+                   isinvalid={props.section.subject.validation}>
                 <option disabled={true} value='default'>Choose Subject</option>
                 {subjectOptions}
             </Input>
@@ -56,8 +57,9 @@ const addSectionForm = (props) => {
                 props.topics
                     ?
                     <Input type="select" name="topic" label="topic"
-                           defaultValue='default' onChange={props.onChange}
-                           invalid={props.emptyForm && props.section.topic === ''}>
+                           defaultValue='default'
+                           onChange={props.onChange}
+                           isinvalid={props.section.topic.validation}>
                         <option disabled={true} value='default'>Choose Topic</option>
                         {topicOptions}
                     </Input>
@@ -66,18 +68,18 @@ const addSectionForm = (props) => {
             }
 
             <Input type="text" name="name" label="name"
-                   minLength="5" placeholder="Enter Section Name"
-                   onChange={props.onChange} value={props.section.name || ''}
-                   invalid={(props.emptyForm && props.section.name === '') || props.wrongName}/>
+                   placeholder="Enter Section Name"
+                   onChange={props.onChange}
+                   value={props.section.name.value}
+                   isinvalid={props.section.name.validation}/>
 
             {wrongName}
             {/*-------------------------------------------------------------------------------------- */}
             <SizeSemStateInputs
                 onChange={props.onChange}
-                section={props.section}
-                emptyForm={props.emptyForm}/>
+                section={props.section}/>
 
-            <Button label='add section'/>
+            <Button label='add section' disabled={!props.formValid}/>
         </Form>
     )
 };

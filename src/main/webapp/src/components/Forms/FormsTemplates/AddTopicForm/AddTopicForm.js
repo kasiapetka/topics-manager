@@ -29,7 +29,7 @@ const addTopicForm = (props) => {
             </Input>
 
             <Input label='Name' type="text" name="name"
-                   minLength="5" placeholder="Enter Section Name"
+                   placeholder="Enter Section Name"
                    onChange={props.onChange} value={props.topic.name.value}
                    isinvalid={props.topic.name.validation}/>
 
