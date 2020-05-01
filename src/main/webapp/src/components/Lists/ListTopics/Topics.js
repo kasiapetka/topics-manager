@@ -13,6 +13,8 @@ const Topics = (props) => {
                     summary={topic.summary}
                     key={topic.id}
                     joinTopic={props.joinTopic}
+                    isInTopic={topic.isInTopic}
+                    joinTopicHandler={()=>props.joinTopicHandler(index)}
                 />
             });
         }else{
@@ -22,13 +24,7 @@ const Topics = (props) => {
 
     return (
         <div className={classes.List}>
-            {
-                props.topics
-                    ?
-                    topics
-                    :
-                    null
-            }
+            {topics}
         </div>
     )
 };
