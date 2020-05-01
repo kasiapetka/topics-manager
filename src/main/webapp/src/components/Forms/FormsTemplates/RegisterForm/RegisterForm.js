@@ -12,11 +12,17 @@ const registerForm = (props) => {
         <Form className={classNames} onSubmit={props.submit}>
             <h3 className="text-center">Sign Up</h3>
 
-            <Input type="text" name="code" label="code" minLength="1"
-                   maxLength="30" placeholder="Enter Code"
+            <Input type="text" name="code" label="code"
+                   placeholder="Enter Code"
                    value={props.user.code.value}
                    onChange={props.change}
                    isinvalid={props.user.code.validation}/>
+
+            <Input type="number" name="album" label="album"
+                    placeholder="Enter Album"
+                   value={props.user.album.value}
+                   onChange={props.change}
+                   isinvalid={props.user.album.validation}/>
 
             <Input type="email" name="email" label='email'
                    placeholder="Enter Email"
@@ -25,7 +31,7 @@ const registerForm = (props) => {
                    isinvalid={props.user.email.validation}/>
 
             <Input type="password" name="password" label="password"
-                   minLength="5" placeholder="Enter Password"
+                   placeholder="Enter Password"
                    value={props.user.password.value}
                    onChange={props.change}
                    isinvalid={props.user.password.validation}/>

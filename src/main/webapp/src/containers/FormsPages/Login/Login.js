@@ -4,21 +4,35 @@ import {Redirect} from 'react-router-dom';
 import auth from "../../../Auth";
 import LoginFormInputs from "../../../components/Forms/FormsTemplates/LoginForm/LoginForm";
 import axios from 'axios'
+import handleInputChange from "../validateForm";
 
 class Login extends React.Component {
-
-    emptyUser = {
-        token: '',
-        email: '',
-        password: ''
-    };
 
     constructor(props) {
         super(props);
         let role = auth.getRole();
 
         this.state = {
-            user: this.emptyUser,
+            user: {
+                email: {
+                    value: '',
+                    validation: {
+                        valid: true,
+                        touched: false,
+                        required: true
+                    }
+                },
+                password: {
+                    value: '',
+                    validation: {
+                        valid: true,
+                        touched: false,
+                        required: true,
+                        minLength: 5
+                    }
+                }
+            },
+            formValid: false,
             wrongCred: false,
             serverError: false,
             role: role,
@@ -26,33 +40,32 @@ class Login extends React.Component {
     }
 
     handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
-        let user = {...this.state.user};
-        user[name] = value;
+        const formProperties = handleInputChange(event, this.state.user);
+
         this.setState({
-            user: user,
-            wrongCred: false});
+            user: formProperties.form,
+            formValid: formProperties.formValid,
+            wrongCreds: false
+        });
     };
 
-      handleSubmit=(event)=> {
+    handleSubmit = (event) => {
         event.preventDefault();
-        const {user} = this.state;
+        const user = {
+            email: this.state.user.email.value,
+            password: this.state.user.password.value,
+        };
 
         axios.post('/api/login', user).then(response => {
-                let user = {...this.state.user};
-                user.token = response.data.token;
-                auth.login(response.data.role,user.token);
-                this.setState({user});
-                this.setState({role: response.data.role})
+            auth.login(response.data.role, response.data.token);
+            this.setState({role: response.data.role})
         })
             .catch(error => {
                 if (error.response.status >= 400 && error.response.status <= 499) {
                     this.setState({
                         wrongCred: true
                     })
-                } else{
+                } else {
                     this.setState({
                         serverError: true
                     });
@@ -90,6 +103,7 @@ class Login extends React.Component {
             <LoginFormInputs wrongCreds={wrongCredentials}
                              serverProblem={serverProblem}
                              user={user}
+                             formValid={this.state.formValid}
                              submit={this.handleSubmit}
                              change={this.handleChange}/>
         );

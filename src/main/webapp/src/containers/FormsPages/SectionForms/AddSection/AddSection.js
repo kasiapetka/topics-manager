@@ -5,25 +5,70 @@ import axios from 'axios'
 import AddStudentToSectionForm
     from "../../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
 import AddedSectionCard from "../../../../components/UI/Cards/SectionCards/AddedSectionCard/AddedSectionCard";
+import handleInputChange from "../../validateForm";
 
 class AddSection extends Component {
-
-    emptySection = {
-        id:'',
-        name: '',
-        size: '',
-        semester: '',
-        state: 'true',
-        topic: '',
-        subject: null
-    };
-
     state = {
+        section: {
+            id: {
+                value: '',
+                validation: {
+                    valid: true,
+                }
+            },
+            name: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true,
+                    minLength: 2
+                }
+            },
+            size: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true
+                }
+            },
+            semester: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true
+                }
+            },
+            state: {
+                value: true,
+                validation: {
+                    valid: true,
+                    touched: false,
+                    required: true
+                }
+            },
+            topic: {
+                value: null,
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true
+                }
+            },
+            subject: {
+                value: null,
+                validation: {
+                    valid: true,
+                    required: true
+                }
+            }
+        },
         error: false,
-        emptyForm: false,
+        formValid: false,
         subjects: [],
         topics: null,
-        section: this.emptySection,
         addStudents: false,
         students: null,
         sectionAdded: false,
@@ -44,29 +89,29 @@ class AddSection extends Component {
     }
 
     handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        let section = {...this.state.section};
-        section[target.name] = value;
+        const formProperties = handleInputChange(event, this.state.section);
+
+        console.log(formProperties.form)
 
         this.setState({
-            section: section,
-            emptyForm: false
+            section: formProperties.form,
+            formValid: formProperties.formValid,
+            wrongName: false
         });
     };
 
     onSectionAdditionHandler = (event) => {
         event.preventDefault();
-        let section = {...this.state.section};
 
-        for (let [key, value] of Object.entries(section)) {
-            if (key !== 'id' && value === '') {
-                this.setState({
-                    emptyForm: true
-                });
-                return;
-            }
-        }
+        const section = {
+            name: this.state.section.name.value,
+            size: this.state.section.size.value,
+            state: this.state.section.state.value,
+            semester: this.state.section.semester.value,
+            topic: this.state.section.topic.value,
+            subject: this.state.section.subject.value,
+        };
+
         axios.post('/api/teacher/addsection', section).then(response => {
             section.id = response.data;
             const topics = [...this.state.topics];
@@ -96,10 +141,14 @@ class AddSection extends Component {
 
     onSubjectChangeHandler = (event) => {
         const id = event.target.value;
+        const section = {...this.state.section};
+        section.subject.value = id;
+
         axios.get('/api/adminteacher/topics/' + id).then(response => {
             let topics = [...response.data];
             this.setState({
                 topics: topics,
+                section:section
             });
         }).catch(error => {
             this.setState({
@@ -180,7 +229,7 @@ class AddSection extends Component {
                 onChange={this.handleChange}
                 section={this.state.section}
                 onSubmit={this.onSectionAdditionHandler}
-                emptyForm={this.state.emptyForm}
+                formValid={this.state.formValid}
                 wrongName={this.state.wrongName}/>
         } else if(!sectionAdded){
             content = <AddStudentToSectionForm

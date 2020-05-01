@@ -74,7 +74,7 @@ class AddTopic extends Component {
 
         axios.post('/api/adminteacher/addtopic', topic).then(response => {
             let subjects = [...this.state.subjects];
-            subjects = subjects.filter((subject) => subject.id == topic.subject);
+            subjects = subjects.filter((subject) => subject.id === topic.subject);
             topic.subject = subjects[0].name;
             this.setState({
                 topicAdded: true,
