@@ -61,5 +61,11 @@ public class AdminTeacherCommonsController {
         return sectionService.listSectionBySemester(semester_number);
     }
 
+    @PutMapping("/api/adminteacher/deletesection/{sectionID}")
+    ResponseEntity<?> deleteSection(@PathVariable Long sectionID){
+        Integer responseCode = sectionService.deleteSection(sectionID);
+        return ResponseEntity.status(responseCode).build();
+    }
+
 
 }

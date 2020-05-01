@@ -51,6 +51,14 @@ public class SectionServiceImpl implements SectionService {
         Topic topic;
         Semester semester;
         List<Section> sectionList = new ArrayList<>();
+
+        Character state;
+        if(newSection.getState()){
+            state = 'O';
+        } else {
+            state = 'C';
+        }
+
         try {
             //todo rozkminic ten rok
             topic = topicService.findTopicById(newSection.getTopic());
@@ -73,8 +81,7 @@ public class SectionServiceImpl implements SectionService {
             Section section = new Section();
             section.setName(newSection.getName());
             section.setSizeOfSection(newSection.getSize());
-            section.setIsOpen(newSection.getState());
-
+            section.setState(state);
             section.setTopic(topic);
             section.setSemester(semester);
 
@@ -91,7 +98,7 @@ public class SectionServiceImpl implements SectionService {
         try {
             Section section = findSectionById(addStudentsToSectionDTO.getSectionId());
 
-            if (!section.getIsOpen()) {
+            if (!section.getState().equals('O')) {
                 return false;
             }
 
@@ -137,5 +144,18 @@ public class SectionServiceImpl implements SectionService {
 //        return sectionsFromThisSemester;
         Semester semester = semesterService.findSemesterBySemesterAndYear(semester_number, semesterService.getCurrentYear());
         return semester.getSections();
+    }
+
+    @Override
+    public Integer deleteSection(Long sectionID) {
+        try {
+            Section section = this.findSectionById(sectionID);
+            section.setState('F');
+            sectionRepository.save(section);
+            return 200;
+        } catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
     }
 }
