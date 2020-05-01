@@ -3,7 +3,6 @@ package com.kasiapetka.topicsmanager.services.impl;
 import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
-import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
 import com.kasiapetka.topicsmanager.repositories.TopicRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
@@ -41,7 +40,7 @@ public class TopicServiceImpl implements TopicService {
     public Integer addNewTopic(NewTopicDTO newTopicDTO) {
         List<Topic> topicList = new ArrayList<>();
         try {
-            topicList = subjectService.getTopicListBySubjectId(newTopicDTO.getSubjectID());
+            topicList = subjectService.getTopicListBySubjectId(newTopicDTO.getSubject());
         } catch (HibernateException he){
             he.printStackTrace();
             return 500;
@@ -58,7 +57,7 @@ public class TopicServiceImpl implements TopicService {
         topic.setSummary(newTopicDTO.getSummary());
 
         try {
-            topic.setSubject(subjectService.findSubjectById(newTopicDTO.getSubjectID()));
+            topic.setSubject(subjectService.findSubjectById(newTopicDTO.getSubject()));
             topicRepository.save(topic);
             return 200;
         } catch (HibernateException he){
