@@ -1,6 +1,7 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
+import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.TopicRepository;
@@ -67,9 +68,15 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public List<Topic> getTopicListByTeacherID(Long id) {
-        Teacher teacher = teacherService.findTeacherById(id);
+    public List<Topic> getTopicListByTeacherID(Long teacherID, Long subjectID) {
+        Teacher teacher = teacherService.findTeacherById(teacherID);
+        List<Topic> teachersTopics = teacher.getTopics();
 
-        return teacher.getTopics();
+        Subject subject = subjectService.findSubjectById(subjectID);
+        List<Topic> subjectsTopics = subject.getTopics();
+
+        teachersTopics.retainAll(subjectsTopics);
+
+        return teachersTopics;
     }
 }
