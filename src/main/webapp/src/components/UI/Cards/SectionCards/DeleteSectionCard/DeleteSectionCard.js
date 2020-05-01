@@ -4,17 +4,20 @@ import {
     Button, CardTitle, CardSubtitle
 } from "reactstrap";
 import classes from '../../Card.module.css'
-import {Link, Redirect} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
+import auth from "../../../../../Auth";
 
 const deleteSectionCard = (props) => {
 
-    let controls, deletedSectionLabel;
+    let controls, deletedSectionLabel,path;
+    if(auth.getRole() === 'A') path='/admin';
+    if(auth.getRole() === 'T') path='/teacher';
+
     if(!props.deleted){
         controls= <CardBody>
             <CardText>Are You sure You want to delete this section?</CardText>
             <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-            <Link to="/admin/sections/deletedsection"><Button onClick={props.delete} className='ml-4'
-                                                              color="danger">Delete</Button></Link>
+            <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
         </CardBody>
     }else{
         deletedSectionLabel = <CardBody>
@@ -22,7 +25,7 @@ const deleteSectionCard = (props) => {
         </CardBody>
     }
     if(!props.section){
-        return <Redirect to="/admin/sections"/>;
+        return <Redirect to={path+'/sections'}/>
     }
 
     const classNames = "pt-2 pr-2 pb-2 pl-2 " + classes.CardStyle;
@@ -49,4 +52,4 @@ const deleteSectionCard = (props) => {
     )
 };
 
-export default deleteSectionCard;
+export default withRouter(deleteSectionCard);

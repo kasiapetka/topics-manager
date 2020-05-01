@@ -8,6 +8,8 @@ import Modal from "../../components/UI/Modal/Modal";
 import DeleteSection from "../FormsPages/SectionForms/DeleteSection/DeleteSection";
 import PrivateAdminRoute from "../../components/PrivateRoutes/PrivateAdminRoute";
 import DeleteSectionCard from "../../components/UI/Cards/SectionCards/DeleteSectionCard/DeleteSectionCard";
+import PrivateTeacherRoute from "../../components/PrivateRoutes/PrivateTeacherRoute";
+import {withRouter} from "react-router-dom";
 
 class ListSections extends Component {
     state = {
@@ -22,7 +24,6 @@ class ListSections extends Component {
     };
 
     componentDidMount() {
-
         axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
             let sections = [...response.data];
             this.setState({
@@ -105,11 +106,16 @@ class ListSections extends Component {
         } else if (loading) {
             content = <Spinner/>
         } else {
-            content = <Sections
-                        sections={this.state.sections}
-                        delete={this.onSectionDeleteHandler}
-                        edit={this.onSectionEditHandler}
-                    />;
+            content = <React.Fragment>
+                <PickSemesterInput
+                    semester={this.state.semester}
+                    onSemesterChange={this.onSemesterChangeHandler}/>
+                <Sections
+                    sections={this.state.sections}
+                    delete={this.onSectionDeleteHandler}
+                    edit={this.onSectionEditHandler}
+                />
+            </React.Fragment>
         }
         if (sectionDelete) {
             deleteModal = (<Modal
@@ -119,6 +125,7 @@ class ListSections extends Component {
                     section={this.state.sectionToDelete}
                     cancelClicked={this.showDeleteModalHandler}
                     deleteClicked={this.sectionDeletedHandler}
+                    {...this.props}
                 />
             </Modal>)
         }
@@ -128,12 +135,20 @@ class ListSections extends Component {
                 <PrivateAdminRoute exact path="/admin/sections/deletedsection" component={() => <DeleteSectionCard
                     deleted={true}
                     section={this.state.deletedSection}
-                />}/>
+                    {...this.props}/>}/>
+
+                <PrivateTeacherRoute exact path="/teacher/sections/deletedsection" component={() => <DeleteSectionCard
+                    deleted={true}
+                    section={this.state.deletedSection}
+                    {...this.props}/>}/>
+
                 <PrivateAdminRoute exact path="/admin/sections" component={() =>
                     <React.Fragment>
-                        <PickSemesterInput
-                            semester={this.state.semester}
-                            onSemesterChange={this.onSemesterChangeHandler}/>
+                        {content}
+                    </React.Fragment>
+                }/>
+                <PrivateTeacherRoute exact path="/teacher/sections" component={() =>
+                    <React.Fragment>
                         {content}
                     </React.Fragment>
                 }/>
@@ -142,4 +157,4 @@ class ListSections extends Component {
     }
 };
 
-export default ListSections;
+export default withRouter(ListSections);

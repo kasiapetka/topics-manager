@@ -17,7 +17,6 @@ class TeacherPage extends Component {
         showSideDrawer: false,
     };
 
-
     componentDidMount() {
         axios.get('/api/teacher/info').then(response => {
             let teacher = {...response.data};

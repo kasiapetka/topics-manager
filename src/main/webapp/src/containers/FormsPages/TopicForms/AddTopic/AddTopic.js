@@ -3,20 +3,39 @@ import {Alert} from "reactstrap";
 import axios from "axios";
 import AddTopicForm from "../../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
 import AddedTopicCard from "../../../../components/UI/Cards/TopicCards/AddedTopicCard/AddedTopicCard";
+import handleInputChange from "../../validateForm";
 
 class AddTopic extends Component {
 
-    emptyTopic = {
-        name: "",
-        summary: "",
-        subject: null
-    };
-
     state = {
         error: false,
-        emptyForm: false,
-        changed: false,
-        topic: this.emptyTopic,
+        topic: {
+            subject: {
+                value: null,
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true,
+                }
+            },
+            name: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true,
+                    minLength: 2
+                }
+            },
+            summary: {
+                value: '',
+                validation: {
+                    valid: true,
+                    touched: false
+                }
+            }
+        },
+        formValid: false,
         wrongName: false,
         subjects: [],
         topicAdded: false
@@ -36,30 +55,22 @@ class AddTopic extends Component {
     }
 
     handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        let topic = {...this.state.topic};
-        topic[target.name] = value;
+        const formProperties = handleInputChange(event, this.state.topic);
 
         this.setState({
-            topic: topic,
-            emptyForm: false,
-            changed: true
+            topic: formProperties.form,
+            formValid: formProperties.formValid,
+            wrongName: false
         });
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
-
-        if (this.state.topic.name === '' ||
-            this.state.topic.subject === '') {
-            this.setState({
-                emptyForm: true
-            });
-            return;
-        }
-        const topic = {...this.state.topic};
-        topic.subject = +this.state.topic.subject;
+        const topic = {
+            subject: +this.state.topic.subject.value,
+            name: this.state.topic.name.value,
+            summary: this.state.topic.summary.value,
+        };
 
         axios.post('/api/adminteacher/addtopic', topic).then(response => {
             let subjects = [...this.state.subjects];
@@ -76,7 +87,6 @@ class AddTopic extends Component {
                 this.setState({error: true,})
             }
         })
-
     };
 
     render() {
@@ -95,8 +105,7 @@ class AddTopic extends Component {
                 <AddTopicForm
                     topic={this.state.topic}
                     onChange={this.handleChange}
-                    emptyForm={this.state.emptyForm}
-                    changed={this.state.changed}
+                    formValid={this.state.formValid}
                     onSubmit={this.handleSubmit}
                     subjects={this.state.subjects}
                     wrongName={this.state.wrongName}/>

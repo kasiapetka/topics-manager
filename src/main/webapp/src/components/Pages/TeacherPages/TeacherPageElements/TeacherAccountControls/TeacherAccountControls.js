@@ -29,6 +29,10 @@ const TeacherAccountControls = () => {
                 secondLink='/teacher/addtopic'
                 secondButton='Add Topic'
             />
+            <TeacherAccountControl
+                secondLink='/teacher/jointopic'
+                secondButton='Join Topic'
+            />
 
         </React.Fragment>
     );

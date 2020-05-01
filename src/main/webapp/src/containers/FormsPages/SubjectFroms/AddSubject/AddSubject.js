@@ -3,50 +3,58 @@ import AddSubjectForm from "../../../../components/Forms/FormsTemplates/AddSubje
 import {Alert} from "reactstrap";
 import axios from "axios";
 import AddedSubjectCard from "../../../../components/UI/Cards/SubjectCards/AddedSubjectCard/AddedSubjectCard";
+import handleInputChange from "../../validateForm";
 
 class AddSubject extends Component {
 
-    emptySubject = {
-        name: "",
-        summary: ""
-    };
-
     state = {
         error: false,
-        emptyForm: false,
-        changed: false,
-        subject: this.emptySubject,
+        subject: {
+            name: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true,
+                    minLength: 2
+                }
+            },
+            summary: {
+                value: '',
+                validation: {
+                    valid: true,
+                    touched: false
+                }
+            }
+        },
+        formValid: false,
         wrongName: false,
         subjectAdded: false
     };
 
     handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        let subject = {...this.state.subject};
-        subject[target.name] = value;
+        const formProperties = handleInputChange(event, this.state.subject);
 
         this.setState({
-            subject: subject,
-            emptyForm: false,
-            changed: true
+            subject: formProperties.form,
+            formValid: formProperties.formValid,
+            wrongName: false
         });
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
 
-        if (this.state.subject.name === '') {
-            this.setState({
-                emptyForm: true
-            });
-            return;
-        }
-
-        const subject = {...this.state.subject};
+        const subject = {
+            name: this.state.subject.name.value,
+            summary: this.state.subject.summary.value,
+        };
 
         axios.post('/api/admin/addsubject', subject).then(response => {
-            this.setState({subjectAdded: true})
+            this.setState({
+                subjectAdded: true,
+                subject: subject
+            })
         }).catch(error => {
             if (error.response.status === 409) {
                 this.setState({wrongName: true})
@@ -58,7 +66,6 @@ class AddSubject extends Component {
     };
 
     render() {
-
         const error = this.state.error;
         const subjectAdded = this.state.subjectAdded;
         let content;
@@ -69,20 +76,19 @@ class AddSubject extends Component {
                     Server Error, Please Try Again.
                 </Alert>
             )
-        } else if(!subjectAdded){
+        } else if (!subjectAdded) {
             content = (
                 <AddSubjectForm
                     subject={this.state.subject}
                     change={this.handleChange}
-                    emptyForm={this.state.emptyForm}
-                    changed={this.state.changed}
                     submit={this.handleSubmit}
-                    wrongName={this.state.wrongName}/>
+                    wrongName={this.state.wrongName}
+                    formValid={this.state.formValid}/>
             )
-        }else {
+        } else {
             content = (
                 <AddedSubjectCard
-                subject={this.state.subject}/>
+                    subject={this.state.subject}/>
             )
         }
 

@@ -4,51 +4,67 @@ import {Redirect} from 'react-router-dom';
 import auth from "../../../Auth";
 import RegisterFormInputs from "../../../components/Forms/FormsTemplates/RegisterForm/RegisterForm";
 import axios from 'axios'
+import handleInputChange from "../validateForm";
 
 export class Register extends React.Component {
-
-    emptyUser = {
-        code: '',
-        email: '',
-        password: '',
-    };
 
     constructor(props) {
         super(props);
         let redirect = false;
         if (auth.isAuthenticated()) redirect = true;
         this.state = {
-            user: this.emptyUser,
+            user: {
+                code: {
+                    value: '',
+                    validation: {
+                        valid: false,
+                        touched: false,
+                        required: true,
+                    }
+                },
+                email: {
+                    value: '',
+                    validation: {
+                        valid: true,
+                        touched: false,
+                        required: true
+                    }
+                },
+                password:{
+                    value: '',
+                    validation: {
+                        valid: true,
+                        touched: false,
+                        required: true,
+                        minLength: 5
+                    }
+                }
+            },
+            formValid: false,
             wrongCred: false,
             redirectToReferrer: redirect,
         };
     }
 
     handleChange=(event)=>{
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
+        const formProperties = handleInputChange(event, this.state.user);
 
-        let user = {...this.state.user};
-        user[name] = value;
         this.setState({
-            user: user,
-            wrongCred: false});
+            user: formProperties.form,
+            formValid: formProperties.formValid,
+            wrongCreds: false
+        });
     };
 
     handleSubmit=(event)=>{
         event.preventDefault();
 
-        for (let key in this.state.user) {
-            if(this.state.user[key] === ''){
-                this.setState({
-                    wrongCred: true
-                });
-                return;
-            }
-        }
+        const user = {
+            code: this.state.user.code.value,
+            email: this.state.user.email.value,
+            password: this.state.user.password.value,
+        };
 
-        const user =  {...this.state.user};
         axios.post('/api/register', user).then(response => {
             let user = {...this.state.user};
             user.token = response.data.token;
@@ -88,6 +104,7 @@ export class Register extends React.Component {
         return (
             <RegisterFormInputs
                 wrongCreds={wrongCredentials}
+                formValid={this.state.formValid}
                 redirectUser={redirectUser}
                 user={user}
                 submit={this.handleSubmit}

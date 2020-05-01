@@ -12,6 +12,7 @@ const Topics = (props) => {
                     name={topic.name}
                     summary={topic.summary}
                     key={topic.id}
+                    joinTopic={props.joinTopic}
                 />
             });
         }else{

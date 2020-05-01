@@ -13,16 +13,17 @@ const addSubjectForm = (props) => {
 
             <Input type="text" name="name"
                    label='name' placeholder="Enter Name"
-                   value={props.subject.name || ''}
+                   value={props.subject.name.value}
                    onChange={props.change}
-                   invalid={props.wrongName || (props.emptyForm && props.subject.name === "")}/>
+                   isinvalid={props.subject.name.validation}/>
 
             <Input type="textarea" rows={4} name="summary"
                    label='subject summary'
-                   value={props.subject.summary || ''}
-                   onChange={props.change}/>
+                   value={props.subject.summary.value || ''}
+                   onChange={props.change}
+                   isinvalid={props.subject.summary.validation}/>
 
-            <Button label='add subject'/>
+            <Button label='add subject' disabled={!props.formValid}/>
         </Form>
     )
 };
