@@ -6,7 +6,6 @@ import {
 import classes from '../../Card.module.css'
 
 const addedSubjectCard = (props) => {
-
     const classNames = "pt-2 pr-2 pb-2 pl-2 " + classes.CardStyle;
     return (
         <Card className={classNames}>

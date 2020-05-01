@@ -12,6 +12,7 @@ class ListTopics extends Component {
         subject: '',
         topics: null,
         loading: true,
+        joinTopic: this.props.joinTopic ? this.props.joinTopic : false
     };
 
     componentDidMount() {
@@ -69,6 +70,7 @@ class ListTopics extends Component {
                 <React.Fragment>
                     <Topics
                         topics={this.state.topics}
+                        joinTopic={this.state.joinTopic}
                     />
                 </React.Fragment>
             ;

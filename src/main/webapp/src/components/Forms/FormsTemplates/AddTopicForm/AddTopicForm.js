@@ -22,22 +22,24 @@ const addTopicForm = (props) => {
 
             <Input type="select" name="subject" label='subject'
                    defaultValue='default' onChange={props.onChange}
-                   invalid={props.emptyForm && props.topic.subject === null}>
+                   isinvalid={props.topic.subject.validation}>
+
                 <option disabled={true} value='default'>Choose Subject</option>
                 {subjectOptions}
             </Input>
 
             <Input label='Name' type="text" name="name"
                    minLength="5" placeholder="Enter Section Name"
-                   onChange={props.onChange} value={props.topic.name || ''}
-                   invalid={props.wrongName || (props.emptyForm && props.topic.name === '')}/>
+                   onChange={props.onChange} value={props.topic.name.value}
+                   isinvalid={props.topic.name.validation}/>
 
             <Input type="textarea" rows={4} name="summary"
                    label='topic summary'
-                   value={props.topic.summary || ''}
-                   onChange={props.onChange}/>
+                   value={props.topic.summary.value}
+                   onChange={props.onChange}
+                   isinvalid={props.topic.summary.validation}/>
 
-            <Button label='create topic'/>
+            <Button label='create topic' disabled={!props.formValid}/>
 
         </Form>
     )
