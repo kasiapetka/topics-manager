@@ -6,5 +6,5 @@ import lombok.Data;
 public class NewTopicDTO {
     private String name;
     private String summary;
-    private Long subjectID;
+    private Long subject;
 }
