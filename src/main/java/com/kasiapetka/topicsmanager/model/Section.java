@@ -21,7 +21,7 @@ public class Section {
     @NotNull
     private Integer sizeOfSection;
     @NotNull
-    private Boolean isOpen;
+    private Character state;
 
     @NotNull
     @JsonManagedReference

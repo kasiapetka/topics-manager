@@ -13,4 +13,5 @@ public interface SectionService {
 
     Long addNewSection(NewSection newSection);
     Boolean addStudentsToSection(AddStudentsToSectionDTO addStudentsToSectionDTO);
+    Integer deleteSection(Long sectionID);
 }
