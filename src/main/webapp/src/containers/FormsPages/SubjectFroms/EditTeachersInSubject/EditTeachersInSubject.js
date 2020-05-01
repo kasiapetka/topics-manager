@@ -49,9 +49,7 @@ class EditTeachersInSubject extends Component {
         let teachers = this.state.teachers ? [...this.state.teachers] : [];
         teachers.push(teacher);
         this.setState((prevState) => {
-            return {
-                teachers: teachers
-            }
+            return {teachers: teachers}
         })
     };
 
@@ -62,9 +60,7 @@ class EditTeachersInSubject extends Component {
         });
 
         this.setState((prevState) => {
-            return {
-                teachers: removed
-            }
+            return {teachers: removed}
         })
     };
 
@@ -80,14 +76,11 @@ class EditTeachersInSubject extends Component {
         let subjects = [...this.state.subjects];
         subjects = subjects.filter((subject) => subject.id === +subjectId);
         subjectName = subjects[0].name;
-
-
         let teachersObj = {
             teachers
         };
 
         axios.post('/api/admin/editteachersinsubject/' + this.state.subject, teachersObj).then(response => {
-
             this.setState({
                 teachers: teachers,
                 teachersEdited: true,

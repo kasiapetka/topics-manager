@@ -3,6 +3,7 @@ import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Subjects from "../../components/Lists/ListSubjects/Subjects";
+import auth from "../../Auth";
 
 class ListSubjects extends Component {
 
@@ -12,12 +13,16 @@ class ListSubjects extends Component {
             subjects: [],
             error: false,
             loading: true,
+            role: auth.getRole()
         };
     }
 
     componentDidMount = () => {
+        let path;
+        if(this.state.role === 'A') path='/api/admin/subjects';
+        if(this.state.role === 'T') path='/api/teacher/subjects/'+auth.getId();
 
-        axios.get('/api/adminteacher/subjects').then(response => {
+        axios.get('/api/adminteacher/subjects/').then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects,

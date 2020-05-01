@@ -8,7 +8,7 @@ const topic = (props) => {
     if(props.joinTopic){
         joinButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button onClick={() => {
-               // props.joinSubject()
+               props.joinTopicHandler()
             }}>Join Topic</Button></Col>
         </Row>
     }

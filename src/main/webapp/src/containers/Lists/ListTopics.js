@@ -4,19 +4,25 @@ import axios from 'axios'
 import Topics from "../../components/Lists/ListTopics/Topics";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSubjectInput from "../../components/Lists/PickSubjectInput/PickSubjectInput";
+import auth from "../../Auth";
 
 class ListTopics extends Component {
+
     state = {
         error: false,
         subjects: [],
         subject: '',
         topics: null,
         loading: true,
-        joinTopic: this.props.joinTopic ? this.props.joinTopic : false
+        role: auth.getRole()
     };
 
     componentDidMount() {
-        axios.get('/api/adminteacher/subjects').then(response => {
+        let path;
+        if(this.state.role === 'A') path='/api/admin/subjects';
+        if(this.state.role === 'T') path='/api/teacher/subjects/'+auth.getId();
+
+        axios.get('/api/adminteacher/subjects/').then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects,
@@ -34,9 +40,7 @@ class ListTopics extends Component {
         this.setState({loading: true});
         const id = event.target.value;
 
-        this.setState({
-            subject: id,
-        });
+        this.setState({subject: id});
 
         axios.get('/api/adminteacher/topics/' + id).then(response => {
             let topics = [...response.data];
@@ -44,6 +48,16 @@ class ListTopics extends Component {
                 topics: topics,
                 loading: false
             });
+
+            if (this.props.joinTopic)
+                this.props.subjectChanged(topics, id);
+
+            //to z ustawieniem czy w topiku jest
+            // if (this.props.teacherTopics) {
+            //     this.setState({
+            //         topics: this.props.teacherTopics
+            //     });
+            // }
         }).catch(error => {
             this.setState({
                 error: true,
@@ -51,6 +65,7 @@ class ListTopics extends Component {
             })
         })
     };
+
 
     render() {
         const error = this.state.error;
@@ -70,10 +85,10 @@ class ListTopics extends Component {
                 <React.Fragment>
                     <Topics
                         topics={this.state.topics}
-                        joinTopic={this.state.joinTopic}
+                        joinTopic={this.props.joinTopic}
+                        joinTopicHandler={this.props.joinTopicHandler}
                     />
                 </React.Fragment>
-            ;
         }
 
         return (
