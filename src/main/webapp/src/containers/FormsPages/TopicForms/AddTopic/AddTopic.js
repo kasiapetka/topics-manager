@@ -4,6 +4,7 @@ import axios from "axios";
 import AddTopicForm from "../../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
 import AddedTopicCard from "../../../../components/UI/Cards/TopicCards/AddedTopicCard/AddedTopicCard";
 import handleInputChange from "../../validateForm";
+import auth from "../../../../Auth";
 
 class AddTopic extends Component {
 
@@ -42,7 +43,11 @@ class AddTopic extends Component {
     };
 
     componentDidMount() {
-        axios.get('/api/adminteacher/subjects').then(response => {
+        let path;
+        if(auth.getRole() === 'A') path='/api/admin/subjects';
+        if(auth.getRole() === 'T') path='/api/teacher/subjects/'+auth.getId();
+
+        axios.get(path).then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects

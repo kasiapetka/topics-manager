@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.services;
 
 
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
+import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.User;
 

@@ -22,21 +22,20 @@ public class TeacherController {
     private StudentService studentService;
     private SubjectService subjectService;
     private SectionService sectionService;
-
+    private TopicService topicService;
     private UserDetailsServiceImpl userDetailsServiceImpl;
     private BCryptPasswordEncoder passwordEncoder;
-
 
     public TeacherController(UserService userService, TeacherService teacherService,
                              UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
                              StudentService studentService, SubjectService subjectService,
-                             SectionService sectionService) {
+                             SectionService sectionService, TopicService topicService) {
         this.userService = userService;
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.subjectService = subjectService;
         this.sectionService = sectionService;
-
+        this.topicService = topicService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
     }
@@ -102,4 +101,15 @@ public class TeacherController {
             return ResponseEntity.status(500).build();
         }
     }
+
+    @GetMapping("/api/teacher/topics/{teacherID}/{subjectID}")
+    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
+        return topicService.getTopicListByTeacherID(teacherID, subjectID);
+    }
+
+    @GetMapping("/api/teacher/subjects/{teacherID}")
+    List<Subject> listTeachersSubjects(@PathVariable Long teacherID){
+        return subjectService.getSubjectListByTeacherID(teacherID);
+    }
+
 }

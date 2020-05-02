@@ -27,10 +27,6 @@ public class AdminTeacherCommonsController {
 
 
     //@GetMapping("/api/teacher/subjects")
-    @GetMapping("/api/adminteacher/subjects")
-    List<Subject> listSubjects() {
-        return subjectService.getSubjectsList();
-    }
 
     //@GetMapping("/api/teacher/topics/{id}")
     @GetMapping("/api/adminteacher/topics/{id}")

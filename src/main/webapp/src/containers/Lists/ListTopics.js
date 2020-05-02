@@ -22,7 +22,7 @@ class ListTopics extends Component {
         if(this.state.role === 'A') path='/api/admin/subjects';
         if(this.state.role === 'T') path='/api/teacher/subjects/'+auth.getId();
 
-        axios.get('/api/adminteacher/subjects/').then(response => {
+        axios.get(path).then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects,

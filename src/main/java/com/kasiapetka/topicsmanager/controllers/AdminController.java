@@ -4,10 +4,7 @@ import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.DTO.TeacherListDTO;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.model.Topic;
-import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -203,7 +201,6 @@ public class AdminController {
     ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
 
         Integer responseCode = studentService.addNewStudent(studentOrTeacherDTO);
-
         return ResponseEntity.status(responseCode).build();
     }
 
@@ -211,7 +208,6 @@ public class AdminController {
     ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
 
         Integer responseCode = teacherService.addNewTeacher(studentOrTeacherDTO);
-
         return ResponseEntity.status(responseCode).build();
     }
 
@@ -219,21 +215,25 @@ public class AdminController {
     ResponseEntity<?> addSubject(@Valid @RequestBody AddSubjectDTO addSubjectDTO){
 
         Integer responseCode = subjectService.addNewSubject(addSubjectDTO);
-
         return ResponseEntity.status(responseCode).build();
     }
 
     @PostMapping("/api/admin/editteachersinsubject/{subject}")
-    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subjectID){
+    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subject){
 
-        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
+        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subject);
 
         return ResponseEntity.status(responseCode).build();
     }
 
-    @GetMapping("/api/admin/topics/{teacherID}/{subjectID}")
-    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
-        return topicService.getTopicListByTeacherID(teacherID, subjectID);
+    @GetMapping("/api/admin/topics/{teacher}/{subject}")
+    List<Topic> listTeachersTopics(@PathVariable Long teacher, @PathVariable Long subject){
+        return topicService.getTopicListByTeacherID(teacher, subject);
+    }
+
+    @GetMapping("/api/admin/subjects")
+    List<Subject> listSubjects() {
+        return subjectService.getSubjectsList();
     }
 
 }

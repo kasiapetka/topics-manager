@@ -120,14 +120,21 @@ public class SubjectServiceImpl implements SubjectService {
             return 409;
         }
 
+        List<Subject> subjectList = new ArrayList<>();
+        subjectList.add(subject);
+
         try {
             subject.setTeachers(teachers);
             subjectRepository.save(subject);
+
+            for(Teacher t : teachers){
+                t.setSubjects(subjectList);
+            }
+
         } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
-
         return 200;
     }
 
@@ -138,5 +145,14 @@ public class SubjectServiceImpl implements SubjectService {
             return new ArrayList<>();
         }
         return subject.getTeachers();
+    }
+
+    @Override
+    public List<Subject> getSubjectListByTeacherID(Long id) {
+        Teacher teacher = teacherService.findTeacherById(id);
+        System.out.println(teacher);
+        List<Subject> teachersSubjects = teacher.getSubjects();
+        System.out.println(teachersSubjects);
+        return teachersSubjects;
     }
 }

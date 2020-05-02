@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 ///import org.springframework.security.core.authority.AuthorityUtils;
@@ -57,7 +59,6 @@ public class DatabaseLoader implements CommandLineRunner {
         this.topicRepository = topicRepository;
         this.sectionRepository = sectionRepository;
         this.studentService = studentService;
-
         this.sectionService = sectionService;
         this.subjectService = subjectService;
         this.teacherService = teacherService;
@@ -252,6 +253,25 @@ public class DatabaseLoader implements CommandLineRunner {
         subject2.setSummary("erertert");
         subjectService.addNewSubject(subject2);
 
+        Subject subject3 = new Subject();
+        subject3.setName("Maths");
+        subject3.setSummary("sdfdsf");
+        subjectService.addNewSubject(subject3);
+
+        Subject subject4 = new Subject();
+        subject4.setName("Mobile Technologies");
+        subject4.setSummary("erertert");
+        subjectService.addNewSubject(subject4);
+
+        Subject subject5 = new Subject();
+        subject5.setName("Computer Science");
+        subject5.setSummary("erertert");
+        subjectService.addNewSubject(subject5);
+
+        Subject subject6 = new Subject();
+        subject6.setName("Computer Graphics");
+        subject6.setSummary("erertert");
+        subjectService.addNewSubject(subject6);
 
         //end
 
@@ -266,6 +286,30 @@ public class DatabaseLoader implements CommandLineRunner {
         topic1.setSummary("sdsd");
         topic1.setSubject(subject1);
         topicRepository.save(topic1);
+
+        Topic topic2 = new Topic();
+        topic2.setName("TopicTest2");
+        topic2.setSummary("sdsd");
+        topic2.setSubject(subject4);
+        topicRepository.save(topic2);
+
+        Topic topic3 = new Topic();
+        topic3.setName("TopicTest3");
+        topic3.setSummary("sdsd");
+        topic3.setSubject(subject2);
+        topicRepository.save(topic3);
+
+        Topic topic4 = new Topic();
+        topic4.setName("TopicTest4");
+        topic4.setSummary("sdsd");
+        topic4.setSubject(subject2);
+        topicRepository.save(topic4);
+
+        Topic topic5 = new Topic();
+        topic5.setName("TopicTest5");
+        topic5.setSummary("sdsd");
+        topic5.setSubject(subject3);
+        topicRepository.save(topic5);
 
 
         System.out.println("------------------------------------ DatabaseLoader ended ------------------------------------");

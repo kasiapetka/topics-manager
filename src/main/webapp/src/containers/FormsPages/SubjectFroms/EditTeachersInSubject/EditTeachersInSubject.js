@@ -5,6 +5,7 @@ import EditTeachersInSubjectForm
 import {Alert} from "reactstrap";
 import EditTeachersInSubjectCard
     from "../../../../components/UI/Cards/SubjectCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
+import auth from "../../../../Auth";
 
 class EditTeachersInSubject extends Component {
 
@@ -18,7 +19,11 @@ class EditTeachersInSubject extends Component {
     };
 
     componentDidMount() {
-        axios.get('/api/adminteacher/subjects').then(response => {
+        let path;
+        if(auth.getRole() === 'A') path='/api/admin/subjects';
+        if(auth.getRole() === 'T') path='/api/teacher/subjects/'+auth.getId();
+
+        axios.get(path).then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects
