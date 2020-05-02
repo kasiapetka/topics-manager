@@ -11,4 +11,5 @@ public interface TopicService {
     Topic findTopicById(Long id);
     Integer addNewTopic(NewTopicDTO newTopicDTO);
     List<Topic> getTopicListByTeacherID(Long teacherID, Long subjectID);
+//    List<Topic>
 }

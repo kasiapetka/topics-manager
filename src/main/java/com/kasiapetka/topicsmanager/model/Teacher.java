@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ public class Teacher {
     private List<Topic> topics;
 
     @JsonBackReference
+    @ToString.Exclude
     @ManyToMany(mappedBy = "teachers")
-    transient private List<Subject> subjects;
+    private List<Subject> subjects;
 }

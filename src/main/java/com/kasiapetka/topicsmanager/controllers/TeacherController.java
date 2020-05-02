@@ -3,7 +3,10 @@ package com.kasiapetka.topicsmanager.controllers;
 import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
 import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.DTO.NewSection;
-import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.model.Subject;
+import com.kasiapetka.topicsmanager.model.Teacher;
+import com.kasiapetka.topicsmanager.model.Topic;
+import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +25,21 @@ public class TeacherController {
     private StudentService studentService;
     private SubjectService subjectService;
     private SectionService sectionService;
+    private TopicService topicService;
 
     private UserDetailsServiceImpl userDetailsServiceImpl;
     private BCryptPasswordEncoder passwordEncoder;
 
 
-    public TeacherController(UserService userService, TeacherService teacherService,
-                             UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
-                             StudentService studentService, SubjectService subjectService,
-                             SectionService sectionService) {
+    public TeacherController(UserService userService, TeacherService teacherService, StudentService studentService,
+                             SubjectService subjectService, SectionService sectionService, TopicService topicService,
+                             UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.subjectService = subjectService;
         this.sectionService = sectionService;
-
+        this.topicService = topicService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
     }
@@ -76,8 +79,6 @@ public class TeacherController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-
-
     @PostMapping("/api/teacher/addsection")
     ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection) {
 
@@ -101,5 +102,15 @@ public class TeacherController {
         } else {
             return ResponseEntity.status(500).build();
         }
+    }
+
+    @GetMapping("/api/teacher/subjects/{teacherID}")
+    List<Subject> listSubjects(@PathVariable Long teacherID){
+        return subjectService.listSubjectsByTeacherId(teacherID);
+    }
+
+    @GetMapping("/api/teacher/topics/{subjectID}/{teacherID}")
+    List<Topic> listTopicBySubjectIdAndTeacherId(@PathVariable Long subjectID, @PathVariable Long teacherID){
+        return topicService.getTopicListByTeacherID(teacherID, subjectID);
     }
 }

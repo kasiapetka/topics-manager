@@ -4,10 +4,7 @@ import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
 import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.DTO.TeacherListDTO;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.model.Topic;
-import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
@@ -223,7 +220,7 @@ public class AdminController {
         return ResponseEntity.status(responseCode).build();
     }
 
-    @PostMapping("/api/admin/editteachersinsubject/{subject}")
+    @PostMapping("/api/admin/editteachersinsubject/{subjectID}")
     ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subjectID){
 
         Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
@@ -231,9 +228,13 @@ public class AdminController {
         return ResponseEntity.status(responseCode).build();
     }
 
-    @GetMapping("/api/admin/topics/{teacherID}/{subjectID}")
-    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
-        return topicService.getTopicListByTeacherID(teacherID, subjectID);
-    }
+//    @GetMapping("/api/admin/topics/{teacherID}/{subjectID}")
+//    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
+//        return topicService.getTopicListByTeacherID(teacherID, subjectID);
+//    }
 
+    @GetMapping("/api/admin/subjects")
+    List<Subject> listSubjects(){
+        return subjectService.getSubjectsList();
+    }
 }
