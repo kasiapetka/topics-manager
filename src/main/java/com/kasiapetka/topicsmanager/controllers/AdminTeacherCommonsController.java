@@ -63,5 +63,9 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
+//    @GetMapping("/api/adminteacher/topics/{subjectID}")
+//    List<Topic> listTopicsBySubjectID(@PathVariable Long subjectID){
+//        return subjectService.getTopicListBySubjectId(subjectID);
+//    }
 
 }

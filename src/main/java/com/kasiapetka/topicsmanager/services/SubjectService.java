@@ -16,7 +16,7 @@ public interface SubjectService {
     Integer addNewSubject(AddSubjectDTO addSubjectDTO);
     Integer editSubjectsTeachers(TeacherListDTO teacherListDTO, Long subjectID);
     List<Subject> getSubjectsList();
-    List<Subject> getSubjectListByTeacherID(Long id);
+    List<Subject> listSubjectsByTeacherId(Long teacherID);
     List<Topic> getTopicListBySubjectId(Long id);
     List<Teacher> getTeachersBySubjectId(Long id);
 }

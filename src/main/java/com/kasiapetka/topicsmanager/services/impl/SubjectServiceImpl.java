@@ -7,6 +7,7 @@ import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.repositories.SubjectRepository;
+import com.kasiapetka.topicsmanager.repositories.TeacherRepository;
 import com.kasiapetka.topicsmanager.services.SubjectService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
 import org.hibernate.HibernateException;
@@ -22,10 +23,12 @@ import java.util.Optional;
 public class SubjectServiceImpl implements SubjectService {
     private SubjectRepository subjectRepository;
     private TeacherService teacherService;
+    private TeacherRepository teacherRepository;
 
-    public SubjectServiceImpl(SubjectRepository subjectRepository, TeacherService teacherService) {
+    public SubjectServiceImpl(SubjectRepository subjectRepository, TeacherService teacherService, TeacherRepository teacherRepository) {
         this.subjectRepository = subjectRepository;
         this.teacherService = teacherService;
+        this.teacherRepository = teacherRepository;
     }
 
     @Override
@@ -100,7 +103,7 @@ public class SubjectServiceImpl implements SubjectService {
 
         List<Teacher> teachers = new ArrayList<>();
 
-        for(TeacherDTO teacherDTO : teacherListDTO.getTeachers()){
+        for (TeacherDTO teacherDTO : teacherListDTO.getTeachers()) {
             Teacher teacher = teacherService.findTeacherById(teacherDTO.getId());
             teachers.add(teacher);
         }
@@ -120,21 +123,17 @@ public class SubjectServiceImpl implements SubjectService {
             return 409;
         }
 
-        List<Subject> subjectList = new ArrayList<>();
-        subjectList.add(subject);
-
         try {
             subject.setTeachers(teachers);
             subjectRepository.save(subject);
-
-            for(Teacher t : teachers){
-                t.setSubjects(subjectList);
-            }
-
         } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
+//        teachers = new ArrayList<>();
+//        ArrayList<Teacher> temp = new ArrayList<>();
+//        teacherRepository.findAll().iterator().forEachRemaining(temp::add);
+
         return 200;
     }
 
@@ -148,11 +147,15 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Subject> getSubjectListByTeacherID(Long id) {
-        Teacher teacher = teacherService.findTeacherById(id);
-        System.out.println(teacher);
-        List<Subject> teachersSubjects = teacher.getSubjects();
-        System.out.println(teachersSubjects);
-        return teachersSubjects;
+    public List<Subject> listSubjectsByTeacherId(Long teacherID) {
+//        ArrayList<Teacher> temp = new ArrayList<>();
+//        teacherRepository.findAll().iterator().forEachRemaining(temp::add);
+        Teacher teacher = teacherService.findTeacherById(teacherID);
+
+//        List<Subject> subs = teacher.getSubjects();
+//        for(Subject sub:subs){
+//            System.out.println(sub);
+//        }
+        return teacher.getSubjects();
     }
 }
