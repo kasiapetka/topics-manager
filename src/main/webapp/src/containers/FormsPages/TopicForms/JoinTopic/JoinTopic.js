@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
+import auth from "../../../../Auth";
 
 import ListTopics from "../../../Lists/ListTopics";
 
@@ -14,31 +15,32 @@ class JoinTopic extends Component {
     };
 
     subjectChanged = (topics, subjectId) => {
+        axios.get('/api/teacher/topics/' +auth.getId() + '/' + subjectId ).then(response => {
+            let teacherTopics = [...response.data];
 
-        //axios.get('/api/teacher/topics'+id+'/'+auth.getId()).then(response => {
-        //     let teacherTopics = [...response.data];
+            console.log(teacherTopics)
 
-        // topics.forEach(topic => {
-        //     teacherTopics.forEach(teacherInTopic => {
-        //         if (teacherInTopic.id === topic.id) {
-        //             topic.isInTopic = true;
-        //         } else if (topic.isInTopic !== true) {
-        //             topic.isInTopic = false;
-        //         }
-        //     });
-        // });
-        //     this.setState({
-        //         teacherTopics: teacherTopics,
-        //             subject: subjectId,
-        //             topics: topics,
-        //          loading: false
-        //     });
-        // }).catch(error => {
-        //     this.setState({
-        //         error: true,
-        //          loading: false
-        //     })
-        // });
+            topics.forEach(topic => {
+                teacherTopics.forEach(teacherInTopic => {
+                    if (teacherInTopic.id === topic.id) {
+                        topic.isInTopic = true;
+                    } else if (topic.isInTopic !== true) {
+                        topic.isInTopic = false;
+                    }
+                });
+            });
+            this.setState({
+                teacherTopics: teacherTopics,
+                subject: subjectId,
+                topics: topics,
+                loading: false
+            });
+        }).catch(error => {
+            this.setState({
+                error: true,
+                loading: false
+            })
+        });
     };
 
     joinTopicHandler = (index) => {

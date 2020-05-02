@@ -6,6 +6,7 @@ import AddStudentToSectionForm
     from "../../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
 import AddedSectionCard from "../../../../components/UI/Cards/SectionCards/AddedSectionCard/AddedSectionCard";
 import handleInputChange from "../../validateForm";
+import auth from "../../../../Auth";
 
 class AddSection extends Component {
     state = {
@@ -76,7 +77,11 @@ class AddSection extends Component {
     };
 
     componentDidMount() {
-        axios.get('/api/adminteacher/subjects').then(response => {
+        let path;
+        if(auth.getRole() === 'A') path='/api/admin/subjects';
+        if(auth.getRole() === 'T') path='/api/teacher/subjects/'+auth.getId();
+
+        axios.get(path).then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects
