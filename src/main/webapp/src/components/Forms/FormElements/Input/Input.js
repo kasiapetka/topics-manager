@@ -12,7 +12,7 @@ const input = (props) => {
 
     return (
         <FormGroup className={formGroupClasses}>
-            <Label className="mr-2 pl-1 text-capitalize">{props.label}</Label>
+            {props.label ? <Label className="mr-2 pl-1 text-capitalize">{props.label}</Label> : null}
             <Input {...props} autoComplete="on"
                    invalid={invalid}>
                 {props.children}

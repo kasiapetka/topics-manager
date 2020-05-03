@@ -107,7 +107,10 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
-
+    @GetMapping("/api/adminteacher/sections/section/{sectionID}")
+    Section getSectionById(@PathVariable Long sectionID){
+        return sectionService.findSectionById(sectionID);
+    }
 
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
 //    List<Topic> listTopicsBySubjectID(@PathVariable Long subjectID){

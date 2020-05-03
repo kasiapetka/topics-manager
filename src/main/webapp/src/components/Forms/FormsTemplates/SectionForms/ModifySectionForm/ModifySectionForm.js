@@ -1,10 +1,8 @@
 import React from "react";
 import Label from "../../../FormElements/Label/Label";
-import {Form, Button} from "reactstrap";
-import SubmitButton from "../../../FormElements/Button/Button";
+import {Button} from "reactstrap";
 import classes from "../../Forms.module.css";
 import Input from "../../../FormElements/Input/Input";
-
 
 const modifySectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
@@ -21,7 +19,7 @@ const modifySectionForm = (props) => {
     }
 
     return (
-        <Form className={classNames} onSubmit={props.submit}>
+        <div className={classNames}>
             <h3 className="text-center">Section Options: </h3>
 
             <Label label='name' content={props.section.name}/>
@@ -37,7 +35,6 @@ const modifySectionForm = (props) => {
 
                 <Input type='select' label="state" name='state'
                        groupclasses='col-md-3'
-                       content={props.section.state}
                        onChange={props.onStateChange}
                        value={props.section.state}>
                     <option value={'O'}>Opened</option>
@@ -53,19 +50,22 @@ const modifySectionForm = (props) => {
 
             <div className="form-row p-2">
                 <div className='col-md-1'></div>
-                <Button className='col-md-4' outline>Issue Presence</Button>
+                <Button className='col-md-4'
+                        onClick={props.onIssuePresence} outline>
+                    Issue Presence</Button>
                 <div className='col-md-2'></div>
                 <Button className='col-md-4' outline>Issue Grades</Button>
                 <div className='col-md-1'></div>
             </div>
             <div className="form-row p-2">
                 <div className='col-md-1'></div>
-                <Button className='col-md-4' outline>Show Presence</Button>
+                <Button className='col-md-4'
+                        onClick={props.onViewPresence} outline>View Presence</Button>
                 <div className='col-md-2'></div>
-                <Button className='col-md-4' outline>Show Grades</Button>
+                <Button className='col-md-4' outline>View Grades</Button>
                 <div className='col-md-1'></div>
             </div>
-        </Form>
+        </div>
     );
 };
 

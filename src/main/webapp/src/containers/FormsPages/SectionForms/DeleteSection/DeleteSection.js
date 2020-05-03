@@ -17,7 +17,7 @@ class DeleteSection extends Component {
         axios.put(path, id).then(response => {
             this.props.cancelClicked();
             this.props.deleteClicked(this.props.section);
-            this.props.history.push(this.props.match.path + '/deletedsection')
+
         })
             .catch(error => {
                 this.setState({error: error});

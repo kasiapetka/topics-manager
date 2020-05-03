@@ -204,6 +204,9 @@ public class DatabaseLoader implements CommandLineRunner {
         studentService.addNewStudent(s2);
         studentService.addNewStudent(s3);
         studentService.addNewStudent(s4);
+        studentService.addNewStudent(s5);
+        studentService.addNewStudent(s6);
+        studentService.addNewStudent(s7);
         //end
 
 
