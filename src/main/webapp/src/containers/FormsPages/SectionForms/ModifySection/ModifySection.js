@@ -36,7 +36,9 @@ class ModifySection extends Component {
         const state = event.target.value;
 
         axios.put('/api/adminteacher/sections/' + this.state.section.id + '/state', state).then(response => {
-            const section = [...response.data];
+            const section = {...this.state.section};
+            section.state = state;
+
             this.setState({
                 section: section,
                 loading: false
