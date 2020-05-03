@@ -14,6 +14,8 @@ const Topics = (props) => {
                     key={topic.id}
                     joinTopic={props.joinTopic}
                     isInTopic={topic.isInTopic}
+                    canQuit={topic.canQuit}
+                    quitTopicHandler={()=>props.quitTopicHandler(index)}
                     joinTopicHandler={()=>props.joinTopicHandler(index)}
                 />
             });

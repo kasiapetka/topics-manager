@@ -7,6 +7,7 @@ import Button from "../../Button/Button";
 
 const addSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.Form;
+    let topicOptions, wrongName,teacherOptions;
 
     const subjectOptions = props.subjects.map(subject => {
         return <option
@@ -16,7 +17,16 @@ const addSectionForm = (props) => {
         </option>
     });
 
-    let topicOptions, wrongName;
+    if (props.teachers) {
+        teacherOptions = props.teachers.map(teacher => {
+            return <option
+                value={teacher.id}
+                key={teacher.id}>
+                {teacher.name + ' ' + teacher.surname}
+            </option>
+        });
+    }
+
 
     if (props.wrongName) {
         wrongName = <div className="form-row p-2">
@@ -34,7 +44,6 @@ const addSectionForm = (props) => {
                     {topic.name}
                 </option>
             })
-
         } else {
             topicOptions = <option disabled={true} value=''>No Topics in this Subject</option>;
         }
@@ -44,6 +53,20 @@ const addSectionForm = (props) => {
         <Form className={classNames} onSubmit={props.onSubmit}>
             <h3 className="text-center mt-2">Add New Section</h3>
             {/*--------------------Subject Topic and Name---------------------------------- */}
+
+            {
+                props.teachers
+                    ?
+                <Input type="select" name="teacher" label="teacher"
+                       defaultValue='default'
+                       onChange={props.onTeacherChange}
+                       isinvalid={props.section.teacher.validation}>
+                    <option disabled={true} value='default'>Choose Teacher</option>
+                    {teacherOptions}
+                </Input>
+                    :
+                    null
+            }
 
             <Input type="select" name="subject" label="subject"
                    defaultValue='default'

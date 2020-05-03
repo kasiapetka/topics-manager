@@ -5,6 +5,7 @@ import Topics from "../../components/Lists/ListTopics/Topics";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSubjectInput from "../../components/Lists/PickSubjectInput/PickSubjectInput";
 import auth from "../../Auth";
+import Topic from "../../components/Lists/ListTopics/Topic";
 
 class ListTopics extends Component {
 
@@ -90,6 +91,7 @@ class ListTopics extends Component {
                         topics={this.state.topics}
                         joinTopic={this.props.joinTopic}
                         joinTopicHandler={this.props.joinTopicHandler}
+                        quitTopicHandler={this.props.quitTopicHandler}
                     />
                 </React.Fragment>
         }

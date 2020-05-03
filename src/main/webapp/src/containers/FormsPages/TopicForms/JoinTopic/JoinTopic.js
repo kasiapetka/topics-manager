@@ -3,6 +3,7 @@ import axios from "axios";
 import auth from "../../../../Auth";
 
 import ListTopics from "../../../Lists/ListTopics";
+import Topic from "../../../../components/Lists/ListTopics/Topic";
 
 class JoinTopic extends Component {
 
@@ -63,6 +64,10 @@ class JoinTopic extends Component {
 
     joinTopicHandler = (index) => {
         console.log('joinTopicHandler' + index + " " + this.state.subject)
+    };
+
+    quitTopicHandler=(index)=>{
+
     };
 
     render() {

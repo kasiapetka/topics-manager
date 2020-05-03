@@ -5,11 +5,23 @@ import {Button, Col, Row} from "reactstrap";
 const topic = (props) => {
     let joinButton;
 
-    if(props.joinTopic){
+    if(props.joinTopic && !props.isInTopic){
         joinButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button onClick={() => {
                props.joinTopicHandler()
             }}>Join Topic</Button></Col>
+        </Row>
+    }
+    if(props.joinTopic && props.isInTopic && props.canQuit){
+        joinButton = <Row className="pt-2 pb-3 mr-0 ml-0">
+            <Col><Button color="danger" outline onClick={() => {
+                props.quitTopicHandler()
+            }}>Quit Topic</Button></Col>
+        </Row>
+    }
+    if(props.joinTopic && props.isInTopic && !props.canQuit){
+        joinButton = <Row className="pt-2 pb-3 mr-0 ml-0">
+            <Col><p>You have opened sections in this topic.</p></Col>
         </Row>
     }
 

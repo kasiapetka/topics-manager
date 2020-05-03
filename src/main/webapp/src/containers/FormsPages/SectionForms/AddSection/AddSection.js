@@ -64,11 +64,19 @@ class AddSection extends Component {
                     valid: true,
                     required: true
                 }
+            },
+            teacher: {
+                value: null,
+                validation: {
+                    valid: true,
+                    required: true
+                }
             }
         },
         error: false,
         formValid: false,
         subjects: [],
+        teachers: null,
         topics: null,
         addStudents: false,
         students: null,
@@ -78,8 +86,20 @@ class AddSection extends Component {
 
     componentDidMount() {
         let path;
-        if(auth.getRole() === 'A') path='/api/admin/subjects';
-        if(auth.getRole() === 'T') path='/api/teacher/subjects/'+auth.getId();
+        if (auth.getRole() === 'A') {
+            path = '/api/admin/subjects';
+            axios.get('/api/admin/teachers').then(response => {
+                let teachers = [...response.data];
+                this.setState({
+                    teachers: teachers
+                });
+            }).catch(error => {
+                this.setState({
+                    error: true,
+                })
+            })
+        }
+        if (auth.getRole() === 'T') path = '/api/teacher/subjects/' + auth.getId();
 
         axios.get(path).then(response => {
             let subjects = [...response.data];
@@ -96,8 +116,6 @@ class AddSection extends Component {
     handleChange = (event) => {
         const formProperties = handleInputChange(event, this.state.section);
 
-        console.log(formProperties.form)
-
         this.setState({
             section: formProperties.form,
             formValid: formProperties.formValid,
@@ -108,25 +126,30 @@ class AddSection extends Component {
     onSectionAdditionHandler = (event) => {
         event.preventDefault();
 
+        let teacher;
+        if (this.state.section.teacher.value) {
+            teacher = this.state.section.teacher.value;
+        } else {
+            teacher = auth.getId();
+        }
+
         const section = {
             name: this.state.section.name.value,
             size: this.state.section.size.value,
             state: this.state.section.state.value,
             semester: this.state.section.semester.value,
             topic: this.state.section.topic.value,
-            subject: this.state.section.subject.value,
+            teacherId: teacher
         };
 
-        console.log(section)
-
-        axios.post('/api/teacher/addsection', section).then(response => {
+        axios.post('/api/adminteacher/addsection', section).then(response => {
             section.id = response.data;
             const topics = [...this.state.topics];
-            topics.filter((topic)=>topic.id === section.topic);
+            topics.filter((topic) => topic.id === section.topic);
             section.topic = topics[0].name;
 
             const subjects = [...this.state.subjects];
-            subjects.filter((subject)=>subject.id === section.subject);
+            subjects.filter((subject) => subject.id === section.subject);
             section.subject = subjects[0].name;
 
             this.setState({
@@ -138,7 +161,7 @@ class AddSection extends Component {
                 this.setState({
                     wrongName: true,
                 })
-            } else{
+            } else {
                 this.setState({
                     error: true,
                 })
@@ -155,13 +178,23 @@ class AddSection extends Component {
             let topics = [...response.data];
             this.setState({
                 topics: topics,
-                section:section
+                section: section
             });
         }).catch(error => {
             this.setState({
                 error: true,
             })
         })
+    };
+
+    onTeacherChangeHandler = (event) => {
+        const id = event.target.value;
+        const section = {...this.state.section};
+        section.teacher.value = id;
+
+        this.setState({
+            section: section
+        });
     };
 
     addStudentToSectionHandler = (student) => {
@@ -175,9 +208,11 @@ class AddSection extends Component {
         })
     };
 
-    removeStudentFromSectionHandler =(student)=>{
+    removeStudentFromSectionHandler = (student) => {
         let students = this.state.students ? [...this.state.students] : [];
-        let removed = students.filter(function(toRem, index, arr){ return toRem !== student;});
+        let removed = students.filter(function (toRem, index, arr) {
+            return toRem !== student;
+        });
 
         this.setState((prevState) => {
             return {
@@ -186,25 +221,25 @@ class AddSection extends Component {
         })
     };
 
-    onStudentsAdditionHandler= (event) => {
+    onStudentsAdditionHandler = (event) => {
         event.preventDefault();
 
-        let studentsAlbums=[];
+        let studentsAlbums = [];
 
-        if(this.state.students){
-            if(this.state.students.length !== 0) {
+        if (this.state.students) {
+            if (this.state.students.length !== 0) {
                 for (let [key, value] of Object.entries(this.state.students)) {
                     studentsAlbums.push(value.album);
                 }
             }
         }
 
-        let studentSection={
+        let studentSection = {
             studentsAlbums: studentsAlbums,
             sectionId: this.state.section.id
         };
 
-        axios.put('/api/teacher/addstudentstosection', studentSection).then(response => {
+        axios.put('/api/adminteacher/addstudentstosection', studentSection).then(response => {
             this.setState({
                 sectionAdded: true,
             })
@@ -232,23 +267,25 @@ class AddSection extends Component {
             content = <AddSectionForm
                 subjects={this.state.subjects}
                 topics={this.state.topics}
+                teachers={this.state.teachers}
                 onSubjectChange={this.onSubjectChangeHandler}
+                onTeacherChange={this.onTeacherChangeHandler}
                 onChange={this.handleChange}
                 section={this.state.section}
                 onSubmit={this.onSectionAdditionHandler}
                 formValid={this.state.formValid}
                 wrongName={this.state.wrongName}/>
-        } else if(!sectionAdded){
+        } else if (!sectionAdded) {
             content = <AddStudentToSectionForm
                 addToSection={this.addStudentToSectionHandler}
                 removeFromSection={this.removeStudentFromSectionHandler}
                 students={this.state.students}
                 onSubmit={this.onStudentsAdditionHandler}
                 section={this.state.section}/>
-        }else{
-            content=<AddedSectionCard
-            students={this.state.students}
-            section={this.state.section}
+        } else {
+            content = <AddedSectionCard
+                students={this.state.students}
+                section={this.state.section}
             />
         }
 
