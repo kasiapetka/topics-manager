@@ -51,12 +51,20 @@
         <div class="col-6 col-md-2 border-right"><h4> Documentation:</h4>
             <ul>
                 <li><a href="#spec" class="text-secondary">Project Specification.</a></li>
-                <!--<li><a href="#req" class="text-secondary">Requirements.</a></li>-->
-                <!--<ul>-->
-                <!--<li><a href="#fun" class="text-secondary">Functional.</a></li>-->
-                <!--<li><a href="#nonfun" class="text-secondary">Nonfunctional.</a></li>-->
-                <!--</ul>-->
-                <li><a href="#workflow" class="text-secondary">Workflow.</a></li>
+                <li><a href="#workflow" class="text-secondary">Workflow.</a>
+                    <ul>
+                        <li><a href="#stage1" class="text-secondary">Stage One</a></li>
+                        <li><a href="#stage2" class="text-secondary">Stage Two</a></li>
+                        <li><a href="#stage3" class="text-secondary">Stage Three</a></li>
+                        <li><a href="#stage4" class="text-secondary">Stage Four</a></li>
+                    </ul>
+                </li>
+                <li><a href="#req" class="text-secondary">Requirements.</a></li>
+                <ul>
+                    <li><a href="#fun" class="text-secondary">Functional.</a></li>
+                    <li><a href="#nonfun" class="text-secondary">Nonfunctional.</a></li>
+                </ul>
+
                 <li><a href="#gantt" class="text-secondary">Gantt chart.</a></li>
                 <li><a href="#usecase" class="text-secondary">Use case diagram.</a></li>
                 <li><a href="#erd" class="text-secondary">ERD database model.</a></li>
@@ -102,140 +110,6 @@
             </div>
             <hr>
 
-            <div>
-                <!--<div id="req"><h4>Requirements: </h4>-->
-                <!--<h4 style="margin-left: 40px;">FUNCTIONAL</h4>-->
-                <!--<div class="container-fluid" id="fun" style="margin-left: 60px;">-->
-                <!--<h5>Student Module:</h5>-->
-                <!--<ul>-->
-                <!--<li> Log in.</li>-->
-                <!--<li> Create new account.</li>-->
-                <!--<li> Manage topics:</li>-->
-                <!--<ul>-->
-                <!--<li> View students topics.</li>-->
-                <!--<li> View grades.</li>-->
-                <!--<li> Add report.</li>-->
-                <!--<li> View presence.</li>-->
-                <!--</ul>-->
-                <!--<li> Modify profile and account:</li>-->
-                <!--<ul>-->
-                <!--<li> Change password.</li>-->
-                <!--<li> Change email.</li>-->
-                <!--<li> Change name.</li>-->
-                <!--<li> Change surname.</li>-->
-                <!--<li> Delete account.</li>-->
-                <!--</ul>-->
-                <!--<li> Log out.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--<h5>Teacher Module.</h5>-->
-                <!--<ul>-->
-                <!--<li> Log in.</li>-->
-                <!--<li> Manage topics:</li>-->
-                <!--<ul>-->
-                <!--<li> Add new topic.</li>-->
-                <!--<li> View and issue grades.</li>-->
-                <!--<li> View and issue presence.</li>-->
-                <!--<li> Generate final summary of topic.</li>-->
-                <!--</ul>-->
-                <!--<li> Manage sections:</li>-->
-                <!--<ul>-->
-                <!--<li> Add section.</li>-->
-                <!--<li> Delete section.</li>-->
-                <!--<li> Modification of section composition.</li>-->
-                <!--<li> Issue topic to section.</li>-->
-                <!--<li> Import data about students.</li>-->
-                <!--</ul>-->
-                <!--<li> Modify profile and account:</li>-->
-                <!--<ul>-->
-                <!--<li> Change password.</li>-->
-                <!--<li> Change email.</li>-->
-                <!--<li> Change name.</li>-->
-                <!--<li> Change surname.</li>-->
-                <!--<li> Delete account.</li>-->
-                <!--</ul>-->
-                <!--<li> Log out.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--<h5>Administrator Module.</h5>-->
-                <!--<ul>-->
-                <!--<li> Log in.</li>-->
-                <!--<li> Manage teachers:</li>-->
-                <!--<ul>-->
-                <!--<li> Add teacher.</li>-->
-                <!--<li> Delete teacher.</li>-->
-                <!--<li> Modify teachers account and profile (change password, email, name, surname).</li>-->
-                <!--</ul>-->
-                <!--<li> Manage students</li>-->
-                <!--<ul>-->
-                <!--<li> Add students.</li>-->
-                <!--<li> Delete student.</li>-->
-                <!--<li> Modify students account and profile (change password, email, name, surname).</li>-->
-                <!--</ul>-->
-                <!--<li> Modify profile and account:</li>-->
-                <!--<ul>-->
-                <!--<li> Change password.</li>-->
-                <!--<li> Change email.</li>-->
-                <!--<li> Change name.</li>-->
-                <!--<li> Change surname.</li>-->
-                <!--<li> Delete account.</li>-->
-                <!--</ul>-->
-                <!--<li> Log out.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--<h5> System Module:</h5>-->
-                <!--<ul> Send email:-->
-                <!--<li> Notificate student about new grade.</li>-->
-                <!--<li> Notificate student about being added into new section.</li>-->
-                <!--<li> Notificate teacher about new report.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--</div>-->
-                <!--<h4 style="margin-left: 40px;">NONFUNCTIONAL</h4>-->
-                <!--<div class="container-fluid" id="nonfun" style="margin-left: 60px;">-->
-                <!--<h5>Product:</h5>-->
-                <!--<ul>-->
-                <!--<li> One aministrator.</li>-->
-                <!--<li> System of adding teachers by administrator.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--<h5>Technology:</h5>-->
-                <!--<ul>-->
-                <!--<li> Database PostgreSQL.</li>-->
-                <!--<li> REST web application.</li>-->
-                <!--<li> Frontend with React.</li>-->
-                <!--<li> Backend with Spring Boot framework.</li>-->
-                <!--<li> Connection with database.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--<h5>Security:</h5>-->
-                <!--<ul>-->
-                <!--<li> Passwords securing account access.</li>-->
-                <!--<li> Users authentication.</li>-->
-                <!--<li> Encrypting users passwords in database.</li>-->
-                <!--</ul>-->
-                <!--<hr>-->
-                <!--<h5>Law:</h5>-->
-                <!--<ul>-->
-                <!--<li> Users accept regulations and accept their personal data processing.</li>-->
-                <!--<li> Displaying and storing data according to RODO.</li>-->
-                <!--<li> Users accept cookies.</li>-->
-                <!--</ul>-->
-                <!--</ul>-->
-                <!--</div>-->
-                <!--</div>-->
-
-                <!--<hr>-->
-            </div>
-            <div id="gantt">
-                <a href="GanttChart.html" target="_blank" class="btn btn-secondary gantt"><h4>Gantts Chart Link </h4>
-                </a>
-                <br>
-                <a href="https://docs.google.com/spreadsheets/d/1hZZfHlMSh10FK3k18LqdMfbzHdMUcty3Go4bHfyvOgw/edit?usp=sharing"
-                   target="_blank" class="btn btn-secondary gantt"><h4>Gantts Chart Actual Status </h4></a>
-            </div>
-            <hr>
-
             <div id="workflow">
                 <h4>Workflow</h4>
                 <p>We are trying to use Agile Developement. We are making a lot of meetings where we discuss what is
@@ -249,13 +123,219 @@
                     we are reading our code and trying to make it cleaner. We are removing code duplication, splitting
                     some functions
                     into shorter ones or renaming functions, variables, classes etc to follow naming conventions.</p>
+                <div id="stage1">
+                    <h5>Stage One</h5>
+                    <p>In stage one we were discussing how this project will work. We have specified project
+                        requirements
+                        and then we have splitted work between all team members. With these informations we were able to
+                        create gantt's diagram. After that we also created use case diagram for our project</p>
+
+                    <p>In second week of phase one we have set up project's structure and github repository. After that
+                        we have started thinking how or model should look like. We were consulting our ideas with people
+                        with greter expierience and after getting satisfying result we implemented it into our project
+                        with
+                        usage of JPA. With that done we created first class diagram</p>
+
+                    <p>The last part of stage one was creating simple logic for registration and login. We decided that
+                        we
+                        want to use JWT for that purpose. Unfortanently JWT was completely new and it took us a lot more
+                        time
+                        that we thought so. So in this stage we have set up login and registration form and some
+                        requests
+                        for database but we didn't make that in time as our gantt's chart suggests.</p>
+                </div>
+                <hr>
+
+                <div id="stage2">
+                    <h5>Stage Two</h5>
+                    <p>We have began stage two from setting up bigger meeting and discussing what we should do next.
+                        Due to our long learning process finishing registration and login for every user took us some
+                        time.</p>
+
+                    <p>In week two of second stage we have began implementing full account modification for every type
+                        of
+                        user. We have started writing first Services, more controllers and our project started to look
+                        like
+                        MVC pattern. We have skipped implementing code authentication for student's registration because
+                        we
+                        decided that this is not crucial for this app to work and we have continued to implement account
+                        modification.</p>
+
+                    <p>At this moment we have started to notice that we are not following gantt's chart because our
+                        assumptions
+                        weren't correct. Nevertheless in the end of stage two we have spent a lot of time refactoring
+                        our code
+                        and we created second class diagram.</p>
+                </div>
+                <hr>
+
+                <div id="stage3">
+                    <h5>Stage Three</h5>
+                    <p>In stage three we were focused on admin's and teacher's options. Most of our time we were
+                        working on editing teacher's accounts by admin, adding them or removing them. When we had that
+                        done
+                        we have started to add more admin functions like creating subjects editing them or removing.</p>
+
+                    <p>We realised that we are implementing things too slow. We were at the end of stage
+                        three but we haven't even finished stage two. The reason behind that was that we were more
+                        focused
+                        on creating clean code and trying to implement good solutions by sometimes talking for hours
+                        about
+                        one not that important thing instead of making app work.</p>
+                </div>
+                <hr>
+
+                <div id="stage4">
+                    <h5>Stage Four</h5>
+                    <p>In stage four in first week we have implemented codes authentication when student tries to
+                        register,
+                        full modification of subject and adding teachers to it by admin. Also we have finished
+                        implementing topics
+                        and its functionality. We have created management system for sections by admin and teacher and we
+                        linked these three components (subject, topic, section) togheter.
+                    </p>
+                </div>
             </div>
+            <hr>
+
+            <div>
+                <div id="req"><h4>Requirements: </h4>
+                    <h4 style="margin-left: 40px;">FUNCTIONAL</h4>
+                    <div class="container-fluid" id="fun" style="margin-left: 60px;">
+                        <h5>Student Module:</h5>
+                        <ul>
+                            <li> Log in.</li>
+                            <li> Create new account.</li>
+                            <li> Manage topics:</li>
+                            <ul>
+                                <li> View students topics.</li>
+                                <li> View grades.</li>
+                                <li> Add report.</li>
+                                <li> View presence.</li>
+                            </ul>
+                            <li> Modify profile and account:</li>
+                            <ul>
+                                <li> Change password.</li>
+                                <li> Change email.</li>
+                                <li> Change name.</li>
+                                <li> Change surname.</li>
+                                <li> Delete account.</li>
+                            </ul>
+                            <li> Log out.</li>
+                        </ul>
+                        <hr>
+                        <h5>Teacher Module.</h5>
+                        <ul>
+                            <li> Log in.</li>
+                            <li> Manage topics:</li>
+                            <ul>
+                                <li> Add new topic.</li>
+                                <li> View and issue grades.</li>
+                                <li> View and issue presence.</li>
+                                <li> Generate final summary of topic.</li>
+                            </ul>
+                            <li> Manage sections:</li>
+                            <ul>
+                                <li> Add section.</li>
+                                <li> Delete section.</li>
+                                <li> Modification of section composition.</li>
+                                <li> Issue topic to section.</li>
+                                <li> Import data about students.</li>
+                            </ul>
+                            <li> Modify profile and account:</li>
+                            <ul>
+                                <li> Change password.</li>
+                                <li> Change email.</li>
+                                <li> Change name.</li>
+                                <li> Change surname.</li>
+                                <li> Delete account.</li>
+                            </ul>
+                            <li> Log out.</li>
+                        </ul>
+                        <hr>
+                        <h5>Administrator Module.</h5>
+                        <ul>
+                            <li> Log in.</li>
+                            <li> Manage teachers:</li>
+                            <ul>
+                                <li> Add teacher.</li>
+                                <li> Delete teacher.</li>
+                                <li> Modify teachers account and profile (change password, email, name, surname).</li>
+                            </ul>
+                            <li> Manage students</li>
+                            <ul>
+                                <li> Add students.</li>
+                                <li> Delete student.</li>
+                                <li> Modify students account and profile (change password, email, name, surname).</li>
+                            </ul>
+                            <li> Modify profile and account:</li>
+                            <ul>
+                                <li> Change password.</li>
+                                <li> Change email.</li>
+                                <li> Change name.</li>
+                                <li> Change surname.</li>
+                                <li> Delete account.</li>
+                            </ul>
+                            <li> Log out.</li>
+                        </ul>
+                        <hr>
+                        <h5> System Module:</h5>
+                        <ul> Send email:
+                            <li> Notificate student about new grade.</li>
+                            <li> Notificate student about being added into new section.</li>
+                            <li> Notificate teacher about new report.</li>
+                        </ul>
+                        <hr>
+                    </div>
+                    <h4 style="margin-left: 40px;">NONFUNCTIONAL</h4>
+                    <div class="container-fluid" id="nonfun" style="margin-left: 60px;">
+                        <h5>Product:</h5>
+                        <ul>
+                            <li> One aministrator.</li>
+                            <li> System of adding teachers by administrator.</li>
+                        </ul>
+                        <hr>
+                        <h5>Technology:</h5>
+                        <ul>
+                            <li> Database PostgreSQL.</li>
+                            <li> REST web application.</li>
+                            <li> Frontend with React.</li>
+                            <li> Backend with Spring Boot framework.</li>
+                            <li> Connection with database.</li>
+                        </ul>
+                        <hr>
+                        <h5>Security:</h5>
+                        <ul>
+                            <li> Passwords securing account access.</li>
+                            <li> Users authentication.</li>
+                            <li> Encrypting users passwords in database.</li>
+                        </ul>
+                        <hr>
+                        <h5>Law:</h5>
+                        <ul>
+                            <li> Users accept regulations and accept their personal data processing.</li>
+                            <li> Displaying and storing data according to RODO.</li>
+                            <li> Users accept cookies.</li>
+                        </ul>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+            <div id="gantt">
+                <a href="GanttChart.html" target="_blank" class="btn btn-secondary gantt"><h4>Gantts Chart Link </h4>
+                </a>
+                <br>
+                <a href="https://docs.google.com/spreadsheets/d/1hZZfHlMSh10FK3k18LqdMfbzHdMUcty3Go4bHfyvOgw/edit?usp=sharing"
+                   target="_blank" class="btn btn-secondary gantt"><h4>Gantts Chart Actual Status </h4></a>
+            </div>
+            <hr>
 
             <div id="usecase">
                 <h4>Usecase diagram: </h4>
                 <img src="img/usecase.jpg" width="100%" height="100%" class="d-inline-block align-top">
             </div>
-            <hr>
             <hr>
 
             <div id="erd">
