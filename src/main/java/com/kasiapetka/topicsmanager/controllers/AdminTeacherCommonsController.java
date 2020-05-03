@@ -1,8 +1,15 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
+import com.kasiapetka.topicsmanager.DTO.NewSection;
 import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
-import com.kasiapetka.topicsmanager.model.*;
-import com.kasiapetka.topicsmanager.services.*;
+import com.kasiapetka.topicsmanager.model.Section;
+import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.Topic;
+import com.kasiapetka.topicsmanager.services.SectionService;
+import com.kasiapetka.topicsmanager.services.StudentService;
+import com.kasiapetka.topicsmanager.services.SubjectService;
+import com.kasiapetka.topicsmanager.services.TopicService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +70,30 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
+    @PostMapping("/api/adminteacher/addsection/{teacherID}")
+    ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection, @PathVariable Long teacherID) {
+
+        Long id = sectionService.addNewSection(newSection);
+
+        if (id > -1) {
+            return ResponseEntity.ok().body(id);
+        } else {
+            if(id == -1){
+                return ResponseEntity.status(500).build();
+            } else{
+                return ResponseEntity.status(409).build();
+            }
+        }
+    }
+
+    @PutMapping("/api/adminteacher/addstudentstosection")
+    ResponseEntity<?> addStudentToSection(@Valid @RequestBody AddStudentsToSectionDTO addStudentsToSectionDTO) {
+        if (sectionService.addStudentsToSection(addStudentsToSectionDTO)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(500).build();
+        }
+    }
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
 //    List<Topic> listTopicsBySubjectID(@PathVariable Long subjectID){
 //        return subjectService.getTopicListBySubjectId(subjectID);

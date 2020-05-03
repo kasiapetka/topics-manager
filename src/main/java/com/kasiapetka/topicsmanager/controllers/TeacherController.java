@@ -1,8 +1,7 @@
 package com.kasiapetka.topicsmanager.controllers;
 
-import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
 import com.kasiapetka.topicsmanager.DTO.EditAccount;
-import com.kasiapetka.topicsmanager.DTO.NewSection;
+import com.kasiapetka.topicsmanager.DTO.TopicsListDTO;
 import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Teacher;
 import com.kasiapetka.topicsmanager.model.Topic;
@@ -79,30 +78,7 @@ public class TeacherController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-    @PostMapping("/api/teacher/addsection")
-    ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection) {
 
-        Long id = sectionService.addNewSection(newSection);
-
-        if (id > -1) {
-            return ResponseEntity.ok().body(id);
-        } else {
-            if(id == -1){
-                return ResponseEntity.status(500).build();
-            } else{
-                return ResponseEntity.status(409).build();
-            }
-        }
-    }
-
-    @PutMapping("/api/teacher/addstudentstosection")
-    ResponseEntity<?> addStudentToSection(@Valid @RequestBody AddStudentsToSectionDTO addStudentsToSectionDTO) {
-        if (sectionService.addStudentsToSection(addStudentsToSectionDTO)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(500).build();
-        }
-    }
 
     @GetMapping("/api/teacher/subjects/{teacherID}")
     List<Subject> listSubjects(@PathVariable Long teacherID){
@@ -112,5 +88,11 @@ public class TeacherController {
     @GetMapping("/api/teacher/topics/{subjectID}/{teacherID}")
     List<Topic> listTopicBySubjectIdAndTeacherId(@PathVariable Long subjectID, @PathVariable Long teacherID){
         return topicService.getTopicListByTeacherID(teacherID, subjectID);
+    }
+
+    @PostMapping("/api/teacher/jointopics/{teacherID}/{subjectID}")
+    ResponseEntity<?> addTopicsToTeacher(@Valid @RequestBody TopicsListDTO topicsListDTO, @PathVariable Long teacherID,
+                                         @PathVariable Long subjectID){
+        return ResponseEntity.ok().build();
     }
 }
