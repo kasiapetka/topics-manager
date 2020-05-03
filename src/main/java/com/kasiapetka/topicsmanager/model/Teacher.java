@@ -36,4 +36,8 @@ public class Teacher {
     @ToString.Exclude
     @ManyToMany(mappedBy = "teachers")
     private List<Subject> subjects;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "teacher")
+    private List<Section> sections;
 }

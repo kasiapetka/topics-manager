@@ -5,12 +5,8 @@ import com.kasiapetka.topicsmanager.DTO.NewSection;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.services.SectionService;
-import com.kasiapetka.topicsmanager.services.SemesterService;
-import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.TopicService;
+import com.kasiapetka.topicsmanager.services.*;
 import org.hibernate.HibernateException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,21 +18,22 @@ import java.util.List;
 public class SectionServiceImpl implements SectionService {
     private SectionRepository sectionRepository;
     private StudentRepository studentRepository;
+    private TeacherService teacherService;
 
     private StudentService studentService;
     private TopicService topicService;
     private SemesterService semesterService;
 
-    @Autowired
+
     public SectionServiceImpl(SectionRepository sectionRepository, StudentRepository studentRepository,
-                              TopicService topicService, SemesterService semesterService,
-                              StudentService studentService) {
+                              TeacherService teacherService, StudentService studentService, TopicService topicService,
+                              SemesterService semesterService) {
         this.sectionRepository = sectionRepository;
         this.studentRepository = studentRepository;
-
-        this.semesterService = semesterService;
+        this.teacherService = teacherService;
         this.studentService = studentService;
         this.topicService = topicService;
+        this.semesterService = semesterService;
     }
 
     @Override
@@ -44,12 +41,13 @@ public class SectionServiceImpl implements SectionService {
         return sectionRepository.findById(id).orElse(null);
     }
 
-    //TODO dodac sprawdzanie czy identyczna sekcja z taka sama nazwa juz istnieje
+    //TODO refactor for returning responseCode and check if teacher is null and check if name is same for the same topic
     @Override
     public Long addNewSection(NewSection newSection) {
         Topic topic;
         Semester semester;
-        List<Section> sectionList = new ArrayList<>();
+        List<Section> sectionList;
+        Teacher teacher;
 
 //        Character state;
 //        if(newSection.getState()){
@@ -58,11 +56,13 @@ public class SectionServiceImpl implements SectionService {
 //            state = 'C';
 //        }
 
+
         try {
             //todo rozkminic ten rok
             topic = topicService.findTopicById(newSection.getTopic());
             semester = semesterService.findSemesterBySemesterAndYear(newSection.getSemester(),
                     semesterService.getCurrentYear());
+            teacher = teacherService.findTeacherById(newSection.getTeacherId());
 
             sectionList = semester.getSections();
         } catch (HibernateException he){
@@ -83,6 +83,7 @@ public class SectionServiceImpl implements SectionService {
             section.setState(newSection.getState());
             section.setTopic(topic);
             section.setSemester(semester);
+            section.setTeacher(teacher);
 
             sectionRepository.save(section);
 

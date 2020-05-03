@@ -9,4 +9,5 @@ public class NewSection {
     private Character state; //TODO zmienic na isOpen
     private Integer semester;
     private Long topic; //TODO zmienic na topicId
+    private Long teacherId;
 }

@@ -50,4 +50,9 @@ public class Section {
         studentSections.add(studentSection);
     }
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
 }
