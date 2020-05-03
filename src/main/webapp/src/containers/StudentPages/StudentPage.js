@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PageNavbar from "../../components/Navigation/Navbar/Navbar";
 import AccountDetailsCard from "../../components/UI/Cards/AccountDetailsCard/AccountDetailsCard";
 import {Alert} from "reactstrap";
-import ListStudentSectionsComponent from "../../components/Pages/StudentPages/ListStudentSections/ListStudentSections";
+import ListStudentSections from "../Lists/ListStudentSections";
 import Messages from "../../components/Messages/Messages";
 import axios from 'axios'
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
@@ -60,7 +60,7 @@ class StudentPage extends Component {
                             <Messages/>
                         </div>
                         <div className="col-md-8 border-right">
-                            <ListStudentSectionsComponent/>
+                            <ListStudentSections/>
                         </div>
                         <div className="col-md-1"></div>
                     </div>

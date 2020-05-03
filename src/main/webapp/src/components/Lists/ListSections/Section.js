@@ -5,13 +5,14 @@ import auth from '../../../Auth'
 
 const section = (props) => {
 
-    let controls;
-    let state;
+    let controls, state;
 
-    if(props.state){
+    if(props.state === 'O'){
         state="Opened"
-    }else{
+    }else if(props.state === 'C'){
         state="Closed"
+    }else if(props.state === 'F'){
+        state="Finished"
     }
 
     if(auth.getRole()==='T' || auth.getRole()==='A')

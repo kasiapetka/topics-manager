@@ -13,7 +13,7 @@ const Sections =(props)=>{
                 topic={section.topic.name}
                 subject={section.topic.subject.name}
                 semester={section.semester.semester}
-                state={section.isOpen}
+                state={section.state}
                 key={section.id}
                 edit={() => props.edit(index)}
                 delete={() => props.delete(index)}

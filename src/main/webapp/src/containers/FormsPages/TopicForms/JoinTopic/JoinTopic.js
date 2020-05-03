@@ -7,7 +7,7 @@ import ListTopics from "../../../Lists/ListTopics";
 class JoinTopic extends Component {
 
     state = {
-        teacherTopics: [],
+        teacherTopics: null,
         topics: [],
         subject: null,
         error: false,
@@ -15,10 +15,27 @@ class JoinTopic extends Component {
     };
 
     subjectChanged = (topics, subjectId) => {
-        axios.get('/api/teacher/topics/' +auth.getId() + '/' + subjectId ).then(response => {
+        axios.get('/api/teacher/topics/' + subjectId + '/' + auth.getId()).then(response => {
             let teacherTopics = [...response.data];
 
+            //request z ktorych topikow nie moge wyjsc
+            //api/teacher/openedtopics/' + subjectId + '/' + auth.getId())
+
             console.log(teacherTopics)
+            topics.forEach(topic => {
+                topic.isInTopic = false;
+                topic.canQuit = true;
+            });
+
+            // topics.forEach(topic => {
+            //     teacherOpenedTopics.forEach(teacherInOpenedTopic => {
+            //         if (teacherInOpenedTopic.id === topic.id) {
+            //             topic.canQuit = false;
+            //         } else if (topic.isInTopic !== true) {
+            //             topic.canQuit = true;
+            //         }
+            //     });
+            // });
 
             topics.forEach(topic => {
                 teacherTopics.forEach(teacherInTopic => {
@@ -29,8 +46,9 @@ class JoinTopic extends Component {
                     }
                 });
             });
+            console.log(topics)
             this.setState({
-                teacherTopics: teacherTopics,
+                teacherTopics: topics,
                 subject: subjectId,
                 topics: topics,
                 loading: false
