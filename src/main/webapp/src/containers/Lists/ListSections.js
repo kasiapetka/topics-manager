@@ -11,10 +11,11 @@ import DeleteSectionCard from "../../components/UI/Cards/SectionCards/DeleteSect
 import PrivateTeacherRoute from "../../components/PrivateRoutes/PrivateTeacherRoute";
 import {withRouter} from "react-router-dom";
 import EditSection from "../FormsPages/SectionForms/EditSection/EditSection";
+import ModifySection from "../FormsPages/SectionForms/ModifySection/ModifySection";
 
 class ListSections extends Component {
     state = {
-        error: false,
+        error: null,
         sections: [],
         loading: true,
         semester: 1,
@@ -28,13 +29,14 @@ class ListSections extends Component {
         axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
             let sections = [...response.data];
 
+            console.log(sections)
             this.setState({
                 sections: sections,
                 loading: false,
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
                 loading: false,
             })
         })
@@ -56,7 +58,7 @@ class ListSections extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
                 loading: false
             })
         })
@@ -69,6 +71,15 @@ class ListSections extends Component {
         });
 
        this.props.history.push(this.props.match.path + '/editsection');
+    };
+
+    onSectionModifyHandler = (index) => {
+        const section = this.state.sections[index];
+        this.setState({
+            section:section
+        });
+
+        this.props.history.push(this.props.match.path + '/modifysection');
     };
 
     onSectionDeleteHandler = (index) => {
@@ -92,9 +103,20 @@ class ListSections extends Component {
     };
 
     sectionDeletedHandler = (section) => {
-        this.setState({
-            section: section,
-        });
+        axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
+            let sections = [...response.data];
+
+            this.setState({
+                sections: sections,
+                section: section,
+                loading: false,
+            });
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false,
+            })
+        })
     };
 
 
@@ -106,7 +128,8 @@ class ListSections extends Component {
         if (error) {
             return (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {error.message}
                 </Alert>
             )
         } else if (loading) {
@@ -120,6 +143,7 @@ class ListSections extends Component {
                     sections={this.state.sections}
                     delete={this.onSectionDeleteHandler}
                     edit={this.onSectionEditHandler}
+                    modify={this.onSectionModifyHandler}
                 />
             </React.Fragment>
         }
@@ -147,12 +171,20 @@ class ListSections extends Component {
                     section={this.state.section}
                     {...this.props}/>}/>
 
+                <PrivateAdminRoute exact path="/admin/sections/modifysection" component={() => <ModifySection
+                    section={this.state.section}
+                    {...this.props}/>}/>
+
                 <PrivateTeacherRoute exact path="/teacher/sections/deletedsection" component={() => <DeleteSectionCard
                     deleted={true}
                     section={this.state.section}
                     {...this.props}/>}/>
 
                 <PrivateTeacherRoute exact path="/teacher/sections/editsection" component={() => <EditSection
+                    section={this.state.section}
+                    {...this.props}/>}/>
+
+                <PrivateTeacherRoute exact path="/teacher/sections/modifysection" component={() => <ModifySection
                     section={this.state.section}
                     {...this.props}/>}/>
 

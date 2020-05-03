@@ -34,7 +34,7 @@ class Login extends React.Component {
             },
             formValid: false,
             wrongCred: false,
-            serverError: false,
+            error: null,
             role: role,
         };
     }
@@ -67,7 +67,7 @@ class Login extends React.Component {
                     })
                 } else {
                     this.setState({
-                        serverError: true
+                        error: error
                     });
                 }
             })
@@ -77,7 +77,7 @@ class Login extends React.Component {
         const {user} = this.state;
         const wrongCred = this.state.wrongCred;
         const role = this.state.role;
-        const serverError = this.state.serverError;
+        const error = this.state.error;
 
         let wrongCredentials, serverProblem;
         if (wrongCred) {
@@ -86,10 +86,10 @@ class Login extends React.Component {
                     Wrong Login Credentials</Badge>)
         }
 
-        if (serverError) {
+        if (error) {
             serverProblem =
                 (<Badge color="danger" className="col-12 pt-2 pb-2 pl-2 pr-2 mt-4" pill>
-                    Internal Server Error</Badge>)
+                    Internal Server Error <br/> {error.message} </Badge>)
         }
 
         if (role === 'S')

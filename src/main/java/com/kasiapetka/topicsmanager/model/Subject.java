@@ -30,6 +30,7 @@ public class Subject {
     )
     private List<Teacher> teachers;
 
+    @ToString.Exclude
     @JsonBackReference(value = "subjects-topics")
     @OneToMany(mappedBy = "subject")
     private List<Topic> topics;

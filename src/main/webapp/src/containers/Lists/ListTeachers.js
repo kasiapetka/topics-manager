@@ -12,7 +12,7 @@ class ListTeachers extends Component {
         super(props);
         this.state = {
             teachers: [],
-            error: false,
+            error: null,
             showTeachers: false,
             search: '',
             teachersFiltered: [],
@@ -49,7 +49,7 @@ class ListTeachers extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
                 loading: false
             })
         })
@@ -121,7 +121,8 @@ class ListTeachers extends Component {
         if (error) {
             list = (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {error.message}
                 </Alert>
             )
         } else if (this.state.loading) {

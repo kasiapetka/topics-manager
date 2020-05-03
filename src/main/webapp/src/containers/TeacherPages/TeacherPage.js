@@ -9,7 +9,7 @@ import auth from "../../Auth";
 class TeacherPage extends Component {
     state = {
         teacher: '',
-        error: false,
+        error: null,
         modifyPath: '',
         personRole: '',
         deletePerson: '',
@@ -24,7 +24,7 @@ class TeacherPage extends Component {
             this.setState({teacher: teacher})
         })
             .catch(error => {
-                this.setState({error: true})
+                this.setState({error: error})
             });
 
     }
@@ -42,7 +42,8 @@ class TeacherPage extends Component {
         if (this.state.error) {
             return (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {this.state.error.message}
                 </Alert>
             )
         }

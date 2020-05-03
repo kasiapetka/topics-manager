@@ -5,12 +5,11 @@ import Topics from "../../components/Lists/ListTopics/Topics";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSubjectInput from "../../components/Lists/PickSubjectInput/PickSubjectInput";
 import auth from "../../Auth";
-import Topic from "../../components/Lists/ListTopics/Topic";
 
 class ListTopics extends Component {
 
     state = {
-        error: false,
+        error: null,
         subjects: [],
         subject: '',
         topics: null,
@@ -31,7 +30,7 @@ class ListTopics extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
                 loading: false,
             })
         })
@@ -64,7 +63,7 @@ class ListTopics extends Component {
 
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
                 loading: false
             })
         })
@@ -79,7 +78,8 @@ class ListTopics extends Component {
         if (error) {
             return (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {error.message}
                 </Alert>
             )
         } else if (loading) {

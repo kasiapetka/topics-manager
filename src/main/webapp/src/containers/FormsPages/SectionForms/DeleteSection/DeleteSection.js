@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import DeleteSectionCard from "../../../../components/UI/Cards/SectionCards/DeleteSectionCard/DeleteSectionCard";
 import {Alert} from "reactstrap";
-import {withRouter} from "react-router-dom";
 
 class DeleteSection extends Component {
 
     state = {
-        error: false
+        error: null
     };
 
     sectionDeleteHandler = () => {
@@ -21,7 +20,7 @@ class DeleteSection extends Component {
             this.props.history.push(this.props.match.path + '/deletedsection')
         })
             .catch(error => {
-                this.setState({error: true});
+                this.setState({error: error});
             });
 
         this.props.deleteClicked(this.props.section);
@@ -33,7 +32,8 @@ class DeleteSection extends Component {
         if (error) {
             content= (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again. <br/>
+                    {error.message}
                 </Alert>
             )
         } else{
@@ -43,6 +43,7 @@ class DeleteSection extends Component {
                 cancel={this.props.cancelClicked}
                 delete={this.sectionDeleteHandler}/>)
         }
+
 
         return content;
     }

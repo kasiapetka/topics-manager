@@ -2,8 +2,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Form, Button} from "reactstrap";
 import classes from "../Forms.module.css";
-import Input from "../../Input/Input";
-import SubmitButton from "../../Button/Button";
+import Input from "../../FormElements/Input/Input";
+import SubmitButton from "../../FormElements/Button/Button";
 
 const registerForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 pr-3 pl-3 mb-5 " + classes.Form;

@@ -12,7 +12,7 @@ class StudentPage extends Component {
 
     state = {
         student: '',
-        error: false
+        error: null
     };
 
     componentDidMount() {
@@ -22,7 +22,7 @@ class StudentPage extends Component {
                 this.setState({student: student})
         })
             .catch(error => {
-                this.setState({error: true})
+                this.setState({error: error})
             });
     }
 
@@ -39,7 +39,8 @@ class StudentPage extends Component {
         if (this.state.error) {
             return (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {this.state.error.message}
                 </Alert>
             )
         }

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import AddSectionForm from "../../../../components/Forms/FormsTemplates/AddSectionForm/AddSectionForm";
+import AddSectionForm from "../../../../components/Forms/FormsTemplates/SectionForms/AddSectionForm/AddSectionForm";
 import {Alert} from "reactstrap";
 import axios from 'axios'
 import AddStudentToSectionForm
-    from "../../../../components/Forms/FormsTemplates/AddStudentsToSectionForm/AddStudentsToSectionForm";
+    from "../../../../components/Forms/FormsTemplates/SectionForms/AddStudentsToSectionForm/AddStudentsToSectionForm";
 import AddedSectionCard from "../../../../components/UI/Cards/SectionCards/AddedSectionCard/AddedSectionCard";
 import handleInputChange from "../../validateForm";
 import auth from "../../../../Auth";
@@ -73,9 +73,9 @@ class AddSection extends Component {
                 }
             }
         },
-        error: false,
+        error: null,
         formValid: false,
-        subjects: [],
+        subjects: null,
         teachers: null,
         topics: null,
         addStudents: false,
@@ -85,9 +85,7 @@ class AddSection extends Component {
     };
 
     componentDidMount() {
-        let path;
         if (auth.getRole() === 'A') {
-            path = '/api/admin/subjects';
             axios.get('/api/admin/teachers').then(response => {
                 let teachers = [...response.data];
                 this.setState({
@@ -95,22 +93,23 @@ class AddSection extends Component {
                 });
             }).catch(error => {
                 this.setState({
-                    error: true,
+                    error: error,
                 })
             })
         }
-        if (auth.getRole() === 'T') path = '/api/teacher/subjects/' + auth.getId();
-
-        axios.get(path).then(response => {
-            let subjects = [...response.data];
-            this.setState({
-                subjects: subjects
-            });
-        }).catch(error => {
-            this.setState({
-                error: true,
+        if (auth.getRole() === 'T'){
+            const path = '/api/teacher/subjects/' + auth.getId();
+            axios.get(path).then(response => {
+                let subjects = [...response.data];
+                this.setState({
+                    subjects: subjects
+                });
+            }).catch(error => {
+                this.setState({
+                    error: error,
+                })
             })
-        })
+        }
     }
 
     handleChange = (event) => {
@@ -163,7 +162,7 @@ class AddSection extends Component {
                 })
             } else {
                 this.setState({
-                    error: true,
+                    error: error,
                 })
             }
         })
@@ -182,7 +181,7 @@ class AddSection extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
             })
         })
     };
@@ -192,9 +191,18 @@ class AddSection extends Component {
         const section = {...this.state.section};
         section.teacher.value = id;
 
-        this.setState({
-            section: section
-        });
+        const path = '/api/teacher/subjects/' + id;
+        axios.get(path).then(response => {
+            let subjects = [...response.data];
+            this.setState({
+                subjects: subjects,
+                section: section
+            });
+        }).catch(error => {
+            this.setState({
+                error: error,
+            })
+        })
     };
 
     addStudentToSectionHandler = (student) => {
@@ -246,7 +254,7 @@ class AddSection extends Component {
 
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
             })
         })
     };
@@ -260,7 +268,8 @@ class AddSection extends Component {
         if (error) {
             return (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again. <br/>
+                    {error.message}
                 </Alert>
             )
         } else if (!addStudents) {

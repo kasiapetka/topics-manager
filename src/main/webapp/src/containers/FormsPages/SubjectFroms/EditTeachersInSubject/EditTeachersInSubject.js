@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import EditTeachersInSubjectForm
-    from "../../../../components/Forms/FormsTemplates/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
+    from "../../../../components/Forms/FormsTemplates/SubjectForms/EditTeachersInSubjectForm/EditTeachersInSubjectForm";
 import {Alert} from "reactstrap";
 import EditTeachersInSubjectCard
     from "../../../../components/UI/Cards/SubjectCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
@@ -11,7 +11,7 @@ class EditTeachersInSubject extends Component {
 
     state = {
         loading: true,
-        error: false,
+        error: null,
         subjects: [],
         subject: null,
         teachers: [],
@@ -30,7 +30,7 @@ class EditTeachersInSubject extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error
             })
         })
     }
@@ -45,7 +45,7 @@ class EditTeachersInSubject extends Component {
             this.setState({teachers: teachers,});
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error
             })
         })
     };
@@ -93,7 +93,7 @@ class EditTeachersInSubject extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error
             })
         })
     };
@@ -106,7 +106,8 @@ class EditTeachersInSubject extends Component {
 
         if (error) {
             content = <Alert color="danger">
-                Server Error, Please Try Again.
+                Server Error, Please Try Again.<br/>
+                {error.message}
             </Alert>
         } else if (!teachersEdited) {
             content = <EditTeachersInSubjectForm

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import EditSectionForm from "../../../../components/Forms/FormsTemplates/EditSectionForm/EditSectionForm";
+import EditSectionForm from "../../../../components/Forms/FormsTemplates/SectionForms/EditSectionForm/EditSectionForm";
 import auth from "../../../../Auth";
 import {Redirect} from "react-router-dom";
 

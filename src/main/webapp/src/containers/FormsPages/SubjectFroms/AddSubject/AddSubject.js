@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AddSubjectForm from "../../../../components/Forms/FormsTemplates/AddSubjectForm/AddSubjectForm";
+import AddSubjectForm from "../../../../components/Forms/FormsTemplates/SubjectForms/AddSubjectForm/AddSubjectForm";
 import {Alert} from "reactstrap";
 import axios from "axios";
 import AddedSubjectCard from "../../../../components/UI/Cards/SubjectCards/AddedSubjectCard/AddedSubjectCard";
@@ -8,7 +8,7 @@ import handleInputChange from "../../validateForm";
 class AddSubject extends Component {
 
     state = {
-        error: false,
+        error: null,
         subject: {
             name: {
                 value: '',
@@ -59,7 +59,7 @@ class AddSubject extends Component {
             if (error.response.status === 409) {
                 this.setState({wrongName: true})
             } else {
-                this.setState({error: true,})
+                this.setState({error: error})
             }
         })
 
@@ -73,7 +73,8 @@ class AddSubject extends Component {
         if (error) {
             content = (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again. <br/>
+                    {error.message}
                 </Alert>
             )
         } else if (!subjectAdded) {

@@ -6,7 +6,7 @@ import {Alert} from "reactstrap";
 class DeletePerson extends Component {
 
     state={
-        error: false
+        error: null
     };
 
     personDeleteHandler=()=>{
@@ -24,7 +24,7 @@ class DeletePerson extends Component {
         axios.put(path,id).then(response => {
         })
             .catch(error => {
-                this.setState({error: true});
+                this.setState({error: error});
             });
 
         this.props.cancelClicked();
@@ -36,7 +36,8 @@ class DeletePerson extends Component {
         if(error){
             return(
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again. <br/>
+                    {error.message}
                 </Alert>
             )
         }

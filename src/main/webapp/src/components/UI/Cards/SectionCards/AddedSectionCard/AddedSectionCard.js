@@ -27,6 +27,7 @@ const addedSectionCard = (props) => {
                 <CardTitle>Name: <em>{props.section.name}</em></CardTitle>
                 <CardSubtitle className="pb-2">Subject: <em>{props.section.subject}</em></CardSubtitle>
                 <CardSubtitle className="pb-2">Topic: <em>{props.section.topic}</em></CardSubtitle>
+                {/*<CardSubtitle className="pb-2">Teacher: <em>{props.section.teacher.name + ' '+props.section.teacher.surname}</em></CardSubtitle>*/}
             </CardBody>
             <CardBody>
                 <CardTitle className="mt-2">Students:</CardTitle>

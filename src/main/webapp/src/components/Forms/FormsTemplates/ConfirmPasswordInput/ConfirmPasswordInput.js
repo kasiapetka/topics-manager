@@ -1,5 +1,5 @@
 import React from "react";
-import Input from "../../Input/Input";
+import Input from "../../FormElements/Input/Input";
 
 const confirmPasswordInput = (props) => {
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Alert} from "reactstrap";
 import axios from "axios";
-import AddTopicForm from "../../../../components/Forms/FormsTemplates/AddTopicForm/AddTopicForm";
+import AddTopicForm from "../../../../components/Forms/FormsTemplates/TopicForms/AddTopicForm/AddTopicForm";
 import AddedTopicCard from "../../../../components/UI/Cards/TopicCards/AddedTopicCard/AddedTopicCard";
 import handleInputChange from "../../validateForm";
 import auth from "../../../../Auth";
@@ -9,7 +9,7 @@ import auth from "../../../../Auth";
 class AddTopic extends Component {
 
     state = {
-        error: false,
+        error: null,
         topic: {
             subject: {
                 value: null,
@@ -54,7 +54,7 @@ class AddTopic extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error
             })
         })
     }
@@ -89,7 +89,7 @@ class AddTopic extends Component {
             if (error.response.status === 409) {
                 this.setState({wrongName: true})
             } else {
-                this.setState({error: true,})
+                this.setState({error: error})
             }
         })
     };
@@ -102,7 +102,8 @@ class AddTopic extends Component {
         if (error) {
             content = (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {error.message}
                 </Alert>
             )
         } else if (!topicAdded) {

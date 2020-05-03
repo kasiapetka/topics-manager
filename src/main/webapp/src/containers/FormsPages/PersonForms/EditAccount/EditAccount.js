@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import auth from "../../../../Auth";
 import {Badge, Alert} from "reactstrap";
-import EditAccountInputs from "../../../../components/Forms/FormsTemplates/EditForm/EditAccountForm";
-import EditPersonForm from "../../../../components/Forms/FormsTemplates/EditForm/EditPersonForm";
+import EditAccountInputs from "../../../../components/Forms/FormsTemplates/PersonForms/EditForm/EditAccountForm";
+import EditPersonForm from "../../../../components/Forms/FormsTemplates/PersonForms/EditForm/EditPersonForm";
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import Spinner from "../../../../components/UI/Spinner/Spinner";
@@ -26,7 +26,7 @@ class EditAccount extends Component {
 
         this.state = {
             person: this.emptyPerson,
-            serverError: false,
+            error: null,
             changed: false,
             credsChanged: false,
             wrongPassword: false,
@@ -51,7 +51,7 @@ class EditAccount extends Component {
             })
                 .catch(error => {
                     this.setState({
-                        serverError: true,
+                        error: error,
                         loading: false
                     });
                 });
@@ -110,23 +110,24 @@ class EditAccount extends Component {
                 } else if (error.response.status === 409) {
                     this.setState({wrongEmail: true});
                 } else
-                    this.setState({serverError: true});
+                    this.setState({error: error});
             });
     };
 
     render() {
         const {person} = this.state;
-        const serverError = this.state.serverError;
+        const error = this.state.error;
         const credsChanged = this.state.credsChanged;
         const redirect = this.state.redirect;
         let form;
 
         let credentialsChangedSuccess;
 
-        if (serverError) {
+        if (error) {
             return (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again. <br/>
+                    {error.message}
                 </Alert>
             )
         }
@@ -171,7 +172,6 @@ class EditAccount extends Component {
                 emptyForm={this.state.emptyForm}
             />
         }
-
         return form;
     }
 };

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import AddPersonForm from "../../../../components/Forms/FormsTemplates/AddPersonForm/AddPersonForm";
+import AddPersonForm from "../../../../components/Forms/FormsTemplates/PersonForms/AddPersonForm/AddPersonForm";
 import axios from "axios";
 import {Alert} from "reactstrap";
 import {withRouter} from "react-router-dom";
@@ -17,7 +17,7 @@ class AddPerson extends Component {
     };
 
     state = {
-        error: false,
+        error: null,
         emptyForm: false,
         changed: false,
         person: this.emptyPerson,
@@ -81,7 +81,7 @@ class AddPerson extends Component {
                 })
             } else {
                 this.setState({
-                    error: true,
+                    error: error,
                 })
             }
         })
@@ -96,7 +96,8 @@ class AddPerson extends Component {
         if (error) {
             content = (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again. <br/>
+                    {error.message}
                 </Alert>
             )
         } else if(!personAdded){

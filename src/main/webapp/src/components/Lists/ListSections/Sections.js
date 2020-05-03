@@ -16,6 +16,7 @@ const Sections =(props)=>{
                 state={section.state}
                 key={section.id}
                 edit={() => props.edit(index)}
+                modify={() => props.modify(index)}
                 delete={() => props.delete(index)}
             />
         });

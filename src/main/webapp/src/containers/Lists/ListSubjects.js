@@ -11,7 +11,7 @@ class ListSubjects extends Component {
         super(props);
         this.state = {
             subjects: [],
-            error: false,
+            error: null,
             loading: true,
             role: auth.getRole()
         };
@@ -32,7 +32,7 @@ class ListSubjects extends Component {
             });
         }).catch(error => {
             this.setState({
-                error: true,
+                error: error,
                 loading: false
             })
         })
@@ -56,7 +56,8 @@ class ListSubjects extends Component {
         if (error) {
             list = (
                 <Alert color="danger">
-                    Server Error, Please Try Again.
+                    Server Error, Please Try Again.<br/>
+                    {error.message}
                 </Alert>
             )
         } else if(this.state.loading){
