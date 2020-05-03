@@ -5,6 +5,7 @@ import com.kasiapetka.topicsmanager.DTO.NewSection;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
+import com.kasiapetka.topicsmanager.repositories.StudentSectionRepository;
 import com.kasiapetka.topicsmanager.services.*;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 public class SectionServiceImpl implements SectionService {
     private SectionRepository sectionRepository;
     private StudentRepository studentRepository;
+    private StudentSectionRepository studentSectionRepository;
     private TeacherService teacherService;
 
     private StudentService studentService;
@@ -26,10 +28,11 @@ public class SectionServiceImpl implements SectionService {
 
 
     public SectionServiceImpl(SectionRepository sectionRepository, StudentRepository studentRepository,
-                              TeacherService teacherService, StudentService studentService, TopicService topicService,
-                              SemesterService semesterService) {
+                              StudentSectionRepository studentSectionRepository, TeacherService teacherService,
+                              StudentService studentService, TopicService topicService, SemesterService semesterService) {
         this.sectionRepository = sectionRepository;
         this.studentRepository = studentRepository;
+        this.studentSectionRepository = studentSectionRepository;
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.topicService = topicService;
@@ -147,6 +150,40 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
+    public List<Student> listStudentsBySectionId(Long sectionID) {
+        Section section = this.findSectionById(sectionID);
+
+        List<StudentSection> studentSections = new ArrayList<>();
+        studentSectionRepository.findAllBySection(section).orElse(new ArrayList<>()).iterator().forEachRemaining(studentSections::add);
+
+        List<Student> students = new ArrayList<>();
+
+        studentSections.forEach((studentSection -> {
+            students.add(studentSection.getStudent());
+        }));
+        
+        return students;
+    }
+
+    @Override
+    public Integer changeState(Long sectionId, Character state) {
+        Section section = this.findSectionById(sectionId);
+
+        if(section == null){
+            return 500;
+        }
+        section.setState(state);
+        try{
+            sectionRepository.save(section);
+        } catch (HibernateException e){
+            e.printStackTrace();
+            return 500;
+        }
+
+        return 200;
+    }
+
+    @Override
     public Integer deleteSection(Long sectionID) {
         try {
             Section section = this.findSectionById(sectionID);
@@ -158,4 +195,6 @@ public class SectionServiceImpl implements SectionService {
             return 500;
         }
     }
+
+
 }
