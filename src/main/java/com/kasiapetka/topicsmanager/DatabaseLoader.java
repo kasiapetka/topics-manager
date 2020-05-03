@@ -179,6 +179,27 @@ public class DatabaseLoader implements CommandLineRunner {
         s4.setNewEmail("aaa@aaa4.com");
         s4.setNewPassword("aaaaa4");
 
+        NewStudentOrTeacherDTO s5 = new NewStudentOrTeacherDTO();
+        s5.setNewName("student5");
+        s5.setNewSurname("ertyu");
+        s5.setSemester(1);
+        s5.setNewEmail("aaa@aaa5.com");
+        s5.setNewPassword("aaaaa5");
+
+        NewStudentOrTeacherDTO s6 = new NewStudentOrTeacherDTO();
+        s6.setNewName("student6");
+        s6.setNewSurname("ertyu");
+        s6.setSemester(1);
+        s6.setNewEmail("aaa@aaa6.com");
+        s6.setNewPassword("aaaaa6");
+
+        NewStudentOrTeacherDTO s7 = new NewStudentOrTeacherDTO();
+        s7.setNewName("student7");
+        s7.setNewSurname("ertyu");
+        s7.setSemester(1);
+        s7.setNewEmail("aaa@aaa7.com");
+        s7.setNewPassword("aaaaa7");
+
         studentService.addNewStudent(s1);
         studentService.addNewStudent(s2);
         studentService.addNewStudent(s3);
