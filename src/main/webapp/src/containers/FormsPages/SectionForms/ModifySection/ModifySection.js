@@ -17,18 +17,18 @@ class ModifySection extends Component {
     };
 
     componentDidMount() {
-      //  axios.put('/api/adminteacher/students/' + this.state.section.id).then(response => {
-     //       const students = [...response.data];
-      //      this.setState({
-      //          students: students,
-      //          loading: false
-      //      })
-      //  }).catch(error => {
-     //       this.setState({
-       //         error: error,
-       //         loading: false
-       //     })
-      //  })
+        axios.put('/api/adminteacher/students/' + this.state.section.id + '/members').then(response => {
+            const students = [...response.data];
+            this.setState({
+                students: students,
+                loading: false
+            })
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        })
     }
 
     onStateChangeHandler = (event) => {
