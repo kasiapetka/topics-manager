@@ -43,7 +43,7 @@ class AddSection extends Component {
                 }
             },
             state: {
-                value: true,
+                value: 'O',
                 validation: {
                     valid: true,
                     touched: false,
@@ -116,6 +116,8 @@ class AddSection extends Component {
             topic: this.state.section.topic.value,
             subject: this.state.section.subject.value,
         };
+
+        console.log(section)
 
         axios.post('/api/teacher/addsection', section).then(response => {
             section.id = response.data;
