@@ -1,8 +1,8 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
-import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.DTO.NewSection;
+import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.services.SectionService;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,12 +51,12 @@ public class SectionServiceImpl implements SectionService {
         Semester semester;
         List<Section> sectionList = new ArrayList<>();
 
-        Character state;
-        if(newSection.getState()){
-            state = 'O';
-        } else {
-            state = 'C';
-        }
+//        Character state;
+//        if(newSection.getState()){
+//            state = 'O';
+//        } else {
+//            state = 'C';
+//        }
 
         try {
             //todo rozkminic ten rok
@@ -81,7 +80,7 @@ public class SectionServiceImpl implements SectionService {
             Section section = new Section();
             section.setName(newSection.getName());
             section.setSizeOfSection(newSection.getSize());
-            section.setState(state);
+            section.setState(newSection.getState());
             section.setTopic(topic);
             section.setSemester(semester);
 
@@ -98,7 +97,7 @@ public class SectionServiceImpl implements SectionService {
         try {
             Section section = findSectionById(addStudentsToSectionDTO.getSectionId());
 
-            if (!section.getState().equals('O')) {
+            if (!section.getState().equals('O') || !section.getState().equals('C')) {
                 return false;
             }
 
