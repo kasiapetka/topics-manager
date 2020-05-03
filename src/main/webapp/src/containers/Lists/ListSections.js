@@ -10,6 +10,7 @@ import PrivateAdminRoute from "../../components/PrivateRoutes/PrivateAdminRoute"
 import DeleteSectionCard from "../../components/UI/Cards/SectionCards/DeleteSectionCard/DeleteSectionCard";
 import PrivateTeacherRoute from "../../components/PrivateRoutes/PrivateTeacherRoute";
 import {withRouter} from "react-router-dom";
+import EditSection from "../FormsPages/SectionForms/EditSection/EditSection";
 
 class ListSections extends Component {
     state = {
@@ -18,7 +19,7 @@ class ListSections extends Component {
         loading: true,
         semester: 1,
         sectionDelete: false,
-        sectionToDelete: null,
+        section: null,
         deletedSection: null,
         deletedSectionPage: false
     };
@@ -26,6 +27,7 @@ class ListSections extends Component {
     componentDidMount() {
         axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
             let sections = [...response.data];
+
             this.setState({
                 sections: sections,
                 loading: false,
@@ -61,8 +63,12 @@ class ListSections extends Component {
     };
 
     onSectionEditHandler = (index) => {
-        //const section = this.state.sections[index];
-        alert('onSectionEditHandler')
+        const section = this.state.sections[index];
+        this.setState({
+            section:section
+        });
+
+       this.props.history.push(this.props.match.path + '/editsection');
     };
 
     onSectionDeleteHandler = (index) => {
@@ -72,7 +78,7 @@ class ListSections extends Component {
         this.setState((prev) => {
             return {
                 sectionDelete: !this.state.sectionDelete,
-                sectionToDelete: section,
+                section: section,
             };
         })
     };
@@ -87,7 +93,7 @@ class ListSections extends Component {
 
     sectionDeletedHandler = (section) => {
         this.setState({
-            deletedSection: section,
+            section: section,
         });
     };
 
@@ -122,7 +128,7 @@ class ListSections extends Component {
                 show={sectionDelete}
                 modalClosed={this.showDeleteModalHandler}>
                 <DeleteSection
-                    section={this.state.sectionToDelete}
+                    section={this.state.section}
                     cancelClicked={this.showDeleteModalHandler}
                     deleteClicked={this.sectionDeletedHandler}
                     {...this.props}
@@ -134,12 +140,20 @@ class ListSections extends Component {
                 {deleteModal}
                 <PrivateAdminRoute exact path="/admin/sections/deletedsection" component={() => <DeleteSectionCard
                     deleted={true}
-                    section={this.state.deletedSection}
+                    section={this.state.section}
+                    {...this.props}/>}/>
+
+                <PrivateAdminRoute exact path="/admin/sections/editsection" component={() => <EditSection
+                    section={this.state.section}
                     {...this.props}/>}/>
 
                 <PrivateTeacherRoute exact path="/teacher/sections/deletedsection" component={() => <DeleteSectionCard
                     deleted={true}
-                    section={this.state.deletedSection}
+                    section={this.state.section}
+                    {...this.props}/>}/>
+
+                <PrivateTeacherRoute exact path="/teacher/sections/editsection" component={() => <EditSection
+                    section={this.state.section}
                     {...this.props}/>}/>
 
                 <PrivateAdminRoute exact path="/admin/sections" component={() =>

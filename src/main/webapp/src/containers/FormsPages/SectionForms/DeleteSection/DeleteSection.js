@@ -13,18 +13,18 @@ class DeleteSection extends Component {
     sectionDeleteHandler = () => {
         let id, path;
         id = this.props.section.id;
-        path = '/api/adminteacher/deletesection';
+        path = '/api/adminteacher/deletesection/'+id;
 
-        // axios.put(path, id).then(response => {
+        axios.put(path, id).then(response => {
             this.props.cancelClicked();
             this.props.deleteClicked(this.props.section);
             this.props.history.push(this.props.match.path + '/deletedsection')
-        // })
-        //     .catch(error => {
-        //         this.setState({error: true});
-        //     });
-        //
-        //this.props.deleteClicked(this.props.section);
+        })
+            .catch(error => {
+                this.setState({error: true});
+            });
+
+        this.props.deleteClicked(this.props.section);
     };
 
     render() {

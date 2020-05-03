@@ -53,11 +53,14 @@ class ListTopics extends Component {
                 this.props.subjectChanged(topics, id);
 
             //to z ustawieniem czy w topiku jest
-            // if (this.props.teacherTopics) {
-            //     this.setState({
-            //         topics: this.props.teacherTopics
-            //     });
-            // }
+            if (this.props.teacherTopics) {
+                console.log('sdfsdf')
+                console.log(this.props.teacherTopics)
+                this.setState({
+                    topics: this.props.teacherTopics
+                });
+            }
+
         }).catch(error => {
             this.setState({
                 error: true,

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Jumbotron, Button, Row, Col} from 'reactstrap';
 import {Link} from "react-router-dom";
-import classes from './Layout.module.css'
+import classes from './Jumbotron.module.css'
 
-const pageJumbotron = () => {
+const jumbotron = () => {
 
     const jumboClasses = "jumbotron-fluid "+classes.Jumbo;
     return(
@@ -30,4 +30,4 @@ const pageJumbotron = () => {
     );
 };
 
-export default React.memo(pageJumbotron);
+export default React.memo(jumbotron);

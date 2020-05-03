@@ -17,8 +17,8 @@ const sizeSemStateInputs =(props)=>(
                groupclasses='col-md-3'
                onChange={props.onChange}
                value={props.section.state.value}>
-            <option value={true}>Opened</option>
-            <option value={false}>Closed</option>
+            <option value={'O'}>Opened</option>
+            <option value={'C'}>Closed</option>
         </Input>
     </div>
 );
