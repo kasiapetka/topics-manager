@@ -5,6 +5,7 @@ import classes from '../Lists.module.css'
 const Sections =(props)=>{
 
     let sections;
+
     if(props.sections.length !== 0) {
         sections = props.sections.map((section, index) => {
             return <Section
@@ -15,9 +16,9 @@ const Sections =(props)=>{
                 semester={section.semester.semester}
                 state={section.state}
                 key={section.id}
-                edit={() => props.edit(index)}
-                modify={() => props.modify(index)}
-                delete={() => props.delete(index)}
+                edit={() => props.edit(section)}
+                modify={() => props.modify(section)}
+                delete={() => props.delete(section)}
             />
         });
     } else{
