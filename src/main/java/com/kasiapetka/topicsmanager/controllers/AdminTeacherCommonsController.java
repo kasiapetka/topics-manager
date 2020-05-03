@@ -94,6 +94,21 @@ public class AdminTeacherCommonsController {
             return ResponseEntity.status(500).build();
         }
     }
+
+    @GetMapping("/api/adminteacher/students/{sectionID}/members")
+    List<Student> listStudentsInSection(@PathVariable Long sectionID){
+        return sectionService.listStudentsBySectionId(sectionID);
+    }
+
+    @PutMapping("/api/adminteacher/sections/{sectionID}/state")
+    ResponseEntity<?> changeSectionState(@PathVariable Long sectionID, @Valid @RequestBody Character state){
+        Integer responseCode = sectionService.changeState(sectionID, state);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+
+
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
 //    List<Topic> listTopicsBySubjectID(@PathVariable Long subjectID){
 //        return subjectService.getTopicListBySubjectId(subjectID);
