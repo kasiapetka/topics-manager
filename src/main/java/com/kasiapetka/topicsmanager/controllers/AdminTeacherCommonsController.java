@@ -70,8 +70,8 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
-    @PostMapping("/api/adminteacher/addsection/{teacherID}")
-    ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection, @PathVariable Long teacherID) {
+    @PostMapping("/api/adminteacher/addsection")
+    ResponseEntity<?> addNewSection(@Valid @RequestBody NewSection newSection) {
 
         Long id = sectionService.addNewSection(newSection);
 
