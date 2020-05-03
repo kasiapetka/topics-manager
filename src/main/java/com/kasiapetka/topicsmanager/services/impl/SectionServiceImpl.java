@@ -97,7 +97,7 @@ public class SectionServiceImpl implements SectionService {
         try {
             Section section = findSectionById(addStudentsToSectionDTO.getSectionId());
 
-            if (!section.getState().equals('O') || !section.getState().equals('C')) {
+            if (!section.getState().equals('O') && !section.getState().equals('C')) {
                 return false;
             }
 
