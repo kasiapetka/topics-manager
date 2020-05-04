@@ -17,6 +17,7 @@ public class StudentSection {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer grade;
+    //@TODO think if this is date for grade only???
     private Date date;
 
     @NotNull

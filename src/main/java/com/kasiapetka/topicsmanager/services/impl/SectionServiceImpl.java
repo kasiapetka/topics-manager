@@ -2,7 +2,10 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
 import com.kasiapetka.topicsmanager.DTO.NewSection;
+import com.kasiapetka.topicsmanager.DTO.StudentPresenceDTO;
+import com.kasiapetka.topicsmanager.DTO.StudentPresenceListDTO;
 import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.repositories.PresenceRepository;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentSectionRepository;
@@ -21,6 +24,7 @@ public class SectionServiceImpl implements SectionService {
     private StudentRepository studentRepository;
     private StudentSectionRepository studentSectionRepository;
     private TeacherService teacherService;
+    private PresenceRepository presenceRepository;
 
     private StudentService studentService;
     private TopicService topicService;
@@ -29,7 +33,8 @@ public class SectionServiceImpl implements SectionService {
 
     public SectionServiceImpl(SectionRepository sectionRepository, StudentRepository studentRepository,
                               StudentSectionRepository studentSectionRepository, TeacherService teacherService,
-                              StudentService studentService, TopicService topicService, SemesterService semesterService) {
+                              StudentService studentService, TopicService topicService, SemesterService semesterService,
+                              PresenceRepository presenceRepository) {
         this.sectionRepository = sectionRepository;
         this.studentRepository = studentRepository;
         this.studentSectionRepository = studentSectionRepository;
@@ -37,11 +42,20 @@ public class SectionServiceImpl implements SectionService {
         this.studentService = studentService;
         this.topicService = topicService;
         this.semesterService = semesterService;
+        this.presenceRepository = presenceRepository;
     }
 
     @Override
     public Section findSectionById(Long id) {
-        return sectionRepository.findById(id).orElse(null);
+        return sectionRepository.findById(id).orElse(new Section());
+    }
+
+    @Override
+    public List<StudentSection> findStudentSectionsBySection(Section section) {
+        List<StudentSection> studentSections = new ArrayList<>();
+        studentSectionRepository.findAllBySection(section).orElse(new ArrayList<>()).iterator().forEachRemaining(studentSections::add);
+
+        return studentSections;
     }
 
     //TODO refactor for returning responseCode and check if teacher is null and check if name is same for the same topic
@@ -68,13 +82,13 @@ public class SectionServiceImpl implements SectionService {
             teacher = teacherService.findTeacherById(newSection.getTeacherId());
 
             sectionList = semester.getSections();
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return -1L;
         }
 
-        for(Section semestersSections : sectionList){
-            if(semestersSections.getName().equals(newSection.getName())){
+        for (Section semestersSections : sectionList) {
+            if (semestersSections.getName().equals(newSection.getName())) {
                 return -2L;
             }
         }
@@ -153,15 +167,14 @@ public class SectionServiceImpl implements SectionService {
     public List<Student> listStudentsBySectionId(Long sectionID) {
         Section section = this.findSectionById(sectionID);
 
-        List<StudentSection> studentSections = new ArrayList<>();
-        studentSectionRepository.findAllBySection(section).orElse(new ArrayList<>()).iterator().forEachRemaining(studentSections::add);
+        List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
 
         List<Student> students = new ArrayList<>();
 
         studentSections.forEach((studentSection -> {
             students.add(studentSection.getStudent());
         }));
-        
+
         return students;
     }
 
@@ -169,18 +182,38 @@ public class SectionServiceImpl implements SectionService {
     public Integer changeState(Long sectionId, Character state) {
         Section section = this.findSectionById(sectionId);
 
-        if(section == null){
+        if (section == null) {
             return 500;
         }
         section.setState(state);
-        try{
+        try {
             sectionRepository.save(section);
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             e.printStackTrace();
             return 500;
         }
 
         return 200;
+    }
+
+    @Override
+    public List<String> getDatesForSection(Long sectionID) {
+
+        Section section = this.findSectionById(sectionID);
+        List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
+
+        List<String> presenceDates = new ArrayList<>();
+
+        studentSections.forEach(studentSection -> {
+            List<Presence> presences = studentSection.getPresences();
+            presences.forEach(presence -> {
+                if(!presenceDates.contains(presence.getDate().toString())){
+                    presenceDates.add(presence.getDate().toString());
+                }
+            });
+        });
+
+        return presenceDates;
     }
 
     @Override
@@ -190,11 +223,42 @@ public class SectionServiceImpl implements SectionService {
             section.setState('F');
             sectionRepository.save(section);
             return 200;
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
     }
 
+    @Override
+    public Integer issuePresence(Long sectionId, StudentPresenceListDTO studentPresenceListDTO) {
 
+        Section section = this.findSectionById(sectionId);
+
+//        List<Student> students = new ArrayList<>();
+//        studentPresenceListDTO.getStudents().forEach(studentPresenceDTO ->
+//            students.add(studentService.findStudentByAlbum(studentPresenceDTO.getAlbum()))
+//        );
+
+        List<StudentSection> studentSections = findStudentSectionsBySection(section);
+
+
+        studentSections.forEach(studentSection -> {
+            Student student = studentSection.getStudent();
+            for(StudentPresenceDTO s : studentPresenceListDTO.getStudents()){
+                if(s.getAlbum() == student.getAlbum()){
+                    Presence presence = new Presence();
+                    presence.setDate(studentPresenceListDTO.getDate());
+                    presence.setIsPresent(s.getPresent());
+                    presence.setStudentSection(studentSection);
+                    try{
+                        presenceRepository.save(presence);
+                    } catch (HibernateException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        return 200;
+    }
 }
