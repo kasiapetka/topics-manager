@@ -63,14 +63,15 @@ class IssuePresence extends Component {
 
         this.props.history.push(this.props.match.url);
 
-        // axios.put('/api/adminteacher/sections/' + this.state.section.id + '/presence',
-        //     presenceObject).then(response => {
-        //       this.props.history.push(this.props.match.url);
-        // }).catch(error => {
-        //     this.setState({
-        //         error: error,
-        //     })
-        // })
+
+        axios.put('/api/adminteacher/sections/' + this.state.section.id + '/presence',
+            presenceObject).then(response => {
+              this.props.history.push(this.props.match.url);
+        }).catch(error => {
+            this.setState({
+                error: error,
+            })
+        })
     };
 
     render() {

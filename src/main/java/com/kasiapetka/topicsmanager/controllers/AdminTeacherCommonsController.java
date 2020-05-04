@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
 import com.kasiapetka.topicsmanager.DTO.NewSection;
 import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
+import com.kasiapetka.topicsmanager.DTO.StudentPresenceListDTO;
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Topic;
@@ -110,6 +111,20 @@ public class AdminTeacherCommonsController {
     @GetMapping("/api/adminteacher/sections/section/{sectionID}")
     Section getSectionById(@PathVariable Long sectionID){
         return sectionService.findSectionById(sectionID);
+    }
+
+    @GetMapping("/api/adminteacher/sections/{sectionID}/dates")
+    List<String> getDatesForSection(@PathVariable Long sectionID){
+        return sectionService.getDatesForSection(sectionID);
+    }
+
+    @PutMapping("/api/adminteacher/sections/{sectionID}/presence")
+    ResponseEntity<?> issueGrades(@Valid @RequestBody StudentPresenceListDTO studentPresenceListDTO,
+                                  @PathVariable Long sectionID){
+
+        Integer responseCode = sectionService.issuePresence(sectionID, studentPresenceListDTO);
+
+        return ResponseEntity.status(responseCode).build();
     }
 
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
