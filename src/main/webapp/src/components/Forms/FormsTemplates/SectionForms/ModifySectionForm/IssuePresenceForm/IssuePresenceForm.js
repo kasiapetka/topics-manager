@@ -10,6 +10,9 @@ const issuePresenceForm = (props) => {
     let students;
 
     if (props.students) {
+        if(props.students.length){
+            students = <li>No students in this section</li>
+        }
         students = props.students.map((student, index) => {
             return <li key={student.album} className='form-row'>
                 <div className='col-md-5 pt-3'>{student.name + ' ' + student.surname}</div>
