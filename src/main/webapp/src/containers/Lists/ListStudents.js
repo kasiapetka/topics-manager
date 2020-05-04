@@ -24,26 +24,43 @@ class ListStudents extends Component {
             loading: true,
             oversize: false,
             sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
+            studentsAlreadyInSection : this.props.studentsInSection ? this.props.studentsInSection : false,
             studentsInSection: 0
         };
     }
 
     componentDidMount = () => {
-        let sem;
-
+        let sem= this.state.semester;
         if(this.props.sectionSemester){
             sem=this.props.sectionSemester;
-        }
-        else{
-            sem= this.state.semester;
         }
 
         axios.get('/api/adminteacher/students/'+sem).then(response => {
             let students = [...response.data];
+            let studentsInSection = 0, oversize= false;
+            if(this.state.studentsAlreadyInSection){
+                students.forEach(student=>{
+                    this.state.studentsAlreadyInSection.forEach(studentAlreadyInSection=>{
+                        if (studentAlreadyInSection.album === student.album) {
+                            student.isInSection = true;
+                        } else if (student.isInSection !== true) {
+                            student.isInSection = false;
+                        }
+                    })
+                });
+                studentsInSection = this.state.studentsAlreadyInSection.length;
+                if(studentsInSection === this.props.sectionSize){
+                    oversize=true;
+                }
+            }
+
+            console.log(studentsInSection);
             this.setState({
                 students: students,
                 studentsFiltered: students,
-                loading: false
+                loading: false,
+                studentsInSection: studentsInSection,
+                oversize:oversize
             });
         }).catch(error => {
             this.setState({
@@ -75,12 +92,9 @@ class ListStudents extends Component {
     onSemesterChangeHandler = (event) => {
         this.setState({loading: true});
         const id = event.target.value;
-
-        console.log(id)
         this.setState({
             semester: id,
         });
-
         axios.get('/api/adminteacher/students/' + id).then(response => {
             let students = [...response.data];
             this.setState({
@@ -135,6 +149,7 @@ class ListStudents extends Component {
                 studentsInSection: size
             }
         });
+        student.isInSection = false;
         this.props.removeFromSection(student);
     };
 

@@ -18,7 +18,7 @@ const Student = (props) => {
                          color="danger">Delete</Button></Col>
         </Row>
     }
-    if (!props.oversize && props.sectionCreation && addStudentToSection) {
+    if (!props.oversize && props.sectionCreation && addStudentToSection && !props.isInSection) {
         addButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button className="d-inline-block" onClick={() => {
                 setRemoveStudentFromSection(true);
@@ -27,7 +27,7 @@ const Student = (props) => {
             }}>Add</Button></Col>
         </Row>
     }
-    if (props.sectionCreation && removeStudentFromSection) {
+    if (props.sectionCreation && (removeStudentFromSection || props.isInSection)) {
         removeButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button className="d-inline-block" color="danger" onClick={() => {
                 setRemoveStudentFromSection(false);

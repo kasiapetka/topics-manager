@@ -7,7 +7,6 @@ import NameSurnameChangeInput from "./FormInputs/NameSurnameChangeInput";
 import ConfirmPasswordInput from "../../ConfirmPasswordInput/ConfirmPasswordInput";
 import classes from "../../Forms.module.css";
 import Button from "../../../FormElements/Button/Button";
-import Input from "../../../FormElements/Input/Input";
 
 const EditPersonForm = (props) => {
 

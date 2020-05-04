@@ -23,7 +23,6 @@ class IssuePresence extends Component {
         section: this.props.section,
         students: this.props.students,
         date: formatDate(),
-        issued: false,
         error: null
     };
 
@@ -31,8 +30,7 @@ class IssuePresence extends Component {
         const students = [...this.state.students];
         students[index].present = event.target.value;
         this.setState({
-            students: students,
-            issued: false
+            students: students
         })
     };
 
@@ -40,8 +38,7 @@ class IssuePresence extends Component {
         let date;
         date = event.target.value;
         this.setState({
-            date: date,
-            issued: false
+            date: date
         })
     };
 
@@ -62,7 +59,6 @@ class IssuePresence extends Component {
         };
 
         this.props.history.push(this.props.match.url);
-
 
         axios.put('/api/adminteacher/sections/' + this.state.section.id + '/presence',
             presenceObject).then(response => {

@@ -15,7 +15,6 @@ class ViewPresence extends Component {
     };
 
     componentDidMount() {
-
         axios.get('/api/adminteacher/sections/' + this.state.section.id + '/dates').then(response => {
             let dates = [...response.data];
             this.setState({
@@ -26,12 +25,10 @@ class ViewPresence extends Component {
                 error: error
             })
         })
-
     }
 
     onDateChangeHandler = (event) => {
         const date = event.target.value;
-
         axios.get('/api/adminteacher/sections/sectionid/dates/' + date).then(response => {
 
         }).catch(error => {
@@ -41,10 +38,8 @@ class ViewPresence extends Component {
         })
     };
 
-
     render() {
         const error = this.state.error;
-        const section = this.state.section;
         let content;
         if (error) {
             content = (

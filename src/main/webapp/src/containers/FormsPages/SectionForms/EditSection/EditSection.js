@@ -9,9 +9,11 @@ import PrivateTeacherRoute from "../../../../components/PrivateRoutes/PrivateTea
 class EditSection extends Component {
     state = {
         section: null,
+        formValid: false,
         students: null,
         loading: false,
-        error: null
+        error: null,
+        formTouched: false
     };
 
     componentDidMount() {
@@ -19,6 +21,7 @@ class EditSection extends Component {
         const sectionId = this.props.match.params.id;
         axios.get('/api/adminteacher/sections/section/' + sectionId).then(response => {
             const section = {...response.data};
+            section.size = section.sizeOfSection;
             this.setState({
                 section: section,
                 loading: false
@@ -30,6 +33,40 @@ class EditSection extends Component {
             })
         });
     }
+
+    onChangeHandler=(event)=>{
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        let section = {...this.state.section};
+        section[name] = value;
+        this.setState({
+            section: section,
+            formTouched: true
+        });
+    };
+
+    onSubmitHandler=(event)=>{
+        event.preventDefault();
+        let section = {
+            id: this.state.section.id,
+            name: this.state.section.name,
+            size: this.state.section.size,
+            state: this.state.section.state
+        };
+        axios.put('/api/adminteacher/sections/section/' + section.id + '/edit',section)
+            .then(response => {
+            //udalo sie
+        })
+            .catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        });
+
+
+    };
 
     render() {
         const section = this.state.section;
@@ -46,9 +83,21 @@ class EditSection extends Component {
         } else if (section) {
             return (<React.Fragment>
                     <PrivateAdminRoute exact path="/admin/sections/editsection/:id"
-                                       component={() => <EditSectionForm section={this.state.section}/>}/>
+                                       component={() => <EditSectionForm
+                                           section={this.state.section}
+                                           touched={this.state.formTouched}
+                                           onChange={this.onChangeHandler}
+                                           onSubmit={this.onSubmitHandler}
+                                           onStateChange={this.onStateChangeHandler}
+                                       />}/>
                     <PrivateTeacherRoute exact path="/teacher/sections/editsection/:id"
-                                       component={() => <EditSectionForm section={this.state.section}/>}/>
+                                       component={() => <EditSectionForm
+                                           section={this.state.section}
+                                           touched={this.state.formTouched}
+                                           onChange={this.onChangeHandler}
+                                           onSubmit={this.onSubmitHandler}
+                                           onStateChange={this.onStateChangeHandler}
+                                       />}/>
                 </React.Fragment>
             )
         }

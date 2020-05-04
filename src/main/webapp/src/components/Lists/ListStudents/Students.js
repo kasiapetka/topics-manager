@@ -19,6 +19,7 @@ const Students = (props) => {
                 key={student.album}
                 edit={() => studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
+                isInSection={student.isInSection}
                 addToSection={() => props.addToSection(student)}
                 sectionCreation={props.sectionCreation}
                 oversize={props.oversize}

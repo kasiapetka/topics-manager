@@ -24,12 +24,12 @@ const addStudentToSectionForm = (props) => {
             </ul>
 
             <ListStudents
+                studentsInSection = {props.students}
                 addStudentToSection={true}
                 addToSection={props.addToSection}
                 removeFromSection={props.removeFromSection}
                 sectionSize={props.section.size}
-                sectionSemester={props.section.semester}/>
-
+                sectionSemester={props.section.semester.semester}/>
             <Button label='add students'/>
         </Form>
     )

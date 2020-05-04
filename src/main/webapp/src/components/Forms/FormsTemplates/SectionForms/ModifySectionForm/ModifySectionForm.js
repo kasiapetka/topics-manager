@@ -6,16 +6,18 @@ import Input from "../../../FormElements/Input/Input";
 
 const modifySectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
-    let students;
+    let students = <li>No students in this section.</li>;
 
     if (props.students) {
-        students = props.students.map(student => {
-            return <li key={student.album}>
-                {student.name + ' ' + student.surname}
-            </li>
-        });
-    } else {
-        students = <li>No students in this section</li>
+        if (props.students.length === 0) {
+            students = <li>No students in this section.</li>;
+        } else {
+            students = props.students.map(student => {
+                return <li key={student.album}>
+                    {student.name + ' ' + student.surname}
+                </li>
+            });
+        }
     }
 
     return (
@@ -48,6 +50,13 @@ const modifySectionForm = (props) => {
                        content={<ul>{students}</ul>}/>
             </div>
 
+            <div className="form-row p-2">
+                <div className='col-md-3'></div>
+                <Button className='col-md-6'
+                        onClick={props.onModifyMembers} outline>
+                    Modify Section Members</Button>
+                <div className='col-md-3'></div>
+            </div>
             <div className="form-row p-2">
                 <div className='col-md-1'></div>
                 <Button className='col-md-4'

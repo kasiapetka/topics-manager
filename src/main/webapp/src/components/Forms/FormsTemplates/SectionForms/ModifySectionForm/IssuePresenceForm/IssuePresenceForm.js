@@ -7,28 +7,27 @@ import Form from "react-bootstrap/Form";
 
 const issuePresenceForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.Form;
-    let students;
+    let students = <li>No students in this section</li>;
 
     if (props.students) {
-        if(props.students.length){
+        if(props.students.length === 0){
             students = <li>No students in this section</li>
+        }else {
+            students = props.students.map((student, index) => {
+                return <li key={student.album} className='form-row'>
+                    <div className='col-md-5 pt-3'>{student.name + ' ' + student.surname}</div>
+                    <div className='col-md-2'></div>
+                    <Input type='select' name='state'
+                           groupclasses='col-md-3 d-inline-block'
+                           onChange={(event) => props.onPresenceChange(event, index)}
+                           value={student.present}>
+                        <option value={true}>Present</option>
+                        <option value={false}>Absent</option>
+                    </Input>
+                    <div className='col-md-2'></div>
+                </li>
+            });
         }
-        students = props.students.map((student, index) => {
-            return <li key={student.album} className='form-row'>
-                <div className='col-md-5 pt-3'>{student.name + ' ' + student.surname}</div>
-                <div className='col-md-2'></div>
-                <Input type='select' name='state'
-                       groupclasses='col-md-3 d-inline-block'
-                       onChange={(event) => props.onPresenceChange(event, index)}
-                       value={student.present}>
-                    <option value={true}>Present</option>
-                    <option value={false}>Absent</option>
-                </Input>
-                <div className='col-md-2'></div>
-            </li>
-        });
-    } else {
-        students = <li>No students in this section</li>
     }
 
     return (
