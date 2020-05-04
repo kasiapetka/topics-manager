@@ -12,6 +12,7 @@ public interface TeacherService {
 //    void changePassword(Teacher student, String newPassword);
     Teacher findTeacherByUser(User user);
     Teacher findTeacherById(Long id);
+    Teacher findTeacherByName(String name);
     List<Teacher> listActiveTeachers();
 //    List<Teacher> listActiveTeachers(Long subjectId);
     Integer addNewTeacher(NewStudentOrTeacherDTO studentOrTeacherDTO);
