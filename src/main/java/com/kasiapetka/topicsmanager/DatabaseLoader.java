@@ -108,47 +108,47 @@ public class DatabaseLoader implements CommandLineRunner {
 
         Integer year = semesterService.getCurrentYear();
 
-        Semester semester = new Semester();
-        semester.setFaculty("Indica");
-        semester.setYear(year);
-        semester.setSemester(1);
-        semesterRepository.save(semester);
+        Semester semester1 = new Semester();
+        semester1.setFaculty("Indica");
+        semester1.setYear(year);
+        semester1.setSemester(1);
+        semesterRepository.save(semester1);
 
-        semester = new Semester();
-        semester.setFaculty("Sativa");
-        semester.setYear(year);
-        semester.setSemester(2);
-        semesterRepository.save(semester);
+        Semester semester2 = new Semester();
+        semester2.setFaculty("Sativa");
+        semester2.setYear(year);
+        semester2.setSemester(2);
+        semesterRepository.save(semester2);
 
-        semester = new Semester();
-        semester.setFaculty("Ursynowski Domestos Haze");
-        semester.setYear(year);
-        semester.setSemester(3);
-        semesterRepository.save(semester);
+        Semester semester3 = new Semester();
+        semester3.setFaculty("Ursynowski Domestos Haze");
+        semester3.setYear(year);
+        semester3.setSemester(3);
+        semesterRepository.save(semester3);
 
-        semester = new Semester();
-        semester.setFaculty("Chemol Haze");
-        semester.setYear(year);
-        semester.setSemester(4);
-        semesterRepository.save(semester);
+        Semester semester4 = new Semester();
+        semester4.setFaculty("Chemol Haze");
+        semester4.setYear(year);
+        semester4.setSemester(4);
+        semesterRepository.save(semester4);
 
-        semester = new Semester();
-        semester.setFaculty("Amnezja");
-        semester.setYear(year);
-        semester.setSemester(5);
-        semesterRepository.save(semester);
+        Semester semester5 = new Semester();
+        semester5.setFaculty("Amnezja");
+        semester5.setYear(year);
+        semester5.setSemester(5);
+        semesterRepository.save(semester5);
 
-        semester = new Semester();
-        semester.setFaculty("K0S10R");
-        semester.setYear(year);
-        semester.setSemester(6);
-        semesterRepository.save(semester);
+        Semester semester6 = new Semester();
+        semester6.setFaculty("K0S10R");
+        semester6.setYear(year);
+        semester6.setSemester(6);
+        semesterRepository.save(semester6);
 
-        semester = new Semester();
-        semester.setFaculty("Lemon Super Haze");
-        semester.setYear(year);
-        semester.setSemester(7);
-        semesterRepository.save(semester);
+        Semester semester7 = new Semester();
+        semester7.setFaculty("Lemon Super Haze");
+        semester7.setYear(year);
+        semester7.setSemester(7);
+        semesterRepository.save(semester7);
 
         //Creating students for database
         NewStudentOrTeacherDTO s1 = new NewStudentOrTeacherDTO();
@@ -334,6 +334,38 @@ public class DatabaseLoader implements CommandLineRunner {
         topic5.setSummary("sdsd");
         topic5.setSubject(subject3);
         topicRepository.save(topic5);
+
+        //Connections between entities
+
+        Teacher teacher = teacherService.findTeacherByName("Mikolaj");
+        subject.setTeachers(new ArrayList<>());
+        subject.getTeachers().add(teacher);
+        subjectRepository.save(subject);
+
+        //Sections
+        Section section1 = new Section();
+        section1.setName("Grey59");
+        section1.setSizeOfSection(2);
+        section1.setState('O');
+        section1.setTopic(topic);
+        section1.setSemester(semester1);
+        section1.setTeacher(teacher);
+
+        StudentSection studentSection1 = new StudentSection();
+        studentSection1.setSection(section1);
+        studentSection1.setStudent(studentRepository.findByName("student6").orElse(new Student()));
+
+        StudentSection studentSection2 = new StudentSection();
+        studentSection2.setSection(section1);
+        studentSection2.setStudent(studentRepository.findByName("student7").orElse(new Student()));
+
+        section1.setStudentSections(new ArrayList<>());
+        section1.getStudentSections().add(studentSection1);
+        section1.getStudentSections().add(studentSection2);
+        
+        sectionRepository.save(section1);
+
+
 
 
         System.out.println("------------------------------------ DatabaseLoader ended ------------------------------------");

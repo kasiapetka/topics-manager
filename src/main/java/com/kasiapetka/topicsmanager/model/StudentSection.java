@@ -21,7 +21,7 @@ public class StudentSection {
 
     @NotNull
     @JsonManagedReference
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 
