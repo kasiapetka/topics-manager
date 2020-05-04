@@ -118,4 +118,9 @@ public class TeacherServiceImpl implements TeacherService {
             return 500;
         }
     }
+
+    @Override
+    public Teacher findTeacherByName(String name) {
+        return teacherRepository.findByName(name).orElse(new Teacher());
+    }
 }
