@@ -209,11 +209,7 @@ class AddSection extends Component {
         let students = this.state.students ? [...this.state.students] : [];
         students.push(student);
 
-        this.setState((prevState) => {
-            return {
-                students: students
-            }
-        })
+        this.setState({students: students})
     };
 
     removeStudentFromSectionHandler = (student) => {
@@ -222,11 +218,7 @@ class AddSection extends Component {
             return toRem !== student;
         });
 
-        this.setState((prevState) => {
-            return {
-                students: removed
-            }
-        })
+        this.setState({students: removed})
     };
 
     onStudentsAdditionHandler = (event) => {

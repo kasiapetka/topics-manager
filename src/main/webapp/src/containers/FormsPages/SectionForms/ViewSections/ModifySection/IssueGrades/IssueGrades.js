@@ -3,6 +3,8 @@ import axios from "axios";
 import {Alert} from "reactstrap";
 import IssuePresenceForm
     from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/IssuePresenceForm/IssuePresenceForm";
+import IssueGradesForm
+    from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/IssueGradesForm/IssueGradesForm";
 
 function formatDate() {
     var d = new Date(),
@@ -23,14 +25,28 @@ class IssuePresence extends Component {
         section: this.props.section,
         students: this.props.students,
         date: formatDate(),
+        finalGrade: 2,
         error: null
     };
 
-    onPresenceChangeHandler = (event, index) => {
+    onGradeChangeHandler = (event, index) => {
         const students = [...this.state.students];
-        students[index].present = event.target.value;
+        students[index].grade = event.target.value;
         this.setState({
             students: students
+        })
+    };
+
+    onFinalGradeChangeHandler = (event) => {
+        const students = [...this.state.students];
+        const finalGrade = event.target.value;
+        students.forEach(student => {
+            student.grade = finalGrade;
+        });
+
+        this.setState({
+            students: students,
+            finalGrade:finalGrade
         })
     };
 
@@ -42,25 +58,25 @@ class IssuePresence extends Component {
         })
     };
 
-    onIssuePresenceSubmitHandler = (event) => {
+    onIssueGradesSubmitHandler = (event) => {
         event.preventDefault();
         const students = [];
 
         this.state.students.forEach(student => {
             students.push({
                 album: student.album,
-                present: student.present
+                grade: student.grade
             });
         });
 
-        const presenceObject = {
+        const gradesObject = {
             date: this.state.date,
             students: students
         };
 
-        axios.put('/api/adminteacher/sections/' + this.state.section.id + '/presence',
-            presenceObject).then(response => {
-              this.props.history.push(this.props.match.url);
+        axios.put('/api/adminteacher/sections/' + this.state.section.id + '/grades',
+            gradesObject).then(response => {
+            this.props.history.push(this.props.match.url);
         }).catch(error => {
             this.setState({
                 error: error,
@@ -80,13 +96,14 @@ class IssuePresence extends Component {
                 </Alert>
             )
         } else {
-            content = <IssuePresenceForm section={section}
-                                   students={this.state.students}
-                                   date={this.state.date}
-                                   onPresenceChange={this.onPresenceChangeHandler}
-                                   onDateChange={this.onDateChangeHandler}
-                                   onIssuePresenceSubmit={this.onIssuePresenceSubmitHandler}
-                                  />
+            content = <IssueGradesForm section={section}
+                                       students={this.state.students}
+                                       date={this.state.date}
+                                       finalGrade={this.state.finalGrade}
+                                       onGradeChange={this.onGradeChangeHandler}
+                                       onDateChange={this.onDateChangeHandler}
+                                       onFinalGradeChange={this.onFinalGradeChangeHandler}
+                                       onIssueGradesSubmit={this.onIssueGradesSubmitHandler}/>
         }
         return content;
     };

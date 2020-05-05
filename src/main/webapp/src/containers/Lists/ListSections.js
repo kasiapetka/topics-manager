@@ -29,9 +29,9 @@ class ListSections extends Component {
     };
 
     onSectionDeleteHandler = (section) => {
-        this.setState((prev) => {
+        this.setState((prevState) => {
             return {
-                sectionDelete: !this.state.sectionDelete,
+                sectionDelete: !prevState.sectionDelete,
                 section: section,
             };
         })
@@ -40,7 +40,7 @@ class ListSections extends Component {
     showDeleteModalHandler = () => {
         this.setState((prevState) => {
             return {
-                sectionDelete: !this.state.sectionDelete,
+                sectionDelete: !prevState.sectionDelete,
             }
         });
     };

@@ -32,7 +32,7 @@ class TeacherPage extends Component {
     sideDrawerToggleHandler = () => {
         this.setState((prevState) => {
             return {
-                showSideDrawer: !this.state.showSideDrawer
+                showSideDrawer: !prevState.showSideDrawer
             }
         });
     };

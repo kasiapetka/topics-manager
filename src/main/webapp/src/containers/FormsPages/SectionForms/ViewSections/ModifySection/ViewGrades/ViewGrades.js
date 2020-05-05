@@ -4,7 +4,7 @@ import {Alert} from "reactstrap";
 import ViewPresenceForm
     from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/ViewPresenceForm/ViewPresenceForm";
 
-class ViewPresence extends Component {
+class ViewGrades extends Component {
     state = {
         section: this.props.section,
         students: this.props.students,
@@ -12,17 +12,6 @@ class ViewPresence extends Component {
         date:null,
         issued: false,
         error: null
-    };
-
-    onDateChangeHandler = (event) => {
-        const date = event.target.value;
-        axios.get('/api/adminteacher/sections/sectionid/dates/' + date).then(response => {
-
-        }).catch(error => {
-            this.setState({
-                error: error,
-            })
-        })
     };
 
     render() {
@@ -36,14 +25,15 @@ class ViewPresence extends Component {
                 </Alert>
             )
         } else {
-            content = <ViewPresenceForm
-                dates={this.state.dates}
-                students={this.state.students}
-                onDateChange={this.onDateChangeHandler}
-            />
+            content=<p>View grades</p>
+            // content = <ViewPresenceForm
+            //     dates={this.state.dates}
+            //     students={this.state.students}
+            //     onDateChange={this.onDateChangeHandler}
+            // />
         }
         return content;
     };
 };
 
-export default ViewPresence;
+export default ViewGrades;

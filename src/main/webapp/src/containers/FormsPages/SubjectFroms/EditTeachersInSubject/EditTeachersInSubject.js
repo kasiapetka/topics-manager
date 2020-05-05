@@ -53,9 +53,7 @@ class EditTeachersInSubject extends Component {
     addTeacherToSubjectHandler = (teacher) => {
         let teachers = this.state.teachers ? [...this.state.teachers] : [];
         teachers.push(teacher);
-        this.setState((prevState) => {
-            return {teachers: teachers}
-        })
+        this.setState({teachers: teachers})
     };
 
     removeTeacherFromSubjectHandler = (teacher) => {
@@ -64,9 +62,7 @@ class EditTeachersInSubject extends Component {
             return toRem.id !== teacher.id;
         });
 
-        this.setState((prevState) => {
-            return {teachers: removed}
-        })
+        this.setState({teachers: removed})
     };
 
     onTeachersInSubjectEditSubmit = (event) => {

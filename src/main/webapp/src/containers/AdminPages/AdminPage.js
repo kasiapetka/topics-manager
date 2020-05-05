@@ -33,7 +33,7 @@ class AdminPage extends Component {
     deletePersonHandler=(personToDelete, personRole)=>{
         this.setState((prevState) => {
             return {
-                deletePerson: !this.state.deletePerson,
+                deletePerson: !prevState.deletePerson,
                 personToDelete: personToDelete,
                 personRole: personRole,
             }
@@ -43,26 +43,24 @@ class AdminPage extends Component {
     personDeletedHandler=(personDeleted)=>{
         this.setState((prevState) => {
             return {
-                deletePerson: !this.state.deletePerson,
+                deletePerson: !prevState.deletePerson,
                 deletedPerson: personDeleted,
             }
         });
     };
 
     addPersonHandler=()=>{
-        this.setState((prevState) => {
-            return {
+        this.setState({
                 editPerson: false,
                 addPerson: true,
                 deletedPerson: null,
-            }
         });
     };
 
     sideDrawerToggleHandler=()=>{
         this.setState((prevState)=>{
             return {
-                showSideDrawer: !this.state.showSideDrawer
+                showSideDrawer: !prevState.showSideDrawer
             }
         });
     };
