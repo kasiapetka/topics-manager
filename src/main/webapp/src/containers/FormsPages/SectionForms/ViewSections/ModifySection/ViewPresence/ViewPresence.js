@@ -16,7 +16,7 @@ class ViewPresence extends Component {
 
     onDateChangeHandler = (event) => {
         const date = event.target.value;
-        axios.get('/api/adminteacher/sections/sectionid/dates/' + date).then(response => {
+        axios.get('/api/adminteacher/sections/'+this.state.section.id+'/dates/' + date).then(response => {
 
         }).catch(error => {
             this.setState({
