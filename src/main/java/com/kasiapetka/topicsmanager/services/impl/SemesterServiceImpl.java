@@ -5,9 +5,11 @@ import com.kasiapetka.topicsmanager.repositories.SemesterRepository;
 import com.kasiapetka.topicsmanager.services.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+@Transactional
 @Service
 public class SemesterServiceImpl implements SemesterService {
     private SemesterRepository semesterRepository;

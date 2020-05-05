@@ -35,14 +35,16 @@ public class SectionServiceImpl implements SectionService {
                               StudentSectionRepository studentSectionRepository, TeacherService teacherService,
                               StudentService studentService, TopicService topicService, SemesterService semesterService,
                               PresenceRepository presenceRepository) {
+
+        this.presenceRepository = presenceRepository;
+        this.studentSectionRepository = studentSectionRepository;
         this.sectionRepository = sectionRepository;
         this.studentRepository = studentRepository;
-        this.studentSectionRepository = studentSectionRepository;
+
         this.teacherService = teacherService;
         this.studentService = studentService;
         this.topicService = topicService;
         this.semesterService = semesterService;
-        this.presenceRepository = presenceRepository;
     }
 
     @Override
@@ -260,5 +262,57 @@ public class SectionServiceImpl implements SectionService {
         });
 
         return 200;
+    }
+
+    @Override
+    public Integer editStudentsInSection(AddStudentsToSectionDTO studentsToSectionDTO) {
+
+        List<StudentSection> studentSectionList = new ArrayList<>();
+
+        for(Long album : studentsToSectionDTO.getStudentsAlbums()){
+            StudentSection studentSection = new StudentSection();
+            studentSection.setStudent(studentService.findStudentByAlbum(album));
+            studentSection.setSection(this.findSectionById(studentsToSectionDTO.getSectionId()));
+
+            studentSectionList.add(studentSection);
+        }
+
+        Section section = this.findSectionById(studentsToSectionDTO.getSectionId());
+
+        List<StudentSection> studentSectionListToDelete = this.findStudentSectionsBySection(section);
+        studentSectionRepository.deleteAll(studentSectionListToDelete);
+
+        section.setStudentSections(studentSectionList);
+
+        try {
+            sectionRepository.save(section);
+            return 200;
+        } catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
+
+    }
+
+    @Override
+    public Integer editSection(NewSection newSection, Long sectionID) {
+
+        Section section = this.findSectionById(sectionID);
+        if(section.getName().length() < 1){
+            //section with given ID does not exist
+            return 409;
+        }
+
+        section.setSizeOfSection(newSection.getSize());
+        section.setState(newSection.getState());
+        section.setName(newSection.getName());
+
+        try {
+            sectionRepository.save(section);
+            return 200;
+        } catch (HibernateException he){
+            he.printStackTrace();
+            return 500;
+        }
     }
 }

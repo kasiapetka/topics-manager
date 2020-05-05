@@ -10,7 +10,7 @@ const editSectionForm = (props) => {
 
     return (
 
-        <Form className={classNames} onSubmit={props.submit}>
+        <Form className={classNames} onSubmit={props.onSubmit}>
             <h3 className="text-center">Section Options: </h3>
 
             <Label label='subject' content ={props.section.topic.subject.name}/>
