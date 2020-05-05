@@ -1,9 +1,6 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
-import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
-import com.kasiapetka.topicsmanager.DTO.NewSection;
-import com.kasiapetka.topicsmanager.DTO.StudentPresenceDTO;
-import com.kasiapetka.topicsmanager.DTO.StudentPresenceListDTO;
+import com.kasiapetka.topicsmanager.DTO.*;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.PresenceRepository;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
@@ -265,6 +262,34 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
+
+    public List<StudentPresenceExtendedDTO> findStudentsInSectionByDate(Long sectionId, String date) {
+
+        Section section = this.findSectionById(sectionId);
+
+        List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
+
+        List<StudentPresenceExtendedDTO> studentsList = new ArrayList<>();
+
+        for(StudentSection studentSection : studentSections){
+            List<Presence> presences = studentSection.getPresences();
+
+            for(Presence presence : presences){
+                if(presence.getDate().toString().equals(date)){
+                    StudentPresenceExtendedDTO studentDTO = new StudentPresenceExtendedDTO();
+                    studentDTO.setAlbum(studentSection.getStudent().getAlbum());
+                    studentDTO.setName(studentSection.getStudent().getName());
+                    studentDTO.setSurname(studentSection.getStudent().getSurname());
+                    studentDTO.setPresence(presence.getIsPresent());
+
+                    studentsList.add(studentDTO);
+                }
+            }
+        }
+
+        return studentsList;
+    }
+  
     public Integer editStudentsInSection(AddStudentsToSectionDTO studentsToSectionDTO) {
 
         List<StudentSection> studentSectionList = new ArrayList<>();
