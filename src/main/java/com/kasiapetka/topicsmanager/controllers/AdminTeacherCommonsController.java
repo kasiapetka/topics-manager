@@ -1,9 +1,6 @@
 package com.kasiapetka.topicsmanager.controllers;
 
-import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
-import com.kasiapetka.topicsmanager.DTO.NewSection;
-import com.kasiapetka.topicsmanager.DTO.NewTopicDTO;
-import com.kasiapetka.topicsmanager.DTO.StudentPresenceListDTO;
+import com.kasiapetka.topicsmanager.DTO.*;
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Topic;
@@ -125,6 +122,11 @@ public class AdminTeacherCommonsController {
         Integer responseCode = sectionService.issuePresence(sectionID, studentPresenceListDTO);
 
         return ResponseEntity.status(responseCode).build();
+    }
+
+    @GetMapping("/api/adminteacher/sections/{sectionID}/dates/{date}")
+    List<StudentPresenceExtendedDTO> getDatesForPresence(@PathVariable Long sectionID, @PathVariable String date){
+        return sectionService.findStudentsInSectionByDate(sectionID, date);
     }
 
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
