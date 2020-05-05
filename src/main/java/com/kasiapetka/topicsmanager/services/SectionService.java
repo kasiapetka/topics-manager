@@ -20,7 +20,9 @@ public interface SectionService {
     List<StudentPresenceExtendedDTO> findStudentsInSectionByDate(Long sectionId, String date);
 
     Long addNewSection(NewSection newSection);
+    Integer editSection(NewSection newSection, Long sectionID);
     Boolean addStudentsToSection(AddStudentsToSectionDTO addStudentsToSectionDTO);
+    Integer editStudentsInSection(AddStudentsToSectionDTO studentsToSectionDTO);
     Integer deleteSection(Long sectionID);
     Integer changeState(Long sectionId, Character state);
     Integer issuePresence(Long sectionId, StudentPresenceListDTO studentPresenceListDTO);

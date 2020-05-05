@@ -43,11 +43,33 @@ public class TeacherController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    //GETs
+
     @GetMapping("/api/teacher/info")
     ResponseEntity<?> returnStudent() {
         User teacherUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.ok(teacherService.findTeacherByUser(teacherUser));
     }
+
+    @GetMapping("/api/teacher/subjects/{teacherID}")
+    List<Subject> listSubjects(@PathVariable Long teacherID){
+        return subjectService.listSubjectsByTeacherId(teacherID);
+    }
+
+    @GetMapping("/api/teacher/topics/{subjectID}/{teacherID}")
+    List<Topic> listTopicBySubjectIdAndTeacherId(@PathVariable Long subjectID, @PathVariable Long teacherID){
+        return topicService.getTopicListByTeacherID(teacherID, subjectID);
+    }
+
+    //POSTs
+
+    @PostMapping("/api/teacher/jointopics/{teacherID}/{subjectID}")
+    ResponseEntity<?> addTopicsToTeacher(@Valid @RequestBody TopicsListDTO topicsListDTO, @PathVariable Long teacherID,
+                                         @PathVariable Long subjectID){
+        return ResponseEntity.ok().build();
+    }
+
+    //PUTs
 
     @PutMapping("/api/teacher/modify")
     ResponseEntity<?> updateTeacher(@Valid @RequestBody EditAccount editAccount) throws Exception {
@@ -78,21 +100,4 @@ public class TeacherController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-
-
-    @GetMapping("/api/teacher/subjects/{teacherID}")
-    List<Subject> listSubjects(@PathVariable Long teacherID){
-        return subjectService.listSubjectsByTeacherId(teacherID);
-    }
-
-    @GetMapping("/api/teacher/topics/{subjectID}/{teacherID}")
-    List<Topic> listTopicBySubjectIdAndTeacherId(@PathVariable Long subjectID, @PathVariable Long teacherID){
-        return topicService.getTopicListByTeacherID(teacherID, subjectID);
-    }
-
-    @PostMapping("/api/teacher/jointopics/{teacherID}/{subjectID}")
-    ResponseEntity<?> addTopicsToTeacher(@Valid @RequestBody TopicsListDTO topicsListDTO, @PathVariable Long teacherID,
-                                         @PathVariable Long subjectID){
-        return ResponseEntity.ok().build();
-    }
 }

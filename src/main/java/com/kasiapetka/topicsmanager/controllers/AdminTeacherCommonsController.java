@@ -30,17 +30,8 @@ public class AdminTeacherCommonsController {
         this.sectionService = sectionService;
     }
 
+    //GETs
 
-    //@GetMapping("/api/teacher/subjects")
-
-    //@GetMapping("/api/teacher/topics/{id}")
-    @GetMapping("/api/adminteacher/topics/{id}")
-    List<Topic> listTopics(@PathVariable Long id) {
-        return subjectService.getTopicListBySubjectId(id);
-    }
-
-//    @GetMapping("/api/admin/students")
-//    @GetMapping("/api/teacher/students")
     @GetMapping("/api/adminteacher/students")
     List<Student> listStudents() {
         return studentService.listActiveStudents();
@@ -51,20 +42,36 @@ public class AdminTeacherCommonsController {
         return studentService.listActiveStudentsBySemester(semesterNumber);
     }
 
-    @PostMapping("/api/adminteacher/addtopic")
-    ResponseEntity<?> addTopic(@Valid @RequestBody NewTopicDTO newTopicDTO){
-        Integer responseCode = topicService.addNewTopic(newTopicDTO);
-        return ResponseEntity.status(responseCode).build();
-    }
-
     @GetMapping("/api/adminteacher/sections/{semester_number}")
     List<Section> listSectionsBySemester(@PathVariable Integer semester_number){
         return sectionService.listSectionBySemester(semester_number);
     }
 
-    @PutMapping("/api/adminteacher/deletesection/{sectionID}")
-    ResponseEntity<?> deleteSection(@PathVariable Long sectionID){
-        Integer responseCode = sectionService.deleteSection(sectionID);
+    @GetMapping("/api/adminteacher/sections/section/{sectionID}")
+    Section getSectionById(@PathVariable Long sectionID){
+        return sectionService.findSectionById(sectionID);
+    }
+
+    @GetMapping("/api/adminteacher/sections/{sectionID}/dates")
+    List<String> getDatesForSection(@PathVariable Long sectionID){
+        return sectionService.getDatesForSection(sectionID);
+    }
+
+    @GetMapping("/api/adminteacher/students/{sectionID}/members")
+    List<Student> listStudentsInSection(@PathVariable Long sectionID){
+        return sectionService.listStudentsBySectionId(sectionID);
+    }
+
+    @GetMapping("/api/adminteacher/topics/{subjectID}")
+    List<Topic> listTopicsInSubject(@PathVariable Long subjectID){
+        return topicService.getTopicsListBySubjectID(subjectID);
+    }
+
+    //POSTs
+
+    @PostMapping("/api/adminteacher/addtopic")
+    ResponseEntity<?> addTopic(@Valid @RequestBody NewTopicDTO newTopicDTO){
+        Integer responseCode = topicService.addNewTopic(newTopicDTO);
         return ResponseEntity.status(responseCode).build();
     }
 
@@ -84,6 +91,14 @@ public class AdminTeacherCommonsController {
         }
     }
 
+    //PUTs
+
+    @PutMapping("/api/adminteacher/deletesection/{sectionID}")
+    ResponseEntity<?> deleteSection(@PathVariable Long sectionID){
+        Integer responseCode = sectionService.deleteSection(sectionID);
+        return ResponseEntity.status(responseCode).build();
+    }
+
     @PutMapping("/api/adminteacher/addstudentstosection")
     ResponseEntity<?> addStudentToSection(@Valid @RequestBody AddStudentsToSectionDTO addStudentsToSectionDTO) {
         if (sectionService.addStudentsToSection(addStudentsToSectionDTO)) {
@@ -93,26 +108,11 @@ public class AdminTeacherCommonsController {
         }
     }
 
-    @GetMapping("/api/adminteacher/students/{sectionID}/members")
-    List<Student> listStudentsInSection(@PathVariable Long sectionID){
-        return sectionService.listStudentsBySectionId(sectionID);
-    }
-
     @PutMapping("/api/adminteacher/sections/{sectionID}/state")
     ResponseEntity<?> changeSectionState(@PathVariable Long sectionID, @Valid @RequestBody Character state){
         Integer responseCode = sectionService.changeState(sectionID, state);
 
         return ResponseEntity.status(responseCode).build();
-    }
-
-    @GetMapping("/api/adminteacher/sections/section/{sectionID}")
-    Section getSectionById(@PathVariable Long sectionID){
-        return sectionService.findSectionById(sectionID);
-    }
-
-    @GetMapping("/api/adminteacher/sections/{sectionID}/dates")
-    List<String> getDatesForSection(@PathVariable Long sectionID){
-        return sectionService.getDatesForSection(sectionID);
     }
 
     @PutMapping("/api/adminteacher/sections/{sectionID}/presence")
@@ -124,10 +124,30 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
+
     @GetMapping("/api/adminteacher/sections/{sectionID}/dates/{date}")
     List<StudentPresenceExtendedDTO> getDatesForPresence(@PathVariable Long sectionID, @PathVariable String date){
         return sectionService.findStudentsInSectionByDate(sectionID, date);
     }
+
+
+    @PutMapping("/api/adminteacher/editstudentsinsection")
+    ResponseEntity<?> editStudentsInSection(@Valid @RequestBody AddStudentsToSectionDTO studentsToSectionDTO){
+
+        Integer responseCode = sectionService.editStudentsInSection(studentsToSectionDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @PutMapping("/api/adminteacher/sections/section/{sectionID}/edit")
+    ResponseEntity<?> editSection(@Valid @RequestBody NewSection newSection, @PathVariable Long sectionID){
+
+        Integer responseCode = sectionService.editSection(newSection, sectionID);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+
 
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
 //    List<Topic> listTopicsBySubjectID(@PathVariable Long subjectID){

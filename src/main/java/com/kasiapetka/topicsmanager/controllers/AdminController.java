@@ -41,6 +41,58 @@ public class AdminController {
         this.topicService = topicService;
     }
 
+    //GETs
+
+    @GetMapping("/api/admin/teachers")
+    List<Teacher> listTeachers() {
+        return teacherService.listActiveTeachers();
+    }
+
+    @GetMapping("/api/admin/teachers/{id}")
+    List<Teacher> listTeachersBySubject(@PathVariable Long id) {
+        return subjectService.getTeachersBySubjectId(id);
+    }
+
+    @GetMapping("/api/admin/subjects")
+    List<Subject> listSubjects(){
+        return subjectService.getSubjectsList();
+    }
+
+    //POSTs
+
+    @PostMapping("/api/admin/addstudent")
+    ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
+
+        Integer responseCode = studentService.addNewStudent(studentOrTeacherDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @PostMapping("/api/admin/addteacher")
+    ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
+
+        Integer responseCode = teacherService.addNewTeacher(studentOrTeacherDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @PostMapping("/api/admin/addsubject")
+    ResponseEntity<?> addSubject(@Valid @RequestBody AddSubjectDTO addSubjectDTO){
+
+        Integer responseCode = subjectService.addNewSubject(addSubjectDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @PostMapping("/api/admin/editteachersinsubject/{subjectID}")
+    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subjectID){
+
+        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    //PUTs
 
     @PutMapping("/api/admin/modify")
     ResponseEntity<?> updateAdmin(@Valid @RequestBody EditAccount editAccount) throws Exception {
@@ -168,15 +220,6 @@ public class AdminController {
         return ResponseEntity.status(responseCode).body(result);
     }
 
-    @GetMapping("/api/admin/teachers")
-    List<Teacher> listTeachers() {
-        return teacherService.listActiveTeachers();
-    }
-
-    @GetMapping("/api/admin/teachers/{id}")
-    List<Teacher> listTeachersBySubject(@PathVariable Long id) {
-        return subjectService.getTeachersBySubjectId(id);
-    }
 
     @PutMapping("/api/admin/deleteteacher")
     ResponseEntity<?> deleteTeacher(@Valid @RequestBody Long id) {
@@ -196,45 +239,10 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/api/admin/addstudent")
-    ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
-
-        Integer responseCode = studentService.addNewStudent(studentOrTeacherDTO);
-
-        return ResponseEntity.status(responseCode).build();
-    }
-
-    @PostMapping("/api/admin/addteacher")
-    ResponseEntity<?> addTeacher(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
-
-        Integer responseCode = teacherService.addNewTeacher(studentOrTeacherDTO);
-
-        return ResponseEntity.status(responseCode).build();
-    }
-
-    @PostMapping("/api/admin/addsubject")
-    ResponseEntity<?> addSubject(@Valid @RequestBody AddSubjectDTO addSubjectDTO){
-
-        Integer responseCode = subjectService.addNewSubject(addSubjectDTO);
-
-        return ResponseEntity.status(responseCode).build();
-    }
-
-    @PostMapping("/api/admin/editteachersinsubject/{subjectID}")
-    ResponseEntity<?> editTeachersInSubject(@Valid @RequestBody TeacherListDTO teacherList, @PathVariable Long subjectID){
-
-        Integer responseCode = subjectService.editSubjectsTeachers(teacherList, subjectID);
-
-        return ResponseEntity.status(responseCode).build();
-    }
 
 //    @GetMapping("/api/admin/topics/{teacherID}/{subjectID}")
 //    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
 //        return topicService.getTopicListByTeacherID(teacherID, subjectID);
 //    }
 
-    @GetMapping("/api/admin/subjects")
-    List<Subject> listSubjects(){
-        return subjectService.getSubjectsList();
-    }
 }
