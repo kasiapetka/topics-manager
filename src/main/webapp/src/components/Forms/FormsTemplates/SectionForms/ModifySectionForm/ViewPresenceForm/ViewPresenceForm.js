@@ -5,7 +5,7 @@ import Input from "../../../../FormElements/Input/Input";
 
 const viewPresenceForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 " + classes.Form;
-    let dates = <option>No presence dates in this section.</option>;
+    let dates = <option>No presence dates in this section.</option>, students;
 
     if (props.dates) {
         if (props.dates.length === 0) {
@@ -15,6 +15,17 @@ const viewPresenceForm = (props) => {
                 return <option key={date}>
                     {date}
                 </option>
+            });
+        }
+    }
+    if (props.students) {
+        if(props.students.length === 0){
+            students = <li>No students in this section</li>
+        }else {
+            students = props.students.map((student) => {
+                return <li key={student.album} className='form-row'>
+                    <div className='col-md-5 pt-3'>{student.name + ' ' + student.surname}</div>
+                </li>
             });
         }
     }
@@ -28,6 +39,11 @@ const viewPresenceForm = (props) => {
                 <option disabled={true} value='default'>Choose Date</option>
                 {dates}
             </Input>
+
+            <ul>
+                {students}
+            </ul>
+
 
         </div>
     )

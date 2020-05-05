@@ -63,7 +63,8 @@ const modifySectionForm = (props) => {
                         onClick={props.onIssuePresence} outline>
                     Issue Presence</Button>
                 <div className='col-md-2'></div>
-                <Button className='col-md-4' outline>Issue Grades</Button>
+                <Button className='col-md-4'
+                        onClick={props.onIssueGrades} outline>Issue Grades</Button>
                 <div className='col-md-1'></div>
             </div>
             <div className="form-row p-2">
@@ -71,7 +72,8 @@ const modifySectionForm = (props) => {
                 <Button className='col-md-4'
                         onClick={props.onViewPresence} outline>View Presence</Button>
                 <div className='col-md-2'></div>
-                <Button className='col-md-4' outline>View Grades</Button>
+                <Button className='col-md-4'
+                        onClick={props.onViewGrades} outline>View Grades</Button>
                 <div className='col-md-1'></div>
             </div>
         </div>

@@ -128,11 +128,7 @@ class ListStudents extends Component {
                 oversize: true,
             });
         }
-        this.setState((prevState) => {
-            return {
-                studentsInSection: size
-            }
-        });
+        this.setState({studentsInSection: size});
         this.props.addToSection(student);
     };
 
@@ -144,11 +140,7 @@ class ListStudents extends Component {
             });
         }
         size = size - 1;
-        this.setState((prevState) => {
-            return {
-                studentsInSection: size
-            }
-        });
+        this.setState({studentsInSection: size});
         student.isInSection = false;
         this.props.removeFromSection(student);
     };

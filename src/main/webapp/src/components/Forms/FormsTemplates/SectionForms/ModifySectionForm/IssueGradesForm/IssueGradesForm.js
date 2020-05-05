@@ -17,12 +17,14 @@ const issuePresenceForm = (props) => {
                 return <li key={student.album} className='form-row'>
                     <div className='col-md-5 pt-3'>{student.name + ' ' + student.surname}</div>
                     <div className='col-md-2'></div>
-                    <Input type='select' name='presence'
+                    <Input type='select' name='grade'
                            groupclasses='col-md-3 d-inline-block'
-                           onChange={(event) => props.onPresenceChange(event, index)}
-                           value={student.present}>
-                        <option value={true}>Present</option>
-                        <option value={false}>Absent</option>
+                           onChange={(event) => props.onGradeChange(event, index)}
+                           value={student.grade}>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                        <option value={5}>5</option>
                     </Input>
                     <div className='col-md-2'></div>
                 </li>
@@ -31,13 +33,12 @@ const issuePresenceForm = (props) => {
     }
 
     return (
-        <Form className={classNames} onSubmit={props.onIssuePresenceSubmit}>
-            <h3 className="text-center mt-2">Issue Presence</h3>
+        <Form className={classNames} onSubmit={props.onIssueGradesSubmit}>
+            <h3 className="text-center mt-2">Issue Grades</h3>
 
             <Input type='date' name='date' label='date'
                    onChange={props.onDateChange}
-                   value={props.date}
-            />
+                   value={props.date}/>
 
             <div className="form-row">
                 <Label label="members"
@@ -45,7 +46,20 @@ const issuePresenceForm = (props) => {
                        content={<ul>{students}</ul>}/>
             </div>
 
-            <Button label='issue presence'/>
+
+                <Input type='select' name='finalgrade'
+                       label='final grade'
+                       groupclasses='w-25 m-auto'
+                       onChange={(event) => props.onFinalGradeChange(event)}
+                       value={props.finalGrade}>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                </Input>
+
+
+            <Button label='issue grades'/>
         </Form>
     )
 };

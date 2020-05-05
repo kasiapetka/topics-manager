@@ -10,6 +10,8 @@ import IssuePresence from "./IssuePresence/IssuePresence";
 import ViewPresence from "./ViewPresence/ViewPresence";
 import AddStudentToSectionForm
     from "../../../../../components/Forms/FormsTemplates/SectionForms/AddStudentsToSectionForm/AddStudentsToSectionForm";
+import ViewGrades from "./ViewGrades/ViewGrades";
+import IssueGrades from "./IssueGrades/IssueGrades";
 
 
 class ModifySection extends Component {
@@ -18,7 +20,9 @@ class ModifySection extends Component {
     state = {
         section: null,
         students: null,
+        modifyMembers: false,
         loading: false,
+        dates: null,
         error: null
     };
 
@@ -27,34 +31,31 @@ class ModifySection extends Component {
         if (this._isMounted) {
             this.setState({loading: true});
             const sectionId = this.props.match.params.id;
-            axios.get('/api/adminteacher/sections/section/' + sectionId).then(response => {
-                const section = {...response.data};
-                section.size = section.sizeOfSection;
-                this.setState({
-                    section: section,
-                    loading: false
-                })
-            }).catch(error => {
-                this.setState({
-                    error: error,
-                    loading: false
-                })
-            });
 
-            axios.get('/api/adminteacher/students/' + sectionId + '/members').then(response => {
-                const students = [...response.data];
-                students.forEach(student => student.present = true);
-
-                this.setState({
-                    students: students,
-                    loading: false
-                })
-            }).catch(error => {
-                this.setState({
-                    error: error,
-                    loading: false
-                })
-            })
+            axios.all([
+                axios.get('/api/adminteacher/sections/section/' + sectionId),
+                axios.get('/api/adminteacher/sections/' + sectionId + '/dates'),
+                axios.get('/api/adminteacher/students/' + sectionId + '/members')
+            ])
+                .then(axios.spread((sectionResponse, datesResponse, membersResponse) => {
+                    const section = {...sectionResponse.data};
+                    section.size = section.sizeOfSection;
+                    let dates = [...datesResponse.data];
+                    const students = [...membersResponse.data];
+                    students.forEach(student => student.present = true);
+                    this.setState({
+                        section: section,
+                        dates: dates,
+                        students: students,
+                        loading: false
+                    })
+                }))
+                .catch(error => {
+                    this.setState({
+                        error: error,
+                        loading: false
+                    })
+                });
         }
     }
 
@@ -122,14 +123,17 @@ class ModifySection extends Component {
             studentsAlbums: studentsAlbums,
             sectionId: this.state.section.id
         };
-        axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
-         //udalo sie
 
-        }).catch(error => {
-            this.setState({
-                error: error,
-            })
-        })
+        // axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
+        //     this.setState({
+        //             modifyMembers: false
+        //         })
+        // }).catch(error => {
+        //     this.setState({
+        //         error: error,
+        //          modifyMembers: false
+        //     })
+        // })
     };
 
     onIssuePresenceHandler = () => {
@@ -140,9 +144,20 @@ class ModifySection extends Component {
         this.props.history.push(this.props.match.url + '/viewpresence');
     };
 
+    onIssueGradesHandler=()=>{
+        this.props.history.push(this.props.match.url + '/issuegrades');
+    };
+
+    onViewGradesHandler=()=>{
+        this.props.history.push(this.props.match.url + '/viewgrades');
+    };
+
     onModifyMembersHandler = () => {
-        //return <Redirect to={this.props.match.url + '/modifymembers'}/>
-        this.props.history.push(this.props.match.url + '/modifymembers');
+        this.setState((prevState) => {
+            return {
+                modifyMembers: !prevState.modifyMembers
+            }
+        })
     };
 
     render() {
@@ -159,61 +174,80 @@ class ModifySection extends Component {
         } else if (loading) {
             return <Spinner/>;
         } else if (section && this._isMounted) {
-            content = <React.Fragment>
-                <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/issuepresence"
-                                   component={() => <IssuePresence section={section}
-                                                                   students={this.state.students}
-                                                                   {...this.props}/>}/>
-                <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/issuepresence"
-                                     component={() => <IssuePresence section={section}
-                                                                     students={this.state.students}
-                                                                     {...this.props}/>}/>
-
-                <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/viewpresence"
-                                   component={() => <ViewPresence section={section}
-                                                                  students={this.state.students}
-                                                                  {...this.props}/>}/>
-
-                <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewpresence"
-                                     component={() => <ViewPresence section={section}
-                                                                    students={this.state.students}
-                                                                    {...this.props}/>}/>
-
-                <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/modifymembers"
-                                   component={() => <AddStudentToSectionForm
-                                       addToSection={this.addStudentToSectionHandler}
-                                       removeFromSection={this.removeStudentFromSectionHandler}
-                                       students={this.state.students}
-                                       onSubmit={this.onStudentsEditionHandler}
-                                       section={this.state.section}/>}/>
-
-                <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/modifymembers"
-                                     component={() => <AddStudentToSectionForm
-                                         addToSection={this.addStudentToSectionHandler}
-                                         removeFromSection={this.removeStudentFromSectionHandler}
-                                         students={this.state.students}
-                                         onSubmit={this.onStudentsEditionHandler}
-                                         section={this.state.section}/>}/>
-
-                <PrivateAdminRoute exact path="/admin/sections/modifysection/:id"
-                                   component={() => <ModifySectionForm section={section}
+            if (this.state.modifyMembers) {
+                content = <AddStudentToSectionForm
+                    cancelOption={true}
+                    cancelOptionHandler={this.onModifyMembersHandler}
+                    addToSection={this.addStudentToSectionHandler}
+                    removeFromSection={this.removeStudentFromSectionHandler}
+                    students={this.state.students}
+                    onSubmit={this.onStudentsEditionHandler}
+                    section={this.state.section}/>
+            } else {
+                content = <React.Fragment>
+                    <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/issuepresence"
+                                       component={() => <IssuePresence section={section}
                                                                        students={this.state.students}
-                                                                       onStateChange={this.onStateChangeHandler}
-                                                                       onIssuePresence={this.onIssuePresenceHandler}
-                                                                       onViewPresence={this.onViewPresenceHandler}
-                                                                       onModifyMembers={this.onModifyMembersHandler}
                                                                        {...this.props}/>}/>
-                <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id"
-                                     component={() => <ModifySectionForm section={section}
+                    <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/issuepresence"
+                                         component={() => <IssuePresence section={section}
                                                                          students={this.state.students}
-                                                                         onStateChange={this.onStateChangeHandler}
-                                                                         onIssuePresence={this.onIssuePresenceHandler}
-                                                                         onViewPresence={this.onViewPresenceHandler}
-                                                                         onModifyMembers={this.onModifyMembersHandler}
                                                                          {...this.props}/>}/>
-            </React.Fragment>
-        }
 
+                    <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/viewpresence"
+                                       component={() => <ViewPresence section={section}
+                                                                      students={this.state.students}
+                                                                      dates={this.state.dates}
+                                                                      {...this.props}/>}/>
+
+                    <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewpresence"
+                                         component={() => <ViewPresence section={section}
+                                                                        students={this.state.students}
+                                                                        {...this.props}/>}/>
+
+                    <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/issuegrades"
+                                       component={() => <IssueGrades section={section}
+                                                                       students={this.state.students}
+                                                                       {...this.props}/>}/>
+                    <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/issuegrades"
+                                         component={() => <IssueGrades section={section}
+                                                                         students={this.state.students}
+                                                                         {...this.props}/>}/>
+
+                    <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/viewgrades"
+                                       component={() => <ViewGrades section={section}
+                                                                      students={this.state.students}
+                                                                      dates={this.state.dates}
+                                                                      {...this.props}/>}/>
+
+                    <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewgrades"
+                                         component={() => <ViewGrades section={section}
+                                                                        students={this.state.students}
+                                                                        {...this.props}/>}/>
+
+                    <PrivateAdminRoute exact path="/admin/sections/modifysection/:id"
+                                       component={() => <ModifySectionForm section={section}
+                                                                           students={this.state.students}
+                                                                           onStateChange={this.onStateChangeHandler}
+                                                                           onIssuePresence={this.onIssuePresenceHandler}
+                                                                           onViewPresence={this.onViewPresenceHandler}
+                                                                           onIssueGrades={this.onIssueGradesHandler}
+                                                                           onViewGrades={this.onViewGradesHandler}
+                                                                           onModifyMembers={this.onModifyMembersHandler}
+                                                                           {...this.props}/>}/>
+                    <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id"
+                                         component={() => <ModifySectionForm section={section}
+                                                                             students={this.state.students}
+                                                                             onStateChange={this.onStateChangeHandler}
+                                                                             onIssuePresence={this.onIssuePresenceHandler}
+                                                                             onViewPresence={this.onViewPresenceHandler}
+                                                                             onIssueGrades={this.onIssueGradesHandler}
+                                                                             onViewGrades={this.onViewGradesHandler}
+                                                                             onModifyMembers={this.onModifyMembersHandler}
+                                                                             {...this.props}/>}/>
+                </React.Fragment>
+            }
+        }
         return content;
     }
 }
