@@ -10,7 +10,7 @@ const editSectionForm = (props) => {
 
     return (
 
-        <Form className={classNames} onSubmit={props.submit}>
+        <Form className={classNames} onSubmit={props.onSubmit}>
             <h3 className="text-center">Section Options: </h3>
 
             <Label label='subject' content ={props.section.topic.subject.name}/>
@@ -39,7 +39,8 @@ const editSectionForm = (props) => {
 
             <Input label='Name' type="text" name="name"
                    placeholder="Enter Section Name"
-                   onChange={props.onChange} value={props.section.name}/>
+                   onChange={props.onChange}
+                   value={props.section.name}/>
 
             <Button label='save changes' disabled={!props.touched}/>
         </Form>
