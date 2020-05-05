@@ -79,4 +79,10 @@ public class TopicServiceImpl implements TopicService {
 
         return teachersTopics;
     }
+
+    @Override
+    public List<Topic> getTopicsListBySubjectID(Long subjectID) {
+        Subject subject = subjectService.findSubjectById(subjectID);
+        return subject.getTopics();
+    }
 }
