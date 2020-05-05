@@ -203,6 +203,7 @@ class ModifySection extends Component {
                     <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewpresence"
                                          component={() => <ViewPresence section={section}
                                                                         students={this.state.students}
+                                                                        dates={this.state.dates}
                                                                         {...this.props}/>}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/issuegrades"
