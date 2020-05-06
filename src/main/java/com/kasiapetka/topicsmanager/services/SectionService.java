@@ -1,9 +1,6 @@
 package com.kasiapetka.topicsmanager.services;
 
-import com.kasiapetka.topicsmanager.DTO.AddStudentsToSectionDTO;
-import com.kasiapetka.topicsmanager.DTO.NewSection;
-import com.kasiapetka.topicsmanager.DTO.StudentPresenceExtendedDTO;
-import com.kasiapetka.topicsmanager.DTO.StudentPresenceListDTO;
+import com.kasiapetka.topicsmanager.DTO.*;
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.StudentSection;
@@ -26,4 +23,5 @@ public interface SectionService {
     Integer deleteSection(Long sectionID);
     Integer changeState(Long sectionId, Character state);
     Integer issuePresence(Long sectionId, StudentPresenceListDTO studentPresenceListDTO);
+    Integer issueGrades(Long sectionId, StudentGradeListDTO studentGradeListDTO);
 }

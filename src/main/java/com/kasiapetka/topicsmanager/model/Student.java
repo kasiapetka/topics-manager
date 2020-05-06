@@ -1,6 +1,7 @@
 package com.kasiapetka.topicsmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kasiapetka.topicsmanager.DTO.StudentDTO;
 import lombok.ToString;
 import lombok.Data;
 
@@ -53,4 +54,14 @@ public class Student {
     @ManyToMany(mappedBy = "students", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Semester> semesters;
 
+    public StudentDTO convertToStudentDTO(){
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setUser(this.user.convertToDTO());
+        studentDTO.setSurname(this.surname);
+        studentDTO.setName(this.name);
+        studentDTO.setAlbum(this.album);
+        studentDTO.setIsActive(this.isActive);
+
+        return studentDTO;
+    }
 }

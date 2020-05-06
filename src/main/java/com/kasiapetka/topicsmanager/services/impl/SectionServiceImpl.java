@@ -240,11 +240,11 @@ public class SectionServiceImpl implements SectionService {
 
         List<StudentSection> studentSections = findStudentSectionsBySection(section);
 
-
+        //@TODO look down :D
         studentSections.forEach(studentSection -> {
             Student student = studentSection.getStudent();
             for(StudentPresenceDTO s : studentPresenceListDTO.getStudents()){
-                if(s.getAlbum() == student.getAlbum()){
+                if(s.getAlbum().equals(student.getAlbum())){
                     Presence presence = new Presence();
                     presence.setDate(studentPresenceListDTO.getDate());
                     presence.setIsPresent(s.getPresent());
@@ -257,6 +257,33 @@ public class SectionServiceImpl implements SectionService {
                 }
             }
         });
+
+        return 200;
+    }
+
+    @Override
+    public Integer issueGrades(Long sectionId, StudentGradeListDTO studentGradeListDTO) {
+
+        Section section = this.findSectionById(sectionId);
+
+        List<StudentSection> studentSections = findStudentSectionsBySection(section);
+
+        //@TODO look up :D
+        for(StudentSection studentSection : studentSections){
+            Student student = studentSection.getStudent();
+            for(StudentGradeDTO s : studentGradeListDTO.getStudents()){
+                if(s.getAlbum().equals(student.getAlbum())){
+                    studentSection.setDate(studentGradeListDTO.getDate());
+                    studentSection.setGrade(s.getGrade());
+                    try{
+                        studentSectionRepository.save(studentSection);
+                    } catch (HibernateException e){
+                        e.printStackTrace();
+                        return 500;
+                    }
+                }
+            }
+        }
 
         return 200;
     }
@@ -326,6 +353,10 @@ public class SectionServiceImpl implements SectionService {
         if(section.getName().length() < 1){
             //section with given ID does not exist
             return 409;
+        }
+
+        if(listStudentsBySectionId(sectionID).size() > newSection.getSize()){
+            return 469;
         }
 
         section.setSizeOfSection(newSection.getSize());
