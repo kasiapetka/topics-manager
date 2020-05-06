@@ -1,6 +1,6 @@
 package com.kasiapetka.topicsmanager.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.kasiapetka.topicsmanager.DTO.UserDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,5 +30,16 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public UserDTO convertToDTO(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(this.id);
+        userDTO.setEmail(this.email);
+        //@TODO same with password
+        userDTO.setPassword(this.getPassword());
+        userDTO.setRole(this.role);
+
+        return userDTO;
     }
 }

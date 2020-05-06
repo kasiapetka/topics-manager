@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -91,6 +92,15 @@ public class AdminTeacherCommonsController {
         }
     }
 
+    @PutMapping("/api/adminteacher/sections/{sectionID}/grades")
+    ResponseEntity<?> issueGrades(@Valid @RequestBody StudentGradeListDTO studentGradeListDTO,
+                                  @PathVariable Long sectionID){
+
+        Integer responseCode = sectionService.issueGrades(sectionID, studentGradeListDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
     //PUTs
 
     @PutMapping("/api/adminteacher/deletesection/{sectionID}")
@@ -134,14 +144,21 @@ public class AdminTeacherCommonsController {
     @PutMapping("/api/adminteacher/editstudentsinsection")
     ResponseEntity<?> editStudentsInSection(@Valid @RequestBody AddStudentsToSectionDTO studentsToSectionDTO){
 
+        //TODO make this separate function? 1
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+        for(Long album : studentsToSectionDTO.getStudentsAlbums()){
+            studentDTOS.add(studentService.findStudentByAlbum(album).convertToStudentDTO());
+        }
+
         Integer responseCode = sectionService.editStudentsInSection(studentsToSectionDTO);
 
-        return ResponseEntity.status(responseCode).build();
+        return ResponseEntity.status(responseCode).body(studentDTOS);
     }
 
     @PutMapping("/api/adminteacher/sections/section/{sectionID}/edit")
     ResponseEntity<?> editSection(@Valid @RequestBody NewSection newSection, @PathVariable Long sectionID){
 
+        //@TODO 2
         Integer responseCode = sectionService.editSection(newSection, sectionID);
 
         return ResponseEntity.status(responseCode).build();
