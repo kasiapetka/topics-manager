@@ -1,10 +1,10 @@
 import React from 'react';
 import {
     Card, CardText, CardBody,
-    CardTitle, CardSubtitle, Button
+    CardTitle, CardSubtitle, Button,
 } from "reactstrap";
 import classes from '../../Card.module.css'
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 const deletePersonCard = (props) => {
 
@@ -12,8 +12,14 @@ const deletePersonCard = (props) => {
     if(!props.deleted){
         controls =  <CardBody>
             <CardText>Are You sure You want to delete that person?</CardText>
-            <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-            <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
+            <div style={{margin: '0'}} className='row'>
+                <div className='col-md-1'></div>
+                <Button className='col-md-4 mb-2' outline onClick={props.cancel} color="secondary">Cancel</Button>
+                <div className='col-md-2'></div>
+                <Button className='col-md-4 mb-2' onClick={props.delete} color="danger">Delete</Button>
+                <div className='col-md-1'></div>
+            </div>
+
         </CardBody>
     } else{
         deletedPersonLabel = <CardBody>

@@ -48,7 +48,7 @@ const issuePresenceForm = (props) => {
 
 
                 <Input type='select' name='finalgrade'
-                       label='final grade'
+                       label='grade for all'
                        groupclasses='w-25 m-auto'
                        onChange={(event) => props.onFinalGradeChange(event)}
                        value={props.finalGrade}>

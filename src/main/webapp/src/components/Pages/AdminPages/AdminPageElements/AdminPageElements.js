@@ -9,7 +9,6 @@ import ListTeachers from "../../../../containers/Lists/ListTeachers";
 import AddPerson from "../../../../containers/FormsPages/PersonForms/AddPerson/AddPerson";
 import EditAccount from "../../../../containers/FormsPages/PersonForms/EditAccount/EditAccount";
 import auth from "../../../../Auth";
-import DeletePersonCard from "../../../UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
 import AddSubject from "../../../../containers/FormsPages/SubjectFroms/AddSubject/AddSubject";
 import ListSubjects from "../../../../containers/Lists/ListSubjects";
 import AddTopic from "../../../../containers/FormsPages/TopicForms/AddTopic/AddTopic";
@@ -25,7 +24,7 @@ const adminPageElements = (props) =>
                 show={props.deletePerson}
                 modalClosed={props.cancelClickedDeletePersonHandler}>
                 <DeletePerson
-                    deleted={false}
+                    deleted={props.deleted}
                     person={props.personToDelete}
                     cancelClicked={props.cancelClickedDeletePersonHandler}
                     deleteClicked={props.deleteClickedPersonHandler}
@@ -38,13 +37,6 @@ const adminPageElements = (props) =>
                     <Messages/>
                 </div>
                 <div className="col-md-8">
-
-                    <PrivateAdminRoute exact path="/admin/deleted" component={()=><DeletePersonCard
-                        deleted={true}
-                        personInfo={props.personInfo}
-                        cancelClicked={props.cancelClickedDeletePersonHandler}
-                        person={props.personToDelete}/>}/>
-
                     <PrivateAdminRoute path="/admin/sections" component={ListSections}/>
                     <PrivateAdminRoute exact path="/admin/addsection" component={AddSection}/>
 

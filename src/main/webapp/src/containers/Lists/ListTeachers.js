@@ -7,6 +7,7 @@ import PersonsContext from "../../context/listPersonsContext";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 class ListTeachers extends Component {
+    _isMounted = false;
 
     constructor(props) {
         super(props);
@@ -22,17 +23,58 @@ class ListTeachers extends Component {
             personToDelete: '',
             addingToSubjectTopic: props.addingToSubjectTopic ? props.addingToSubjectTopic : null,
             loading: false,
-            mounted: false
+            mounted: false,
         };
     }
 
     componentDidMount = () => {
         this.setState({loading: true});
-        axios.get('/api/admin/teachers').then(response => {
-            let teachers = [...response.data];
-            if (this.state.addingToSubjectTopic) {
+        this._isMounted = true;
+        if (this._isMounted) {
+            axios.get('/api/admin/teachers').then(response => {
+                let teachers = [...response.data];
+                if (this.state.addingToSubjectTopic) {
+                    teachers.forEach(teacher => {
+                        this.props.teachersInSubject.forEach(teacherInSubject => {
+                            if (teacherInSubject.id === teacher.id) {
+                                teacher.isInSubject = true;
+                            } else if (teacher.isInSubject !== true) {
+                                teacher.isInSubject = false;
+                            }
+                        });
+                    });
+                }
+                this.setState({
+                    teachers: teachers,
+                    teachersFiltered: teachers,
+                    loading: false,
+                    mounted: true
+                });
+            }).catch(error => {
+                this.setState({
+                    error: error,
+                    loading: false
+                })
+            })
+        }
+    };
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this._isMounted) {
+            if (!this.state.addingToSubjectTopic || !this.state.mounted) {
+                return true;
+            }
+            if (this.props.teachersInSubject !== nextProps.teachersInSubject) {
+                let teachers = [...nextState.teachers];
                 teachers.forEach(teacher => {
-                    this.props.teachersInSubject.forEach(teacherInSubject => {
+                    teacher.isInSubject = false;
+                });
+                teachers.forEach(teacher => {
+                    nextProps.teachersInSubject.forEach(teacherInSubject => {
                         if (teacherInSubject.id === teacher.id) {
                             teacher.isInSubject = true;
                         } else if (teacher.isInSubject !== true) {
@@ -40,47 +82,12 @@ class ListTeachers extends Component {
                         }
                     });
                 });
-            }
-            this.setState({
-                teachers: teachers,
-                teachersFiltered: teachers,
-                loading: false,
-                mounted: true
-            });
-        }).catch(error => {
-            this.setState({
-                error: error,
-                loading: false
-            })
-        })
-    };
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (!this.state.addingToSubjectTopic || !this.state.mounted) {
-            return true;
-        }
-
-        if (this.props.teachersInSubject !== nextProps.teachersInSubject) {
-            let teachers = [...nextState.teachers];
-            teachers.forEach(teacher => {
-                teacher.isInSubject = false;
-            });
-
-            teachers.forEach(teacher => {
-                nextProps.teachersInSubject.forEach(teacherInSubject => {
-                    if (teacherInSubject.id === teacher.id) {
-                        teacher.isInSubject = true;
-                    } else if (teacher.isInSubject !== true) {
-                        teacher.isInSubject = false;
-                    }
+                this.setState({
+                    teachers: teachers,
+                    teachersFiltered: teachers,
                 });
-            });
-
-            this.setState({
-                teachers: teachers,
-                teachersFiltered: teachers,
-            });
-            return true;
+                return true;
+            }
         }
         return false;
     }
@@ -97,7 +104,8 @@ class ListTeachers extends Component {
     };
 
     onTeachersEditHandler = (index) => {
-        const person = this.state.teachersFiltered[index];
+        const teachers = [...this.state.teachersFiltered];
+        const person = teachers[index];
         this.props.editPerson("/api/admin/modifyteacher", person.id, 'T');
     };
 
@@ -110,9 +118,8 @@ class ListTeachers extends Component {
     };
 
     onTeachersDeleteHandler = (index) => {
-        const person = this.state.teachersFiltered[index];
-        console.log('onTeachersDeleteHandler');
-        console.log(person);
+        const teachers = [...this.state.teachersFiltered];
+        const person = {...teachers[index]};
         this.props.deletePerson(person, 'T');
     };
 

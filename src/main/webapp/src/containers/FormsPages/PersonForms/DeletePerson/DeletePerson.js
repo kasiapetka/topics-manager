@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import DeletePersonCard from "../../../../components/UI/Cards/PersonCards/DeletePersonCard/DeletePersonCard";
 import {Alert} from "reactstrap";
-import PrivateAdminRoute from "../../../../components/PrivateRoutes/PrivateAdminRoute";
 
 class DeletePerson extends Component {
 
@@ -16,16 +15,17 @@ class DeletePerson extends Component {
         if (this.props.personInfo.role === 'S') {
             id = this.props.personInfo.id;
             path = '/api/admin/deletestudent';
-        } else if (this.props.personRole === 'T') {
+        }
+        if (this.props.personInfo.role === 'T') {
             id = this.props.personInfo.id;
             path = '/api/admin/deleteteacher';
         }
-        axios.put(path, id).then(response => {
-            this.props.cancelClicked();
-            this.props.deleteClicked();
-        })
-            .catch(error => {
-                this.setState({error: error});
+
+         axios.put(path,JSON.stringify(id)).then(response => {
+             this.props.deleteClicked();
+         })
+             .catch(error => {
+                 this.setState({error: error});
             });
     };
 
@@ -40,7 +40,7 @@ class DeletePerson extends Component {
 
         return (
             <DeletePersonCard
-                deleted={false}
+                deleted={this.props.deleted}
                 person={this.props.person}
                 cancel={this.props.cancelClicked}
                 delete={this.personDeleteHandler}/>

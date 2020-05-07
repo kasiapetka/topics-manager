@@ -53,14 +53,12 @@ class AdminPage extends Component {
 
     cancelClickedDeletePersonHandler = ()=>{
         this.setState((prevState) => {
-            return {
-                deletePerson: !prevState.deletePerson,
-            }
+            return {deletePerson: !prevState.deletePerson,}
         });
     };
 
     deleteClickedPersonHandler=()=>{
-        this.props.history.push('/deleted')
+        this.setState({deleted: true});
     };
 
     addPersonHandler = () => {
@@ -73,9 +71,7 @@ class AdminPage extends Component {
 
     sideDrawerToggleHandler = () => {
         this.setState((prevState) => {
-            return {
-                showSideDrawer: !prevState.showSideDrawer
-            }
+            return {showSideDrawer: !prevState.showSideDrawer}
         });
     };
 
