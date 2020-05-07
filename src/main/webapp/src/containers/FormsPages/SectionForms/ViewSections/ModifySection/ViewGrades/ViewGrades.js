@@ -1,15 +1,13 @@
 import React, {Component} from "react";
-import axios from "axios";
 import {Alert} from "reactstrap";
-import ViewPresenceForm
-    from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/ViewPresenceForm/ViewPresenceForm";
+import ViewGradesForm
+    from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/ViewGradesForm/ViewGradesForm";
 
 class ViewGrades extends Component {
     state = {
         section: this.props.section,
         students: this.props.students,
-        dates: this.props.dates,
-        date:null,
+        date:this.props.date,
         issued: false,
         error: null
     };
@@ -25,12 +23,10 @@ class ViewGrades extends Component {
                 </Alert>
             )
         } else {
-            content=<p>View grades</p>
-            // content = <ViewPresenceForm
-            //     dates={this.state.dates}
-            //     students={this.state.students}
-            //     onDateChange={this.onDateChangeHandler}
-            // />
+            content = <ViewGradesForm
+                date={this.state.date}
+                students={this.state.students}
+            />
         }
         return content;
     };
