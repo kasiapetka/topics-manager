@@ -2,10 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {createStore, combineReducers} from 'redux'
+import authReducer from "./store/reducers/authentication";
+import {Provider} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios'
 import auth from './Auth'
+
+const rootReducer = combineReducers({
+    auth: authReducer,
+});
+const store = createStore(rootReducer);
+
 
 axios.interceptors.request.use(request => {
 
@@ -25,8 +34,8 @@ axios.interceptors.request.use(request => {
     return request;
 }, );
 
-ReactDOM.render(
-    <App/>, document.getElementById('root'));
+ReactDOM.render(<Provider store={store}> <App/> </Provider>,
+    document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

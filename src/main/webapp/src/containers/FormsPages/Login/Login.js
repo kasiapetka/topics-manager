@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import * as actionTypes from '../../../store/actions'
 import {Badge} from 'reactstrap';
 import {Redirect} from 'react-router-dom';
 import auth from "../../../Auth";
@@ -6,7 +8,7 @@ import LoginFormInputs from "../../../components/Forms/FormsTemplates/LoginForm/
 import axios from 'axios'
 import handleInputChange from "../validateForm";
 
-class Login extends React.Component {
+class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -58,6 +60,7 @@ class Login extends React.Component {
 
         axios.post('/api/login', user).then(response => {
             auth.login(response.data.role, response.data.token);
+            // this.props.onLogin(response.data.token,response.data.role);
             this.setState({role: response.data.role})
         })
             .catch(error => {
@@ -110,4 +113,10 @@ class Login extends React.Component {
     }
 };
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogin: (token, role) => dispatch({type: actionTypes.LOGIN, payload: {token: token, role: role}}),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

@@ -18,7 +18,6 @@ const AdminAccountModification =()=> {
             <EditAccount
                 path="/api/admin/modify"
                 email={email}
-                token={auth.getToken()}
                 adminTeacherEdition={false}/>
         </div>
     );

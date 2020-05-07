@@ -58,8 +58,6 @@ class EditSection extends Component {
             state: this.state.section.state
         };
 
-        console.log(section)
-
         axios.put('/api/adminteacher/sections/section/' + section.id + '/edit', section)
             .then(response => {
                 //udalo sie

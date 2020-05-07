@@ -20,18 +20,20 @@ class ModifySection extends Component {
     state = {
         section: null,
         students: null,
+        modifiedStudents: null,
         modifyMembers: false,
         loading: false,
+        urlChanged: false,
         dates: null,
         error: null
     };
 
     componentDidMount() {
+        this.setState({loading: true, urlChanged: false});
+        const sectionId = this.props.match.params.id;
         this._isMounted = true;
-        if (this._isMounted) {
-            this.setState({loading: true});
-            const sectionId = this.props.match.params.id;
 
+        if (this._isMounted) {
             axios.all([
                 axios.get('/api/adminteacher/sections/section/' + sectionId),
                 axios.get('/api/adminteacher/sections/' + sectionId + '/dates'),
@@ -47,6 +49,7 @@ class ModifySection extends Component {
                         section: section,
                         dates: dates,
                         students: students,
+                        modifiedStudents: students,
                         loading: false
                     })
                 }))
@@ -72,7 +75,6 @@ class ModifySection extends Component {
                 JSON.stringify(state)).then(response => {
                 const section = {...this.state.section};
                 section.state = state;
-
                 this.setState({
                     section: section,
                     loading: false
@@ -87,24 +89,24 @@ class ModifySection extends Component {
     };
 
     addStudentToSectionHandler = (student) => {
-        let students = this.state.students ? [...this.state.students] : [];
+        let students = this.state.modifiedStudents ? [...this.state.modifiedStudents] : [];
         students.push(student);
         this.setState((prevState) => {
             return {
-                students: students
+                modifiedStudents: students
             }
         })
     };
 
     removeStudentFromSectionHandler = (student) => {
-        let students = this.state.students ? [...this.state.students] : [];
+        let students = this.state.modifiedStudents ? [...this.state.modifiedStudents] : [];
         let removed = students.filter(function (toRem, index, arr) {
             return toRem.album !== student.album;
         });
 
         this.setState((prevState) => {
             return {
-                students: removed
+                modifiedStudents: removed
             }
         })
     };
@@ -112,9 +114,9 @@ class ModifySection extends Component {
     onStudentsEditionHandler = (event) => {
         event.preventDefault();
         let studentsAlbums = [];
-        if (this.state.students) {
-            if (this.state.students.length !== 0) {
-                for (let [key, value] of Object.entries(this.state.students)) {
+        if (this.state.modifiedStudents) {
+            if (this.state.modifiedStudents.length !== 0) {
+                for (let [key, value] of Object.entries(this.state.modifiedStudents)) {
                     studentsAlbums.push(value.album);
                 }
             }
@@ -124,16 +126,18 @@ class ModifySection extends Component {
             sectionId: this.state.section.id
         };
 
-        // axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
-        //     this.setState({
-        //             modifyMembers: false
-        //         })
-        // }).catch(error => {
-        //     this.setState({
-        //         error: error,
-        //          modifyMembers: false
-        //     })
-        // })
+        axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
+            //TODO DO POPRAWY
+            this.setState({
+                modifyMembers: false,
+                students: [response.data]
+            });
+        }).catch(error => {
+            this.setState({
+                error: error,
+                modifyMembers: false
+            })
+        })
     };
 
     onIssuePresenceHandler = () => {
@@ -141,21 +145,36 @@ class ModifySection extends Component {
     };
 
     onViewPresenceHandler = () => {
+        axios.get('/api/adminteacher/sections/' + this.state.section.id + '/dates').then(response => {
+            let dates = [...response.data];
+            console.log(dates)
+            this.setState({
+                dates: dates,
+                loading: false
+            })
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        });
+
         this.props.history.push(this.props.match.url + '/viewpresence');
     };
 
-    onIssueGradesHandler=()=>{
+    onIssueGradesHandler = () => {
         this.props.history.push(this.props.match.url + '/issuegrades');
     };
 
-    onViewGradesHandler=()=>{
+    onViewGradesHandler = () => {
         this.props.history.push(this.props.match.url + '/viewgrades');
     };
 
     onModifyMembersHandler = () => {
         this.setState((prevState) => {
             return {
-                modifyMembers: !prevState.modifyMembers
+                modifyMembers: !prevState.modifyMembers,
+                modifiedStudents: prevState.students
             }
         })
     };
@@ -180,7 +199,7 @@ class ModifySection extends Component {
                     cancelOptionHandler={this.onModifyMembersHandler}
                     addToSection={this.addStudentToSectionHandler}
                     removeFromSection={this.removeStudentFromSectionHandler}
-                    students={this.state.students}
+                    students={this.state.modifiedStudents}
                     onSubmit={this.onStudentsEditionHandler}
                     section={this.state.section}/>
             } else {
@@ -208,23 +227,23 @@ class ModifySection extends Component {
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/issuegrades"
                                        component={() => <IssueGrades section={section}
-                                                                       students={this.state.students}
-                                                                       {...this.props}/>}/>
+                                                                     students={this.state.students}
+                                                                     {...this.props}/>}/>
                     <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/issuegrades"
                                          component={() => <IssueGrades section={section}
-                                                                         students={this.state.students}
-                                                                         {...this.props}/>}/>
+                                                                       students={this.state.students}
+                                                                       {...this.props}/>}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/viewgrades"
                                        component={() => <ViewGrades section={section}
-                                                                      students={this.state.students}
-                                                                      dates={this.state.dates}
-                                                                      {...this.props}/>}/>
+                                                                    students={this.state.students}
+                                                                    dates={this.state.dates}
+                                                                    {...this.props}/>}/>
 
                     <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewgrades"
                                          component={() => <ViewGrades section={section}
-                                                                        students={this.state.students}
-                                                                        {...this.props}/>}/>
+                                                                      students={this.state.students}
+                                                                      {...this.props}/>}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id"
                                        component={() => <ModifySectionForm section={section}
