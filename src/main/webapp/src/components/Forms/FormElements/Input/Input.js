@@ -9,6 +9,8 @@ const input = (props) => {
 
     if(props.isinvalid)
         invalid=props.isinvalid.touched && !props.isinvalid.valid && props.isinvalid.required;
+    else if(props.invalid)
+        invalid=props.invalid;
 
     return (
         <FormGroup className={formGroupClasses}>

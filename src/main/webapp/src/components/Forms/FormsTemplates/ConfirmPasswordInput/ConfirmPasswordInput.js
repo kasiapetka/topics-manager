@@ -15,11 +15,12 @@ const confirmPasswordInput = (props) => {
             <React.Fragment>
                 {loggin}
                 <Input type="password" name="password"
-                           label='Confirm Changes With Password' minLength="5"
-                           placeholder="Your Password"
-                           value={props.password || ''}
-                           onChange={props.change}
-                           invalid={props.wrongPassword}/>
+                       label='Confirm Changes With Password' minLength="5"
+                       placeholder="Your Password"
+                       value={props.password || ''}
+                       onChange={props.change}
+                       invalid={props.wrongPassword ||
+                       (props.password.length >0 && props.password.length < 5)}/>
             </React.Fragment>
             :
             null

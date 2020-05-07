@@ -3,8 +3,6 @@ import EditSectionForm from "../../../../components/Forms/FormsTemplates/Section
 import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
-import PrivateAdminRoute from "../../../../components/PrivateRoutes/PrivateAdminRoute";
-import PrivateTeacherRoute from "../../../../components/PrivateRoutes/PrivateTeacherRoute";
 
 class EditSection extends Component {
     state = {
@@ -13,7 +11,8 @@ class EditSection extends Component {
         students: null,
         loading: false,
         error: null,
-        formTouched: false
+        formTouched: false,
+        oversize: false
     };
 
     componentDidMount() {
@@ -40,12 +39,11 @@ class EditSection extends Component {
         const name = target.name;
         let section = {...this.state.section};
         section[name] = value;
-        console.log(section)
-
 
         this.setState({
             section: section,
-            formTouched: true
+            formTouched: true,
+            oversize: false
         });
     };
 
@@ -60,15 +58,22 @@ class EditSection extends Component {
 
         axios.put('/api/adminteacher/sections/section/' + section.id + '/edit', section)
             .then(response => {
-                //udalo sie
 
-                alert('poszlo')
             })
             .catch(error => {
-                this.setState({
-                    error: error,
-                    loading: false
-                })
+                if (error.response.status === 469) {
+                    const section = {...this.state.section};
+                    section.size = section.sizeOfSection;
+                    this.setState({
+                        oversize: true,
+                        section: section
+                    })
+                } else {
+                    this.setState({
+                        error: error,
+                        loading: false
+                    })
+                }
             });
     };
 
@@ -88,6 +93,7 @@ class EditSection extends Component {
             return (<React.Fragment>
                     <EditSectionForm
                         section={section}
+                        oversize={this.state.oversize}
                         touched={this.state.formTouched}
                         onChange={this.onChangeHandler}
                         onSubmit={this.onSubmitHandler}

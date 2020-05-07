@@ -11,54 +11,68 @@ class AdminPage extends Component {
             editPerson: false,
             editPersonId: '',
             modifyPath: '',
-            personRole: '',
-            deletePerson:'',
-            personToDelete:'',
+            personInfo: {
+                role: '',
+                id: null
+            },
+            deletePerson: '',
+            personToDelete: '',
             deletedPerson: null,
             addPerson: false,
-            showSideDrawer: false
+            showSideDrawer: false,
+            deleted: false
         };
     }
 
     editPersonHandler = (modifyPath, editPersonId, personRole) => {
-       this.setState({
+        this.setState({
             editPerson: true,
             modifyPath: modifyPath,
-            editPersonId: editPersonId,
-            personRole: personRole,
+            personInfo: {
+                role: personRole,
+                id: editPersonId
+            },
             addPerson: false,
         })
     };
 
-    deletePersonHandler=(personToDelete, personRole)=>{
+    deletePersonHandler = (personToDelete, personRole) => {
+        const id = personToDelete.id ? personToDelete.id : personToDelete.album;
         this.setState((prevState) => {
             return {
                 deletePerson: !prevState.deletePerson,
                 personToDelete: personToDelete,
-                personRole: personRole,
+                personInfo: {
+                    id: id,
+                    role: personRole,
+                },
+                deleted:false
             }
         });
     };
 
-    personDeletedHandler=(personDeleted)=>{
+    cancelClickedDeletePersonHandler = ()=>{
         this.setState((prevState) => {
             return {
                 deletePerson: !prevState.deletePerson,
-                deletedPerson: personDeleted,
             }
         });
     };
 
-    addPersonHandler=()=>{
+    deleteClickedPersonHandler=()=>{
+        this.props.history.push('/deleted')
+    };
+
+    addPersonHandler = () => {
         this.setState({
-                editPerson: false,
-                addPerson: true,
-                deletedPerson: null,
+            editPerson: false,
+            addPerson: true,
+            deletedPerson: null,
         });
     };
 
-    sideDrawerToggleHandler=()=>{
-        this.setState((prevState)=>{
+    sideDrawerToggleHandler = () => {
+        this.setState((prevState) => {
             return {
                 showSideDrawer: !prevState.showSideDrawer
             }
@@ -75,18 +89,18 @@ class AdminPage extends Component {
                     addPerson={this.addPersonHandler}/>
 
                 <AdminPageElements
-                deletePerson={this.state.deletePerson}
-                personToDelete={this.state.personToDelete}
-                deletePersonHandler={this.deletePersonHandler}
-                personDeletedHandler={this.personDeletedHandler}
-                addPersonHandler={this.addPersonHandler}
-                editPersonHandler={this.editPersonHandler}
-                personRole={this.state.personRole}
-                modifyPath={this.state.modifyPath}
-                editPersonId={this.state.editPersonId}
-                deletedPerson = {this.state.deletedPerson}
+                    deletePerson={this.state.deletePerson}
+                    personToDelete={this.state.personToDelete}
+                    deletePersonHandler={this.deletePersonHandler}
+                    cancelClickedDeletePersonHandler={this.cancelClickedDeletePersonHandler}
+                    deleteClickedPersonHandler={this.deleteClickedPersonHandler}
+                    addPersonHandler={this.addPersonHandler}
+                    editPersonHandler={this.editPersonHandler}
+                    personInfo={this.state.personInfo}
+                    modifyPath={this.state.modifyPath}
+                    deletedPerson={this.state.deletedPerson}
+                    deleted={this.state.deleted}
                 />
-
             </React.Fragment>
         );
     }

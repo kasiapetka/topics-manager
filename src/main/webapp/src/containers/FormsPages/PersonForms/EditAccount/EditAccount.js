@@ -3,7 +3,7 @@ import auth from "../../../../Auth";
 import {Badge, Alert} from "reactstrap";
 import EditAccountInputs from "../../../../components/Forms/FormsTemplates/PersonForms/EditForm/EditAccountForm";
 import EditPersonForm from "../../../../components/Forms/FormsTemplates/PersonForms/EditForm/EditPersonForm";
-import {Redirect} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import axios from 'axios'
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 
@@ -22,7 +22,7 @@ class EditAccount extends Component {
 
     constructor(props) {
         super(props);
-        this.emptyPerson.id = props.id;
+        this.emptyPerson.id = props.personInfo ? props.personInfo.id : null;
 
         this.state = {
             person: this.emptyPerson,
@@ -41,21 +41,23 @@ class EditAccount extends Component {
 
     componentDidMount = async () => {
         let user = {...this.state.person};
-        if (!this.state.changed) {
-            axios.put(this.props.path, user).then(response => {
-                let person = {...response.data};
+        if (this.state.personEdition && !user.id) {
+            this.props.history.goBack();
+        }
+
+        axios.put(this.props.path, user).then(response => {
+            let person = {...response.data};
+            this.setState({
+                person: person,
+                loading: false
+            });
+        })
+            .catch(error => {
                 this.setState({
-                    person: person,
+                    error: error,
                     loading: false
                 });
-            })
-                .catch(error => {
-                    this.setState({
-                        error: error,
-                        loading: false
-                    });
-                });
-        }
+            });
     };
 
     handleChange = (event) => {
@@ -67,7 +69,9 @@ class EditAccount extends Component {
         this.setState({
             person: person,
             changed: true,
-            emptyForm: false
+            emptyForm: false,
+            wrongEmail: false,
+            wrongPassword: false,
         });
     };
 
@@ -94,6 +98,9 @@ class EditAccount extends Component {
 
         axios.put(this.props.path, user).then(response => {
             let person = {...response.data};
+
+            console.log(person)
+
             this.setState({
                 person: person,
                 loading: false,
@@ -134,9 +141,7 @@ class EditAccount extends Component {
 
         if (redirect) {
             auth.logout();
-            return (
-                <Redirect to='/login'/>
-            )
+            return (<Redirect to='/login'/>)
         }
 
         if (credsChanged) {
@@ -153,7 +158,7 @@ class EditAccount extends Component {
                 submit={this.handleSubmit}
                 change={this.handleChange}
                 person={person}
-                personRole={this.props.personRole}
+                personRole={this.props.personInfo.role}
                 credsChanged={this.state.changed}
                 wrongPassword={this.state.wrongPassword}
                 wrongEmail={this.state.wrongEmail}
@@ -176,4 +181,4 @@ class EditAccount extends Component {
     }
 };
 
-export default EditAccount;
+export default withRouter(EditAccount);

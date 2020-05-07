@@ -13,6 +13,7 @@ const Teachers = (props) => {
             surname={teacher.surname}
             email={teacher.user ? teacher.user.email : "No Account"}
             key={teacher.id}
+            id={teacher.id}
             edit={() => teachersContext.edit(index)}
             delete={() => teachersContext.delete(index)}
             isInSubject={teacher.isInSubject}

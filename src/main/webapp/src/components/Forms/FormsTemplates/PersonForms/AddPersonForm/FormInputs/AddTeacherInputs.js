@@ -10,10 +10,11 @@ const addTeacherInputs = (props) => (
                invalid={(props.emptyForm && props.person.newEmail === '') || props.wrongEmail}/>
 
         <Input type="password" name="newPassword" label='Password'
-               placeholder="Enter Password"
+               placeholder="Enter Password (min 5)" minLength="5"
                value={props.person.newPassword || ''}
                onChange={props.change}
-               invalid={props.emptyForm && props.person.newPassword === ''}/>
+               invalid={(props.emptyForm && props.person.newPassword === '') ||
+               (props.person.newPassword.length >0 && props.person.newPassword.length < 5)}/>
     </React.Fragment>
 );
 

@@ -57,7 +57,7 @@ const editAccountForm = (props) => {
                 wrongPassword={props.wrongPassword}
                 loggin={true}
             />
-            <Button label='save changes'/>
+            <Button label='save changes' disabled={props.emptyForm}/>
         </Form>
     )
 };

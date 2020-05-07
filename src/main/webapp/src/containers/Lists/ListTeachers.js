@@ -111,6 +111,8 @@ class ListTeachers extends Component {
 
     onTeachersDeleteHandler = (index) => {
         const person = this.state.teachersFiltered[index];
+        console.log('onTeachersDeleteHandler');
+        console.log(person);
         this.props.deletePerson(person, 'T');
     };
 

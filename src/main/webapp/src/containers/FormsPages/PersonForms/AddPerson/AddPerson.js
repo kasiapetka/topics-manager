@@ -35,7 +35,8 @@ class AddPerson extends Component {
         this.setState({
             person: person,
             emptyForm: false,
-            changed: true
+            changed: true,
+            wrongEmail: false,
         });
     };
 
