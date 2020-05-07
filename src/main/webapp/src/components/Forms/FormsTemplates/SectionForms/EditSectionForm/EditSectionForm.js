@@ -1,12 +1,20 @@
 import React from "react";
 import Input from "../../../FormElements/Input/Input";
-import {Form} from "reactstrap";
+import {Badge, Form} from "reactstrap";
 import Button from "../../../FormElements/Button/Button";
 import classes from "../../Forms.module.css";
 import Label from "../../../FormElements/Label/Label";
 
 const editSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
+
+    let oversize;
+    if(props.oversize){
+        oversize = <div className="form-row p-2">
+            <Badge color="danger" className="col-md-6 p-2 ml-auto mr-auto">
+                There are {props.section.size} people in this section.</Badge>
+        </div>
+    }
 
     return (
 
@@ -16,8 +24,9 @@ const editSectionForm = (props) => {
             <Label label='subject' content ={props.section.topic.subject.name}/>
             <Label label='topic' content ={props.section.topic.name}/>
 
-            <div className="form-row p-1">
+            {oversize}
 
+            <div className="form-row p-1">
                 <Input type="number" name="size" label="size"
                        groupclasses='col-md-3'
                        min='1' onChange={props.onChange} value={props.section.size}
@@ -38,9 +47,11 @@ const editSectionForm = (props) => {
             </div>
 
             <Input label='Name' type="text" name="name"
+                   minLength="2"
                    placeholder="Enter Section Name"
                    onChange={props.onChange}
-                   value={props.section.name}/>
+                   value={props.section.name}
+                    invalid={props.section.name.length < 2}/>
 
             <Button label='save changes' disabled={!props.touched}/>
         </Form>

@@ -68,7 +68,7 @@ const addPersonForm = (props) => {
                 loggin={false}
             />
 
-            <Button label={'Add ' + label}/>
+            <Button label={'Add ' + label} disabled={props.emptyForm}/>
         </Form>
     )
 };

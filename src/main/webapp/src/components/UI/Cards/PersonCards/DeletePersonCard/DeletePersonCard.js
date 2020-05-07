@@ -13,7 +13,7 @@ const deletePersonCard = (props) => {
         controls =  <CardBody>
             <CardText>Are You sure You want to delete that person?</CardText>
             <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-            <Link to="/admin/deleted"><Button onClick={props.delete} className='ml-4' color="danger">Delete</Button></Link>
+            <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
         </CardBody>
     } else{
         deletedPersonLabel = <CardBody>
@@ -22,7 +22,7 @@ const deletePersonCard = (props) => {
     }
 
     if(!props.person){
-        return <Redirect to="/admin"/>;
+        return <Redirect to='/admin'/>
     }
 
     const classNames= "pt-2 pr-2 pb-2 pl-2 "+classes.CardStyle;
@@ -42,9 +42,7 @@ const deletePersonCard = (props) => {
                 <CardSubtitle
                     className="mt-2">Email: <em>{props.person.user ? props.person.user.email : 'No Account'}</em></CardSubtitle>
             </CardBody>
-
             {controls}
-
         </Card>
     )
 };

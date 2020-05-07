@@ -23,12 +23,13 @@ const adminPageElements = (props) =>
         <div className="container-fluid h-100 mt-2">
             <Modal
                 show={props.deletePerson}
-                modalClosed={props.deletePersonHandler}>
+                modalClosed={props.cancelClickedDeletePersonHandler}>
                 <DeletePerson
+                    deleted={false}
                     person={props.personToDelete}
-                    cancelClicked={props.deletePersonHandler}
-                    deleteClicked={props.personDeletedHandler}
-                    personRole={props.personRole}/>
+                    cancelClicked={props.cancelClickedDeletePersonHandler}
+                    deleteClicked={props.deleteClickedPersonHandler}
+                    personInfo={props.personInfo}/>
             </Modal>
 
             <div className="row h-100">
@@ -40,7 +41,9 @@ const adminPageElements = (props) =>
 
                     <PrivateAdminRoute exact path="/admin/deleted" component={()=><DeletePersonCard
                         deleted={true}
-                        person={props.deletedPerson}/>}/>
+                        personInfo={props.personInfo}
+                        cancelClicked={props.cancelClickedDeletePersonHandler}
+                        person={props.personToDelete}/>}/>
 
                     <PrivateAdminRoute path="/admin/sections" component={ListSections}/>
                     <PrivateAdminRoute exact path="/admin/addsection" component={AddSection}/>
@@ -56,10 +59,9 @@ const adminPageElements = (props) =>
 
                     <PrivateAdminRoute exact path="/admin/edit" component={() => <EditAccount
                         path={props.modifyPath}
-                        id={props.editPersonId}
                         token={auth.getToken()}
                         personEdition={true}
-                        personRole={props.personRole}
+                        personInfo={props.personInfo}
                     />}/>
 
                     <PrivateAdminRoute exact path="/admin/students" component={() => <ListStudents

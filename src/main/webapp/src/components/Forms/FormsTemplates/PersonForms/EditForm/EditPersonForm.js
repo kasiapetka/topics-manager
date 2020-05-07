@@ -71,7 +71,7 @@ const EditPersonForm = (props) => {
                 loggin={false}
             />
 
-            <Button label='save changes'/>
+            <Button label='save changes' disabled={props.emptyForm}/>
         </Form>
     )
 };

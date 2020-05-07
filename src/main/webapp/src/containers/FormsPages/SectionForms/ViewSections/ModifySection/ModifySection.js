@@ -126,6 +126,8 @@ class ModifySection extends Component {
             sectionId: this.state.section.id
         };
 
+        console.log(studentSection)
+
         axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
             //TODO DO POPRAWY
             this.setState({
