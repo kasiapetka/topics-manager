@@ -170,6 +170,11 @@ public class AdminController {
             responseCode = 406;
         }
 
+        // if only name or surname were change this is to fill object returned to the front
+        if(editAccount.getNewEmail().equals("")){
+            result.setEmail(teacherEmail);
+        }
+
 
         return ResponseEntity.status(responseCode).body(result);
     }
@@ -215,6 +220,11 @@ public class AdminController {
             }
         } else {
             responseCode = 406;
+        }
+
+        // if only name or surname were change this is to fill object returned to the front
+        if(editAccount.getNewEmail().equals("")){
+            result.setEmail(studentEmail);
         }
 
         return ResponseEntity.status(responseCode).body(result);
