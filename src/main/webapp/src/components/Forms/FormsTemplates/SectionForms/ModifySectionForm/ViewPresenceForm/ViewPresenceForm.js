@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from "../../../Forms.module.css";
 import Input from "../../../../FormElements/Input/Input";
+import Label from "../../../../FormElements/Label/Label";
 
 
 const viewPresenceForm = (props) => {
@@ -23,8 +24,10 @@ const viewPresenceForm = (props) => {
             students = <li>No students in this section</li>
         }else {
             students = props.students.map((student) => {
-                return <li key={student.album} className='form-row'>
-                    <div className='col-md-5 pt-3'>{student.name + ' ' + student.surname}</div>
+                return <li key={student.album} className='form-row border-bottom w-75'>
+                    <div className='col-md-4 pt-3'>{student.name}</div>
+                    <div className='col-md-4 pt-3'>{student.surname}</div>
+                    <div className='col-md-4 pt-3'>{student.presence ? "Present" : "Absent"}</div>
                 </li>
             });
         }
@@ -40,10 +43,8 @@ const viewPresenceForm = (props) => {
                 {dates}
             </Input>
 
-            <ul>
-                {students}
-            </ul>
-
+            <Label label="presence"
+                   content={<ul>{students}</ul>}/>
 
         </div>
     )
