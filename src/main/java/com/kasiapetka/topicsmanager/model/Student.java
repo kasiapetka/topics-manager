@@ -42,6 +42,7 @@ public class Student {
     private User user;
 
     @JsonBackReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "student")
     private List<StudentSection> studentSection;
 

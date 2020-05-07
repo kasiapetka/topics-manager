@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class Section {
     private Semester semester;
 
     @JsonBackReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "section", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<StudentSection> studentSections;
 

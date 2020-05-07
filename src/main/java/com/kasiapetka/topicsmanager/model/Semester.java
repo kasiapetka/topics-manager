@@ -27,6 +27,7 @@ public class Semester {
     private Integer semester;
 
     @JsonBackReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "semester")
     private List<Section> sections;
 
