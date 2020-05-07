@@ -8,6 +8,7 @@ class ViewPresence extends Component {
     state = {
         section: this.props.section,
         students: this.props.students,
+        studentsPresence: null,
         dates: this.props.dates,
         date:null,
         issued: false,
@@ -17,6 +18,9 @@ class ViewPresence extends Component {
     onDateChangeHandler = (event) => {
         const date = event.target.value;
         axios.get('/api/adminteacher/sections/'+this.state.section.id+'/dates/' + date).then(response => {
+            this.setState({
+                studentsPresence: [...response.data]
+            })
 
         }).catch(error => {
             this.setState({
@@ -38,7 +42,7 @@ class ViewPresence extends Component {
         } else {
             content = <ViewPresenceForm
                 dates={this.state.dates}
-                students={this.state.students}
+                students={this.state.studentsPresence}
                 onDateChange={this.onDateChangeHandler}
             />
         }
