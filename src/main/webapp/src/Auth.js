@@ -1,23 +1,38 @@
 class Auth {
 
     login(role, token) {
-        window.sessionStorage.setItem("auth", "true " + role + " " + token);
+        const email = this.parseJwt(token);
+        localStorage.setItem('token', token);
+        localStorage.setItem('role', role);
+        localStorage.setItem('email', email);
+        localStorage.setItem('auth', 'true');
     }
 
-    saveId(id){
-        window.sessionStorage.setItem("id",id);
+    saveId(id) {
+        localStorage.setItem("id", id);
     }
 
     logout() {
-        window.sessionStorage.setItem("auth", "false");
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        localStorage.removeItem('email');
+        localStorage.removeItem('auth');
     }
 
     isAuthenticated() {
-        const a = window.sessionStorage.getItem("auth");
-        if (!a) return false;
-        const authtab = a.split(' ');
-        return authtab[0] === 'true';
+        return localStorage.getItem("auth");
+    }
 
+    getRole() {
+        return localStorage.getItem('role');
+    }
+
+    getToken() {
+        return localStorage.getItem('token');
+    }
+
+    getId() {
+        return localStorage.getItem("id");
     }
 
     parseJwt = (token) => {
@@ -27,30 +42,9 @@ class Auth {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
 
-        return JSON.parse(jsonPayload);
+        return JSON.parse(jsonPayload).sub;
     };
 
-    getRole() {
-        const a = window.sessionStorage.getItem("auth");
-        if (!a) return '';
-        const authtab = a.split(' ');
-        if (authtab[0] === 'true') {
-            return authtab[1];
-        }
-    }
-
-    getToken() {
-        const a = window.sessionStorage.getItem("auth");
-        if (!a) return '';
-        const authtab = a.split(' ');
-        if (authtab[0] === 'true') {
-            return authtab[2];
-        }
-    }
-
-    getId(){
-        return window.sessionStorage.getItem("id");
-    }
 }
 
 export default new Auth()

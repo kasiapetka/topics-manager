@@ -24,7 +24,7 @@ class ListStudents extends Component {
             loading: true,
             oversize: false,
             sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
-            studentsAlreadyInSection : this.props.studentsInSection ? this.props.studentsInSection : false,
+            studentsAlreadyInSection : this.props.studentsInSection ? Array.from(this.props.studentsInSection) : false,
             studentsInSection: 0
         };
     }
