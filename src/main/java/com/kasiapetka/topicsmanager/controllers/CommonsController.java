@@ -2,12 +2,14 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.services.SectionService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@PreAuthorize("hasAnyRole('Admin', 'Teacher', 'Student')")
 @RestController
 public class CommonsController {
 
@@ -24,7 +26,7 @@ public class CommonsController {
         return sectionService.listSectionBySemester(semester_number);
     }
 
-    @GetMapping("/api/common/sections/{sectionID}")
+    @GetMapping("/api/common/sections/section/{sectionID}")
     Section getSectionById(@PathVariable Long sectionID){
         return sectionService.findSectionById(sectionID);
     }
