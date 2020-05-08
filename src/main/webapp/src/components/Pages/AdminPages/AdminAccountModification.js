@@ -1,8 +1,8 @@
 import React,{useState} from 'react';
-import PageNavbar from "../../components/Navigation/Navbar/Navbar";
-import EditAccount from '../FormsPages/PersonForms/EditAccount/EditAccount';
-import auth from "../../Auth";
-import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
+import PageNavbar from "../../Navigation/Navbar/Navbar";
+import EditAccount from '../../../containers/FormsPages/PersonForms/EditAccount/EditAccount';
+import auth from "../../../Auth";
+import SideDrawer from "../../Navigation/SideDrawer/SideDrawer";
 
 const AdminAccountModification =()=> {
     const email = auth.parseJwt(auth.getToken()).sub;

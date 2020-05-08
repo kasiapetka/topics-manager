@@ -4,6 +4,8 @@ import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Subjects from "../../components/Lists/ListSubjects/Subjects";
 import auth from "../../Auth";
+import handleConditionChange from "../../components/Lists/FilterLists/FilterList";
+import FilterSubjectsList from "../../components/Lists/FilterLists/FilterSubjectsList";
 
 class ListSubjects extends Component {
 
@@ -11,6 +13,9 @@ class ListSubjects extends Component {
         super(props);
         this.state = {
             subjects: [],
+            subjectsFiltered: [],
+            condition: 'Name',
+            search:'',
             error: null,
             loading: true,
             role: auth.getRole()
@@ -26,6 +31,7 @@ class ListSubjects extends Component {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects,
+                subjectsFiltered: subjects,
                 loading: false
             });
         }).catch(error => {
@@ -36,6 +42,22 @@ class ListSubjects extends Component {
         })
     };
 
+    handleChange = (event) => {
+        let content = handleConditionChange(event, this.state.condition,
+            this.state.subjects);
+        this.setState({
+            subjectsFiltered: content.newList,
+            search: content.value
+        });
+    };
+
+    onConditionChanged = (event) => {
+        this.setState({
+            condition: event.currentTarget.value,
+            subjectsFiltered: this.state.subjects,
+            search: ''
+        });
+    };
 
     // onSubjectEditHandler = (index) => {
     //     const student = this.state.studentsFiltered[index];
@@ -63,8 +85,14 @@ class ListSubjects extends Component {
         }else if (this.state.subjects) {
             list = (
                 <React.Fragment>
+                    <FilterSubjectsList
+                        condition={this.state.condition}
+                        search={this.state.search}
+                        change={this.handleChange}
+                        conditionChange={this.onConditionChanged}
+                    />
                 <Subjects
-                    subjects={this.state.subjects}/>
+                    subjects={this.state.subjectsFiltered}/>
                 </React.Fragment>
             )
         }

@@ -6,13 +6,17 @@ import auth from '../../../Auth'
 const section = (props) => {
 
     let controls, state;
+    let finishControl = <Row className="pt-2 pb-3 mr-0 ml-0">
+        <Col><Button className="d-inline-block" onClick={props.delete} outline
+                     color="danger">Finish</Button></Col></Row>
 
     if (props.state === 'O') {
-        state = "Opened"
+        state = "Opened";
     } else if (props.state === 'C') {
-        state = "Closed"
+        state = "Closed";
     } else if (props.state === 'F') {
-        state = "Finished"
+        state = "Finished";
+        finishControl = null;
     }
 
     if (auth.getRole() === 'T' || auth.getRole() === 'A') {
@@ -21,11 +25,13 @@ const section = (props) => {
                 <Col><Button className="d-inline-block" onClick={props.edit}>Edit</Button></Col>
                 <Col><Button className="d-inline-block" onClick={props.modify}>Modify</Button></Col>
             </Row>
-            <Row className="pt-2 pb-3 mr-0 ml-0">
-                <Col><Button className="d-inline-block" onClick={props.delete} outline
-                             color="danger">Delete</Button></Col>
-            </Row>
+            {finishControl}
         </React.Fragment>
+    }
+    if (auth.getRole() === 'S') {
+        controls = <Row className="pt-2 pb-3 mr-0 ml-0">
+                <Col><Button className="d-inline-block"
+                             onClick={props.view} outline>View Section</Button></Col></Row>
     }
 
     return (
@@ -42,7 +48,6 @@ const section = (props) => {
                 <Col><span className="float-left ml-3"><strong>State:</strong> <em>{state}</em></span></Col>
                 <Col><span className="float-left ml-3"><strong>Size:</strong> <em>{props.size}</em></span></Col>
             </Row>
-
             {controls}
         </div>
     )

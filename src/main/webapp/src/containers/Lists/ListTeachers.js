@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Teachers from "../../components/Lists/ListTeachers/Teachers";
 import axios from "axios";
-import filterList from "../../components/Lists/FilterList";
+import handleConditionChange from "../../components/Lists/FilterLists/FilterList";
 import {Alert} from "reactstrap";
 import PersonsContext from "../../context/listPersonsContext";
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -93,20 +93,12 @@ class ListTeachers extends Component {
     }
 
     handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        let newList;
-        newList = filterList(value, this.state.condition, this.state.teachers);
+        let content = handleConditionChange(event, this.state.condition,
+            this.state.teachers);
         this.setState({
-            teachersFiltered: newList,
-            search: value
+            teachersFiltered: content.newList,
+            search: content.value
         });
-    };
-
-    onTeachersEditHandler = (index) => {
-        const teachers = [...this.state.teachersFiltered];
-        const person = teachers[index];
-        this.props.editPerson("/api/admin/modifyteacher", person.id, 'T');
     };
 
     onConditionChanged = (event) => {
@@ -115,6 +107,12 @@ class ListTeachers extends Component {
             teachersFiltered: this.state.teachers,
             search: ''
         });
+    };
+
+    onTeachersEditHandler = (index) => {
+        const teachers = [...this.state.teachersFiltered];
+        const person = teachers[index];
+        this.props.editPerson("/api/admin/modifyteacher", person.id, 'T');
     };
 
     onTeachersDeleteHandler = (index) => {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Students from "../../components/Lists/ListStudents/Students";
 import axios from "axios";
-import filterList from "../../components/Lists/FilterList";
+import handleConditionChange from "../../components/Lists/FilterLists/FilterList";
 import PersonsContext from "../../context/listPersonsContext";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
@@ -34,7 +34,6 @@ class ListStudents extends Component {
         if(this.props.sectionSemester){
             sem=this.props.sectionSemester;
         }
-
         axios.get('/api/adminteacher/students/'+sem).then(response => {
             let students = [...response.data];
             let studentsInSection = 0, oversize= false;
@@ -53,8 +52,6 @@ class ListStudents extends Component {
                     oversize=true;
                 }
             }
-
-            console.log(studentsInSection);
             this.setState({
                 students: students,
                 studentsFiltered: students,
@@ -71,13 +68,11 @@ class ListStudents extends Component {
     };
 
     handleChange = (event) => {
-        const target = event.target;
-        const value = target.value;
-        let newList;
-        newList = filterList(value, this.state.condition, this.state.students);
+        let content = handleConditionChange(event, this.state.condition,
+            this.state.students);
         this.setState({
-            studentsFiltered: newList,
-            search: value
+            studentsFiltered: content.newList,
+            search: content.value
         });
     };
 
@@ -91,11 +86,11 @@ class ListStudents extends Component {
 
     onSemesterChangeHandler = (event) => {
         this.setState({loading: true});
-        const id = event.target.value;
+        const sem = event.target.value;
         this.setState({
-            semester: id,
+            semester: sem,
         });
-        axios.get('/api/adminteacher/students/' + id).then(response => {
+        axios.get('/api/adminteacher/students/' + sem).then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,

@@ -17,7 +17,6 @@ class DeleteSection extends Component {
         axios.put(path, id).then(response => {
             this.props.cancelClicked();
             this.props.deleteClicked(this.props.section);
-
         })
             .catch(error => {
                 this.setState({error: error});
@@ -43,7 +42,6 @@ class DeleteSection extends Component {
                 cancel={this.props.cancelClicked}
                 delete={this.sectionDeleteHandler}/>)
         }
-
 
         return content;
     }

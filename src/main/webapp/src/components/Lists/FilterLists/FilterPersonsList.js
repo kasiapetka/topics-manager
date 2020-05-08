@@ -1,12 +1,10 @@
 import React, {useContext} from "react";
-import {Col, Input, Label, Row} from "reactstrap";
-import listPersonsContext from '../../context/listPersonsContext';
-import classes from './Lists.module.css'
+import {Col, Row} from "reactstrap";
+import listPersonsContext from '../../../context/listPersonsContext';
+import Input from "../../Forms/FormElements/Input/Input";
 
 const FilterPersonsList = (props) => {
-
     const context = useContext(listPersonsContext);
-
     return (
         <React.Fragment>
             <div className="text-center mt-4 mb-4">
@@ -41,20 +39,14 @@ const FilterPersonsList = (props) => {
                     }
                 </Row>
             </div>
-            <Label
-                className={classes.Label}
-                for="exampleSearch"> Search on: {
-                context.condition
-            }
-            </Label>
-            <Input className="p-2 w-75 m-auto"
+            <Input groupclasses="p-2 w-75 m-auto"
+                   label={'Search on: '+context.condition}
                    type="search"
                    name="search"
-                   id="exampleSearch"
                    placeholder="search..."
                    value={context.search || ''}
-                   onChange={context.change}
-            />
+                   onChange={context.change}/>
+
         </React.Fragment>
     );
 };

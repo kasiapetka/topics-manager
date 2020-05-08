@@ -15,13 +15,13 @@ const deleteSectionCard = (props) => {
 
     if(!props.deleted){
         controls= <CardBody>
-            <CardText>Are You sure You want to delete this section?</CardText>
+            <CardText>Are You sure You want to finish this section?</CardText>
             <Button outline onClick={props.cancel} color="secondary">Cancel</Button>
-            <Button onClick={props.delete} className='ml-4' color="danger">Delete</Button>
+            <Button onClick={props.delete} className='ml-4' color="danger">Finish Section</Button>
         </CardBody>
     }else{
         deletedSectionLabel = <CardBody>
-            <CardTitle>Section deleted: </CardTitle>
+            <CardTitle>Section Finished: </CardTitle>
         </CardBody>
     }
     if(!props.section){
