@@ -43,16 +43,6 @@ public class AdminTeacherCommonsController {
         return studentService.listActiveStudentsBySemester(semesterNumber);
     }
 
-    @GetMapping("/api/adminteacher/sections/{semester_number}")
-    List<Section> listSectionsBySemester(@PathVariable Integer semester_number){
-        return sectionService.listSectionBySemester(semester_number);
-    }
-
-    @GetMapping("/api/adminteacher/sections/section/{sectionID}")
-    Section getSectionById(@PathVariable Long sectionID){
-        return sectionService.findSectionById(sectionID);
-    }
-
     @GetMapping("/api/adminteacher/sections/{sectionID}/dates")
     List<String> getDatesForSection(@PathVariable Long sectionID){
         return sectionService.getDatesForSection(sectionID);

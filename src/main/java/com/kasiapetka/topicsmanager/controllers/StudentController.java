@@ -34,11 +34,18 @@ public class StudentController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    //GETs
+
     @GetMapping("/api/student/info")
     ResponseEntity<?> returnStudent() {
         User studentUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.ok(studentService.findStudentByUser(studentUser));
     }
+
+    //POSTs
+
+
+    //PUTs
 
     @PutMapping("/api/student/modify")
     ResponseEntity<?> updateStudent(@Valid @RequestBody EditAccount editAccount) throws Exception {
