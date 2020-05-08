@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,14 +56,16 @@ public class IndexController {
         System.out.println(user.getEmail() + " " + user.getPassword());
         User userExists = indexService.findUserByEmail(user.getEmail());
 
+        final Authentication authentication;
+
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
             throw new Exception("Bad login creds", e);
         }
 
-        final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getEmail());
-        final String token = jwtUtil.generateToken(userDetails.getUsername());
+        final String token = jwtUtil.generateToken(authentication);
 
         char role;
 
@@ -94,14 +98,15 @@ public class IndexController {
                 return ResponseEntity.status(401).build();
             }
 
+            Authentication authentication;
             try {
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newStudent.getEmail(), newStudent.getPassword()));
+                authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(newStudent.getEmail(), newStudent.getPassword()));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (BadCredentialsException e) {
                 throw new Exception("Bad login creds", e);
             }
 
-            final UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(newStudent.getEmail());
-            final String token = jwtUtil.generateToken(userDetails.getUsername());
+            final String token = jwtUtil.generateToken(authentication);
 
             return ResponseEntity.ok(new AuthenticationResponse(token, 'S'));
         }
