@@ -20,19 +20,18 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(securedEnabled = true)
+//@EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    JwtFilter jwtFilter;
+    private BCryptPasswordEncoder passwordEncoder;
 
     private final String[] WHITELIST = {
             "/h2-console/**"
@@ -51,37 +50,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("student").newPassword("{noop}test123").roles("Student")
-//                .and()
-//                .withUser("teacher").newPassword("{noop}test123").roles("Teacher");
-
-     /*   auth. jdbcAuthentication()
-                .usersByUsernameQuery(usersQuery)
-                .authoritiesByUsernameQuery(rolesQuery)
-                .passwordEncoder(this.bCryptPasswordEncoder)
-                .dataSource(this.dataSource);*/
-
-        auth.userDetailsService(userDetailsServiceImpl);
+    @Autowired
+    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder);
     }
 
+    @Bean
+    public JwtFilter authenticationTokenFilterBean() {
+        return new JwtFilter();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       /* http
-                //HTTP Basic authentication
-                .httpBasic()
-                .authenticationEntryPoint(new NoPopupBasicAuthenticationEntryPoint())
-               .and()
-                .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
-                .and()
-                .csrf().disable()
-                .formLogin().disable();*/
-
-       //hasPermission hasRole - sprawdzac przed kontrolerem/serwisem
 
        http
                .csrf().disable()
@@ -93,6 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          http
                  .headers().frameOptions().disable();
 
-         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+         http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 }
