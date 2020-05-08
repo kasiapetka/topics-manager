@@ -11,8 +11,8 @@ const pickSemesterInput = (props) => {
     });
 
     return (
-        <div className="p-4 mb-2 mt-2">
-            <FormGroup className="mb-2 mt-3 col-md-3 mr-auto ml-auto">
+        <div className="p-4 mb-2">
+            <FormGroup className="mb-2 col-md-3 mr-auto ml-auto">
                 <Label for="exampleSem" className="mr-2 pl-1">Semester</Label>
 
                 <Input type="select" name="semester" id="exampleSem"

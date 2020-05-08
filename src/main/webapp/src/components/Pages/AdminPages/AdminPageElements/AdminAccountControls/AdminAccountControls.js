@@ -1,47 +1,46 @@
-import React from "react";
-import AdminAccountControl from "./AdminAccountControl/AdminAccountControl";
+import React, {useState} from "react";
+import AccountControl from "../../../AccountControl/AccountControl";
 import classes from './AdminAccountControls.module.css'
-
+import addControlToList from "../../../AccountControl/createControlsList";
+import {Nav} from "reactstrap";
 
 const AdminAccountControls = (props) => {
+    const teachers = [], students = [], sections = [], subjects = [], topics = [];
+    addControlToList(teachers,
+        ['/admin', '/admin/add/T', '/admin/editteachersinsubject'],
+        ["List Teachers", 'Add Teacher', 'Edit Teachers In Subject']);
+    addControlToList(students,
+        ['/admin/students', '/admin/add/S'],
+        ["List Students", 'Add Student']);
+    addControlToList(sections,
+        ['/admin/sections', '/admin/addsection'],
+        ["List Sections", 'Add Section']);
+    addControlToList(subjects,
+        ['/admin/subjects', '/admin/addsubject'],
+        ["List Subjects", 'Add Subject']);
+    addControlToList(topics,
+        ['/admin/topics', '/admin/addtopic'],
+        ["List Topics", 'Add Topic']);
     return (
         <React.Fragment>
             <p className={classes.Caption}>Admin Options:</p>
-            <AdminAccountControl
-                firstLink='/admin'
-                firstButton="List Teachers"
-                secondLink={'/admin/add/T'}
-                secondButton='Add Teacher'
-                onClick={props.addPerson}/>
-            <AdminAccountControl
-                firstLink='/admin/students'
-                firstButton="List Students"
-                secondLink={'/admin/add/S'}
-                secondButton='Add Student'
-                onClick={props.addPerson}/>
-
-            <AdminAccountControl
-                firstLink='/admin/sections'
-                firstButton="List Sections"
-                secondLink='/admin/addsection'
-                secondButton='Add Section'/>
-
-            <AdminAccountControl
-                firstLink='/admin/subjects'
-                firstButton="List Subjects"
-                secondLink='/admin/addsubject'
-                secondButton='Add Subject'/>
-
-            <AdminAccountControl
-                secondLink='/admin/editteachersinsubject'
-                secondButton='Edit Teachers In Subject'/>
-
-            <AdminAccountControl
-                firstLink='/admin/topics'
-                firstButton="List Topics"
-                secondLink='/admin/addtopic'
-                secondButton='Add Topics'/>
-
+            <Nav>
+                <AccountControl
+                    mainLabel='Teachers:'
+                    controls={teachers}/>
+                <AccountControl
+                    mainLabel='Students:'
+                    controls={students}/>
+                <AccountControl
+                    mainLabel='Sections:'
+                    controls={sections}/>
+                <AccountControl
+                    mainLabel='Subjects:'
+                    controls={subjects}/>
+                <AccountControl
+                    mainLabel='Topics:'
+                    controls={topics}/>
+            </Nav>
         </React.Fragment>
     );
 };

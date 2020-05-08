@@ -11,9 +11,9 @@ import AdminPage from "./containers/AdminPages/AdminPage";
 import PrivateStudentRoute from "./components/PrivateRoutes/PrivateStudentRoute";
 import PrivateTeacherRoute from "./components/PrivateRoutes/PrivateTeacherRoute";
 import PrivateAdminRoute from "./components/PrivateRoutes/PrivateAdminRoute";
-import TeacherAccountModification from "./containers/TeacherPages/TeacherAccountModification";
-import StudentAccountModification from "./containers/StudentPages/StudentAccountModification";
-import AdminAccountModification from "./containers/AdminPages/AdminAccountModification";
+import TeacherAccountModification from "./components/Pages/TeacherPages/TeacherAccountModification";
+import StudentAccountModification from "./components/Pages/StudentPages/StudentAccountModification";
+import AdminAccountModification from "./components/Pages/AdminPages/AdminAccountModification";
 
 const App = () => {
         return(

@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import Teacher from "./Teacher";
 import PersonsContext from "../../../context/listPersonsContext";
 import classes from '../Lists.module.css'
-import FilterPersonsList from "../FilterPersonsList";
+import FilterPersonsList from "../FilterLists/FilterPersonsList";
 
 const Teachers = (props) => {
 

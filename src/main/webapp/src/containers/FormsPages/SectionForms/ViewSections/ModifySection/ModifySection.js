@@ -35,7 +35,7 @@ class ModifySection extends Component {
 
         if (this._isMounted) {
             axios.all([
-                axios.get('/api/adminteacher/sections/section/' + sectionId),
+                axios.get('/api/common/sections/' + sectionId),
                 axios.get('/api/adminteacher/sections/' + sectionId + '/dates'),
                 axios.get('/api/adminteacher/students/' + sectionId + '/members')
             ])
@@ -160,7 +160,6 @@ class ModifySection extends Component {
                 loading: false
             })
         });
-
         this.props.history.push(this.props.match.url + '/viewpresence');
     };
 

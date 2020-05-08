@@ -1,38 +1,38 @@
 import React from 'react'
-import TeacherAccountControl from "./TeacherAccountControl/TeacherAccountControl";
+import AccountControl from "../../../AccountControl/AccountControl";
 import classes from './TeacherAccountControls.module.css'
+import addControlToList from "../../../AccountControl/createControlsList";
 
 const TeacherAccountControls = () => {
+    const students=[],sections=[],subjects=[],topics=[];
+
+    addControlToList(students,
+        ['/teacher'], ["List Students"]);
+    addControlToList(sections,
+        ['/teacher/sections','/teacher/addsection'],
+        ["List Sections",'Add Section']);
+    addControlToList(subjects,
+        ['/teacher/subjects'],
+        ["List Subjects"]);
+    addControlToList(topics,
+        ['/teacher/topics','/teacher/addtopic'],
+        ["List Topics",'Add Topic']);
 
     return (
         <React.Fragment>
             <p className={classes.Caption}>Teacher Options:</p>
-
-            <TeacherAccountControl
-                firstLink='/teacher'
-                firstButton="List Students"
-            />
-            <TeacherAccountControl
-                firstLink='/teacher/subjects'
-                firstButton="List Subjects"
-            />
-            <TeacherAccountControl
-                firstLink='/teacher/sections'
-                firstButton="List Sections"
-                secondLink='/teacher/addsection'
-                secondButton='Add Section'
-            />
-
-            <TeacherAccountControl
-                firstLink='/teacher/topics'
-                firstButton="List Topic"
-                secondLink='/teacher/addtopic'
-                secondButton='Add Topic'
-            />
-            {/*<TeacherAccountControl*/}
-            {/*    secondLink='/teacher/jointopic'*/}
-            {/*    secondButton='Join Topic'*/}
-            {/*/>*/}
+            <AccountControl
+                mainLabel='Students:'
+                controls={students}/>
+            <AccountControl
+                mainLabel='Sections:'
+                controls={sections}/>
+            <AccountControl
+                mainLabel='Subjects:'
+                controls={subjects}/>
+            <AccountControl
+                mainLabel='Topics:'
+                controls={topics}/>
 
         </React.Fragment>
     );

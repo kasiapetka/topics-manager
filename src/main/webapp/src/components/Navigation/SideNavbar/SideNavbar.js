@@ -13,8 +13,7 @@ const sideNavbar = (props) => {
     let content;
 
     if(auth.getRole() === 'A'){
-        content=<AdminAccountControls
-            addPerson={props.addPerson}/>;
+        content=<AdminAccountControls/>;
     }
     else if(auth.getRole() === 'T'){
         content=<TeacherAccountControls/>;

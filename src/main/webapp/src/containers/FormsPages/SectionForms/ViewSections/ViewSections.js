@@ -18,7 +18,9 @@ class ViewSections extends Component {
     };
 
     componentDidMount() {
-        axios.get('/api/adminteacher/sections/' + this.state.semester).then(response => {
+        axios.get('/api/common/sections/' + this.state.semester).then(response => {
+            console.log(response.data);
+
             let sections = [...response.data];
 
             console.log(sections)
@@ -42,7 +44,7 @@ class ViewSections extends Component {
             semester: id,
         });
 
-        axios.get('/api/adminteacher/sections/' + id).then(response => {
+        axios.get('/api/common/sections/' + id).then(response => {
             let sections = [...response.data];
             this.setState({
                 sections: sections,

@@ -49,7 +49,7 @@ class ListSections extends Component {
         this.setState({
             section: section,
         });
-        this.props.history.push('/deletedsection')
+        this.props.history.push(this.props.match.path + '/deletedsection')
     };
 
 
@@ -76,32 +76,27 @@ class ListSections extends Component {
                     deleted={true}
                     section={this.state.section}
                     {...this.props}/>}/>
-
-                <PrivateAdminRoute exact path="/admin/sections/editsection/:id" component={EditSection}/>
-
-                <PrivateAdminRoute path="/admin/sections/modifysection/:id" component={ModifySection}/>
-
                 <PrivateTeacherRoute exact path="/teacher/sections/deletedsection" component={() => <DeleteSectionCard
                     deleted={true}
                     section={this.state.section}
                     {...this.props}/>}/>
 
+                <PrivateAdminRoute exact path="/admin/sections/editsection/:id" component={EditSection}/>
                 <PrivateTeacherRoute exact path="/teacher/sections/editsection/:id" component={EditSection}/>
 
+                <PrivateAdminRoute path="/admin/sections/modifysection/:id" component={ModifySection}/>
                 <PrivateTeacherRoute path="/teacher/sections/modifysection/:id" component={ModifySection}/>
 
                 <PrivateAdminRoute exact path="/admin/sections" component={() =><ViewSections
                         delete={this.onSectionDeleteHandler}
                         edit={this.onSectionEditHandler}
                         modify={this.onSectionModifyHandler}
-                    />
-                }/>
+                    />}/>
                 <PrivateTeacherRoute exact path="/teacher/sections" component={() =><ViewSections
                     delete={this.onSectionDeleteHandler}
                     edit={this.onSectionEditHandler}
                     modify={this.onSectionModifyHandler}
-                />
-                }/>
+                />}/>
             </React.Fragment>
         );
     }

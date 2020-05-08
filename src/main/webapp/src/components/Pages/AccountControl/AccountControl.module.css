@@ -1,0 +1,39 @@
+.Link a{
+    display: block;
+    width: 75%;
+    color: black;
+    box-sizing: border-box;
+    padding: 8px 0 8px 0;
+}
+
+.Link a:hover, .Link a.active{
+    color: rgb(30, 170, 154);
+    text-decoration: none;
+}
+
+.Elements{
+    display: block;
+    border: 2px solid #eee;
+    width: 80%;
+    list-style-type:circle;
+    padding-top: 5px;
+    margin: 15px auto;
+}
+
+@media (max-width: 767px) {
+    .Elements{
+        margin: 15px auto;
+        padding: 5px 25px 5px 25px;
+        width: 200px;
+    }
+    .Link{
+        display: block;
+        width: 100%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .Elements{
+        width: 170px;
+    }
+}
