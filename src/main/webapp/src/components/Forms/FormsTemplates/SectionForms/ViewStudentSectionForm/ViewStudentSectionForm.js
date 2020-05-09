@@ -1,12 +1,12 @@
 import React from "react";
 import Label from "../../../FormElements/Label/Label";
-import {Button} from "reactstrap";
+import {Badge, Button} from "reactstrap";
 import classes from "../../Forms.module.css";
-import Input from "../../../FormElements/Input/Input";
 
 const viewStudentSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
-    let students = <li>No students in this section.</li>, state;
+    let students = <li>No students in this section.</li>, state,
+        join = <Badge className='col-md-6 p-2'>This section is closed for joining.</Badge>;
 
     if (props.students) {
         if (props.students.length === 0) {
@@ -20,13 +20,15 @@ const viewStudentSectionForm = (props) => {
         }
     }
 
-    if(props.section){
-        if(props.section.state === 'O')
-            state='Opened';
-        else if(props.section.state === 'F')
-            state='Finished';
-        else if(props.section.state === 'C')
-            state='Closed';
+    if (props.section) {
+        if (props.section.state === 'O') {
+            state = 'Opened';
+          //  join = <Button className='col-md-6'
+           //               color='success'>Join section</Button>
+        } else if (props.section.state === 'F')
+            state = 'Finished';
+        else if (props.section.state === 'C')
+            state = 'Closed';
     }
 
     return (
@@ -34,6 +36,16 @@ const viewStudentSectionForm = (props) => {
             <h3 className="text-center">Section Options: </h3>
 
             <Label label='name' content={props.section.name}/>
+
+            <div className="form-row p-1">
+                <Label label="topic"
+                       groupclasses='col-md-6'
+                       content={props.section.topic.name}/>
+
+                <Label label="subject"
+                       groupclasses='col-md-6 mr-auto ml-auto'
+                       content={props.section.topic.subject.name}/>
+            </div>
 
             <div className="form-row p-1">
                 <Label label="size"
@@ -44,7 +56,7 @@ const viewStudentSectionForm = (props) => {
                        groupclasses='col-md-3 mr-auto ml-auto'
                        content={props.section.semester.semester}/>
 
-                <Label label="semester"
+                <Label label="state"
                        groupclasses='col-md-3'
                        content={state}/>
             </div>
@@ -54,6 +66,11 @@ const viewStudentSectionForm = (props) => {
                        content={<ul>{students}</ul>}/>
             </div>
 
+            <div className="form-row p-1">
+                <div className='col-md-3'></div>
+                {join}
+                <div className='col-md-3'></div>
+            </div>
         </div>
     );
 };
