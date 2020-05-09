@@ -19,11 +19,7 @@ class EditTeachersInSubject extends Component {
     };
 
     componentDidMount() {
-        let path;
-        if(auth.getRole() === 'A') path='/api/admin/subjects';
-        if(auth.getRole() === 'T') path='/api/teacher/subjects/'+auth.getId();
-
-        axios.get(path).then(response => {
+        axios.get('/api/admin/subjects').then(response => {
             let subjects = [...response.data];
             this.setState({
                 subjects: subjects

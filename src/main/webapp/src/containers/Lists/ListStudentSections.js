@@ -1,8 +1,12 @@
 import React, {Component} from 'react'
-import ListSections from "./ListSections";
 import axios from "axios";
 import Sections from "../../components/Lists/ListSections/Sections";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
+import PrivateStudentRoute from "../../components/PrivateRoutes/PrivateStudentRoute";
+import ViewStudentSection from "../FormsPages/SectionForms/ViewStudentSection/ViewStudentSection";
+import {withRouter} from "react-router-dom";
+import {Alert} from "reactstrap";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class ListStudentSections extends Component {
 
@@ -18,7 +22,7 @@ class ListStudentSections extends Component {
         this.setState({loading: true});
 
         const sem = this.state.semester;
-        axios.get('/api/common/sections/'+sem).then(response => {
+        axios.get('/api/common/sections/' + sem).then(response => {
             let sections = [...response.data];
             this.setState({
                 sections: sections,
@@ -54,13 +58,25 @@ class ListStudentSections extends Component {
         })
     };
 
-    viewSectionHandler=()=>{
-        alert('oglondansko')
+    viewSectionHandler = (section) => {
+        this.props.history.push(this.props.match.path + '/section/'+section.id);
     };
 
     render() {
-        return (
-            <div>
+        const error = this.state.error;
+        const loading = this.state.loading;
+        let content;
+        if (error) {
+            return (
+                <Alert color="danger">
+                    Server Error, Please Try Again.<br/>
+                    {error.message}
+                </Alert>
+            )
+        } else if (loading) {
+            content = <Spinner/>
+        } else {
+            content = <div>
                 <PickSemesterInput
                     semester={this.state.semester}
                     onSemesterChange={this.onSemesterChangeHandler}/>
@@ -68,8 +84,9 @@ class ListStudentSections extends Component {
                     viewSection={this.viewSectionHandler}
                     sections={this.state.sections}/>
             </div>
-        )
+        }
+        return content;
     }
 };
 
-export default ListStudentSections
+export default withRouter(ListStudentSections);

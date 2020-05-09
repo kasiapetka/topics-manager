@@ -3,6 +3,7 @@ import Messages from "../../../Messages/Messages";
 import AccountDetailsCard from "../../../UI/Cards/AccountDetailsCard/AccountDetailsCard";
 import ListStudentSections from "../../../../containers/Lists/ListStudentSections";
 import PrivateStudentRoute from "../../../PrivateRoutes/PrivateStudentRoute";
+import ViewStudentSection from "../../../../containers/FormsPages/SectionForms/ViewStudentSection/ViewStudentSection";
 
 const studentPageElements = (props) =>
     (
@@ -14,6 +15,7 @@ const studentPageElements = (props) =>
                     <Messages/>
                 </div>
                 <div className="col-md-8 border-right">
+                    <PrivateStudentRoute exact path="/student/section/:id" component={ViewStudentSection}/>
                     <PrivateStudentRoute exact path="/student" component={ListStudentSections}/>
                 </div>
                 <div className="col-md-1"></div>

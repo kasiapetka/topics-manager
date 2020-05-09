@@ -50,6 +50,7 @@ class StudentPage extends Component {
                     clicked={this.sideDrawerToggleHandler}
                     show={this.state.showSideDrawer}
                     addPerson={this.addPersonHandler}/>
+
                     <StudentPageElements
                     student={this.state.student}/>
 
