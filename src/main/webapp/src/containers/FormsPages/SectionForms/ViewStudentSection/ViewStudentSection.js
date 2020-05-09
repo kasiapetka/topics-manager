@@ -2,19 +2,23 @@ import React, {Component} from "react";
 import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
+import ViewStudentSectionForm
+    from "../../../../components/Forms/FormsTemplates/SectionForms/ViewStudentSectionForm/ViewStudentSectionForm";
 
 class ViewStudentSection extends Component {
 
     state = {
         loading: false,
         error: null,
-        section: null
+        section: null,
+        students: null
     };
 
     componentDidMount() {
         this.setState({loading: true});
         const sectionId = this.props.match.params.id;
-        axios.get('/api/student/sections/section/' + sectionId).then(response => {
+        //TODO i neeed more info from backend bout the section
+        axios.get('/api/common/sections/section/' + sectionId).then(response => {
             const section = {...response.data};
             this.setState({
                 loading: false,
@@ -41,7 +45,8 @@ class ViewStudentSection extends Component {
         } else if (loading) {
             content = <Spinner/>;
         } else if(section){
-            content =<p>ViewStudentSection</p>
+            content = <ViewStudentSectionForm
+                            section={this.state.section}/>
         }
 
         return content;

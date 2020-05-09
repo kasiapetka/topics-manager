@@ -7,6 +7,8 @@ import WithClass from "../../../hoc/WithClass";
 import auth from "../../../Auth";
 import TeacherAccountControls
     from "../../Pages/TeacherPages/TeacherPageElements/TeacherAccountControls/TeacherAccountControls";
+import StudentAccountControls
+    from "../../Pages/StudentPages/StudentPageElements/StudentAccountControls/StudentAccountControls";
 
 const sideNavbar = (props) => {
 
@@ -17,6 +19,8 @@ const sideNavbar = (props) => {
     }
     else if(auth.getRole() === 'T'){
         content=<TeacherAccountControls/>;
+    }else if(auth.getRole() === 'S'){
+        content=<StudentAccountControls/>;
     }
 
     return (
