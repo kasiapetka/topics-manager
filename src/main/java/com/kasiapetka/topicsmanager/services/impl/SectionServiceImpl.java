@@ -371,4 +371,24 @@ public class SectionServiceImpl implements SectionService {
             return 500;
         }
     }
+
+    @Override
+    public SectionInfoDTO getSectionInfo(Long sectionId) {
+
+        Section section = this.findSectionById(sectionId);
+
+        Teacher teacherInSection = section.getTeacher();
+
+        SectionInfoDTO sectionInfoDTO = new SectionInfoDTO();
+        sectionInfoDTO.setInSection(studentService.isLoggedStudentInSection(sectionId));
+        sectionInfoDTO.setTeacherName(teacherInSection.getName());
+        sectionInfoDTO.setTeacherSurname(teacherInSection.getSurname());
+        sectionInfoDTO.setTeacherEmail(teacherInSection.getUser().getEmail());
+        sectionInfoDTO.setSectionId(sectionId);
+        sectionInfoDTO.setSectionName(section.getName());
+        sectionInfoDTO.setSectionSize(section.getSizeOfSection());
+        sectionInfoDTO.setSectionState(section.getState());
+
+        return sectionInfoDTO;
+    }
 }

@@ -1,37 +1,41 @@
 package com.kasiapetka.topicsmanager.controllers;
 
 
+import com.kasiapetka.topicsmanager.DTO.EditAccount;
+import com.kasiapetka.topicsmanager.DTO.SectionInfoDTO;
+import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.DTO.EditAccount;
+import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import com.kasiapetka.topicsmanager.services.UserService;
+import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class StudentController {
 
     private UserService userService;
     private StudentService studentService;
+    private SectionService sectionService;
     private UserDetailsServiceImpl userDetailsServiceImpl;
     private BCryptPasswordEncoder passwordEncoder;
 
 
     public StudentController(UserService userService, StudentService studentService,
-                             UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder) {
+                             UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
+                             SectionService sectionService) {
         this.userService = userService;
         this.studentService = studentService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.passwordEncoder = passwordEncoder;
+        this.sectionService = sectionService;
     }
 
     //GETs
@@ -40,6 +44,21 @@ public class StudentController {
     ResponseEntity<?> returnStudent() {
         User studentUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return ResponseEntity.ok(studentService.findStudentByUser(studentUser));
+    }
+
+    @GetMapping("/api/student/section/{sectionID}")
+    SectionInfoDTO getSectionInfor(@PathVariable Long sectionID){
+        return sectionService.getSectionInfo(sectionID);
+    }
+
+    @GetMapping("/api/student/section/{semesterID}")
+    List<Section> listSectionsInSemester(@PathVariable Integer semesterID){
+        return sectionService.listSectionBySemester(semesterID);
+    }
+
+    @GetMapping("/api/student/sections")
+    List<Section> listStudentsSections(){
+        return studentService.listLoggedStudentSections();
     }
 
     //POSTs

@@ -1,17 +1,16 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
-import com.kasiapetka.topicsmanager.model.Semester;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.SemesterRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
-import com.kasiapetka.topicsmanager.services.RoleService;
-import com.kasiapetka.topicsmanager.services.SemesterService;
-import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.UserService;
+import com.kasiapetka.topicsmanager.repositories.StudentSectionRepository;
+import com.kasiapetka.topicsmanager.services.*;
 import org.hibernate.HibernateException;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +29,35 @@ public class StudentServiceImpl implements StudentService {
     protected UserService userService;
     protected SemesterService semesterService;
     protected RoleService roleService;
+//    private SectionService sectionService;
+    private StudentSectionRepository studentSectionRepository;
+    private SectionRepository sectionRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository, SemesterRepository semesterRepository,
                               BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService,
-                              SemesterService semesterService, RoleService roleService) {
+                              SemesterService semesterService, RoleService roleService,
+                              StudentSectionRepository studentSectionRepository, SectionRepository sectionRepository) {
         this.studentRepository = studentRepository;
         this.semesterRepository = semesterRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userService = userService;
         this.semesterService = semesterService;
         this.roleService = roleService;
+//        this.sectionService = sectionService;
+        this.studentSectionRepository = studentSectionRepository;
+        this.sectionRepository = sectionRepository;
+    }
+
+    public Section findSectionById(Long id) {
+        return sectionRepository.findById(id).orElse(new Section());
+    }
+
+    private Student getLoggedStudent(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        Student student = this.findStudentByUser(user);
+
+        return student;
     }
 
     @Override
@@ -164,6 +182,41 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         return studentsFromThisSemester;
+    }
+
+    @Override
+    public Boolean isLoggedStudentInSection(Long sectionId) {
+
+        Section section = this.findSectionById(sectionId);
+
+        Student student = this.getLoggedStudent();
+
+        for(StudentSection s : section.getStudentSections()){
+            if(s.getStudent().getAlbum().equals(student.getAlbum())){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<Section> listLoggedStudentSections() {
+
+        Student student = this.getLoggedStudent();
+
+        List<StudentSection> studentSections = new ArrayList<>();
+        studentSectionRepository.findAllByStudent(student).orElse(new ArrayList<>()).iterator().forEachRemaining(studentSections::add);
+
+        List<Section> sections = new ArrayList<>();
+
+        for(StudentSection studentSection : studentSections){
+            if(!sections.contains(studentSection.getSection())){
+                sections.add(studentSection.getSection());
+            }
+        }
+
+        return sections;
     }
 }
 

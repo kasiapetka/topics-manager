@@ -1,6 +1,7 @@
 package com.kasiapetka.topicsmanager.services;
 
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
+import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
 
@@ -12,6 +13,8 @@ public interface StudentService {
     Student findStudentByAlbum(Long album);
     Student findStudentByUser(User user);
     Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO);
+    Boolean isLoggedStudentInSection(Long sectionId);
+    List<Section> listLoggedStudentSections();
 
 //    void changeEmail(Student student, String newEmail);
 //    void changePassword(Student student, String newPassword);

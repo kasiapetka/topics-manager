@@ -16,6 +16,7 @@ public interface SectionService {
     List<StudentSection> findStudentSectionsBySection(Section section);
     List<StudentPresenceExtendedDTO> findStudentsInSectionByDate(Long sectionId, String date);
 
+    SectionInfoDTO getSectionInfo(Long sectionId);
     Long addNewSection(NewSection newSection);
     Integer editSection(NewSection newSection, Long sectionID);
     Boolean addStudentsToSection(AddStudentsToSectionDTO addStudentsToSectionDTO);
