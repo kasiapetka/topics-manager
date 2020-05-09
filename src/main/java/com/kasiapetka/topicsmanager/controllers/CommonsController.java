@@ -24,7 +24,7 @@ public class CommonsController {
         return sectionService.listSectionBySemester(semester_number);
     }
 
-    @GetMapping("/api/common/sections/{sectionID}")
+    @GetMapping("/api/common/sections/section/{sectionID}")
     Section getSectionById(@PathVariable Long sectionID){
         return sectionService.findSectionById(sectionID);
     }

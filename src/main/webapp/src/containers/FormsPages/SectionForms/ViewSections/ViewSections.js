@@ -38,13 +38,13 @@ class ViewSections extends Component {
 
     onSemesterChangeHandler = (event) => {
         this.setState({loading: true});
-        const id = event.target.value;
+        const sem = event.target.value;
 
         this.setState({
-            semester: id,
+            semester: sem,
         });
 
-        axios.get('/api/common/sections/' + id).then(response => {
+        axios.get('/api/common/sections/' + sem).then(response => {
             let sections = [...response.data];
             this.setState({
                 sections: sections,
@@ -89,6 +89,5 @@ class ViewSections extends Component {
         return content;
     };
 };
-
 
 export default ViewSections;

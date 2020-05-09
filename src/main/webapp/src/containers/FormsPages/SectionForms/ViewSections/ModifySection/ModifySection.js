@@ -23,19 +23,18 @@ class ModifySection extends Component {
         modifiedStudents: null,
         modifyMembers: false,
         loading: false,
-        urlChanged: false,
         dates: null,
         error: null
     };
 
     componentDidMount() {
-        this.setState({loading: true, urlChanged: false});
+        this.setState({loading: true});
         const sectionId = this.props.match.params.id;
         this._isMounted = true;
 
         if (this._isMounted) {
             axios.all([
-                axios.get('/api/common/sections/' + sectionId),
+                axios.get('/api/common/sections/section/' + sectionId),
                 axios.get('/api/adminteacher/sections/' + sectionId + '/dates'),
                 axios.get('/api/adminteacher/students/' + sectionId + '/members')
             ])
@@ -126,13 +125,10 @@ class ModifySection extends Component {
             sectionId: this.state.section.id
         };
 
-        console.log(studentSection)
-
         axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
-            //TODO DO POPRAWY
             this.setState({
                 modifyMembers: false,
-                students: [response.data]
+                students: [...response.data]
             });
         }).catch(error => {
             this.setState({

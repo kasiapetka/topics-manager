@@ -24,7 +24,7 @@ const App = () => {
                         <Route exact path ="/register" render={() => <LoginPage isLoginOnAct={false}/>}/>
 
                         <PrivateStudentRoute exact path ="/student/modifyaccount" component={StudentAccountModification}/>
-                        <PrivateStudentRoute exact path ="/student" component={StudentPage}/>
+                        <PrivateStudentRoute path ="/student" component={StudentPage}/>
 
                         <PrivateTeacherRoute exact path ="/teacher/modifyaccount" component={TeacherAccountModification}/>
                         <PrivateTeacherRoute path ="/teacher" component={TeacherPage}/>

@@ -9,6 +9,7 @@
 .Link a:hover, .Link a.active{
     color: rgb(30, 170, 154);
     text-decoration: none;
+    font-weight: bold;
 }
 
 .Elements{
@@ -20,10 +21,19 @@
     margin: 15px auto;
 }
 
+.Title{
+    margin: 10px auto;
+    width: 80%;
+}
+.Title:hover{
+    font-weight: bold;
+    cursor: pointer;
+}
+
 @media (max-width: 767px) {
     .Elements{
         margin: 15px auto;
-        padding: 5px 25px 5px 25px;
+        padding: 5px 10px 5px 10px;
         width: 200px;
     }
     .Link{

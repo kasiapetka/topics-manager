@@ -16,6 +16,7 @@ const Sections =(props)=>{
                 semester={section.semester.semester}
                 state={section.state}
                 key={section.id}
+                id={section.id}
                 view={()=>props.viewSection(section)}
                 edit={() => props.edit(section)}
                 modify={() => props.modify(section)}

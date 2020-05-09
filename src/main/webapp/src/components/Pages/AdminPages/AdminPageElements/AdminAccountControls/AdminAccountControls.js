@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import AccountControl from "../../../AccountControl/AccountControl";
 import classes from './AdminAccountControls.module.css'
 import addControlToList from "../../../AccountControl/createControlsList";
 import {Nav} from "reactstrap";
 
-const AdminAccountControls = (props) => {
+const adminAccountControls = (props) => {
     const teachers = [], students = [], sections = [], subjects = [], topics = [];
     addControlToList(teachers,
         ['/admin', '/admin/add/T', '/admin/editteachersinsubject'],
@@ -45,5 +45,5 @@ const AdminAccountControls = (props) => {
     );
 };
 
-export default AdminAccountControls;
+export default adminAccountControls;
 

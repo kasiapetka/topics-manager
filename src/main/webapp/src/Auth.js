@@ -2,37 +2,37 @@ class Auth {
 
     login(role, token) {
         const email = this.parseJwt(token);
-        localStorage.setItem('token', token);
-        localStorage.setItem('role', role);
-        localStorage.setItem('email', email);
-        localStorage.setItem('auth', 'true');
+        window.sessionStorage.setItem('token', token);
+        window.sessionStorage.setItem('role', role);
+        window.sessionStorage.setItem('email', email);
+        window.sessionStorage.setItem('auth', 'true');
     }
 
     saveId(id) {
-        localStorage.setItem("id", id);
+        window.sessionStorage.setItem("id", id);
     }
 
     logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        localStorage.removeItem('email');
-        localStorage.removeItem('auth');
+        window.sessionStorage.removeItem('token');
+        window.sessionStorage.removeItem('role');
+        window.sessionStorage.removeItem('email');
+        window.sessionStorage.removeItem('auth');
     }
 
     isAuthenticated() {
-        return localStorage.getItem("auth");
+        return window.sessionStorage.getItem("auth");
     }
 
     getRole() {
-        return localStorage.getItem('role');
+        return window.sessionStorage.getItem('role');
     }
 
     getToken() {
-        return localStorage.getItem('token');
+        return window.sessionStorage.getItem('token');
     }
 
     getId() {
-        return localStorage.getItem("id");
+        return window.sessionStorage.getItem("id");
     }
 
     parseJwt = (token) => {
