@@ -31,7 +31,7 @@ const section = (props) => {
     if (auth.getRole() === 'S') {
         controls = <Row className="pt-2 pb-3 mr-0 ml-0">
                 <Col><Button className="d-inline-block"
-                             onClick={props.view} outline>View Section</Button></Col></Row>
+                             onClick={props.view} outline>View Section Details</Button></Col></Row>
     }
 
     return (

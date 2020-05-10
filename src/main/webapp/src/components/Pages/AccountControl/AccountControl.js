@@ -8,10 +8,11 @@ const AccountControl = (props) => {
     const [controls, setControls] = useState(null);
 
    useEffect(()=>{
+
        if (props.controls) {
            setControls(props.controls.map(control => {
                if(props.history.location.pathname === control.link){
-                   setShowList(true)
+                   setShowList(true);
                }
                return <li key={control.link}
                           className={classes.Link}>
@@ -22,7 +23,6 @@ const AccountControl = (props) => {
                </li>
            }))
        }
-
    },[]);
 
     return (

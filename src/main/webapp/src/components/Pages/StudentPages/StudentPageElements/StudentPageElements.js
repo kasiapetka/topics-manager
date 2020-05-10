@@ -5,6 +5,8 @@ import ListStudentSections from "../../../../containers/Lists/ListStudentSection
 import PrivateStudentRoute from "../../../PrivateRoutes/PrivateStudentRoute";
 import ViewStudentSection from "../../../../containers/FormsPages/SectionForms/ViewStudentSection/ViewStudentSection";
 import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
+import ModifyStudentSection
+    from "../../../../containers/FormsPages/SectionForms/ModifyStudentSection/ModifyStudentSection";
 
 const studentPageElements = (props) =>
     (
@@ -18,7 +20,9 @@ const studentPageElements = (props) =>
                 </div>
                 <div className="col-md-8 border-right">
                     <PrivateStudentRoute exact path="/student/section/:id" component={ViewStudentSection}/>
-                    <PrivateStudentRoute exact path="/student" component={ListStudentSections}/>
+                    <PrivateStudentRoute exact path="/student/sections/section/:id" component={ModifyStudentSection}/>
+                    <PrivateStudentRoute exact path="/student/sections" component={()=><ListStudentSections viewAllSections={false}/>}/>
+                    <PrivateStudentRoute exact path="/student" component={()=><ListStudentSections viewAllSections={true}/>}/>
                 </div>
                 <div className="col-md-1"></div>
             </div>
