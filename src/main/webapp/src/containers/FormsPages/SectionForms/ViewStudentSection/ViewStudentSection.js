@@ -17,8 +17,8 @@ class ViewStudentSection extends Component {
     componentDidMount() {
         this.setState({loading: true});
         const sectionId = this.props.match.params.id;
-        //TODO i neeed more info from backend bout the section
-        axios.get('/api/common/sections/section/' + sectionId).then(response => {
+
+        axios.get('/api/student/section/' + sectionId).then(response => {
             const section = {...response.data};
             this.setState({
                 loading: false,
