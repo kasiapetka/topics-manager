@@ -23,8 +23,8 @@ const viewStudentSectionForm = (props) => {
     if (props.section) {
         if (props.section.state === 'O') {
             state = 'Opened';
-          //  join = <Button className='col-md-6'
-           //               color='success'>Join section</Button>
+            //  join = <Button className='col-md-6'
+            //               color='success'>Join section</Button>
         } else if (props.section.state === 'F')
             state = 'Finished';
         else if (props.section.state === 'C')
@@ -33,29 +33,35 @@ const viewStudentSectionForm = (props) => {
 
     return (
         <div className={classNames}>
-            <h3 className="text-center">Section Options: </h3>
-
+            <h3 className="text-center">Section Details: </h3>
             <Label label='name' content={props.section.name}/>
 
             <div className="form-row p-1">
-                <Label label="topic"
+                <Label label="teacher"
                        groupclasses='col-md-6'
-                       content={props.section.topic.name}/>
-
-                <Label label="subject"
-                       groupclasses='col-md-6 mr-auto ml-auto'
-                       content={props.section.topic.subject.name}/>
+                       content={props.teacher.name + ' ' + props.teacher.surname}/>
+                <Label label='teacher email'
+                       groupclasses='col-md-6'
+                       content={props.teacher.email}/>
             </div>
+
+            {/*<div className="form-row p-1">*/}
+            {/*    <Label label="topic"*/}
+            {/*           groupclasses='col-md-6'*/}
+            {/*           content={props.section.topic.name}/>*/}
+
+            {/*    <Label label="subject"*/}
+            {/*           groupclasses='col-md-6 mr-auto ml-auto'*/}
+            {/*           content={props.section.subject.name}/>*/}
+            {/*</div>*/}
 
             <div className="form-row p-1">
                 <Label label="size"
                        groupclasses='col-md-3'
                        content={props.section.sizeOfSection}/>
-
-                <Label label="semester"
-                       groupclasses='col-md-3 mr-auto ml-auto'
-                       content={props.section.semester.semester}/>
-
+                {/*<Label label="semester"*/}
+                {/*       groupclasses='col-md-3 mr-auto ml-auto'*/}
+                {/*       content={props.section.semester.semester}/>*/}
                 <Label label="state"
                        groupclasses='col-md-3'
                        content={state}/>

@@ -11,7 +11,9 @@ class ViewStudentSection extends Component {
         loading: false,
         error: null,
         section: null,
-        students: null
+        students: null,
+        teacher: null,
+        canJoin: false
     };
 
     componentDidMount() {
@@ -19,10 +21,30 @@ class ViewStudentSection extends Component {
         const sectionId = this.props.match.params.id;
 
         axios.get('/api/student/section/' + sectionId + '/info').then(response => {
-            const section = {...response.data};
+            const section = {
+                id: response.data.sectionId,
+                name: response.data.sectionName,
+                sizeOfSection: response.data.sectionSize,
+                state: response.data.sectionState,
+                topic: response.data.topicName,
+                subject: response.data.subjectName
+            };
+            const teacher = {
+                name: response.data.teacherName,
+                surname: response.data.teacherSurname,
+                email: response.data.teacherEmail
+            };
+            const isInSection = response.data.inSection;
+            // const students = [...response.data.students];
+
+            console.log(teacher);
+
             this.setState({
                 loading: false,
-                section: section
+                section: section,
+                teacher: teacher,
+                isInSection: isInSection,
+                //   students: students
             })
         }).catch(error => {
             this.setState({
@@ -44,9 +66,12 @@ class ViewStudentSection extends Component {
             </Alert>
         } else if (loading) {
             content = <Spinner/>;
-        } else if(section){
+        } else if (section) {
             content = <ViewStudentSectionForm
-                            section={this.state.section}/>
+                canJoin={this.state.canJoin}
+                teacher={this.state.teacher}
+                students={this.state.students}
+                section={this.state.section}/>
         }
 
         return content;
