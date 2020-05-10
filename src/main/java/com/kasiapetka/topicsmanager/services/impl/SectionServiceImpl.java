@@ -389,6 +389,24 @@ public class SectionServiceImpl implements SectionService {
         sectionInfoDTO.setSectionSize(section.getSizeOfSection());
         sectionInfoDTO.setSectionState(section.getState());
 
+        sectionInfoDTO.setTopicName(section.getTopic().getName());
+        sectionInfoDTO.setSubjectName(section.getTopic().getSubject().getName());
+
+        sectionInfoDTO.setSemester(section.getSemester().convertToDTO());
+
+        List<StudentDTO> students = new ArrayList<>();
+
+        List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
+
+        for(StudentSection s : studentSections){
+            StudentDTO studentDTO = s.getStudent().convertToStudentDTO();
+            if(!students.contains(studentDTO)){
+                students.add(studentDTO);
+            }
+        }
+
+        sectionInfoDTO.setStudents(students);
+
         return sectionInfoDTO;
     }
 }
