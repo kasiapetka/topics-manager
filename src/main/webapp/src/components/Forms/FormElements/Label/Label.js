@@ -9,12 +9,12 @@ const label = (props) => {
 
      return (
             <FormGroup className={formGroupClasses}>
-                <Label className="mr-2 pl-1 text-capitalize">
+                <Label style={{fontWeight: '300'}} className="mr-2 pl-1 text-capitalize">
                     {props.label}
                 </Label>
                 <div color="light"
-                     className="pt-2 pb-2 pl-2 border rounded text-left">
-                    {props.content}
+                     className="pt-2 pb-2 pl-2 border shadow-sm bg-white rounded text-left">
+                    <span>{props.content}</span>
                 </div>
             </FormGroup>
     );

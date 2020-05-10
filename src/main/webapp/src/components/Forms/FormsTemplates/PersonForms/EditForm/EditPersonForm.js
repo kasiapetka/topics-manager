@@ -14,14 +14,9 @@ const EditPersonForm = (props) => {
     let albumDetails;
     if (props.personRole === 'S') {
         albumDetails = (
-            <div className="mb-2 mb-0 mt-3 p-2">
-                <Label for="actualAlbum" className="mr-2 pl-1">
-                    {label} Album
-                </Label>
-                <div color="light" id="actualAlbum"
-                     className="pt-2 pl-2 pb-2 border rounded text-left">
-                    {props.person.id}</div>
-            </div>)
+            <PersonInfo
+                label={label + " Album"}
+                content={props.person.id}/>)
     }
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
     return (

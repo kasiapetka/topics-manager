@@ -1,11 +1,13 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
 import ViewStudentSectionForm
     from "../../../../components/Forms/FormsTemplates/SectionForms/ViewStudentSectionForm/ViewStudentSectionForm";
+import ModifyStudentSectionForm
+    from "../../../../components/Forms/FormsTemplates/SectionForms/ModifyStudentSectionForm/ModifyStudentSectionForm";
 
-class ViewStudentSection extends Component {
+class ModifyStudentSection extends Component {
 
     state = {
         loading: false,
@@ -52,6 +54,20 @@ class ViewStudentSection extends Component {
         })
     }
 
+    onDateChangeHandler = (event) => {
+        const date = event.target.value;
+        axios.get('/api/adminteacher/sections/'+this.state.section.id+'/dates/' + date).then(response => {
+            this.setState({
+                studentsPresence: [...response.data]
+            })
+
+        }).catch(error => {
+            this.setState({
+                error: error,
+            })
+        })
+    };
+
     leaveSectionHandler=()=>{
         console.log('leaveSectionHandler')
     };
@@ -73,10 +89,11 @@ class ViewStudentSection extends Component {
         } else if (loading) {
             content = <Spinner/>;
         } else if (section) {
-            content = <ViewStudentSectionForm
+            content = <ModifyStudentSectionForm
                 isInSection={this.state.isInSection}
                 joinSection={this.joinSectionHandler}
                 leaveSection={this.leaveSectionHandler}
+                onDateChange={this.onDateChangeHandler}
                 teacher={this.state.teacher}
                 students={this.state.students}
                 section={this.state.section}/>
@@ -86,4 +103,4 @@ class ViewStudentSection extends Component {
     }
 }
 
-export default ViewStudentSection;
+export default ModifyStudentSection;
