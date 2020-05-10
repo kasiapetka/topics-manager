@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +21,11 @@ public class SectionInfoDTO {
     private String teacherEmail;
 
     private Boolean inSection;
+
+    private String subjectName;
+    private String topicName;
+
+    private SemesterDTO semester;
+
+    List<StudentDTO> students;
 }

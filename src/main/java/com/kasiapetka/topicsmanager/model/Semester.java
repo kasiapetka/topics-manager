@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.kasiapetka.topicsmanager.DTO.SemesterDTO;
 import lombok.Data;
 import lombok.ToString;
 
@@ -46,5 +47,15 @@ public class Semester {
             students = new ArrayList<>();
         }
         students.add(student);
+    }
+
+    public SemesterDTO convertToDTO(){
+
+        SemesterDTO semesterDTO = new SemesterDTO();
+        semesterDTO.setYear(this.year);
+        semesterDTO.setFaculty(this.faculty);
+        semesterDTO.setSemester(this.semester);
+
+        return semesterDTO;
     }
 }
