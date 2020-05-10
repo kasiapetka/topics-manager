@@ -29,7 +29,7 @@ public class Student {
                     @Parameter(name = "increment_size", value = "1")
             }
     )
-    private long album;
+    private Long album;
     @NotNull
     private String name;
     @NotNull
