@@ -46,7 +46,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findStudentByUser(studentUser));
     }
 
-    @GetMapping("/api/student/section/{sectionID}")
+    @GetMapping("/api/student/section/{sectionID}/info")
     SectionInfoDTO getSectionInfor(@PathVariable Long sectionID){
         return sectionService.getSectionInfo(sectionID);
     }
