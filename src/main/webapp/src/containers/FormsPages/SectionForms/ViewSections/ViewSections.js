@@ -19,8 +19,6 @@ class ViewSections extends Component {
 
     componentDidMount() {
         axios.get('/api/common/sections/' + this.state.semester).then(response => {
-            console.log(response.data);
-
             let sections = [...response.data];
 
             console.log(sections)
