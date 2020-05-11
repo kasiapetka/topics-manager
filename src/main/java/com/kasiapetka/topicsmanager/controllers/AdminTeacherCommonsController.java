@@ -1,7 +1,6 @@
 package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.DTO.*;
-import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.services.SectionService;
@@ -116,7 +115,7 @@ public class AdminTeacherCommonsController {
     }
 
     @PutMapping("/api/adminteacher/sections/{sectionID}/presence")
-    ResponseEntity<?> issueGrades(@Valid @RequestBody StudentPresenceListDTO studentPresenceListDTO,
+    ResponseEntity<?> issuePresence(@Valid @RequestBody StudentPresenceListDTO studentPresenceListDTO,
                                   @PathVariable Long sectionID){
 
         Integer responseCode = sectionService.issuePresence(sectionID, studentPresenceListDTO);

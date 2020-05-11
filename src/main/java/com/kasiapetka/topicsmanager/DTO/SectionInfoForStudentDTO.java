@@ -1,6 +1,5 @@
 package com.kasiapetka.topicsmanager.DTO;
 
-import com.kasiapetka.topicsmanager.model.Presence;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,7 @@ public class SectionInfoForStudentDTO {
 
     List<StudentDTO> students;
 
-    List<Presence> presences;
+    List<PresenceDTO> presences;
     private Date date;
     private Integer grade;
 }

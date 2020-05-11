@@ -335,6 +335,10 @@ public class SectionServiceImpl implements SectionService {
             studentSection.setStudent(studentService.findStudentByAlbum(album));
             studentSection.setSection(this.findSectionById(studentsToSectionDTO.getSectionId()));
 
+//            StudentSection s = studentSectionRepository.findBySectionAndStudent(
+//                    this.findSectionById(studentsToSectionDTO.getSectionId()), studentService.findStudentByAlbum(album))
+//                    .orElse(null);
+
             studentSectionList.add(studentSection);
         }
 
@@ -440,6 +444,7 @@ public class SectionServiceImpl implements SectionService {
         sectionInfoForStudentDTO.setTopicName(section.getTopic().getName());
         sectionInfoForStudentDTO.setSubjectName(section.getTopic().getSubject().getName());
 
+        //@SEMESTER?
         sectionInfoForStudentDTO.setSemester(section.getSemester().convertToDTO());
 
         List<StudentDTO> students = new ArrayList<>();
@@ -455,7 +460,12 @@ public class SectionServiceImpl implements SectionService {
             if(student.equals(s.getStudent())){
                 sectionInfoForStudentDTO.setDate(s.getDate());
                 sectionInfoForStudentDTO.setGrade(s.getGrade());
-                sectionInfoForStudentDTO.setPresences(s.getPresences());
+
+                List<PresenceDTO> presenceDTOList = new ArrayList<>();
+                for(Presence p : s.getPresences()){
+                    presenceDTOList.add(p.convertToDTO());
+                }
+                sectionInfoForStudentDTO.setPresences(presenceDTOList);
             }
         }
 

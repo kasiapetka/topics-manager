@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface StudentSectionRepository extends CrudRepository<StudentSection, Long> {
     Optional<List<StudentSection>> findAllBySection(Section section);
     Optional<List<StudentSection>> findAllByStudent(Student student);
+    Optional<StudentSection> findBySectionAndStudent(Section section, Student student);
 }

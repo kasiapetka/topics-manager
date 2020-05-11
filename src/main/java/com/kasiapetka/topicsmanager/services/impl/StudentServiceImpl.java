@@ -226,20 +226,29 @@ public class StudentServiceImpl implements StudentService {
 
         Section section = this.findSectionById(sectionId);
 
-        if(!(section.getSizeOfSection() <= (section.getStudentSections().size()))){
-            StudentSection studentSection = new StudentSection();
-            studentSection.setStudent(student);
-            studentSection.setSection(section);
+        List<StudentSection> studentSections = section.getStudentSections();
 
-            try{
-                studentSectionRepository.save(studentSection);
-            } catch (HibernateException e){
-                e.printStackTrace();
-                return 500;
+        StudentSection studentSection = studentSectionRepository.findBySectionAndStudent(section, student).orElse(null);
+
+        if(!studentSections.contains(studentSection)){
+            if(!(section.getSizeOfSection() <= (section.getStudentSections().size()))){
+                StudentSection s = new StudentSection();
+                s.setStudent(student);
+                s.setSection(section);
+
+                try{
+                    studentSectionRepository.save(s);
+                } catch (HibernateException e){
+                    e.printStackTrace();
+                    return 500;
+                }
             }
-        }
 
-        return 200;
+            return 200;
+
+        } else {
+            return 500;
+        }
     }
 
     @Override
@@ -251,19 +260,24 @@ public class StudentServiceImpl implements StudentService {
 
         List<StudentSection> studentSections = section.getStudentSections();
 
-        if(studentSections.contains(student)){
-            studentSections.remove(student);
+        StudentSection studentSection = studentSectionRepository.findBySectionAndStudent(section, student).orElse(null);
+
+        if(studentSections.contains(studentSection)){
+            studentSections.remove(studentSection);
             section.setStudentSections(studentSections);
 
             try{
+                studentSectionRepository.delete(studentSection);
                 sectionRepository.save(section);
             } catch (HibernateException e){
                 e.printStackTrace();
                 return 500;
             }
-        }
 
-        return 200;
+            return 200;
+        } else {
+            return 500;
+        }
     }
 }
 

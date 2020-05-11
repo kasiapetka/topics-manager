@@ -1,6 +1,7 @@
 package com.kasiapetka.topicsmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.kasiapetka.topicsmanager.DTO.PresenceDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,4 +24,13 @@ public class Presence {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "student_section_id")
     private StudentSection studentSection;
+
+    public PresenceDTO convertToDTO(){
+        PresenceDTO presenceDTO = new PresenceDTO();
+        presenceDTO.setDate(this.date);
+        presenceDTO.setId(this.id);
+        presenceDTO.setIsPresent(this.isPresent);
+
+        return presenceDTO;
+    }
 }

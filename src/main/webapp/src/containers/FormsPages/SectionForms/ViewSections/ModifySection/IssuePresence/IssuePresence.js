@@ -58,6 +58,8 @@ class IssuePresence extends Component {
             students: students
         };
 
+        console.log(presenceObject)
+
         axios.put('/api/adminteacher/sections/' + this.state.section.id + '/presence',
             presenceObject).then(response => {
               this.props.history.push(this.props.match.url);
