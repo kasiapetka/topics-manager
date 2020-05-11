@@ -164,7 +164,7 @@ public class SectionServiceImpl implements SectionService {
         List<Section> sectionsToExclude = new ArrayList<>();
 
         for(Section section : sections){
-            if(section.getState().equals('C')){
+            if(section.getState().equals('F')){
                 sectionsToExclude.add(section);
             }
         }

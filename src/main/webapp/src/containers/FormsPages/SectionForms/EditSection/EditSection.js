@@ -18,7 +18,7 @@ class EditSection extends Component {
     componentDidMount() {
         this.setState({loading: true});
         const sectionId = this.props.match.params.id;
-        axios.get('/api/adminteacher/sections/section/' + sectionId).then(response => {
+        axios.get('/api/common/sections/section/' + sectionId).then(response => {
             const section = {...response.data};
             section.size = section.sizeOfSection;
             this.setState({

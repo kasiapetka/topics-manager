@@ -21,8 +21,8 @@ const studentPageElements = (props) =>
                 <div className="col-md-8 border-right">
                     <PrivateStudentRoute exact path="/student/section/:id" component={ViewStudentSection}/>
                     <PrivateStudentRoute exact path="/student/sections/section/:id" component={ModifyStudentSection}/>
-                    <PrivateStudentRoute exact path="/student/sections" component={()=><ListStudentSections viewAllSections={false}/>}/>
-                    <PrivateStudentRoute exact path="/student" component={()=><ListStudentSections viewAllSections={true}/>}/>
+                    <PrivateStudentRoute exact path="/student/sections" component={()=><ListStudentSections viewAllSections={false} {...props}/>}/>
+                    <PrivateStudentRoute exact path="/student" component={()=><ListStudentSections viewAllSections={true} {...props}/>}/>
                 </div>
                 <div className="col-md-1"></div>
             </div>

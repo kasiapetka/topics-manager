@@ -2,11 +2,8 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
-import ViewStudentSectionForm
-    from "../../../../components/Forms/FormsTemplates/SectionForms/ViewStudentSectionForm/ViewStudentSectionForm";
 import ModifyStudentSectionForm
     from "../../../../components/Forms/FormsTemplates/SectionForms/ModifyStudentSectionForm/ModifyStudentSectionForm";
-import DeleteSection from "../DeleteSection/DeleteSection";
 import Modal from "../../../../components/UI/Modal/Modal";
 import ShowPresenceCard from "../../../../components/UI/Cards/ShowPresenceCard/ShowPresenceCard";
 

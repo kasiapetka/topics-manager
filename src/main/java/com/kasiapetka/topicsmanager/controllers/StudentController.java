@@ -63,7 +63,7 @@ public class StudentController {
     }
 
     //todo zapytac o url
-    @GetMapping("/api/student/studentsection/{sectionID}/info")
+    @GetMapping("/api/student/student/{sectionID}/info")
     SectionInfoForStudentDTO getSectionInfoForStudent(@PathVariable Long sectionID){
         return sectionService.getSectionInfoForLoggedStudent(sectionID);
     }
