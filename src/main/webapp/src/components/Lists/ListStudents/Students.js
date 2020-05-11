@@ -24,6 +24,8 @@ const Students = (props) => {
                 sectionCreation={props.sectionCreation}
                 oversize={props.oversize}
                 removeFromSection={() => props.removeFromSection(student)}
+                editSectionMembers={props.editSectionMembers}
+                isOnSem={student.isOnSem}
             />
         });
     } else{

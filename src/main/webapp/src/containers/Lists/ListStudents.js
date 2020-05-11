@@ -25,7 +25,8 @@ class ListStudents extends Component {
             oversize: false,
             sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
             studentsAlreadyInSection: this.props.studentsInSection ? Array.from(this.props.studentsInSection) : false,
-            studentsInSection: 0
+            studentsInSection: 0,
+            editSectionMembers: false
         };
     }
 
@@ -37,9 +38,29 @@ class ListStudents extends Component {
         axios.get('/api/adminteacher/students/' + sem).then(response => {
                 let students = [...response.data];
                 let studentsInSection = 0, oversize = false;
+                let editSectionMembers = false;
+
                 if (this.state.studentsAlreadyInSection) {
+                    editSectionMembers = true;
+                    students.forEach(student=> student.isOnSem = true)
+
+                    const studentsAlreadyInSection = [...this.state.studentsAlreadyInSection];
+                    studentsAlreadyInSection.forEach(studentAlreadyInSection => {
+                        students.forEach(student => {
+                            if (studentAlreadyInSection.album === student.album) {
+                                studentAlreadyInSection.isOnSem = true;
+                            } else if (studentAlreadyInSection.isOnSem !== true) {
+                                studentAlreadyInSection.isOnSem = false;
+                            }
+                        })
+                    });
+                    studentsAlreadyInSection.forEach(studentAlreadyInSection => {
+                        if (studentAlreadyInSection.isOnSem !== true) {
+                            students.push(studentAlreadyInSection);
+                        }
+                    });
                     students.forEach(student => {
-                        this.state.studentsAlreadyInSection.forEach(studentAlreadyInSection => {
+                        studentsAlreadyInSection.forEach(studentAlreadyInSection => {
                             if (studentAlreadyInSection.album === student.album) {
                                 student.isInSection = true;
                             } else if (student.isInSection !== true) {
@@ -48,28 +69,19 @@ class ListStudents extends Component {
                         })
                     });
 
-                    this.state.studentsAlreadyInSection.forEach(studentAlreadyInSection => {
-                        students.forEach(student => {
-                            if (studentAlreadyInSection.album === student.album) {
-                                student.isOnSem = true;
-                            } else if (student.isOnSem !== true) {
-                                student.isOnSem = false;
-                            }
-                        })
-                    });
                     studentsInSection = this.state.studentsAlreadyInSection.length;
                     if (studentsInSection === this.props.sectionSize) {
                         oversize = true;
                     }
                 }
-                this
-                    .setState({
-                        students: students,
-                        studentsFiltered: students,
-                        loading: false,
-                        studentsInSection: studentsInSection,
-                        oversize: oversize
-                    });
+                this.setState({
+                    students: students,
+                    studentsFiltered: students,
+                    loading: false,
+                    studentsInSection: studentsInSection,
+                    oversize: oversize,
+                    editSectionMembers: editSectionMembers
+                });
             }
         ).catch(error => {
             this.setState({
@@ -186,6 +198,7 @@ class ListStudents extends Component {
                             delete: this.onStudentDeleteHandler,
                         }}>
                         <Students
+                            editSectionMembers={this.state.editSectionMembers}
                             oversize={this.state.oversize}
                             addToSection={this.addToSectionHandler}
                             removeFromSection={this.removeFromSectionHandler}

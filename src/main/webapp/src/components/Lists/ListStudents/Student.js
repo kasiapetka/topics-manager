@@ -8,8 +8,7 @@ const Student = (props) => {
     const [removeStudentFromSection, setRemoveStudentFromSection] = useState(false);
     const [addStudentToSection, setAddStudentToSection] = useState(true);
 
-    let adminControls, addButton, removeButton;
-
+    let adminControls, addButton, removeButton,studentOnOtherSem;
     if (auth.getRole() === 'A' && (!props.sectionCreation)) {
         adminControls = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Link to={"/admin/edit"}><Button className="d-inline-block"
@@ -36,6 +35,13 @@ const Student = (props) => {
             }}>Remove</Button></Col>
         </Row>
     }
+    if(props.editSectionMembers){
+        if(!props.isOnSem){
+            studentOnOtherSem =  <Row className="pt-2 pb-3 mr-0 ml-0">
+                <Col><p>Student is on other semester.</p></Col>
+            </Row>;
+        }
+    }
 
     return (
         <div className={classes.Element}>
@@ -47,6 +53,7 @@ const Student = (props) => {
                 <Col><span className="float-left ml-3"><strong>Email:</strong> <em>{props.email}</em></span></Col>
                 <Col><span className="float-left ml-3"><strong>Album:</strong> <em>{props.album}</em></span></Col>
             </Row>
+            {studentOnOtherSem}
             {adminControls}
             {addButton}
             {removeButton}
