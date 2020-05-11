@@ -85,19 +85,6 @@ class ModifyStudentSection extends Component {
         })
     };
 
-    joinSectionHandler=()=>{
-        this.setState({loading: true});
-        axios.put('/api/student/'+this.state.section.id+'/join').then(response => {
-            this.setState({loading: false});
-            console.log('udao sie')
-        }).catch(error => {
-            this.setState({
-                error: error,
-                loading: false
-            })
-        })
-    };
-
     render() {
         const section = this.state.section;
         const loading = this.state.loading;
@@ -113,7 +100,6 @@ class ModifyStudentSection extends Component {
         } else if (section) {
             content = <ModifyStudentSectionForm
                 isInSection={this.state.isInSection}
-                joinSection={this.joinSectionHandler}
                 leaveSection={this.leaveSectionHandler}
                 onDateChange={this.onDateChangeHandler}
                 teacher={this.state.teacher}
