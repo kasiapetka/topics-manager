@@ -15,13 +15,15 @@ class ModifyStudentSection extends Component {
         section: null,
         students: null,
         teacher: null,
+        grade: null
     };
 
     componentDidMount() {
         this.setState({loading: true});
         const sectionId = this.props.match.params.id;
 
-        axios.get('/api/student/section/' + sectionId + '/info').then(response => {
+        axios.get('/api/student/studentsection/' + sectionId + '/info').then(response => {
+            console.log(response.data)
             const section = {
                 id: response.data.sectionId,
                 name: response.data.sectionName,
@@ -31,6 +33,7 @@ class ModifyStudentSection extends Component {
                 subject: response.data.subjectName,
                 semester: response.data.semester
             };
+            const grade=response.data.grade;
             const teacher = {
                 name: response.data.teacherName,
                 surname: response.data.teacherSurname,
@@ -44,7 +47,8 @@ class ModifyStudentSection extends Component {
                 section: section,
                 teacher: teacher,
                 isInSection: isInSection,
-                students: students
+                students: students,
+                grade:grade
             })
         }).catch(error => {
             this.setState({
@@ -69,11 +73,29 @@ class ModifyStudentSection extends Component {
     };
 
     leaveSectionHandler=()=>{
-        console.log('leaveSectionHandler')
+        this.setState({loading: true});
+        axios.put('/api/student/'+this.state.section.id+'/leave').then(response => {
+            this.setState({loading: false});
+            console.log('udao sie wyjsc')
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        })
     };
 
     joinSectionHandler=()=>{
-        console.log('joinSectionHandler')
+        this.setState({loading: true});
+        axios.put('/api/student/'+this.state.section.id+'/join').then(response => {
+            this.setState({loading: false});
+            console.log('udao sie')
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        })
     };
 
     render() {
