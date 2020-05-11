@@ -53,11 +53,29 @@ class ViewStudentSection extends Component {
     }
 
     leaveSectionHandler=()=>{
-        console.log('leaveSectionHandler')
+        this.setState({loading: true});
+        axios.put('/api/student/'+this.state.section.id+'/leave').then(response => {
+            this.setState({loading: false});
+            console.log('udao sie wyjsc')
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        })
     };
 
     joinSectionHandler=()=>{
-        console.log('joinSectionHandler')
+        this.setState({loading: true});
+        axios.put('/api/student/'+this.state.section.id+'/join').then(response => {
+            this.setState({loading: false});
+            console.log('udao sie')
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        })
     };
 
     render() {
