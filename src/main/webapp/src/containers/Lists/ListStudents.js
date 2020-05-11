@@ -24,48 +24,61 @@ class ListStudents extends Component {
             loading: true,
             oversize: false,
             sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
-            studentsAlreadyInSection : this.props.studentsInSection ? Array.from(this.props.studentsInSection) : false,
+            studentsAlreadyInSection: this.props.studentsInSection ? Array.from(this.props.studentsInSection) : false,
             studentsInSection: 0
         };
     }
 
     componentDidMount = () => {
-        let sem= this.state.semester;
-        if(this.props.sectionSemester){
-            sem=this.props.sectionSemester;
+        let sem = this.state.semester;
+        if (this.props.sectionSemester) {
+            sem = this.props.sectionSemester;
         }
-        axios.get('/api/adminteacher/students/'+sem).then(response => {
-            let students = [...response.data];
-            let studentsInSection = 0, oversize= false;
-            if(this.state.studentsAlreadyInSection){
-                students.forEach(student=>{
-                    this.state.studentsAlreadyInSection.forEach(studentAlreadyInSection=>{
-                        if (studentAlreadyInSection.album === student.album) {
-                            student.isInSection = true;
-                        } else if (student.isInSection !== true) {
-                            student.isInSection = false;
-                        }
-                    })
-                });
-                studentsInSection = this.state.studentsAlreadyInSection.length;
-                if(studentsInSection === this.props.sectionSize){
-                    oversize=true;
+        axios.get('/api/adminteacher/students/' + sem).then(response => {
+                let students = [...response.data];
+                let studentsInSection = 0, oversize = false;
+                if (this.state.studentsAlreadyInSection) {
+                    students.forEach(student => {
+                        this.state.studentsAlreadyInSection.forEach(studentAlreadyInSection => {
+                            if (studentAlreadyInSection.album === student.album) {
+                                student.isInSection = true;
+                            } else if (student.isInSection !== true) {
+                                student.isInSection = false;
+                            }
+                        })
+                    });
+
+                    this.state.studentsAlreadyInSection.forEach(studentAlreadyInSection => {
+                        students.forEach(student => {
+                            if (studentAlreadyInSection.album === student.album) {
+                                student.isOnSem = true;
+                            } else if (student.isOnSem !== true) {
+                                student.isOnSem = false;
+                            }
+                        })
+                    });
+                    studentsInSection = this.state.studentsAlreadyInSection.length;
+                    if (studentsInSection === this.props.sectionSize) {
+                        oversize = true;
+                    }
                 }
+                this
+                    .setState({
+                        students: students,
+                        studentsFiltered: students,
+                        loading: false,
+                        studentsInSection: studentsInSection,
+                        oversize: oversize
+                    });
             }
-            this.setState({
-                students: students,
-                studentsFiltered: students,
-                loading: false,
-                studentsInSection: studentsInSection,
-                oversize:oversize
-            });
-        }).catch(error => {
+        ).catch(error => {
             this.setState({
                 error: error,
                 loading: false
             })
         })
-    };
+    }
+    ;
 
     handleChange = (event) => {
         let content = handleConditionChange(event, this.state.condition,
@@ -143,8 +156,8 @@ class ListStudents extends Component {
     render() {
         const error = this.state.error;
         let list, sem;
-        if(!this.state.sectionCreation){
-            sem=<PickSemesterInput
+        if (!this.state.sectionCreation) {
+            sem = <PickSemesterInput
                 semester={this.state.semester}
                 onSemesterChange={this.onSemesterChangeHandler}
             />
@@ -178,11 +191,12 @@ class ListStudents extends Component {
                             removeFromSection={this.removeFromSectionHandler}
                             sectionCreation={this.state.sectionCreation}/>
 
-                </PersonsContext.Provider>
-        </React.Fragment>)
+                    </PersonsContext.Provider>
+                </React.Fragment>)
         }
         return list;
     }
-};
+}
+;
 
 export default ListStudents;

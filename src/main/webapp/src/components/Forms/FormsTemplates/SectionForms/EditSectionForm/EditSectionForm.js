@@ -8,7 +8,7 @@ import Label from "../../../FormElements/Label/Label";
 const editSectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
 
-    let oversize;
+    let oversize, options;
     if(props.oversize){
         oversize = <div className="form-row p-2">
             <Badge color="danger" className="col-md-6 p-2 ml-auto mr-auto">
@@ -16,6 +16,18 @@ const editSectionForm = (props) => {
         </div>
     }
 
+    if(props.section.state === 'O'){
+        options =  <React.Fragment>
+            <option value={'O'}>Opened</option>
+            <option value={'C'}>Closed</option>
+            <option value={'F'}>Finished</option>
+        </React.Fragment>
+    } else {
+        options =  <React.Fragment>
+            <option value={'C'}>Closed</option>
+            <option value={'F'}>Finished</option>
+        </React.Fragment>
+    }
     return (
 
         <Form className={classNames} onSubmit={props.onSubmit}>
@@ -40,9 +52,7 @@ const editSectionForm = (props) => {
                        groupclasses='col-md-3'
                        onChange={props.onChange}
                        value={props.section.state}>
-                    <option value={'O'}>Opened</option>
-                    <option value={'C'}>Closed</option>
-                    <option value={'F'}>Finished</option>
+                    {options}
                 </Input>
             </div>
 

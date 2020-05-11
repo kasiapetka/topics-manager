@@ -126,9 +126,11 @@ class ModifySection extends Component {
         };
 
         axios.put('/api/adminteacher/editstudentsinsection', studentSection).then(response => {
+            const students = [...response.data];
+            students.forEach(student => student.present = true);
             this.setState({
                 modifyMembers: false,
-                students: [...response.data]
+                students: students
             });
         }).catch(error => {
             this.setState({
