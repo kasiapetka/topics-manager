@@ -6,6 +6,9 @@ import ViewStudentSectionForm
     from "../../../../components/Forms/FormsTemplates/SectionForms/ViewStudentSectionForm/ViewStudentSectionForm";
 import ModifyStudentSectionForm
     from "../../../../components/Forms/FormsTemplates/SectionForms/ModifyStudentSectionForm/ModifyStudentSectionForm";
+import DeleteSection from "../DeleteSection/DeleteSection";
+import Modal from "../../../../components/UI/Modal/Modal";
+import ShowPresenceCard from "../../../../components/UI/Cards/ShowPresenceCard/ShowPresenceCard";
 
 class ModifyStudentSection extends Component {
 
@@ -15,10 +18,14 @@ class ModifyStudentSection extends Component {
         section: null,
         students: null,
         teacher: null,
-        grade: null
+        grade: null,
+        mounted: false,
+        membersChanged: false,
+        showPresence: false,
+        presences: null
     };
 
-    componentDidMount() {
+    getSectionInfo = () => {
         this.setState({loading: true});
         const sectionId = this.props.match.params.id;
 
@@ -33,7 +40,7 @@ class ModifyStudentSection extends Component {
                 subject: response.data.subjectName,
                 semester: response.data.semester
             };
-            const grade=response.data.grade;
+            const grade = response.data.grade;
             const teacher = {
                 name: response.data.teacherName,
                 surname: response.data.teacherSurname,
@@ -41,55 +48,75 @@ class ModifyStudentSection extends Component {
             };
             const isInSection = response.data.inSection;
             const students = [...response.data.students];
-
+            const presences = [...response.data.presences];
             this.setState({
                 loading: false,
                 section: section,
                 teacher: teacher,
                 isInSection: isInSection,
                 students: students,
-                grade:grade
+                presences:presences,
+                grade: grade,
+                mounted: true,
+                membersChanged: false,
             })
         }).catch(error => {
             this.setState({
                 loading: false,
-                error: error
-            })
-        })
-    }
-
-    onDateChangeHandler = (event) => {
-        const date = event.target.value;
-        axios.get('/api/adminteacher/sections/'+this.state.section.id+'/dates/' + date).then(response => {
-            this.setState({
-                studentsPresence: [...response.data]
-            })
-
-        }).catch(error => {
-            this.setState({
                 error: error,
+                mounted: true
             })
         })
     };
 
-    leaveSectionHandler=()=>{
+    componentDidMount() {
+        this.getSectionInfo();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.mounted)
+            this.getSectionInfo();
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this.state.mounted) {
+            if (this.state.membersChanged === nextState.membersChanged &&
+                this.state.showPresence === nextState.showPresence) {
+                return false;
+            } else return true;
+        } else return true;
+    }
+
+    leaveSectionHandler = () => {
         this.setState({loading: true});
-        axios.put('/api/student/'+this.state.section.id+'/leave').then(response => {
-            this.setState({loading: false});
-            console.log('udao sie wyjsc')
+        axios.put('/api/student/' + this.state.section.id + '/leave').then(response => {
+            this.setState({
+                loading: false,
+                membersChanged: true
+            });
         }).catch(error => {
             this.setState({
                 error: error,
+                membersChanged: true,
                 loading: false
             })
         })
+    };
+
+    showPresenceHandler = () => {
+        this.setState((prevState) => {
+            return {
+                showPresence: !prevState.showPresence
+            }
+        });
     };
 
     render() {
         const section = this.state.section;
         const loading = this.state.loading;
         const error = this.state.error;
-        let content = <p>Something went wrong.</p>;
+        const showPresence = this.state.showPresence;
+        let content = <p>Something went wrong.</p>, modal;
         if (error) {
             content = <Alert color="danger">
                 Server Error, Please Try Again. <br/>
@@ -97,17 +124,31 @@ class ModifyStudentSection extends Component {
             </Alert>
         } else if (loading) {
             content = <Spinner/>;
-        } else if (section) {
+        }
+        if (showPresence) {
+            modal = <Modal
+                show={showPresence}
+                modalClosed={this.showPresenceHandler}>
+                <ShowPresenceCard
+                    cancel={this.showPresenceHandler}
+                    dates={this.state.presences}/>
+            </Modal>
+        }
+        if (section) {
             content = <ModifyStudentSectionForm
                 isInSection={this.state.isInSection}
                 leaveSection={this.leaveSectionHandler}
-                onDateChange={this.onDateChangeHandler}
                 teacher={this.state.teacher}
                 students={this.state.students}
+                grade={this.state.grade}
+                showPresence={this.showPresenceHandler}
                 section={this.state.section}/>
         }
 
-        return content;
+        return (<React.Fragment>
+            {modal}
+            {content}
+        </React.Fragment>);
     }
 }
 

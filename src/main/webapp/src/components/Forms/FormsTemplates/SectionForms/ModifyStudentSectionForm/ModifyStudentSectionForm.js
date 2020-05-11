@@ -7,9 +7,8 @@ import Input from "../../../FormElements/Input/Input";
 const ModifyStudentSectionForm = (props) => {
     const [showDetails, setShowDetails] = useState(false);
     const classNames = "border rounded pt-4 pb-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
-    let students = <li>No students in this section.</li>, state, details,
-        join = <Badge className='col-md-6 p-2'>This section is closed for joining.</Badge>;
-    let dates = <option>You have no presence in this section.</option>;
+    let students = <li>No students in this section.</li>, state, details,showPresence,
+        join = <Badge className='col-md-6 p-2'>You left the section.</Badge>;
 
     if (props.students) {
         if (props.students.length === 0) {
@@ -22,21 +21,13 @@ const ModifyStudentSectionForm = (props) => {
             });
         }
     }
-    if (props.dates) {
-        if (props.dates.length === 0) {
-            dates = <option>No presence dates in this section.</option>
-        } else {
-            dates = props.dates.map(date => {
-                return <option key={date}>
-                    {date}
-                </option>
-            });
-        }
-    }
+
     if (props.section) {
         if (props.isInSection) {
             join = <Button className='col-md-6' onClick={props.leaveSection}
                            color='danger'>Leave section</Button>
+            showPresence = <Button className='col-md-6 shadow-sm mt-5 mb-3'
+                                   onClick={props.showPresence}>Show Presence</Button>
         }
         if (props.section.state === 'O') {
             state = 'Opened';
@@ -103,14 +94,8 @@ const ModifyStudentSectionForm = (props) => {
             <div className="form-row p-1">
                 <Label label="grade"
                        groupclasses='col-md-6'
-                       content='grade'/>
-
-                <Input type='select' label="Show Presence" name='date'
-                       groupclasses='col-md-6'
-                       defaultValue='default' onChange={props.onDateChange}>
-                    <option disabled={true} value='default'>Choose Date</option>
-                    {dates}
-                </Input>
+                       content={props.grade ? props.grade : 'No grade yet.'}/>
+                {showPresence}
             </div>
 
             <div className="form-row p-1">

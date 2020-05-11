@@ -13,9 +13,11 @@ class ViewStudentSection extends Component {
         section: null,
         students: null,
         teacher: null,
+        mounted: false,
+        membersChanged: false
     };
 
-    componentDidMount() {
+    getSectionInfo = () => {
         this.setState({loading: true});
         const sectionId = this.props.match.params.id;
 
@@ -42,37 +44,63 @@ class ViewStudentSection extends Component {
                 section: section,
                 teacher: teacher,
                 isInSection: isInSection,
-                students: students
+                students: students,
+                mounted: true,
+                membersChanged: false
             })
         }).catch(error => {
             this.setState({
                 loading: false,
-                error: error
-            })
-        })
-    }
-
-    leaveSectionHandler=()=>{
-        this.setState({loading: true});
-        axios.put('/api/student/'+this.state.section.id+'/leave').then(response => {
-            this.setState({loading: false});
-            console.log('udao sie wyjsc')
-        }).catch(error => {
-            this.setState({
                 error: error,
-                loading: false
+                mounted: true
             })
         })
     };
 
-    joinSectionHandler=()=>{
+    componentDidMount() {
+        this.getSectionInfo();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.mounted)
+            this.getSectionInfo();
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this.state.mounted) {
+            if (this.state.membersChanged === nextState.membersChanged) {
+                return false;
+            } else return true;
+        } else return true;
+    }
+
+    leaveSectionHandler = () => {
         this.setState({loading: true});
-        axios.put('/api/student/'+this.state.section.id+'/join').then(response => {
-            this.setState({loading: false});
-            console.log('udao sie')
+        axios.put('/api/student/' + this.state.section.id + '/leave').then(response => {
+            this.setState({
+                loading: false,
+                membersChanged: true
+            });
         }).catch(error => {
             this.setState({
                 error: error,
+                loading: false,
+                membersChanged: true
+            })
+        })
+    };
+
+    joinSectionHandler = () => {
+        this.setState({loading: true});
+        axios.put('/api/student/' + this.state.section.id + '/join').then(response => {
+            this.setState({
+                loading: false,
+                membersChanged: true
+            });
+        }).catch(error => {
+            this.setState({
+                error: error,
+                membersChanged: true,
                 loading: false
             })
         })

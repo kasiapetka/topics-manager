@@ -53,7 +53,8 @@ class ListTeachers extends Component {
             }).catch(error => {
                 this.setState({
                     error: error,
-                    loading: false
+                    loading: false,
+                    mounted: true
                 })
             })
         }

@@ -109,15 +109,17 @@ public class StudentController {
     ResponseEntity<?> joinSection(@PathVariable Long sectionID){
 
         Integer responseCode = studentService.joinSection(sectionID);
+        List<Student> members = sectionService.listStudentsBySectionId(sectionID);
 
-        return ResponseEntity.status(responseCode).build();
+        return ResponseEntity.status(responseCode).body(members);
     }
 
     @PutMapping("/api/student/{sectionID}/leave")
     ResponseEntity<?> leaveSection(@PathVariable Long sectionID){
 
         Integer responseCode = studentService.leaveSection(sectionID);
+        List<Student> members = sectionService.listStudentsBySectionId(sectionID);
 
-        return ResponseEntity.status(responseCode).build();
+        return ResponseEntity.status(responseCode).body(members);
     }
 }
