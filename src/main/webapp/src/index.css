@@ -1,6 +1,10 @@
 #root {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
   background-size: cover;
   background-attachment: fixed;
   background-image: url("img/bg8T.png");
-  font-family: 'Open Sans', sans-serif;
+
 }

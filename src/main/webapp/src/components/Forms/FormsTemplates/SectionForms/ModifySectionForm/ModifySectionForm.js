@@ -1,12 +1,12 @@
 import React from "react";
 import Label from "../../../FormElements/Label/Label";
-import {Button} from "reactstrap";
+import {Badge, Button} from "reactstrap";
 import classes from "../../Forms.module.css";
 import Input from "../../../FormElements/Input/Input";
 
 const modifySectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
-    let students = <li>No students in this section.</li>;
+    let students = <li>No students in this section.</li>, modifyMembers, issue, view, sectionFinished;
 
     if (props.students) {
         if (props.students.length === 0) {
@@ -18,6 +18,40 @@ const modifySectionForm = (props) => {
                 </li>
             });
         }
+    }
+
+    if (props.section.state === 'O') {
+        modifyMembers = <div className="form-row p-2">
+            <div className='col-md-3'></div>
+            <Button className='col-md-6'
+                    onClick={props.onModifyMembers} outline>
+                Modify Section Members</Button>
+            <div className='col-md-3'></div>
+        </div>
+    } else if (props.section.state === 'C') {
+        issue = <div className="form-row p-2">
+            <div className='col-md-1'></div>
+            <Button className='col-md-4'
+                    onClick={props.onIssuePresence} outline> Issue Presence</Button>
+            <div className='col-md-2'></div>
+            <Button className='col-md-4'
+                    onClick={props.onIssueGrades} outline> Issue Grades</Button>
+            <div className='col-md-1'></div>
+        </div>
+
+        view = <div className="form-row p-2">
+            <div className='col-md-1'></div>
+            <Button className='col-md-4'
+                    onClick={props.onViewPresence} outline> View Presence</Button>
+            <div className='col-md-2'></div>
+            <Button className='col-md-4'
+                    onClick={props.onViewGrades} outline> View Grades</Button>
+            <div className='col-md-1'></div>
+        </div>
+    } else if (props.section.state === 'F') {
+        sectionFinished = <div className="form-row p-2">
+            <Badge className='col-md-6 p-2'>This section is finished.</Badge>;
+        </div>
     }
 
     return (
@@ -44,38 +78,14 @@ const modifySectionForm = (props) => {
                     <option value={'F'}>Finished</option>
                 </Input>
             </div>
-
             <div>
                 <Label label="members"
                        content={<ul>{students}</ul>}/>
             </div>
-
-            <div className="form-row p-2">
-                <div className='col-md-3'></div>
-                <Button className='col-md-6'
-                        onClick={props.onModifyMembers} outline>
-                    Modify Section Members</Button>
-                <div className='col-md-3'></div>
-            </div>
-            <div className="form-row p-2">
-                <div className='col-md-1'></div>
-                <Button className='col-md-4'
-                        onClick={props.onIssuePresence} outline>
-                    Issue Presence</Button>
-                <div className='col-md-2'></div>
-                <Button className='col-md-4'
-                        onClick={props.onIssueGrades} outline>Issue Grades</Button>
-                <div className='col-md-1'></div>
-            </div>
-            <div className="form-row p-2">
-                <div className='col-md-1'></div>
-                <Button className='col-md-4'
-                        onClick={props.onViewPresence} outline>View Presence</Button>
-                <div className='col-md-2'></div>
-                <Button className='col-md-4'
-                        onClick={props.onViewGrades} outline>View Grades</Button>
-                <div className='col-md-1'></div>
-            </div>
+            {modifyMembers}
+            {issue}
+            {view}
+            {sectionFinished}
         </div>
     );
 };
