@@ -37,11 +37,7 @@ const ModifyStudentSectionForm = (props) => {
         if (props.isInSection) {
             join = <Button className='col-md-6' onClick={props.leaveSection}
                            color='danger'>Leave section</Button>
-        } else if (!props.isInSection && (props.section.sizeOfSection > props.students.length)) {
-            join = <Button className='col-md-6' onClick={props.joinSection}
-                           color='success'>Join section</Button>
         }
-
         if (props.section.state === 'O') {
             state = 'Opened';
         } else if (props.section.state === 'F')
