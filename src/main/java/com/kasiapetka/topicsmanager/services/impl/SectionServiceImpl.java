@@ -161,12 +161,15 @@ public class SectionServiceImpl implements SectionService {
         Semester semester = semesterService.findSemesterBySemesterAndYear(semester_number, semesterService.getCurrentYear());
 
         List<Section> sections = semester.getSections();
+        List<Section> sectionsToExclude = new ArrayList<>();
 
         for(Section section : sections){
             if(section.getState().equals('C')){
-                sections.remove(section);
+                sectionsToExclude.add(section);
             }
         }
+
+        sections.removeAll(sectionsToExclude);
 
         return semester.getSections();
     }

@@ -57,6 +57,11 @@ public class AdminTeacherCommonsController {
         return topicService.getTopicsListBySubjectID(subjectID);
     }
 
+    @GetMapping("/api/adminteacher/sections/{sectionID}/dates/{date}")
+    List<StudentPresenceExtendedDTO> getDatesForPresence(@PathVariable Long sectionID, @PathVariable String date){
+        return sectionService.findStudentsInSectionByDate(sectionID, date);
+    }
+
     //POSTs
 
     @PostMapping("/api/adminteacher/addtopic")
@@ -81,6 +86,8 @@ public class AdminTeacherCommonsController {
         }
     }
 
+    //PUTs
+
     @PutMapping("/api/adminteacher/sections/{sectionID}/grades")
     ResponseEntity<?> issueGrades(@Valid @RequestBody StudentGradeListDTO studentGradeListDTO,
                                   @PathVariable Long sectionID){
@@ -89,8 +96,6 @@ public class AdminTeacherCommonsController {
 
         return ResponseEntity.status(responseCode).build();
     }
-
-    //PUTs
 
     @PutMapping("/api/adminteacher/deletesection/{sectionID}")
     ResponseEntity<?> deleteSection(@PathVariable Long sectionID){
@@ -122,13 +127,6 @@ public class AdminTeacherCommonsController {
 
         return ResponseEntity.status(responseCode).build();
     }
-
-
-    @GetMapping("/api/adminteacher/sections/{sectionID}/dates/{date}")
-    List<StudentPresenceExtendedDTO> getDatesForPresence(@PathVariable Long sectionID, @PathVariable String date){
-        return sectionService.findStudentsInSectionByDate(sectionID, date);
-    }
-
 
     @PutMapping("/api/adminteacher/editstudentsinsection")
     ResponseEntity<?> editStudentsInSection(@Valid @RequestBody AddStudentsToSectionDTO studentsToSectionDTO){
