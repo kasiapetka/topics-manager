@@ -159,6 +159,15 @@ public class SectionServiceImpl implements SectionService {
 //        }
 //        return sectionsFromThisSemester;
         Semester semester = semesterService.findSemesterBySemesterAndYear(semester_number, semesterService.getCurrentYear());
+
+        List<Section> sections = semester.getSections();
+
+        for(Section section : sections){
+            if(section.getState().equals('C')){
+                sections.remove(section);
+            }
+        }
+
         return semester.getSections();
     }
 
@@ -408,5 +417,50 @@ public class SectionServiceImpl implements SectionService {
         sectionInfoDTO.setStudents(students);
 
         return sectionInfoDTO;
+    }
+
+    @Override
+    public SectionInfoForStudentDTO getSectionInfoForLoggedStudent(Long sectionId) {
+
+        SectionInfoForStudentDTO sectionInfoForStudentDTO = new SectionInfoForStudentDTO();
+
+        Section section = this.findSectionById(sectionId);
+
+        Teacher teacherInSection = section.getTeacher();
+
+        sectionInfoForStudentDTO.setInSection(studentService.isLoggedStudentInSection(sectionId));
+        sectionInfoForStudentDTO.setTeacherName(teacherInSection.getName());
+        sectionInfoForStudentDTO.setTeacherSurname(teacherInSection.getSurname());
+        sectionInfoForStudentDTO.setTeacherEmail(teacherInSection.getUser().getEmail());
+        sectionInfoForStudentDTO.setSectionId(sectionId);
+        sectionInfoForStudentDTO.setSectionName(section.getName());
+        sectionInfoForStudentDTO.setSectionSize(section.getSizeOfSection());
+        sectionInfoForStudentDTO.setSectionState(section.getState());
+
+        sectionInfoForStudentDTO.setTopicName(section.getTopic().getName());
+        sectionInfoForStudentDTO.setSubjectName(section.getTopic().getSubject().getName());
+
+        sectionInfoForStudentDTO.setSemester(section.getSemester().convertToDTO());
+
+        List<StudentDTO> students = new ArrayList<>();
+        List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
+        Student student = studentService.getLoggedStudent();
+
+        for(StudentSection s : studentSections){
+            StudentDTO studentDTO = s.getStudent().convertToStudentDTO();
+            if(!students.contains(studentDTO)){
+                students.add(studentDTO);
+            }
+
+            if(student.equals(s.getStudent())){
+                sectionInfoForStudentDTO.setDate(s.getDate());
+                sectionInfoForStudentDTO.setGrade(s.getGrade());
+                sectionInfoForStudentDTO.setPresences(s.getPresences());
+            }
+        }
+
+        sectionInfoForStudentDTO.setStudents(students);
+
+        return sectionInfoForStudentDTO;
     }
 }

@@ -15,9 +15,12 @@ public interface StudentService {
     Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO);
     Boolean isLoggedStudentInSection(Long sectionId);
     List<Section> listLoggedStudentSections();
+    Student getLoggedStudent();
 
 //    void changeEmail(Student student, String newEmail);
 //    void changePassword(Student student, String newPassword);
+    Integer joinSection(Long sectionId);
+    Integer leaveSection(Long sectionId);
     void changeName(Student student, String name);
     void changeSurname(Student student, String surname);
     Boolean deleteStudent(Long album);

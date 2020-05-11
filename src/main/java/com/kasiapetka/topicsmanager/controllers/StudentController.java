@@ -3,6 +3,7 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.DTO.EditAccount;
 import com.kasiapetka.topicsmanager.DTO.SectionInfoDTO;
+import com.kasiapetka.topicsmanager.DTO.SectionInfoForStudentDTO;
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
@@ -61,6 +62,12 @@ public class StudentController {
         return studentService.listLoggedStudentSections();
     }
 
+    //todo zapytac o url
+    @GetMapping("/api/student/studentsection/{sectionID}/info")
+    SectionInfoForStudentDTO getSectionInfoForStudent(@PathVariable Long sectionID){
+        return sectionService.getSectionInfoForLoggedStudent(sectionID);
+    }
+
     //POSTs
 
 
@@ -96,5 +103,21 @@ public class StudentController {
         }
 
         return ResponseEntity.status(responseCode).body(result);
+    }
+
+    @PutMapping("/api/student/{sectionID}/join")
+    ResponseEntity<?> joinSection(@PathVariable Long sectionID){
+
+        Integer responseCode = studentService.joinSection(sectionID);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @PutMapping("/api/student/{sectionID}/leave")
+    ResponseEntity<?> leaveSection(@PathVariable Long sectionID){
+
+        Integer responseCode = studentService.leaveSection(sectionID);
+
+        return ResponseEntity.status(responseCode).build();
     }
 }
