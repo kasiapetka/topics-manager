@@ -52,7 +52,7 @@ public class StudentServiceImpl implements StudentService {
         return sectionRepository.findById(id).orElse(new Section());
     }
 
-    private Student getLoggedStudent(){
+    public Student getLoggedStudent(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         Student student = this.findStudentByUser(user);
@@ -217,6 +217,53 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return sections;
+    }
+
+    @Override
+    public Integer joinSection(Long sectionId) {
+
+        Student student = this.getLoggedStudent();
+
+        Section section = this.findSectionById(sectionId);
+
+        if(!(section.getSizeOfSection() <= (section.getStudentSections().size()))){
+            StudentSection studentSection = new StudentSection();
+            studentSection.setStudent(student);
+            studentSection.setSection(section);
+
+            try{
+                studentSectionRepository.save(studentSection);
+            } catch (HibernateException e){
+                e.printStackTrace();
+                return 500;
+            }
+        }
+
+        return 200;
+    }
+
+    @Override
+    public Integer leaveSection(Long sectionId) {
+
+        Student student = this.getLoggedStudent();
+
+        Section section = this.findSectionById(sectionId);
+
+        List<StudentSection> studentSections = section.getStudentSections();
+
+        if(studentSections.contains(student)){
+            studentSections.remove(student);
+            section.setStudentSections(studentSections);
+
+            try{
+                sectionRepository.save(section);
+            } catch (HibernateException e){
+                e.printStackTrace();
+                return 500;
+            }
+        }
+
+        return 200;
     }
 }
 
