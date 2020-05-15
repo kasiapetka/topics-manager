@@ -27,7 +27,6 @@ class ModifyStudentSection extends Component {
         const sectionId = this.props.match.params.id;
 
         axios.get('/api/student/studentsection/' + sectionId + '/info').then(response => {
-            console.log(response.data)
             const section = {
                 id: response.data.sectionId,
                 name: response.data.sectionName,
