@@ -1,5 +1,5 @@
 import React from "react";
-import Messages from "../../../Messages/Messages";
+import Messages from "../../../Messages/NewMessageForm";
 import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
 import Modal from "../../../UI/Modal/Modal";
 import DeletePerson from "../../../../containers/FormsPages/PersonForms/DeletePerson/DeletePerson";
@@ -34,7 +34,6 @@ const adminPageElements = (props) =>
             <div className="row h-100">
                 <div className="col-md-3 border-right">
                     <SideNavbar/>
-                    <Messages/>
                 </div>
                 <div className="col-md-8">
                     <PrivateAdminRoute path="/admin/sections" component={ListSections}/>

@@ -1,0 +1,30 @@
+.Messages{
+    margin: 0 auto;
+    max-width:800px;
+    box-shadow: 0 0 12px 5px rgba(36, 205, 188, 0.3);
+    background-color:  rgba(248, 248, 248,0.7);
+}
+
+.Message:hover{
+    background-color: white;
+    cursor: pointer;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+}
+
+.Buttons{
+    margin: 0 auto;
+    max-width:800px;
+    z-index: 600;
+}
+
+.Button{
+    display: inline-block;
+    padding: 10px;
+    width: 25%;
+    background-color:  rgba(248, 248, 248,1);
+    margin-bottom: -1px;
+}
+.Button:focus{
+     outline:0;
+ }

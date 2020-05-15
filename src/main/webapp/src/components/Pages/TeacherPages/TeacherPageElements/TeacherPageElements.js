@@ -1,6 +1,6 @@
 import React from "react";
 import AccountDetailsCard from "../../../UI/Cards/AccountDetailsCard/AccountDetailsCard";
-import Messages from "../../../Messages/Messages";
+import PersonMessages from "../../../../containers/Messages/PersonMessages";
 import PrivateTeacherRoute from "../../../PrivateRoutes/PrivateTeacherRoute";
 import ListSections from "../../../../containers/Lists/ListSections";
 import AddSection from "../../../../containers/FormsPages/SectionForms/AddSection/AddSection";
@@ -18,13 +18,12 @@ const teacherPageElements = (props) => (
                 <AccountDetailsCard
                     person={props.teacher}/>
                 <SideNavbar/>
-                <Messages/>
             </div>
-
             <div className="col-md-8">
                 <PrivateTeacherRoute exact path="/teacher/subjects" component={ListSubjects}/>
                 <PrivateTeacherRoute exact path="/teacher/topics" component={ListTopics}/>
                 <PrivateTeacherRoute exact path="/teacher/addtopic" component={AddTopic}/>
+                <PrivateTeacherRoute exact path="/teacher/messages" component={PersonMessages}/>
                 {/*<PrivateTeacherRoute exact path="/teacher/jointopic" component={JoinTopic}/>*/}
                 <PrivateTeacherRoute exact path="/teacher/addsection" component={AddSection}/>
                 <PrivateTeacherRoute path="/teacher/sections" component={ListSections}/>
