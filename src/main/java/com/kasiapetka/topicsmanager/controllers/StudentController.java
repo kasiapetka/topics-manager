@@ -12,6 +12,7 @@ import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.UserService;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasRole('Student')")
 public class StudentController {
 
     private UserService userService;
