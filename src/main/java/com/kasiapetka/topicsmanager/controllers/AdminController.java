@@ -8,6 +8,7 @@ import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasRole('Admin')")
 public class AdminController {
 
     private UserService userService;
@@ -42,11 +44,6 @@ public class AdminController {
     }
 
     //GETs
-
-    @GetMapping("/api/admin/teachers")
-    List<Teacher> listTeachers() {
-        return teacherService.listActiveTeachers();
-    }
 
     @GetMapping("/api/admin/teachers/{id}")
     List<Teacher> listTeachersBySubject(@PathVariable Long id) {
