@@ -223,12 +223,11 @@ class AddSection extends Component {
 
     onStudentsAdditionHandler = (event) => {
         event.preventDefault();
-
         let studentsAlbums = [];
 
         if (this.state.students) {
             if (this.state.students.length !== 0) {
-                for (let [key, value] of Object.entries(this.state.students)) {
+                for (let [, value] of Object.entries(this.state.students)) {
                     studentsAlbums.push(value.album);
                 }
             }

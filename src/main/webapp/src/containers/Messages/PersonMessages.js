@@ -31,7 +31,7 @@ class Messages extends Component {
         const value = target.value;
         let person, add;
         person = value;
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(person)) {
+        if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(person)) {
             add = true;
         }
         this.setState({
@@ -60,12 +60,12 @@ class Messages extends Component {
         const receiver = event.target.value;
         if (receiver === "section") {
             this.getSections(this.state.semester);
-        }
-        if (receiver === "teacher") {
-            this.setState({receiver: receiver, showList: true, semester: 1});
+            this.setState({receiver: receiver, showList: false, semester: 1});
             return;
         }
-        this.setState({receiver: receiver, showList: false, semester: 1});
+        if (receiver === "teacher" || receiver === "student") {
+            this.setState({receiver: receiver, showList: true, semester: 1});
+        }
     };
 
     onSemesterChangeHandler = (event) => {
@@ -91,7 +91,7 @@ class Messages extends Component {
         });
     };
 
-    addPersonToListHandler = () => {
+    addPersonToListManuallyHandler = () => {
         const email = this.state.person;
         axios.put('/api/common/person', email).then(response => {
             console.log('gituwa')
@@ -102,6 +102,18 @@ class Messages extends Component {
             .catch(error => {
                 alert('niegituwa')
             });
+    };
+
+    addPersonToList = (person) => {
+        const receivers = [...this.state.receivers];
+        receivers.push(person);
+        this.setState({receivers: receivers})
+    };
+
+    removePersonFromList = (person) => {
+        const receivers = [...this.state.receivers];
+        let removed = receivers.filter((receiver) => receiver !== person);
+        this.setState({receivers: removed})
     };
 
     render() {
@@ -123,7 +135,9 @@ class Messages extends Component {
                                       onSectionChange={this.onSectionChangeHandler}
                                       reciever={this.state.receiver}
                                       receivers={this.state.receivers}
-                                      addPersonToList={this.addPersonToListHandler}
+                                      addPersonToListManually={this.addPersonToListManuallyHandler}
+                                      removePersonFromList={this.removePersonFromList}
+                                      addPersonToList={this.addPersonToList}
                                       section={this.state.section}
                                       semester={this.state.semester}
                                       showList={this.state.showList}

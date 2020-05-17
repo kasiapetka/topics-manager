@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
 import {Alert} from "reactstrap";
-import IssuePresenceForm
-    from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/IssuePresenceForm/IssuePresenceForm";
 import IssueGradesForm
     from "../../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/IssueGradesForm/IssueGradesForm";
 

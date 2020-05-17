@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import Label from "../../../FormElements/Label/Label";
 import {Badge, Button} from "reactstrap";
 import classes from "../../Forms.module.css";
-import Input from "../../../FormElements/Input/Input";
 
 const ModifyStudentSectionForm = (props) => {
     const [showDetails, setShowDetails] = useState(false);

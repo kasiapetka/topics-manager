@@ -1,0 +1,43 @@
+.MultiSelect {
+    width: 200px;
+}
+
+.SelectBox {
+    position: relative;
+}
+
+.SelectBox select {
+    width: 100%;
+    font-weight: bold;
+}
+
+.OverSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.Labels {
+    border-radius: 5px;
+    padding: 20px;
+    max-height: 200px;
+    overflow-y: scroll;
+    border: 1px #dadada solid;
+}
+
+
+
+.Labels label:hover {
+    cursor: pointer;
+    background-color: rgba(36, 205, 188, 0.3);
+}
+
+.Invisible{
+    display: none;
+}
+
+.Visible{
+    display: block;
+}

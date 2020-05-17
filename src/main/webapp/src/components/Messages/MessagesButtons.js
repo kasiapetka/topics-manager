@@ -22,14 +22,10 @@ const MessagesButtons =(props)=> {
             active: false
         }
     ];
-    const [toggleButtons, setToggleButtons] = useState(buttons);
+    const [toggleButtons, setToggleButtons] = useState([]);
+
     useEffect(() => {
-        buttons.forEach(button => {
-            if (button.id === buttonActive) {
-                button.active = true;
-            } else
-                button.active = false;
-        });
+        buttons.forEach(button => button.active = button.id === buttonActive);
         setToggleButtons(buttons);
     }, [buttonActive]);
 
