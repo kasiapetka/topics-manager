@@ -23,10 +23,11 @@ public class CommonsController {
     private UserService userService;
 
     public CommonsController(SectionService sectionService, StudentService studentService,
-                             TeacherService teacherService) {
+                             TeacherService teacherService, UserService userService) {
         this.studentService  = studentService;
         this.teacherService = teacherService;
         this.sectionService = sectionService;
+        this.userService = userService;
     }
 
     //GETs

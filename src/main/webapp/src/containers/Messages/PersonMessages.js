@@ -93,7 +93,7 @@ class Messages extends Component {
 
     addPersonToListHandler = () => {
         const email = this.state.person;
-        axios.put('/api/common/person', JSON.stringify(email)).then(response => {
+        axios.put('/api/common/person', email).then(response => {
             console.log('gituwa')
             const receivers = [...this.state.receivers];
             receivers.push(email);
