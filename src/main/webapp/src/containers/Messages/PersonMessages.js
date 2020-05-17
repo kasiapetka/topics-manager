@@ -93,15 +93,25 @@ class Messages extends Component {
 
     addPersonToListManuallyHandler = () => {
         const email = this.state.person;
-        axios.put('/api/common/person', email).then(response => {
-            console.log('gituwa')
-            const receivers = [...this.state.receivers];
-            receivers.push(email);
-            this.setState({receivers: receivers})
-        })
-            .catch(error => {
-                alert('niegituwa')
-            });
+        const receivers = [...this.state.receivers];
+        let alreadyOnList= false;
+        receivers.forEach(rcv => {
+            if (rcv === email) {
+                alert('Person with this email is already on list.');
+                alreadyOnList=true;
+            }
+        });
+
+        if(!alreadyOnList){
+            axios.put('/api/common/person', email).then(response => {
+                receivers.push(email);
+                this.setState({receivers: receivers})
+            })
+                .catch(error => {
+                    alert('Person with this email does not exists.')
+                });
+        }
+
     };
 
     addPersonToList = (person) => {
