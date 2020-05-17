@@ -8,7 +8,7 @@ import Label from "../Forms/FormElements/Label/Label";
 
 const newMessageForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mb-4 pr-3 pl-3 " + classes.Messages;
-    let semPicker, receiverPicker, sectionPicker,receivers;
+    let semPicker, receiverPicker, sectionPicker, receivers;
     const semesters = [2, 3, 4, 5, 6, 7];
     let semOptions = semesters.map(sem => {
         return <option key={sem}
@@ -16,10 +16,12 @@ const newMessageForm = (props) => {
     });
     if (props.receivers) {
         if (props.receivers.length === 0) {
-            receivers = <li>No students in this section.</li>;
+            receivers = <li>No receivers.</li>;
         } else {
             receivers = props.receivers.map(receiver => {
-                return <li key={receiver}>
+                return <li key={receiver}
+                           className={classes.RemoveLabel}
+                           onClick={()=>props.removePersonFromList(receiver)}>
                     {receiver}
                 </li>
             });
@@ -52,28 +54,37 @@ const newMessageForm = (props) => {
     }
     if (props.showList) {
         if (props.reciever === 'student') {
-            receiverPicker = <ListPersons path={"/api/common/students/" + props.semester} semester={props.semester}/>
+            receiverPicker = <ListPersons
+                path={"/api/common/students/" + props.semester}
+                receivers={props.receivers}
+                addPersonToList={props.addPersonToList}
+                semester={props.semester}/>
         } else if (props.reciever === 'section') {
-            receiverPicker = <ListPersons path={"/api/common/sections/" + props.section} semester={props.semester}/>
+            receiverPicker = <ListPersons path={"/api/common/sections/" + props.section + '/members'}
+                                          addPersonToList={props.addPersonToList}
+                                          receivers={props.receivers}
+                                          semester={props.semester}/>
         } else if (props.reciever === 'teacher') {
-            receiverPicker = <ListPersons path={"/api/common/teachers"}/>
+            receiverPicker = <ListPersons path={"/api/common/teachers"}
+                                          addPersonToList={props.addPersonToList}
+                                          receivers={props.receivers}/>
         }
     }
 
     return (
         <Form className={classNames}>
             <h3 className="text-center mt-2">New Message</h3>
-            <Label label="receivers"
+            <Label divstyle={{maxHeight: '200px', overflowY: 'scroll', listStyleType:'circle'}} label="Send To:"
                    content={<ul>{receivers}</ul>}/>
             <div className="form-row p-1">
                 <Input type="email" name="subject"
                        groupclasses="col-md-10"
                        onChange={props.onChange}
                        value={props.person}
-                       label="Send to" placeholder="To"/>
-                <Button className="col-md-2 h-25 mt-5"
+                       placeholder="To"/>
+                <Button className="col-md-2 h-25 mt-3"
                         disabled={!props.addButton}
-                        onClick={props.addPersonToList}>Add To List</Button>
+                        onClick={props.addPersonToListManually}>Add To List</Button>
             </div>
             <div className="form-row p-1">
                 <Input type="select" name="receiver"

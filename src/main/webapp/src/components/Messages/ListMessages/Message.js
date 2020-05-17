@@ -1,8 +1,7 @@
 import React from "react";
-import {Table} from "reactstrap";
 import classes from '../Messages.module.css'
 
-const message = (props) => {
+const message = () => {
 
     return (
         <tr className={classes.Message}>

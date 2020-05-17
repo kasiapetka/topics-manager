@@ -1,5 +1,4 @@
 import React from "react";
-import Messages from "../../../Messages/NewMessageForm";
 import AccountDetailsCard from "../../../UI/Cards/AccountDetailsCard/AccountDetailsCard";
 import ListStudentSections from "../../../../containers/Lists/ListStudentSections";
 import PrivateStudentRoute from "../../../PrivateRoutes/PrivateStudentRoute";

@@ -1,6 +1,6 @@
 import React from 'react';
 import {FaUserAlt} from "react-icons/fa";
-import {Form, Label} from "reactstrap";
+import {Form} from "reactstrap";
 import PersonInfo from "../../../FormElements/Label/Label";
 import EmailPasswordChangeInput from "./FormInputs/EmailPasswordChangeInput";
 import NameSurnameChangeInput from "./FormInputs/NameSurnameChangeInput";

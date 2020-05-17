@@ -115,7 +115,7 @@ class ModifySection extends Component {
         let studentsAlbums = [];
         if (this.state.modifiedStudents) {
             if (this.state.modifiedStudents.length !== 0) {
-                for (let [key, value] of Object.entries(this.state.modifiedStudents)) {
+                for (let [, value] of Object.entries(this.state.modifiedStudents)) {
                     studentsAlbums.push(value.album);
                 }
             }

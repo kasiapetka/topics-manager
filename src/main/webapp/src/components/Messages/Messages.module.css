@@ -28,3 +28,9 @@
 .Button:focus{
      outline:0;
  }
+
+.RemoveLabel:hover {
+    width: 97%;
+    cursor: pointer;
+    background-color: rgba(205, 12, 0, 0.3);
+}

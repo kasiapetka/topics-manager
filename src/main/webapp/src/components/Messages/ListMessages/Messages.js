@@ -1,10 +1,9 @@
 import React  from "react";
-import classes from '../Messages.module.css'
 import Message from "./Message";
 import {Table} from "reactstrap";
 
 const Messages =(props)=>{
-    let messages;
+    //let messages;
     // if(props.messages.length !== 0) {
     //     messages = props.messages.map((message) => {
     //         return <Message/>

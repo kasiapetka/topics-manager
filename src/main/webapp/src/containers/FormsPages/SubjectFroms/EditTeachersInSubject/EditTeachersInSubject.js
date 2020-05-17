@@ -5,7 +5,6 @@ import EditTeachersInSubjectForm
 import {Alert} from "reactstrap";
 import EditTeachersInSubjectCard
     from "../../../../components/UI/Cards/SubjectCards/EditTeachersInSubjectCard/EditTeachersInSubjectCard";
-import auth from "../../../../Auth";
 
 class EditTeachersInSubject extends Component {
 

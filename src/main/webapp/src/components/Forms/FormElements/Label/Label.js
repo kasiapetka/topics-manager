@@ -13,6 +13,7 @@ const label = (props) => {
                     {props.label}
                 </Label>
                 <div color="light"
+                     style={props.divstyle}
                      className="pt-2 pb-2 pl-2 border shadow-sm bg-white rounded text-left">
                     <span>{props.content}</span>
                 </div>
