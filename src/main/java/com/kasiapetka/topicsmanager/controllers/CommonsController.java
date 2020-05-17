@@ -52,6 +52,16 @@ public class CommonsController {
         return teacherService.listActiveTeachers();
     }
 
+    @GetMapping("/api/common/sections/{sectionID}/members")
+    List<Student> listStudentsInSection(@PathVariable Long sectionID){
+        return sectionService.listStudentsBySectionId(sectionID);
+    }
+
+
+    //POSTs
+
+
+    //PUTs
     @PutMapping("/api/common/person")
     ResponseEntity<?> doesEmailExist(@RequestBody @Valid String email){
         Integer responseCode;
@@ -65,9 +75,4 @@ public class CommonsController {
 
         return ResponseEntity.status(responseCode).build();
     }
-
-    //POSTs
-
-
-    //PUTs
 }
