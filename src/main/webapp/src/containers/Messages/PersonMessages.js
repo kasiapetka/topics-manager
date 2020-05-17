@@ -16,11 +16,28 @@ class Messages extends Component {
         sections: null,
         error: null,
         loading: false,
-        section: null
+        section: null,
+        addButton: false,
+        receivers: [],
+        person: ''
     };
 
     switchFormHandler = (id) => {
         this.setState({formId: id})
+    };
+
+    handleChange = (event) => {
+        const target = event.target;
+        const value = target.value;
+        let person, add;
+        person = value;
+        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(person)){
+            add=true;
+        }
+        this.setState({
+            person: person,
+            addButton: add
+        });
     };
 
     getSections =(sem) =>{
@@ -45,10 +62,10 @@ class Messages extends Component {
            this.getSections(this.state.semester);
         }
         if (receiver === "teacher") {
-            this.setState({receiver: receiver,  showList: true});
+            this.setState({receiver: receiver,  showList: true, semester: 1});
             return;
         }
-        this.setState({receiver: receiver, showList: false});
+        this.setState({receiver: receiver, showList: false, semester: 1});
     };
 
     onSemesterChangeHandler = (event) => {
@@ -74,6 +91,17 @@ class Messages extends Component {
         });
     };
 
+    addPersonToListHandler=()=>{
+        console.log(this.state.person)
+        const receivers = [...this.state.receivers];
+        receivers.push(this.state.person);
+
+        //tutaj req czy istnieje
+
+
+        this.setState({receivers: receivers})
+    };
+
     render() {
         let content;
         const error = this.state.error;
@@ -92,10 +120,15 @@ class Messages extends Component {
             content = <NewMessageForm changeReceivers={this.changeReceiversHandler}
                                       onSectionChange={this.onSectionChangeHandler}
                                       reciever={this.state.receiver}
+                                      receivers={this.state.receivers}
+                                      addPersonToList={this.addPersonToListHandler}
                                       section={this.state.section}
                                       semester={this.state.semester}
                                       showList={this.state.showList}
+                                      addButton={this.state.addButton}
+                                      person={this.state.person}
                                       sections={this.state.sections}
+                                      onChange={this.handleChange}
                                       onSemesterChange={this.onSemesterChangeHandler}/>;
         } else if (this.state.formId === 2) {
             content = <ListMessages/>;
