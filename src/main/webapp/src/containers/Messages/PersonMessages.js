@@ -31,8 +31,8 @@ class Messages extends Component {
         const value = target.value;
         let person, add;
         person = value;
-        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(person)){
-            add=true;
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(person)) {
+            add = true;
         }
         this.setState({
             person: person,
@@ -40,7 +40,7 @@ class Messages extends Component {
         });
     };
 
-    getSections =(sem) =>{
+    getSections = (sem) => {
         this.setState({loading: true});
         axios.get('/api/common/sections/' + sem).then(response => {
             let sections = [...response.data];
@@ -59,10 +59,10 @@ class Messages extends Component {
     changeReceiversHandler = (event) => {
         const receiver = event.target.value;
         if (receiver === "section") {
-           this.getSections(this.state.semester);
+            this.getSections(this.state.semester);
         }
         if (receiver === "teacher") {
-            this.setState({receiver: receiver,  showList: true, semester: 1});
+            this.setState({receiver: receiver, showList: true, semester: 1});
             return;
         }
         this.setState({receiver: receiver, showList: false, semester: 1});
@@ -84,22 +84,24 @@ class Messages extends Component {
         });
     };
 
-    onSectionChangeHandler = (event) =>{
+    onSectionChangeHandler = (event) => {
         this.setState({
             section: event.target.value,
             showList: true
         });
     };
 
-    addPersonToListHandler=()=>{
-        console.log(this.state.person)
-        const receivers = [...this.state.receivers];
-        receivers.push(this.state.person);
-
-        //tutaj req czy istnieje
-
-
-        this.setState({receivers: receivers})
+    addPersonToListHandler = () => {
+        const email = this.state.person;
+        axios.put('/api/common/person', JSON.stringify(email)).then(response => {
+            console.log('gituwa')
+            const receivers = [...this.state.receivers];
+            receivers.push(email);
+            this.setState({receivers: receivers})
+        })
+            .catch(error => {
+                alert('niegituwa')
+            });
     };
 
     render() {
@@ -114,7 +116,7 @@ class Messages extends Component {
                 </Alert>
             )
         } else if (loading) {
-            return<Spinner/>
+            return <Spinner/>
         }
         if (this.state.formId === 1) {
             content = <NewMessageForm changeReceivers={this.changeReceiversHandler}

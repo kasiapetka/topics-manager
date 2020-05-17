@@ -9,10 +9,9 @@ import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
 import com.kasiapetka.topicsmanager.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -52,8 +51,8 @@ public class CommonsController {
         return teacherService.listActiveTeachers();
     }
 
-    @GetMapping("/api/common/person/{email}")
-    ResponseEntity<?> doesEmailExist(@PathVariable(name = "{email}") String email){
+    @PutMapping("/api/common/person")
+    ResponseEntity<?> doesEmailExist(@RequestBody @Valid String email){
         Integer responseCode;
         User user = userService.findUserByEmail(email);
 

@@ -35,7 +35,7 @@ class ListStudents extends Component {
         if (this.props.sectionSemester) {
             sem = this.props.sectionSemester;
         }
-        axios.get('/api/adminteacher/students/' + sem).then(response => {
+        axios.get('/api/common/students/' + sem).then(response => {
                 let students = [...response.data];
                 let studentsInSection = 0, oversize = false;
                 let editSectionMembers = false;

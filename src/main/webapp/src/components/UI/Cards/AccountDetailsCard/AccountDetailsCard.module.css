@@ -3,7 +3,7 @@
     box-shadow: inset 0 0 5px 3px rgba(130,130,130,0.2);
 }
 
-@media(min-width: 1250px) {
+@media(min-width: 1260px) {
     .CardStyle{
         width:300px;
     }

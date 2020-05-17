@@ -31,7 +31,7 @@ class ListTeachers extends Component {
         this.setState({loading: true});
         this._isMounted = true;
         if (this._isMounted) {
-            axios.get('/api/admin/teachers').then(response => {
+            axios.get('/api/common/teachers').then(response => {
                 let teachers = [...response.data];
                 if (this.state.addingToSubjectTopic) {
                     teachers.forEach(teacher => {

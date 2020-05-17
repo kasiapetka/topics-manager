@@ -86,7 +86,7 @@ class AddSection extends Component {
 
     componentDidMount() {
         if (auth.getRole() === 'A') {
-            axios.get('/api/admin/teachers').then(response => {
+            axios.get('/api/common/teachers').then(response => {
                 let teachers = [...response.data];
                 this.setState({
                     teachers: teachers
@@ -98,7 +98,7 @@ class AddSection extends Component {
             })
         }
         if (auth.getRole() === 'T'){
-            const path = '/api/teacher/subjects/' + auth.getId();
+            const path = '/api/adminteacher/subjects/' + auth.getId();
             axios.get(path).then(response => {
                 let subjects = [...response.data];
                 this.setState({
@@ -191,7 +191,7 @@ class AddSection extends Component {
         const section = {...this.state.section};
         section.teacher.value = id;
 
-        const path = '/api/teacher/subjects/' + id;
+        const path = '/api/adminteacher/subjects/' + id;
         axios.get(path).then(response => {
             let subjects = [...response.data];
             this.setState({

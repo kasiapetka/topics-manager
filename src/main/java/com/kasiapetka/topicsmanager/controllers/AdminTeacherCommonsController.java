@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasRoles('Teacher', 'Admin')")
+@PreAuthorize("hasAnyRole('Teacher', 'Admin')")
 public class AdminTeacherCommonsController {
 
     private SubjectService subjectService;
