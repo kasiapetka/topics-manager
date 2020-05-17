@@ -13,20 +13,17 @@ const Navbar = (props) => {
     const toggle = () => setIsOpen(!isOpen);
 
     let account, items;
-    let path = '/', modifyPath;
+    let path = '/';
     const role = auth.getRole();
 
     if (role === 'S') {
         path = '/student';
-        modifyPath = '/student/modifyaccount';
     }
     if (role === 'T') {
         path = '/teacher';
-        modifyPath = '/teacher/modifyaccount';
     }
     if (role === 'A') {
         path = '/admin';
-        modifyPath = '/admin/modifyaccount';
     }
 
     if (auth.isAuthenticated()) {
@@ -41,7 +38,10 @@ const Navbar = (props) => {
                     <NavLink href={path}>My Account</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink href={modifyPath}>Edit Account</NavLink>
+                    <NavLink href={path+'/modifyaccount'}>Edit Account</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink href={path+'/messages'}>Messages</NavLink>
                 </NavItem>
             </React.Fragment>)
     } else {

@@ -5,7 +5,6 @@
 .Static{
     position: static;
 }
-
 .Element{
     max-width: 600px;
     margin: 30px auto;

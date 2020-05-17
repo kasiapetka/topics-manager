@@ -23,7 +23,7 @@ const section = (props) => {
         controls = <React.Fragment>
             <Row className="pt-2 pb-3 mr-0 ml-0">
                 <Col><Button className="d-inline-block" onClick={props.edit}>Edit</Button></Col>
-                <Col><Button className="d-inline-block" onClick={props.modify}>Modify</Button></Col>
+                <Col><Button className="d-inline-block" onClick={props.modify}>Manage Students</Button></Col>
             </Row>
             {finishControl}
         </React.Fragment>

@@ -14,13 +14,11 @@ const pickSemesterInput = (props) => {
         <div className="p-4 mb-2">
             <FormGroup className="mb-2 col-md-3 mr-auto ml-auto">
                 <Label for="exampleSem" className="mr-2 pl-1">Semester</Label>
-
                 <Input type="select" name="semester" id="exampleSem"
                        value={props.semester}  onChange={props.onSemesterChange}>
                     <option value='1'>1</option>
                     {options}
                 </Input>
-
             </FormGroup>
         </div>
     )

@@ -27,7 +27,6 @@ const Sections =(props)=>{
         sections = <h4 className="mt-4 text-center">No sections on this semester yet.</h4>
     }
 
-
     return(
         <div className={classes.List}>
             {sections}
