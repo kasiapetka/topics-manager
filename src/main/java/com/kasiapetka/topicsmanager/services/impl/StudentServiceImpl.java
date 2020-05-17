@@ -43,7 +43,6 @@ public class StudentServiceImpl implements StudentService {
         this.userService = userService;
         this.semesterService = semesterService;
         this.roleService = roleService;
-//        this.sectionService = sectionService;
         this.studentSectionRepository = studentSectionRepository;
         this.sectionRepository = sectionRepository;
     }
