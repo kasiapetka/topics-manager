@@ -141,25 +141,25 @@ class Messages extends Component {
             return <Spinner/>
         }
         if (this.state.formId === 1) {
-            content = <NewMessageForm changeReceivers={this.changeReceiversHandler}
-                                      onSectionChange={this.onSectionChangeHandler}
-                                      reciever={this.state.receiver}
+            content = <NewMessageForm reciever={this.state.receiver}
                                       receivers={this.state.receivers}
-                                      addPersonToListManually={this.addPersonToListManuallyHandler}
-                                      removePersonFromList={this.removePersonFromList}
-                                      addPersonToList={this.addPersonToList}
                                       section={this.state.section}
                                       semester={this.state.semester}
                                       showList={this.state.showList}
                                       addButton={this.state.addButton}
                                       person={this.state.person}
                                       sections={this.state.sections}
+                                      changeReceivers={this.changeReceiversHandler}
+                                      onSectionChange={this.onSectionChangeHandler}
+                                      addPersonToListManually={this.addPersonToListManuallyHandler}
+                                      removePersonFromList={this.removePersonFromList}
+                                      addPersonToList={this.addPersonToList}
                                       onChange={this.handleChange}
                                       onSemesterChange={this.onSemesterChangeHandler}/>;
         } else if (this.state.formId === 2) {
-            content = <ListMessages/>;
+            content = <ListMessages path='/api/message/inbox'/>;
         } else if (this.state.formId === 3) {
-            content = <ListMessages/>;
+            content = <ListMessages path='/api/message/sent'/>;
         }
 
         return (

@@ -21,6 +21,7 @@ class ListTopics extends Component {
         let path;
         if(this.state.role === 'A') path='/api/admin/subjects';
         if(this.state.role === 'T') path='/api/teacher/subjects/'+auth.getId();
+        this.setState({loading: true});
 
         axios.get(path).then(response => {
             let subjects = [...response.data];
