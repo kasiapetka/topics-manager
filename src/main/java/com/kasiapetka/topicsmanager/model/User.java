@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Table(name="users")
@@ -19,10 +20,15 @@ public class User {
     @NotNull
     private String password;
 
-
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany
+    private List<Message> received;
+
+    @OneToMany
+    private List<Message> sent;
 
     public User() {
     }
@@ -37,7 +43,7 @@ public class User {
         userDTO.setId(this.id);
         userDTO.setEmail(this.email);
         //@TODO same with password
-        userDTO.setPassword(this.getPassword());
+//        userDTO.setPassword(this.getPassword());
         userDTO.setRole(this.role);
 
         return userDTO;

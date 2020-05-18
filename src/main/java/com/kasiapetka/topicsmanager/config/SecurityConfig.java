@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder passwordEncoder;
 
     private final String[] WHITELIST = {
-            "/h2-console/**"
+            "/h2-console/**",
+//            "/**"
     };
 
     //@Value("${spring.queries.users-query}")
