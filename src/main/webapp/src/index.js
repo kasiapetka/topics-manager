@@ -15,7 +15,6 @@ const rootReducer = combineReducers({
 });
 const store = createStore(rootReducer);
 
-
 axios.interceptors.request.use(request => {
 
     if(auth.isAuthenticated()){

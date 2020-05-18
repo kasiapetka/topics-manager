@@ -72,14 +72,14 @@ const newMessageForm = (props) => {
     }
 
     return (
-        <Form className={classNames}>
+        <Form className={classNames} onSubmit={props.onSendMessage}>
             <h3 className="text-center mt-2">New Message</h3>
             <Label divstyle={{maxHeight: '200px', overflowY: 'scroll', listStyleType:'circle'}} label="Send To:"
                    content={<ul>{receivers}</ul>}/>
             <div className="form-row p-1">
                 <Input type="email" name="subject"
                        groupclasses="col-md-10"
-                       onChange={props.onChange}
+                       onChange={props.onPersonChange}
                        value={props.person}
                        placeholder="To"/>
                 <Button className="col-md-2 h-25 mt-3"
@@ -100,10 +100,20 @@ const newMessageForm = (props) => {
             </div>
             {receiverPicker}
 
-            <Input type="text" name="subject" placeholder="Subject"/>
-            <Input type="textarea" rows={6} name="message"/>
+            <Input type="text" name="subject"
+                   placeholder="Subject"
+                   onChange={props.onChange}
+                   value={props.message.subject.value}
+                   isinvalid={props.message.subject.validation}
+                   />
+            <Input type="textarea" rows={6} name="content"
+                   onChange={props.onChange}
+                   value={props.message.content.value}
+                   isinvalid={props.message.content.validation}
+                   />
 
-            <SubmitButton label='send message'/>
+            <SubmitButton label='send message' disabled={!props.formValid || props.receivers.length === 0}/>
+
         </Form>
     );
 };

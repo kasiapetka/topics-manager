@@ -23,7 +23,7 @@ const teacherPageElements = (props) => (
                 <PrivateTeacherRoute exact path="/teacher/subjects" component={ListSubjects}/>
                 <PrivateTeacherRoute exact path="/teacher/topics" component={ListTopics}/>
                 <PrivateTeacherRoute exact path="/teacher/addtopic" component={AddTopic}/>
-                <PrivateTeacherRoute exact path="/teacher/messages" component={PersonMessages}/>
+                <PrivateTeacherRoute path="/teacher/messages" component={PersonMessages}/>
                 {/*<PrivateTeacherRoute exact path="/teacher/jointopic" component={JoinTopic}/>*/}
                 <PrivateTeacherRoute exact path="/teacher/addsection" component={AddSection}/>
                 <PrivateTeacherRoute path="/teacher/sections" component={ListSections}/>

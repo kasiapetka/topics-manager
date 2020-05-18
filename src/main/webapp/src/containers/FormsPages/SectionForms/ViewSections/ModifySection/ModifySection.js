@@ -10,8 +10,9 @@ import IssuePresence from "./IssuePresence/IssuePresence";
 import ViewPresence from "./ViewPresence/ViewPresence";
 import AddStudentToSectionForm
     from "../../../../../components/Forms/FormsTemplates/SectionForms/AddStudentsToSectionForm/AddStudentsToSectionForm";
-import ViewGrades from "./ViewGrades/ViewGrades";
 import IssueGrades from "./IssueGrades/IssueGrades";
+import ViewGradesForm
+    from "../../../../../components/Forms/FormsTemplates/SectionForms/ModifySectionForm/ViewGradesForm/ViewGradesForm";
 
 
 class ModifySection extends Component {
@@ -234,15 +235,16 @@ class ModifySection extends Component {
                                                                        {...this.props}/>}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/viewgrades"
-                                       component={() => <ViewGrades section={section}
-                                                                    students={this.state.students}
-                                                                    dates={this.state.dates}
-                                                                    {...this.props}/>}/>
+                                       component={() => <ViewGradesForm
+                                           date={this.state.date}
+                                           students={this.state.students}
+                                       />}/>
 
                     <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewgrades"
-                                         component={() => <ViewGrades section={section}
-                                                                      students={this.state.students}
-                                                                      {...this.props}/>}/>
+                                         component={() => <ViewGradesForm
+                                             date={this.state.date}
+                                             students={this.state.students}
+                                         />}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id"
                                        component={() => <ModifySectionForm section={section}
