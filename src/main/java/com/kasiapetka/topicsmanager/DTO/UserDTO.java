@@ -13,13 +13,13 @@ public class UserDTO {
     private String email;
     private Long id;
     //todo refactor to not send password
-    private String password;
+//    private String password;
     private Role role;
 
     public User convertToUser(){
         User user = new User();
         user.setEmail(this.email);
-        user.setPassword(this.password);
+        user.setPassword(null);
         user.setId(this.id);
         user.setRole(this.role);
 
