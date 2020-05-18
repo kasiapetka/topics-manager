@@ -5,6 +5,8 @@ import ListMessages from "../Lists/ListMessages";
 import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import handleInputChange from "../FormsPages/validateForm";
+import Modal from "../../components/UI/Modal/Modal";
 
 class Messages extends Component {
 
@@ -19,14 +21,43 @@ class Messages extends Component {
         section: null,
         addButton: false,
         receivers: [],
-        person: ''
+        person: '',
+        message:{
+            subject: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true,
+                }
+            },
+            content: {
+                value: '',
+                validation: {
+                    valid: false,
+                    touched: false,
+                    required: true,
+                }
+            },
+        },
+        formValid: false,
+        sent: false
     };
 
     switchFormHandler = (id) => {
         this.setState({formId: id})
     };
 
-    handleChange = (event) => {
+    handleChange=(event)=>{
+        const formProperties = handleInputChange(event, this.state.message);
+
+        this.setState({
+            message: formProperties.form,
+            formValid: formProperties.formValid,
+        });
+    };
+
+    handlePersonChange = (event) => {
         const target = event.target;
         const value = target.value;
         let person, add;
@@ -108,10 +139,13 @@ class Messages extends Component {
                 this.setState({receivers: receivers})
             })
                 .catch(error => {
-                    alert('Person with this email does not exists.')
+                    if (error.response.status === 409) {
+                        alert('Person with this email does not exists.')
+                    } else {
+                        this.setState({error: error})
+                    }
                 });
         }
-
     };
 
     addPersonToList = (person) => {
@@ -126,8 +160,33 @@ class Messages extends Component {
         this.setState({receivers: removed})
     };
 
+    onSendMessageHandler=(event)=>{
+        event.preventDefault();
+        const msg = {
+            receivers: [...this.state.receivers],
+            subject: this.state.message.subject.value,
+            content: this.state.message.content.value
+        };
+        this.setState({loading: true});
+        axios.post('/api/message/send', msg).then(response => {
+            this.setState({sent: true,loading: false})
+        }).
+        catch(error => {
+            this.setState({error: error,loading: false})
+        });
+    };
+
+    showSentInfoHandler=()=>{
+        this.setState((prevState) => {
+            return {
+                sent: !prevState.sent
+            }
+        });
+        window.location.reload();
+    };
+
     render() {
-        let content;
+        let content,modal;
         const error = this.state.error;
         const loading = this.state.loading;
         if (error) {
@@ -140,7 +199,11 @@ class Messages extends Component {
         } else if (loading) {
             return <Spinner/>
         }
-        if (this.state.formId === 1) {
+        if(this.state.sent){
+            content=<Modal show={this.state.sent}
+                         modalClosed={this.showSentInfoHandler}>Message Sent!</Modal>
+        }
+        else if (this.state.formId === 1) {
             content = <NewMessageForm reciever={this.state.receiver}
                                       receivers={this.state.receivers}
                                       section={this.state.section}
@@ -149,17 +212,21 @@ class Messages extends Component {
                                       addButton={this.state.addButton}
                                       person={this.state.person}
                                       sections={this.state.sections}
+                                      message={this.state.message}
+                                      formValid={this.state.formValid}
                                       changeReceivers={this.changeReceiversHandler}
                                       onSectionChange={this.onSectionChangeHandler}
                                       addPersonToListManually={this.addPersonToListManuallyHandler}
                                       removePersonFromList={this.removePersonFromList}
                                       addPersonToList={this.addPersonToList}
+                                      onPersonChange={this.handlePersonChange}
                                       onChange={this.handleChange}
+                                      onSendMessage={this.onSendMessageHandler}
                                       onSemesterChange={this.onSemesterChangeHandler}/>;
         } else if (this.state.formId === 2) {
-            content = <ListMessages path='/api/message/inbox'/>;
+            content = <ListMessages type='inbox' path='/api/message/inbox'/>;
         } else if (this.state.formId === 3) {
-            content = <ListMessages path='/api/message/sent'/>;
+            content = <ListMessages type='sent' path='/api/message/sent'/>;
         }
 
         return (

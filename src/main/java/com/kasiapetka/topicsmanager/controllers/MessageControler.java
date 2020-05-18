@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.DTO.MessageDTO;
 import com.kasiapetka.topicsmanager.DTO.SendMessageDTO;
+import com.kasiapetka.topicsmanager.model.Message;
 import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.services.MessageService;
 import com.kasiapetka.topicsmanager.services.StudentService;
@@ -63,6 +64,11 @@ public class MessageControler {
         messageService.readMessage(messageService.findById(messageID));
 
         return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("/api/message/{messageID}")
+    public Message getMessage(@PathVariable Long messageID){
+        return messageService.findById(messageID);
     }
 
 //    @RequestMapping("/testsend")

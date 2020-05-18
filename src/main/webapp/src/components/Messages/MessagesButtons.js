@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import classes from './Messages.module.css'
+import {Link} from "react-router-dom";
+import auth from "../../Auth";
 
 const MessagesButtons =(props)=> {
     const btnClasses = "bg-transparent border border-bottom-0 " + classes.Button;
@@ -23,6 +25,11 @@ const MessagesButtons =(props)=> {
         }
     ];
     const [toggleButtons, setToggleButtons] = useState([]);
+    const role = auth.getRole();
+    let path;
+    if (role === 'S') {path = '/student/messages';}
+    if (role === 'T') {path = '/teacher/messages';}
+    if (role === 'A') {path = '/admin/messages';}
 
     useEffect(() => {
         buttons.forEach(button => button.active = button.id === buttonActive);
@@ -30,13 +37,12 @@ const MessagesButtons =(props)=> {
     }, [buttonActive]);
 
     const displayButtons = toggleButtons.map(button => {
-        return <button
-                    key={button.id}
+        return <Link key={button.id} to={path}><button
                     className={button.active ? activeBtnClasses : btnClasses}
                     onClick={() => {
                         setActive(button.id);
                         props.switchForm(button.id);
-                    }}>{button.label}</button>
+                    }}>{button.label}</button></Link>
 
     });
 

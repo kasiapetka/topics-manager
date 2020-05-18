@@ -11,7 +11,7 @@ const loginForm = (props) => {
 
     return (
         <Form className={classNames} onSubmit={props.submit}>
-            <h4 className="text-center"><FaUserAlt className="accountIcon"></FaUserAlt></h4>
+            <h4 className="text-center"><FaUserAlt className="accountIcon"/></h4>
             <h3 className="text-center">Sign In</h3>
 
             <Input type="email" name="email" label="email"

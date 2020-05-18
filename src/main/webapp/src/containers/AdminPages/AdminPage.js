@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PageNavbar from "../../components/Navigation/Navbar/Navbar";
+import PageNavbar from "../Navbar/Navbar";
 import AdminPageElements from "../../components/Pages/AdminPages/AdminPageElements/AdminPageElements";
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
 

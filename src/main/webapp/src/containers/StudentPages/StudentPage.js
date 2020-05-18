@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PageNavbar from "../../components/Navigation/Navbar/Navbar";
+import PageNavbar from "../Navbar/Navbar";
 import StudentPageElements from "../../components/Pages/StudentPages/StudentPageElements/StudentPageElements";
 import {Alert} from "reactstrap";
 import axios from 'axios'
