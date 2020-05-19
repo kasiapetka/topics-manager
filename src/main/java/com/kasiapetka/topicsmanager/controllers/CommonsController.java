@@ -1,9 +1,6 @@
 package com.kasiapetka.topicsmanager.controllers;
 
-import com.kasiapetka.topicsmanager.model.Section;
-import com.kasiapetka.topicsmanager.model.Student;
-import com.kasiapetka.topicsmanager.model.Teacher;
-import com.kasiapetka.topicsmanager.model.User;
+import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
@@ -56,7 +53,6 @@ public class CommonsController {
     List<Student> listStudentsInSection(@PathVariable Long sectionID){
         return sectionService.listStudentsBySectionId(sectionID);
     }
-
 
     //POSTs
 

@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.DTO.*;
 import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Topic;
 import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.StudentService;
@@ -58,6 +59,12 @@ public class AdminTeacherCommonsController {
     List<StudentPresenceExtendedDTO> getDatesForPresence(@PathVariable Long sectionID, @PathVariable String date){
         return sectionService.findStudentsInSectionByDate(sectionID, date);
     }
+
+    @GetMapping("/api/adminteacher/subjects/{teacherID}")
+    List<Subject> listSubjects(@PathVariable Long teacherID){
+        return subjectService.listSubjectsByTeacherId(teacherID);
+    }
+
 
     //POSTs
 
