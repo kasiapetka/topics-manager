@@ -6,7 +6,7 @@ import auth from "../../Auth";
 const MessagesButtons =(props)=> {
     const btnClasses = "bg-transparent border border-bottom-0 " + classes.Button;
     const activeBtnClasses="border border-bottom-0 " + classes.Button;
-    const [buttonActive, setActive] = useState(1);
+    const [buttonActive, setActive] = useState(props.formId);
     const buttons = [
         {
             label: 'Compose',
@@ -34,7 +34,7 @@ const MessagesButtons =(props)=> {
     useEffect(() => {
         buttons.forEach(button => button.active = button.id === buttonActive);
         setToggleButtons(buttons);
-    }, [buttonActive]);
+    }, [buttonActive, props.formId]);
 
     const displayButtons = toggleButtons.map(button => {
         return <Link key={button.id} to={path}><button
@@ -42,10 +42,7 @@ const MessagesButtons =(props)=> {
                     onClick={() => {
                         setActive(button.id);
                         props.switchForm(button.id);
-                    }}>{button.label}</button></Link>
-
-    });
-
+                    }}>{button.label}</button></Link>});
     return (
         <div className={classes.Buttons}>
             {displayButtons}

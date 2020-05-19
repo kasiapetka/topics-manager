@@ -3,6 +3,9 @@ import axios from "axios";
 import Label from "../../components/Forms/FormElements/Label/Label";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import {withRouter} from "react-router-dom";
+import {Button} from "reactstrap";
+import {BsReplyFill} from "react-icons/bs";
 
 class ViewMessage extends Component {
 
@@ -15,10 +18,9 @@ class ViewMessage extends Component {
     componentDidMount() {
         this.setState({loading: true});
         const id = this.props.match.params.id;
-        console.log('sfsdf' +id)
-        axios.get('/api/message/'+id).then(response => {
+
+        axios.get('/api/message/' + id).then(response => {
             let message = response.data;
-            console.log(message)
             this.setState({
                 message: message,
                 loading: false,
@@ -34,10 +36,16 @@ class ViewMessage extends Component {
     render() {
         const error = this.state.error;
         const loading = this.state.loading;
+        let reply;
+        if (this.props.type === 'inbox') {
+            reply = <Button className="btn-sm btn-light border ml-4 shadow-sm pr-2 pl-2 mb-1 d-inline-block"
+                            onClick={() => this.props.replyToPerson(this.state.message.from.email)}>
+                <BsReplyFill className="mr-1"/>Reply</Button>
+        }
 
-        let content=<p>Something went wrong.</p>;
+        let content = <p>Something went wrong.</p>;
         if (error) {
-            content= (
+            content = (
                 <Alert color="danger">
                     Server Error, Please Try Again.<br/>
                     {error.message}
@@ -45,18 +53,23 @@ class ViewMessage extends Component {
             )
         } else if (loading) {
             content = <Spinner/>
-        } else if(this.state.message){
-            content= (
-                <div className="mt-2">
-                    <Label label="from" content={this.state.message.from.email}/>
-                    <Label label="to" content={this.state.message.to.email}/>
-                    <Label label="subject" content={this.state.message.subject}/>
-                    <Label label="content" divstyle={{minHeight: '100px'}} content={this.state.message.content}/>
-                </div>
+        } else if (this.state.message) {
+            content = (
+                <React.Fragment>
+                    {reply}
+                    <div className="mt-2">
+                        <Label label="from" content={this.state.message.from.email}/>
+                        <Label label="to" content={this.state.message.to.email}/>
+                        <Label label="subject" content={this.state.message.subject}/>
+                        <Label label="content" divstyle={{minHeight: '100px'}} content={this.state.message.content}/>
+                    </div>
+
+                </React.Fragment>
+
             );
         }
         return content;
     }
 }
 
-export default ViewMessage;
+export default withRouter(ViewMessage);

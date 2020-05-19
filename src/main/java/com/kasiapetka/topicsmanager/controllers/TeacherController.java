@@ -53,10 +53,6 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.findTeacherByUser(teacherUser));
     }
 
-    @GetMapping("/api/teacher/subjects/{teacherID}")
-    List<Subject> listSubjects(@PathVariable Long teacherID){
-        return subjectService.listSubjectsByTeacherId(teacherID);
-    }
 
     @GetMapping("/api/teacher/topics/{subjectID}/{teacherID}")
     List<Topic> listTopicBySubjectIdAndTeacherId(@PathVariable Long subjectID, @PathVariable Long teacherID){

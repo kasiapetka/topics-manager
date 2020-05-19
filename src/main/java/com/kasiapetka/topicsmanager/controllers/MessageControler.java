@@ -67,8 +67,8 @@ public class MessageControler {
     }
 
     @GetMapping("/api/message/{messageID}")
-    public Message getMessage(@PathVariable Long messageID){
-        return messageService.findById(messageID);
+    public MessageDTO getMessage(@PathVariable Long messageID){
+        return messageService.findById(messageID).convertToDTO();
     }
 
 //    @RequestMapping("/testsend")

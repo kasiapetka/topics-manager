@@ -22,7 +22,7 @@ class Messages extends Component {
         addButton: false,
         receivers: [],
         person: '',
-        message:{
+        message: {
             subject: {
                 value: '',
                 validation: {
@@ -48,7 +48,7 @@ class Messages extends Component {
         this.setState({formId: id})
     };
 
-    handleChange=(event)=>{
+    handleChange = (event) => {
         const formProperties = handleInputChange(event, this.state.message);
 
         this.setState({
@@ -125,15 +125,15 @@ class Messages extends Component {
     addPersonToListManuallyHandler = () => {
         const email = this.state.person;
         const receivers = [...this.state.receivers];
-        let alreadyOnList= false;
+        let alreadyOnList = false;
         receivers.forEach(rcv => {
             if (rcv === email) {
                 alert('Person with this email is already on list.');
-                alreadyOnList=true;
+                alreadyOnList = true;
             }
         });
 
-        if(!alreadyOnList){
+        if (!alreadyOnList) {
             axios.put('/api/common/person', email).then(response => {
                 receivers.push(email);
                 this.setState({receivers: receivers})
@@ -148,19 +148,19 @@ class Messages extends Component {
         }
     };
 
-    addPersonToList = (person) => {
+    addPersonToListHandler = (person) => {
         const receivers = [...this.state.receivers];
         receivers.push(person);
         this.setState({receivers: receivers})
     };
 
-    removePersonFromList = (person) => {
+    removePersonFromListHandler = (person) => {
         const receivers = [...this.state.receivers];
         let removed = receivers.filter((receiver) => receiver !== person);
         this.setState({receivers: removed})
     };
 
-    onSendMessageHandler=(event)=>{
+    onSendMessageHandler = (event) => {
         event.preventDefault();
         const msg = {
             receivers: [...this.state.receivers],
@@ -169,14 +169,13 @@ class Messages extends Component {
         };
         this.setState({loading: true});
         axios.post('/api/message/send', msg).then(response => {
-            this.setState({sent: true,loading: false})
-        }).
-        catch(error => {
-            this.setState({error: error,loading: false})
+            this.setState({sent: true, loading: false})
+        }).catch(error => {
+            this.setState({error: error, loading: false})
         });
     };
 
-    showSentInfoHandler=()=>{
+    showSentInfoHandler = () => {
         this.setState((prevState) => {
             return {
                 sent: !prevState.sent
@@ -186,7 +185,7 @@ class Messages extends Component {
     };
 
     render() {
-        let content,modal;
+        let content;
         const error = this.state.error;
         const loading = this.state.loading;
         if (error) {
@@ -199,11 +198,10 @@ class Messages extends Component {
         } else if (loading) {
             return <Spinner/>
         }
-        if(this.state.sent){
-            content=<Modal show={this.state.sent}
-                         modalClosed={this.showSentInfoHandler}>Message Sent!</Modal>
-        }
-        else if (this.state.formId === 1) {
+        if (this.state.sent) {
+            content = <Modal show={this.state.sent}
+                             modalClosed={this.showSentInfoHandler}>Message Sent!</Modal>
+        } else if (this.state.formId === 1) {
             content = <NewMessageForm reciever={this.state.receiver}
                                       receivers={this.state.receivers}
                                       section={this.state.section}
@@ -217,21 +215,24 @@ class Messages extends Component {
                                       changeReceivers={this.changeReceiversHandler}
                                       onSectionChange={this.onSectionChangeHandler}
                                       addPersonToListManually={this.addPersonToListManuallyHandler}
-                                      removePersonFromList={this.removePersonFromList}
-                                      addPersonToList={this.addPersonToList}
+                                      removePersonFromList={this.removePersonFromListHandler}
+                                      addPersonToList={this.addPersonToListHandler}
                                       onPersonChange={this.handlePersonChange}
                                       onChange={this.handleChange}
                                       onSendMessage={this.onSendMessageHandler}
                                       onSemesterChange={this.onSemesterChangeHandler}/>;
         } else if (this.state.formId === 2) {
-            content = <ListMessages type='inbox' path='/api/message/inbox'/>;
+            content = <ListMessages type='inbox'
+                                    pathName='/api/message/inbox'/>;
         } else if (this.state.formId === 3) {
-            content = <ListMessages type='sent' path='/api/message/sent'/>;
+            content = <ListMessages type='sent'
+                                    pathName='/api/message/sent'/>;
         }
 
         return (
             <div className="mt-4">
-                <MessagesButtons switchForm={this.switchFormHandler}/>
+                <MessagesButtons formId={this.state.formId}
+                                 switchForm={this.switchFormHandler}/>
                 {content}
             </div>
         );

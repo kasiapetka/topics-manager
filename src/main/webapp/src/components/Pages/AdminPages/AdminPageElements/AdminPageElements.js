@@ -1,5 +1,4 @@
 import React from "react";
-import Messages from "../../../Messages/NewMessageForm";
 import SideNavbar from "../../../Navigation/SideNavbar/SideNavbar";
 import Modal from "../../../UI/Modal/Modal";
 import DeletePerson from "../../../../containers/FormsPages/PersonForms/DeletePerson/DeletePerson";
@@ -16,6 +15,8 @@ import ListTopics from "../../../../containers/Lists/ListTopics";
 import ListSections from "../../../../containers/Lists/ListSections";
 import AddSection from "../../../../containers/FormsPages/SectionForms/AddSection/AddSection";
 import EditTeachersInSubject from "../../../../containers/FormsPages/SubjectFroms/EditTeachersInSubject/EditTeachersInSubject";
+import PersonMessages from "../../../../containers/Messages/PersonMessages";
+
 
 const adminPageElements = (props) =>
     (
@@ -36,6 +37,8 @@ const adminPageElements = (props) =>
                     <SideNavbar/>
                 </div>
                 <div className="col-md-8">
+                    <PrivateAdminRoute path="/admin/messages" component={PersonMessages}/>
+
                     <PrivateAdminRoute path="/admin/sections" component={ListSections}/>
                     <PrivateAdminRoute exact path="/admin/addsection" component={AddSection}/>
 
@@ -47,7 +50,6 @@ const adminPageElements = (props) =>
                     <PrivateAdminRoute exact path="/admin/addtopic" component={AddTopic}/>
 
                     <PrivateAdminRoute exact path="/admin/add/:role" component={() => <AddPerson/>}/>
-
                     <PrivateAdminRoute exact path="/admin/edit" component={() => <EditAccount
                         path={props.modifyPath}
                         token={auth.getToken()}
