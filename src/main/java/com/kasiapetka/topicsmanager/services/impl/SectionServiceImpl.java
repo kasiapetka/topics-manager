@@ -11,6 +11,7 @@ import org.hibernate.HibernateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class SectionServiceImpl implements SectionService {
     private StudentService studentService;
     private TopicService topicService;
     private SemesterService semesterService;
-
 
     public SectionServiceImpl(SectionRepository sectionRepository, StudentRepository studentRepository,
                               StudentSectionRepository studentSectionRepository, TeacherService teacherService,
@@ -163,8 +163,8 @@ public class SectionServiceImpl implements SectionService {
         List<Section> sections = semester.getSections();
         List<Section> sectionsToExclude = new ArrayList<>();
 
-        for(Section section : sections){
-            if(section.getState().equals('F')){
+        for (Section section : sections) {
+            if (section.getState().equals('F')) {
                 sectionsToExclude.add(section);
             }
         }
@@ -187,6 +187,30 @@ public class SectionServiceImpl implements SectionService {
         }));
 
         return students;
+    }
+
+    @Override
+    public StudentGradeListExtendedDTO listGradesForStudents(Long sectionId) {
+        Section section = this.findSectionById(sectionId);
+        List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
+        List<StudentGradeExtendedDTO> studentsList = new ArrayList<>();
+        StudentGradeListExtendedDTO studentGradeListDTO = new StudentGradeListExtendedDTO();
+
+        for (StudentSection studentSection : studentSections) {
+            Integer grade = studentSection.getGrade();
+            studentGradeListDTO.setDate(studentSection.getDate());
+
+            StudentGradeExtendedDTO studentDTO = new StudentGradeExtendedDTO();
+            studentDTO.setAlbum(studentSection.getStudent().getAlbum());
+            studentDTO.setName(studentSection.getStudent().getName());
+            studentDTO.setSurname(studentSection.getStudent().getSurname());
+
+            studentDTO.setGrade(grade);
+            studentsList.add(studentDTO);
+        }
+
+        studentGradeListDTO.setStudents(studentsList);
+        return studentGradeListDTO;
     }
 
     @Override
@@ -218,7 +242,7 @@ public class SectionServiceImpl implements SectionService {
         studentSections.forEach(studentSection -> {
             List<Presence> presences = studentSection.getPresences();
             presences.forEach(presence -> {
-                if(!presenceDates.contains(presence.getDate().toString())){
+                if (!presenceDates.contains(presence.getDate().toString())) {
                     presenceDates.add(presence.getDate().toString());
                 }
             });
@@ -255,15 +279,15 @@ public class SectionServiceImpl implements SectionService {
         //@TODO look down :D
         studentSections.forEach(studentSection -> {
             Student student = studentSection.getStudent();
-            for(StudentPresenceDTO s : studentPresenceListDTO.getStudents()){
-                if(s.getAlbum().equals(student.getAlbum())){
+            for (StudentPresenceDTO s : studentPresenceListDTO.getStudents()) {
+                if (s.getAlbum().equals(student.getAlbum())) {
                     Presence presence = new Presence();
                     presence.setDate(studentPresenceListDTO.getDate());
                     presence.setIsPresent(s.getPresent());
                     presence.setStudentSection(studentSection);
-                    try{
+                    try {
                         presenceRepository.save(presence);
-                    } catch (HibernateException e){
+                    } catch (HibernateException e) {
                         e.printStackTrace();
                     }
                 }
@@ -281,15 +305,15 @@ public class SectionServiceImpl implements SectionService {
         List<StudentSection> studentSections = findStudentSectionsBySection(section);
 
         //@TODO look up :D
-        for(StudentSection studentSection : studentSections){
+        for (StudentSection studentSection : studentSections) {
             Student student = studentSection.getStudent();
-            for(StudentGradeDTO s : studentGradeListDTO.getStudents()){
-                if(s.getAlbum().equals(student.getAlbum())){
+            for (StudentGradeDTO s : studentGradeListDTO.getStudents()) {
+                if (s.getAlbum().equals(student.getAlbum())) {
                     studentSection.setDate(studentGradeListDTO.getDate());
                     studentSection.setGrade(s.getGrade());
-                    try{
+                    try {
                         studentSectionRepository.save(studentSection);
-                    } catch (HibernateException e){
+                    } catch (HibernateException e) {
                         e.printStackTrace();
                         return 500;
                     }
@@ -310,11 +334,11 @@ public class SectionServiceImpl implements SectionService {
 
         List<StudentPresenceExtendedDTO> studentsList = new ArrayList<>();
 
-        for(StudentSection studentSection : studentSections){
+        for (StudentSection studentSection : studentSections) {
             List<Presence> presences = studentSection.getPresences();
 
-            for(Presence presence : presences){
-                if(presence.getDate().toString().equals(date)){
+            for (Presence presence : presences) {
+                if (presence.getDate().toString().equals(date)) {
                     StudentPresenceExtendedDTO studentDTO = new StudentPresenceExtendedDTO();
                     studentDTO.setAlbum(studentSection.getStudent().getAlbum());
                     studentDTO.setName(studentSection.getStudent().getName());
@@ -328,12 +352,12 @@ public class SectionServiceImpl implements SectionService {
 
         return studentsList;
     }
-  
+
     public Integer editStudentsInSection(AddStudentsToSectionDTO studentsToSectionDTO) {
 
         List<StudentSection> studentSectionList = new ArrayList<>();
 
-        for(Long album : studentsToSectionDTO.getStudentsAlbums()){
+        for (Long album : studentsToSectionDTO.getStudentsAlbums()) {
             StudentSection studentSection = new StudentSection();
             studentSection.setStudent(studentService.findStudentByAlbum(album));
             studentSection.setSection(this.findSectionById(studentsToSectionDTO.getSectionId()));
@@ -355,7 +379,7 @@ public class SectionServiceImpl implements SectionService {
         try {
             sectionRepository.save(section);
             return 200;
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
@@ -366,12 +390,12 @@ public class SectionServiceImpl implements SectionService {
     public Integer editSection(NewSection newSection, Long sectionID) {
 
         Section section = this.findSectionById(sectionID);
-        if(section.getName().length() < 1){
+        if (section.getName().length() < 1) {
             //section with given ID does not exist
             return 409;
         }
 
-        if(listStudentsBySectionId(sectionID).size() > newSection.getSize()){
+        if (listStudentsBySectionId(sectionID).size() > newSection.getSize()) {
             return 469;
         }
 
@@ -382,7 +406,7 @@ public class SectionServiceImpl implements SectionService {
         try {
             sectionRepository.save(section);
             return 200;
-        } catch (HibernateException he){
+        } catch (HibernateException he) {
             he.printStackTrace();
             return 500;
         }
@@ -414,9 +438,9 @@ public class SectionServiceImpl implements SectionService {
 
         List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
 
-        for(StudentSection s : studentSections){
+        for (StudentSection s : studentSections) {
             StudentDTO studentDTO = s.getStudent().convertToStudentDTO();
-            if(!students.contains(studentDTO)){
+            if (!students.contains(studentDTO)) {
                 students.add(studentDTO);
             }
         }
@@ -454,18 +478,18 @@ public class SectionServiceImpl implements SectionService {
         List<StudentSection> studentSections = this.findStudentSectionsBySection(section);
         Student student = studentService.getLoggedStudent();
 
-        for(StudentSection s : studentSections){
+        for (StudentSection s : studentSections) {
             StudentDTO studentDTO = s.getStudent().convertToStudentDTO();
-            if(!students.contains(studentDTO)){
+            if (!students.contains(studentDTO)) {
                 students.add(studentDTO);
             }
 
-            if(student.equals(s.getStudent())){
+            if (student.equals(s.getStudent())) {
                 sectionInfoForStudentDTO.setDate(s.getDate());
                 sectionInfoForStudentDTO.setGrade(s.getGrade());
 
                 List<PresenceDTO> presenceDTOList = new ArrayList<>();
-                for(Presence p : s.getPresences()){
+                for (Presence p : s.getPresences()) {
                     presenceDTOList.add(p.convertToDTO());
                 }
                 sectionInfoForStudentDTO.setPresences(presenceDTOList);

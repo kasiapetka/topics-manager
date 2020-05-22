@@ -7,8 +7,9 @@ import Input from "../../../FormElements/Input/Input";
 const modifySectionForm = (props) => {
     const classNames = "border rounded pt-4 pb-5 mt-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
     let students = <li>No students in this section.</li>, modifyMembers, issue,
-        view,sectionFinished;
+        view, sectionFinished;
     let options = <React.Fragment>
+        <option value={'O'}>Opened</option>
         <option value={'C'}>Closed</option>
         <option value={'F'}>Finished</option>
     </React.Fragment>;
@@ -33,11 +34,6 @@ const modifySectionForm = (props) => {
                 Modify Section Members</Button>
             <div className='col-md-3'></div>
         </div>
-        options = <React.Fragment>
-            <option value={'O'}>Opened</option>
-            <option value={'C'}>Closed</option>
-            <option value={'F'}>Finished</option>
-            </React.Fragment>
     } else if (props.section.state === 'C') {
         issue = <div className="form-row p-2">
             <div className='col-md-1'></div>
@@ -47,7 +43,7 @@ const modifySectionForm = (props) => {
             <Button className='col-md-4'
                     onClick={props.onIssueGrades} outline> Issue Grades</Button>
             <div className='col-md-1'></div>
-        </div>
+        </div>;
 
         view = <div className="form-row p-2">
             <div className='col-md-1'></div>
@@ -60,7 +56,9 @@ const modifySectionForm = (props) => {
         </div>
     } else if (props.section.state === 'F') {
         sectionFinished = <div className="form-row p-2">
-            <Badge className='col-md-6 p-2'>This section is finished.</Badge>;
+            <div className='col-md-3'></div>
+            <Badge className='col-md-6 p-2'>This section is finished.</Badge>
+            <div className='col-md-3'></div>
         </div>
     }
 

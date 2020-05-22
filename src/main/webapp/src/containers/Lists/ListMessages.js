@@ -11,8 +11,7 @@ import PrivateStudentRoute from "../../components/PrivateRoutes/PrivateStudentRo
 import {Button} from "reactstrap";
 import {FiRefreshCcw} from "react-icons/fi";
 import ViewMessage from "../Messages/ViewMessage";
-import ReplyMessageForm from "../../components/Messages/ReplyMessageForm";
-import handleInputChange from "../FormsPages/validateForm";
+import ReplyMessage from "../Messages/ReplyMessage";
 
 class ListMessages extends Component {
 
@@ -23,25 +22,6 @@ class ListMessages extends Component {
         mounted: false,
         type: null,
         email: null,
-        message: {
-            subject: {
-                value: '',
-                validation: {
-                    valid: false,
-                    touched: false,
-                    required: true,
-                }
-            },
-            content: {
-                value: '',
-                validation: {
-                    valid: false,
-                    touched: false,
-                    required: true,
-                }
-            },
-        },
-        formValid: false
     };
 
     getMessages = () => {
@@ -101,30 +81,6 @@ class ListMessages extends Component {
         this.props.history.push(this.props.match.url + '/reply');
     };
 
-
-    handleChange = (event) => {
-        const formProperties = handleInputChange(event, this.state.message);
-        this.setState({
-            message: formProperties.form,
-            formValid: formProperties.formValid,
-        });
-    };
-
-    onSendMessageHandler = (event) => {
-        event.preventDefault();
-        const msg = {
-            receivers: [this.state.email],
-            subject: this.state.message.subject.value,
-            content: this.state.message.content.value
-        };
-        axios.post('/api/message/send', msg).then(response => {
-            //this.props.history.push(this.props.match.url + '/reply');
-        }).catch(error => {
-            this.setState({error: error})
-        });
-    };
-
-
     render() {
         const classNames = "border rounded pt-4 pb-5 mb-4 pr-3 pl-3 " + classes.Messages;
         const error = this.state.error;
@@ -147,24 +103,11 @@ class ListMessages extends Component {
                             onClick={() => this.getMessages()}>
                         <FiRefreshCcw className="mr-1"/>Refresh</Button>
 
-                    //TODO RERENDERS EVERYTIME STATE CHANGES -> COMPONENT FOR CREATING MESSAGE?
-                    <PrivateAdminRoute exact path="/admin/messages/reply" component={() => <ReplyMessageForm
-                        message={this.state.message}
-                        formValid={this.state.formValid}
-                        onChange={this.handleChange}
-                        onSendMessage={this.onSendMessageHandler}
+                    <PrivateAdminRoute exact path="/admin/messages/reply" component={() => <ReplyMessage
                         receiver={this.state.email}/>}/>
-                    <PrivateTeacherRoute exact path="/teacher/messages/reply" component={() => <ReplyMessageForm
-                        message={this.state.message}
-                        formValid={this.state.formValid}
-                        onChange={this.handleChange}
-                        onSendMessage={this.onSendMessageHandler}
+                    <PrivateTeacherRoute exact path="/teacher/messages/reply" component={() => <ReplyMessage
                         receiver={this.state.email}/>}/>
-                    <PrivateStudentRoute exact path="/student/messages/reply" component={() => <ReplyMessageForm
-                        message={this.state.message}
-                        formValid={this.state.formValid}
-                        onChange={this.handleChange}
-                        onSendMessage={this.onSendMessageHandler}
+                    <PrivateStudentRoute exact path="/student/messages/reply" component={() => <ReplyMessage
                         receiver={this.state.email}/>}/>
 
                     <PrivateAdminRoute exact path="/admin/messages" component={() => <Messages
