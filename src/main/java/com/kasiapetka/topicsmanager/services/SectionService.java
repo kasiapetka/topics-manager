@@ -15,6 +15,8 @@ public interface SectionService {
     List<String> getDatesForSection(Long sectionID);
     List<StudentSection> findStudentSectionsBySection(Section section);
     List<StudentPresenceExtendedDTO> findStudentsInSectionByDate(Long sectionId, String date);
+    StudentGradeListExtendedDTO listGradesForStudents(Long sectionId);
+
     SectionInfoDTO getSectionInfo(Long sectionId);
     SectionInfoForStudentDTO getSectionInfoForLoggedStudent(Long sectionId);
 

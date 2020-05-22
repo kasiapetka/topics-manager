@@ -6,6 +6,7 @@ import ModifyStudentSectionForm
     from "../../../../components/Forms/FormsTemplates/SectionForms/ModifyStudentSectionForm/ModifyStudentSectionForm";
 import Modal from "../../../../components/UI/Modal/Modal";
 import ShowPresenceCard from "../../../../components/UI/Cards/ShowPresenceCard/ShowPresenceCard";
+import {withRouter} from "react-router-dom";
 
 class ModifyStudentSection extends Component {
 
@@ -86,10 +87,7 @@ class ModifyStudentSection extends Component {
     leaveSectionHandler = () => {
         this.setState({loading: true});
         axios.put('/api/student/' + this.state.section.id + '/leave').then(response => {
-            this.setState({
-                loading: false,
-                membersChanged: true
-            });
+            this.props.history.replace('/student/sections');
         }).catch(error => {
             this.setState({
                 error: error,
@@ -148,4 +146,4 @@ class ModifyStudentSection extends Component {
     }
 }
 
-export default ModifyStudentSection;
+export default withRouter(ModifyStudentSection);

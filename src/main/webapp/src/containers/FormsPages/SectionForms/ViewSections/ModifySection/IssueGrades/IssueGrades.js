@@ -27,6 +27,16 @@ class IssuePresence extends Component {
         error: null
     };
 
+    componentDidMount() {
+        const students = [...this.state.students];
+        students.forEach(student => {
+            student.grade = this.state.finalGrade;
+        });
+        this.setState({
+            students: students
+        })
+    }
+
     onGradeChangeHandler = (event, index) => {
         const students = [...this.state.students];
         students[index].grade = event.target.value;

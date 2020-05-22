@@ -50,6 +50,11 @@ public class AdminTeacherCommonsController {
         return sectionService.listStudentsBySectionId(sectionID);
     }
 
+    @GetMapping("/api/adminteacher/sections/{sectionID}/grades")
+    StudentGradeListExtendedDTO listGradesInSection(@PathVariable Long sectionID){
+        return sectionService.listGradesForStudents(sectionID);
+    }
+
     @GetMapping("/api/adminteacher/topics/{subjectID}")
     List<Topic> listTopicsInSubject(@PathVariable Long subjectID){
         return topicService.getTopicsListBySubjectID(subjectID);

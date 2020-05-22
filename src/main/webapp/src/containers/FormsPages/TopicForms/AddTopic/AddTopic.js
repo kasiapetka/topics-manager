@@ -45,7 +45,7 @@ class AddTopic extends Component {
     componentDidMount() {
         let path;
         if(auth.getRole() === 'A') path='/api/admin/subjects';
-        if(auth.getRole() === 'T') path='/api/teacher/subjects/'+auth.getId();
+        if(auth.getRole() === 'T') path='/api/adminteacher/subjects/'+auth.getId();
 
         axios.get(path).then(response => {
             let subjects = [...response.data];

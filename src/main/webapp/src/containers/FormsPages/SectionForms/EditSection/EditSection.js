@@ -3,6 +3,7 @@ import EditSectionForm from "../../../../components/Forms/FormsTemplates/Section
 import axios from "axios";
 import {Alert} from "reactstrap";
 import Spinner from "../../../../components/UI/Spinner/Spinner";
+import Modal from "../../../../components/UI/Modal/Modal";
 
 class EditSection extends Component {
     state = {
@@ -12,6 +13,7 @@ class EditSection extends Component {
         loading: false,
         error: null,
         formTouched: false,
+        changed: false,
         oversize: false
     };
 
@@ -55,10 +57,10 @@ class EditSection extends Component {
             size: this.state.section.size,
             state: this.state.section.state
         };
-
+        this.setState({loading: true});
         axios.put('/api/adminteacher/sections/section/' + section.id + '/edit', section)
             .then(response => {
-
+                this.setState({changed: true, loading: false})
             })
             .catch(error => {
                 if (error.response.status === 469) {
@@ -66,6 +68,7 @@ class EditSection extends Component {
                     section.size = section.sizeOfSection;
                     this.setState({
                         oversize: true,
+                        loading: false,
                         section: section
                     })
                 } else {
@@ -77,11 +80,23 @@ class EditSection extends Component {
             });
     };
 
+    showChangedInfoHandler=()=>{
+        this.setState((prevState) => {
+            return {
+                changed: !prevState.changed
+            }
+        });
+    };
+
     render() {
         const section = this.state.section;
         const loading = this.state.loading;
         const error = this.state.error;
-
+        let modal;
+        if (this.state.changed) {
+            modal = <Modal show={this.state.changed}
+                           modalClosed={this.showChangedInfoHandler}>Changes Saved!</Modal>
+        }
         if (error) {
             return <Alert color="danger">
                 Server Error, Please Try Again. <br/>
@@ -91,6 +106,7 @@ class EditSection extends Component {
             return <Spinner/>;
         } else if (section) {
             return (<React.Fragment>
+                    {modal}
                     <EditSectionForm
                         section={section}
                         oversize={this.state.oversize}
@@ -102,7 +118,6 @@ class EditSection extends Component {
                 </React.Fragment>
             )
         }
-
         return (<p>Something went wrong.</p>);
     }
 }

@@ -25,6 +25,7 @@ class ModifySection extends Component {
         modifyMembers: false,
         loading: false,
         dates: null,
+        grades: null,
         error: null
     };
 
@@ -37,17 +38,20 @@ class ModifySection extends Component {
             axios.all([
                 axios.get('/api/common/sections/section/' + sectionId),
                 axios.get('/api/adminteacher/sections/' + sectionId + '/dates'),
+                axios.get('/api/adminteacher/sections/' + sectionId + '/grades'),
                 axios.get('/api/adminteacher/students/' + sectionId + '/members')
             ])
-                .then(axios.spread((sectionResponse, datesResponse, membersResponse) => {
+                .then(axios.spread((sectionResponse, datesResponse, gradesResponse,membersResponse) => {
                     const section = {...sectionResponse.data};
                     section.size = section.sizeOfSection;
-                    let dates = [...datesResponse.data];
+                    const dates = [...datesResponse.data];
+                    const  grades =  gradesResponse.data;
                     const students = [...membersResponse.data];
                     students.forEach(student => student.present = true);
                     this.setState({
                         section: section,
                         dates: dates,
+                        grades:grades,
                         students: students,
                         modifiedStudents: students,
                         loading: false
@@ -146,9 +150,9 @@ class ModifySection extends Component {
     };
 
     onViewPresenceHandler = () => {
+        this.setState( {loading: true});
         axios.get('/api/adminteacher/sections/' + this.state.section.id + '/dates').then(response => {
             let dates = [...response.data];
-            console.log(dates)
             this.setState({
                 dates: dates,
                 loading: false
@@ -167,6 +171,20 @@ class ModifySection extends Component {
     };
 
     onViewGradesHandler = () => {
+        this.setState( {loading: true});
+        axios.get('/api/adminteacher/sections/' + this.state.section.id + '/grades')
+            .then(response=>{
+                const grades = response.data;
+                this.setState({
+                    grades: grades,
+                    loading: false
+                })
+            }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false
+            })
+        });
         this.props.history.push(this.props.match.url + '/viewgrades');
     };
 
@@ -235,15 +253,11 @@ class ModifySection extends Component {
                                                                        {...this.props}/>}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id/viewgrades"
-                                       component={() => <ViewGradesForm
-                                           date={this.state.date}
-                                           students={this.state.students}
+                                       component={() => <ViewGradesForm grades={this.state.grades}
                                        />}/>
 
                     <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id/viewgrades"
-                                         component={() => <ViewGradesForm
-                                             date={this.state.date}
-                                             students={this.state.students}
+                                         component={() => <ViewGradesForm grades={this.state.grades}
                                          />}/>
 
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id"
