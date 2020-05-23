@@ -32,7 +32,7 @@ public class StudentSection {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @OneToMany(mappedBy = "studentSection")
+    @OneToMany(mappedBy = "studentSection", cascade = {CascadeType.ALL})
     private List<Presence> presences;
 
 }
