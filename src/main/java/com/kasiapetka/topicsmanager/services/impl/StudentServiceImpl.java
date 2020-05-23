@@ -29,7 +29,7 @@ public class StudentServiceImpl implements StudentService {
     protected UserService userService;
     protected SemesterService semesterService;
     protected RoleService roleService;
-//    private SectionService sectionService;
+    //    private SectionService sectionService;
     private StudentSectionRepository studentSectionRepository;
     private SectionRepository sectionRepository;
 
@@ -51,7 +51,7 @@ public class StudentServiceImpl implements StudentService {
         return sectionRepository.findById(id).orElse(new Section());
     }
 
-    public Student getLoggedStudent(){
+    public Student getLoggedStudent() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         Student student = this.findStudentByUser(user);
@@ -106,7 +106,7 @@ public class StudentServiceImpl implements StudentService {
 
         User user = userService.findUserByEmail(studentOrTeacherDTO.getNewEmail());
 
-        if(user != null){
+        if (user != null) {
             return 409;
         }
 
@@ -171,11 +171,11 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> listActiveStudentsBySemester(Integer semesterNumber) {
         List<Student> studentList = this.listActiveStudents();
         List<Student> studentsFromThisSemester = new ArrayList<>();
-        for(Student student : studentList){
+        for (Student student : studentList) {
             List<Semester> semesterList = student.getSemesters();
-            for(Semester semester : semesterList){
-                if((semester.getSemester() == semesterNumber) &&
-                        (semester.getYear().equals(semesterService.getCurrentYear()))){
+            for (Semester semester : semesterList) {
+                if ((semester.getSemester() == semesterNumber) &&
+                        (semester.getYear().equals(semesterService.getCurrentYear()))) {
                     studentsFromThisSemester.add(student);
                 }
             }
@@ -190,8 +190,8 @@ public class StudentServiceImpl implements StudentService {
 
         Student student = this.getLoggedStudent();
 
-        for(StudentSection s : section.getStudentSections()){
-            if(s.getStudent().getAlbum().equals(student.getAlbum())){
+        for (StudentSection s : section.getStudentSections()) {
+            if (s.getStudent().getAlbum().equals(student.getAlbum())) {
                 return true;
             }
         }
@@ -209,8 +209,8 @@ public class StudentServiceImpl implements StudentService {
 
         List<Section> sections = new ArrayList<>();
 
-        for(StudentSection studentSection : studentSections){
-            if(!sections.contains(studentSection.getSection())){
+        for (StudentSection studentSection : studentSections) {
+            if (!sections.contains(studentSection.getSection())) {
                 sections.add(studentSection.getSection());
             }
         }
@@ -229,20 +229,24 @@ public class StudentServiceImpl implements StudentService {
 
         StudentSection studentSection = studentSectionRepository.findBySectionAndStudent(section, student).orElse(null);
 
-        if(!studentSections.contains(studentSection)){
-            if(!(section.getSizeOfSection() <= (section.getStudentSections().size()))){
-                StudentSection s = new StudentSection();
-                s.setStudent(student);
-                s.setSection(section);
+        if (!checkJoin(student.getAlbum(), sectionId)) {
+            return 409;
+        }
+        if (!studentSections.contains(studentSection)) {
+            if (!(section.getSizeOfSection() <= (section.getStudentSections().size()))) {
+                if (section.getState().equals('O')) {
+                    StudentSection s = new StudentSection();
+                    s.setStudent(student);
+                    s.setSection(section);
 
-                try{
-                    studentSectionRepository.save(s);
-                } catch (HibernateException e){
-                    e.printStackTrace();
-                    return 500;
+                    try {
+                        studentSectionRepository.save(s);
+                    } catch (HibernateException e) {
+                        e.printStackTrace();
+                        return 500;
+                    }
                 }
             }
-
             return 200;
 
         } else {
@@ -261,14 +265,14 @@ public class StudentServiceImpl implements StudentService {
 
         StudentSection studentSection = studentSectionRepository.findBySectionAndStudent(section, student).orElse(null);
 
-        if(studentSections.contains(studentSection)){
+        if (studentSections.contains(studentSection)) {
             studentSections.remove(studentSection);
             section.setStudentSections(studentSections);
 
-            try{
+            try {
                 studentSectionRepository.delete(studentSection);
                 sectionRepository.save(section);
-            } catch (HibernateException e){
+            } catch (HibernateException e) {
                 e.printStackTrace();
                 return 500;
             }
@@ -277,6 +281,19 @@ public class StudentServiceImpl implements StudentService {
         } else {
             return 500;
         }
+    }
+
+    @Override
+    public Boolean checkJoin(Long studentID, Long sectionID) {
+        List<StudentSection> studentSectionList = this.findStudentByAlbum(studentID).getStudentSection();
+        Section section = this.findSectionById(sectionID);
+
+        for (StudentSection studentSection : studentSectionList) {
+            if (studentSection.getSection().getTopic().getSubject().equals(section.getTopic().getSubject())) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
