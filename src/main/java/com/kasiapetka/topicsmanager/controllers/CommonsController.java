@@ -54,12 +54,12 @@ public class CommonsController {
         return sectionService.listStudentsBySectionId(sectionID);
     }
 
-    @GetMapping("/api/common/sections/{sectionID}/student/{email}/checkjoin")
-    ResponseEntity<?> checkJoin(@PathVariable(name = "sectionID") Long sectionID, @PathVariable(name = "email") String email){
+    @GetMapping("/api/common/sections/{sectionID}/student/{studentID}/checkjoin")
+    ResponseEntity<?> checkJoin(@PathVariable(name = "sectionID") Long sectionID, @PathVariable(name = "studentID") Long studentID){
         Integer responseCode;
         String conflictSection = "";
 
-        if(studentService.checkJoin(email, sectionID)){
+        if(studentService.checkJoin(studentID, sectionID)){
             responseCode = 200;
         } else {
             responseCode = 409;
