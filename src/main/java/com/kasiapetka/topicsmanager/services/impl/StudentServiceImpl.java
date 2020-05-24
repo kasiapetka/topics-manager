@@ -229,9 +229,6 @@ public class StudentServiceImpl implements StudentService {
 
         StudentSection studentSection = studentSectionRepository.findBySectionAndStudent(section, student).orElse(null);
 
-        if (!checkJoin(student.getAlbum(), sectionId)) {
-            return 409;
-        }
         if (!studentSections.contains(studentSection)) {
             if (!(section.getSizeOfSection() <= (section.getStudentSections().size()))) {
                 if (section.getState().equals('O')) {
@@ -284,8 +281,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean checkJoin(Long studentID, Long sectionID) {
-        List<StudentSection> studentSectionList = this.findStudentByAlbum(studentID).getStudentSection();
+    public Boolean checkJoin(String email, Long sectionID) {
+        List<StudentSection> studentSectionList = this.findStudentByUser(userService.findUserByEmail(email)).getStudentSection();
         Section section = this.findSectionById(sectionID);
 
         for (StudentSection studentSection : studentSectionList) {

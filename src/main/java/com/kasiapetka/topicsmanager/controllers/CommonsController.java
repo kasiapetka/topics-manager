@@ -54,6 +54,22 @@ public class CommonsController {
         return sectionService.listStudentsBySectionId(sectionID);
     }
 
+    @GetMapping("/api/common/sections/{sectionID}/student/{email}/checkjoin")
+    ResponseEntity<?> checkJoin(@PathVariable(name = "sectionID") Long sectionID, @PathVariable(name = "email") String email){
+        Integer responseCode;
+        String conflictSection = "";
+
+        if(studentService.checkJoin(email, sectionID)){
+            responseCode = 200;
+        } else {
+            responseCode = 409;
+
+            Section section = sectionService.findSectionById(sectionID);
+            conflictSection = section.getName() + ' ' + section.getTopic().getName() + ' ' + section.getTopic().getSubject().getName();
+        }
+        return ResponseEntity.status(responseCode).body(conflictSection);
+    }
+
     //POSTs
 
 
