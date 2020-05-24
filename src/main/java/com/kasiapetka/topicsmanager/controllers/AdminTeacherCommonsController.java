@@ -1,6 +1,7 @@
 package com.kasiapetka.topicsmanager.controllers;
 
 import com.kasiapetka.topicsmanager.DTO.*;
+import com.kasiapetka.topicsmanager.model.Message;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.Subject;
 import com.kasiapetka.topicsmanager.model.Topic;
@@ -160,6 +161,12 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
+    @PutMapping("/api/adminteacher/sections/conflictmessage/")
+    ResponseEntity<?> sectionConflictMessage(){
+        Message message = new Message();
+
+
+    }
 
 
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")
