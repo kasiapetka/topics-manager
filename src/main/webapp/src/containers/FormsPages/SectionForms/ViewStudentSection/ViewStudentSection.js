@@ -98,9 +98,9 @@ class ViewStudentSection extends Component {
 
     checkIfMemberHandler = () => {
         this.setState({loading: true});
-        axios.put('/api/common/sections/' + this.state.section.id + '/student/' +
-            auth.parseJwt(auth.getToken()).sub + '/checkjoin').then(response => {
-            this.setState({loading: false,});
+        axios.get('/api/common/sections/' + this.state.section.id + '/student/' +
+            auth.getId() + '/checkjoin').then(response => {
+            this.setState({loading: false});
             this.joinSectionHandler();
         }).catch(error => {
             if (error.response.status === 409) {

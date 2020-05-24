@@ -92,14 +92,11 @@ class ModifySection extends Component {
         }
     };
 
-    checkJoinToSectionHandler = (email) => {
-        this.setState({loading: true});
-        axios.put('/api/common/sections/' + this.state.section.id + '/student/' +
-            email + '/checkjoin').then(response => {
-            this.setState({loading: false,});
+    checkJoinToSectionHandler = (album) => {
+        axios.get('/api/common/sections/' + this.state.section.id + '/student/' +
+            album + '/checkjoin').then(response => {
             return true;
         }).catch(error => {
-            this.setState({loading: false,});
             return false;
         })
     };

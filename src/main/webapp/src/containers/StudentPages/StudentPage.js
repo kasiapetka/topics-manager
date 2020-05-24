@@ -4,6 +4,7 @@ import StudentPageElements from "../../components/Pages/StudentPages/StudentPage
 import {Alert} from "reactstrap";
 import axios from 'axios'
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer";
+import auth from "../../Auth";
 
 class StudentPage extends Component {
 
@@ -17,6 +18,7 @@ class StudentPage extends Component {
 
         axios.get('/api/student/info').then(response => {
                 let student = {...response.data};
+                auth.saveId(student.album);
                 this.setState({student: student})
         })
             .catch(error => {

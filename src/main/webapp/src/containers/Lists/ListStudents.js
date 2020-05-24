@@ -7,7 +7,6 @@ import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
 import Modal from "../../components/UI/Modal/Modal";
-import SignOutOfSectionCard from "../../components/UI/Cards/SignOutOfSectionCard/SignOutOfSectionCard";
 import StudentAlreadyInSectionCard
     from "../../components/UI/Cards/StudentAlreadyInSectionCard/StudentAlreadyInSectionCard";
 
@@ -146,7 +145,7 @@ class ListStudents extends Component {
     };
 
     addToSectionHandler = (student) => {
-        if (this.props.checkJoin(student.email)){
+        if (this.props.checkJoin(student.album) === true){
             let size = this.state.studentsInSection;
             size = size + 1;
             if (size >= this.props.sectionSize) {
@@ -156,11 +155,12 @@ class ListStudents extends Component {
             }
             this.setState({studentsInSection: size});
             this.props.addToSection(student);
+            return true;
         }
         else {
             this.setState({sendMessage: true});
+            return false;
         }
-
     };
 
     removeFromSectionHandler = (student) => {

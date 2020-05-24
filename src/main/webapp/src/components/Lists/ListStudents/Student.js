@@ -20,9 +20,10 @@ const Student = (props) => {
     if (!props.oversize && props.sectionCreation && addStudentToSection && !props.isInSection) {
         addButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button className="d-inline-block" onClick={() => {
-                setRemoveStudentFromSection(true);
-                setAddStudentToSection(false);
-                props.addToSection()
+                if(props.addToSection()===true){
+                    setRemoveStudentFromSection(true);
+                    setAddStudentToSection(false);
+                }
             }}>Add</Button></Col>
         </Row>
     }
