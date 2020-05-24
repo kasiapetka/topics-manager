@@ -21,7 +21,7 @@ public interface StudentService {
 //    void changePassword(Student student, String newPassword);
     Integer joinSection(Long sectionId);
     Integer leaveSection(Long sectionId);
-    Boolean checkJoin(String email, Long sectionID);
+    Boolean checkJoin(Long studentID, Long sectionID);
     void changeName(Student student, String name);
     void changeSurname(Student student, String surname);
     Boolean deleteStudent(Long album);
