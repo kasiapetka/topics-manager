@@ -41,17 +41,17 @@ class ModifySection extends Component {
                 axios.get('/api/adminteacher/sections/' + sectionId + '/grades'),
                 axios.get('/api/adminteacher/students/' + sectionId + '/members')
             ])
-                .then(axios.spread((sectionResponse, datesResponse, gradesResponse,membersResponse) => {
+                .then(axios.spread((sectionResponse, datesResponse, gradesResponse, membersResponse) => {
                     const section = {...sectionResponse.data};
                     section.size = section.sizeOfSection;
                     const dates = [...datesResponse.data];
-                    const  grades =  gradesResponse.data;
+                    const grades = gradesResponse.data;
                     const students = [...membersResponse.data];
                     students.forEach(student => student.present = true);
                     this.setState({
                         section: section,
                         dates: dates,
-                        grades:grades,
+                        grades: grades,
                         students: students,
                         modifiedStudents: students,
                         loading: false
@@ -90,6 +90,18 @@ class ModifySection extends Component {
                 })
             })
         }
+    };
+
+    checkJoinToSectionHandler = (email) => {
+        this.setState({loading: true});
+        axios.put('/api/common/sections/' + this.state.section.id + '/student/' +
+            email + '/checkjoin').then(response => {
+            this.setState({loading: false,});
+            return true;
+        }).catch(error => {
+            this.setState({loading: false,});
+            return false;
+        })
     };
 
     addStudentToSectionHandler = (student) => {
@@ -150,7 +162,7 @@ class ModifySection extends Component {
     };
 
     onViewPresenceHandler = () => {
-        this.setState( {loading: true});
+        this.setState({loading: true});
         axios.get('/api/adminteacher/sections/' + this.state.section.id + '/dates').then(response => {
             let dates = [...response.data];
             this.setState({
@@ -171,9 +183,9 @@ class ModifySection extends Component {
     };
 
     onViewGradesHandler = () => {
-        this.setState( {loading: true});
+        this.setState({loading: true});
         axios.get('/api/adminteacher/sections/' + this.state.section.id + '/grades')
-            .then(response=>{
+            .then(response => {
                 const grades = response.data;
                 this.setState({
                     grades: grades,
@@ -213,6 +225,7 @@ class ModifySection extends Component {
         } else if (section && this._isMounted) {
             if (this.state.modifyMembers) {
                 content = <AddStudentToSectionForm
+                    checkJoin={this.checkJoinToSectionHandler}
                     cancelOption={true}
                     cancelOptionHandler={this.onModifyMembersHandler}
                     addToSection={this.addStudentToSectionHandler}

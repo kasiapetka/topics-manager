@@ -24,7 +24,9 @@ const viewStudentSectionForm = (props) => {
         if(props.isInSection){
             join = <Button className='col-md-6' onClick={props.leaveSection}
                            color='danger'>Leave section</Button>
-        } else if(!props.isInSection && (props.section.sizeOfSection > props.students.length)){
+        } else if(!props.isInSection
+            && (props.section.sizeOfSection > props.students.length)
+            && props.section.state === 'O'){
              join = <Button className='col-md-6' onClick={props.joinSection}
                           color='success'>Join section</Button>
         }

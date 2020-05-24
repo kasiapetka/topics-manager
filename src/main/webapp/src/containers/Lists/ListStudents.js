@@ -6,6 +6,10 @@ import PersonsContext from "../../context/listPersonsContext";
 import {Alert} from "reactstrap";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import PickSemesterInput from "../../components/Lists/PickSemesterInput/PickSemesterInput";
+import Modal from "../../components/UI/Modal/Modal";
+import SignOutOfSectionCard from "../../components/UI/Cards/SignOutOfSectionCard/SignOutOfSectionCard";
+import StudentAlreadyInSectionCard
+    from "../../components/UI/Cards/StudentAlreadyInSectionCard/StudentAlreadyInSectionCard";
 
 class ListStudents extends Component {
 
@@ -26,7 +30,8 @@ class ListStudents extends Component {
             sectionCreation: this.props.addStudentToSection ? this.props.addStudentToSection : false,
             studentsAlreadyInSection: this.props.studentsInSection ? Array.from(this.props.studentsInSection) : false,
             studentsInSection: 0,
-            editSectionMembers: false
+            editSectionMembers: false,
+            sendMessage: false
         };
     }
 
@@ -141,15 +146,21 @@ class ListStudents extends Component {
     };
 
     addToSectionHandler = (student) => {
-        let size = this.state.studentsInSection;
-        size = size + 1;
-        if (size >= this.props.sectionSize) {
-            this.setState({
-                oversize: true,
-            });
+        if (this.props.checkJoin(student.email)){
+            let size = this.state.studentsInSection;
+            size = size + 1;
+            if (size >= this.props.sectionSize) {
+                this.setState({
+                    oversize: true,
+                });
+            }
+            this.setState({studentsInSection: size});
+            this.props.addToSection(student);
         }
-        this.setState({studentsInSection: size});
-        this.props.addToSection(student);
+        else {
+            this.setState({sendMessage: true});
+        }
+
     };
 
     removeFromSectionHandler = (student) => {
@@ -165,9 +176,31 @@ class ListStudents extends Component {
         this.props.removeFromSection(student);
     };
 
+    studentAlreadyInSectionHandler=()=>{
+        this.setState((prevState) => {
+            return {
+                sendMessage: !prevState.sendMessage
+            }
+        });
+    };
+
+    sendMessageHandler=()=>{
+        this.setState({sendMessage: false});
+        alert('wyslij mesydz')
+    };
+
     render() {
         const error = this.state.error;
         let list, sem;
+        let modal;
+        if (this.state.sendMessage) {
+            modal = <Modal show={this.state.sendMessage}
+                           modalClosed={this.studentAlreadyInSectionHandler}>
+                <StudentAlreadyInSectionCard
+                    sectionInfo={this.state.sendMessage}
+                    sendMessage={this.sendMessageHandler}
+                    cancel={this.studentAlreadyInSectionHandler}/></Modal>
+        }
         if (!this.state.sectionCreation) {
             sem = <PickSemesterInput
                 semester={this.state.semester}
@@ -187,6 +220,7 @@ class ListStudents extends Component {
             list = (
                 <React.Fragment>
                     {sem}
+                    {modal}
                     <PersonsContext.Provider
                         value={{
                             persons: this.state.studentsFiltered,

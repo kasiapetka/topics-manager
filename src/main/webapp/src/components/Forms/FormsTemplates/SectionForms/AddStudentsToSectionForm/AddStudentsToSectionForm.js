@@ -33,6 +33,7 @@ const addStudentToSectionForm = (props) => {
             <ListStudents
                 studentsInSection = {props.students}
                 addStudentToSection={true}
+                checkJoin={props.checkJoin}
                 addToSection={props.addToSection}
                 removeFromSection={props.removeFromSection}
                 sectionSize={props.section.size}
