@@ -161,12 +161,12 @@ public class AdminTeacherCommonsController {
         return ResponseEntity.status(responseCode).build();
     }
 
-    @PutMapping("/api/adminteacher/sections/conflictmessage/")
-    ResponseEntity<?> sectionConflictMessage(){
-        Message message = new Message();
-
-
-    }
+//    @PutMapping("/api/adminteacher/sections/conflictmessage/")
+//    ResponseEntity<?> sectionConflictMessage(){
+//        Message message = new Message();
+//
+//
+//    }
 
 
 //    @GetMapping("/api/adminteacher/topics/{subjectID}")

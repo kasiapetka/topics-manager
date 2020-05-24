@@ -281,8 +281,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean checkJoin(String email, Long sectionID) {
-        List<StudentSection> studentSectionList = this.findStudentByUser(userService.findUserByEmail(email)).getStudentSection();
+    public Boolean checkJoin(Long studentID, Long sectionID) {
+        List<StudentSection> studentSectionList = this.findStudentByAlbum(studentID).getStudentSection();
         Section section = this.findSectionById(sectionID);
 
         for (StudentSection studentSection : studentSectionList) {
