@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] WHITELIST = {
             "/h2-console/**",
-//            "/**"
+            "/**"
     };
 
     //@Value("${spring.queries.users-query}")
