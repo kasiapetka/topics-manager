@@ -26,7 +26,7 @@ class ModifySection extends Component {
         loading: false,
         dates: null,
         grades: null,
-        error: null
+        error: null,
     };
 
     componentDidMount() {
@@ -90,15 +90,6 @@ class ModifySection extends Component {
                 })
             })
         }
-    };
-
-    checkJoinToSectionHandler = (album) => {
-        axios.get('/api/common/sections/' + this.state.section.id + '/student/' +
-            album + '/checkjoin').then(response => {
-            return true;
-        }).catch(error => {
-            return false;
-        })
     };
 
     addStudentToSectionHandler = (student) => {
@@ -222,7 +213,6 @@ class ModifySection extends Component {
         } else if (section && this._isMounted) {
             if (this.state.modifyMembers) {
                 content = <AddStudentToSectionForm
-                    checkJoin={this.checkJoinToSectionHandler}
                     cancelOption={true}
                     cancelOptionHandler={this.onModifyMembersHandler}
                     addToSection={this.addStudentToSectionHandler}

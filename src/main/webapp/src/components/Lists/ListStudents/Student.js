@@ -8,11 +8,11 @@ const Student = (props) => {
     const [removeStudentFromSection, setRemoveStudentFromSection] = useState(false);
     const [addStudentToSection, setAddStudentToSection] = useState(true);
 
-    let adminControls, addButton, removeButton,studentOnOtherSem;
+    let adminControls, addButton, removeButton, studentOnOtherSem, messageInfoButton;
     if (auth.getRole() === 'A' && (!props.sectionCreation)) {
         adminControls = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Link to={"/admin/edit"}><Button className="d-inline-block"
-                                                onClick={props.edit}>Edit</Button></Link></Col>
+                                                  onClick={props.edit}>Edit</Button></Link></Col>
             <Col><Button className="d-inline-block" onClick={props.delete} outline
                          color="danger">Delete</Button></Col>
         </Row>
@@ -20,10 +20,9 @@ const Student = (props) => {
     if (!props.oversize && props.sectionCreation && addStudentToSection && !props.isInSection) {
         addButton = <Row className="pt-2 pb-3 mr-0 ml-0">
             <Col><Button className="d-inline-block" onClick={() => {
-                if(props.addToSection()===true){
-                    setRemoveStudentFromSection(true);
-                    setAddStudentToSection(false);
-                }
+                props.addToSection();
+                setRemoveStudentFromSection(true);
+                setAddStudentToSection(false);
             }}>Add</Button></Col>
         </Row>
     }
@@ -36,12 +35,27 @@ const Student = (props) => {
             }}>Remove</Button></Col>
         </Row>
     }
-    if(props.editSectionMembers){
-        if(!props.isOnSem){
-            studentOnOtherSem =  <Row className="pt-2 pb-3 mr-0 ml-0">
+    if (props.editSectionMembers) {
+        if (!props.isOnSem) {
+            studentOnOtherSem = <Row className="pt-2 pb-3 mr-0 ml-0">
                 <Col><p>Student is on other semester.</p></Col>
             </Row>;
         }
+    }
+
+    if (props.showMessageInfo) {
+        removeButton = null;
+        addButton = null;
+        messageInfoButton = <React.Fragment>
+            <Row className="pt-2 pb-3 mr-0 ml-0">
+                <Col><p>Student is already in section in this subject.</p></Col>
+            </Row>
+            <Row className="pt-2 pb-3 mr-0 ml-0">
+                <Col><Button className="d-inline-block" color="info" onClick={() => {
+                    props.addToSection();
+                }}>Send Message</Button></Col>
+            </Row>
+        </React.Fragment>
     }
 
     return (
@@ -57,6 +71,7 @@ const Student = (props) => {
             {studentOnOtherSem}
             {adminControls}
             {addButton}
+            {messageInfoButton}
             {removeButton}
         </div>
     )
