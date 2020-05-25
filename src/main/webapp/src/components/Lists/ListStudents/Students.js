@@ -17,6 +17,8 @@ const Students = (props) => {
                 email={student.user ? student.user.email : "No Account"}
                 album={student.album}
                 key={student.album}
+                showMessageInfo={student.showMessageInfo}
+                messageSent={student.messageSent}
                 edit={() => studentsContext.edit(index)}
                 delete={() => studentsContext.delete(index)}
                 isInSection={student.isInSection}

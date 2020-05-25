@@ -30,7 +30,8 @@ class ListStudents extends Component {
             studentsAlreadyInSection: this.props.studentsInSection ? Array.from(this.props.studentsInSection) : false,
             studentsInSection: 0,
             editSectionMembers: false,
-            sendMessage: false
+            sendMessage: false,
+            studentToSendMessage: null
         };
     }
 
@@ -145,22 +146,27 @@ class ListStudents extends Component {
     };
 
     addToSectionHandler = (student) => {
-        if (this.props.checkJoin(student.album) === true){
-            let size = this.state.studentsInSection;
-            size = size + 1;
-            if (size >= this.props.sectionSize) {
-                this.setState({
-                    oversize: true,
-                });
-            }
-            this.setState({studentsInSection: size});
+        let size = this.state.studentsInSection;
+        size = size + 1;
+        if (size >= this.props.sectionSize) {
+            this.setState({
+                oversize: true,
+            });
+        }
+        this.setState({studentsInSection: size});
+        axios.get(' /api/common/sections/' + this.props.sectionId + '/student/'+
+            student.album+'/checkjoin').then(response => {
             this.props.addToSection(student);
             return true;
-        }
-        else {
-            this.setState({sendMessage: true});
+        }).catch(error => {
+            student.showMessageInfo = true;
+            this.removeFromSectionHandler(student);
+            this.setState({
+                sendMessage: true,
+                studentToSendMessage: student
+            });
             return false;
-        }
+        })
     };
 
     removeFromSectionHandler = (student) => {
@@ -186,6 +192,10 @@ class ListStudents extends Component {
 
     sendMessageHandler=()=>{
         this.setState({sendMessage: false});
+        // const student = this.state.studentsFiltered.filter(student =>
+        //     student.album === this.state.studentToSendMessage.album);
+        // student.messageSent = true;
+
         alert('wyslij mesydz')
     };
 

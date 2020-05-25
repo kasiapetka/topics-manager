@@ -20,7 +20,8 @@ class ModifyStudentSection extends Component {
         mounted: false,
         membersChanged: false,
         showPresence: false,
-        presences: null
+        presences: null,
+        file: null,
     };
 
     getSectionInfo = () => {
@@ -105,6 +106,34 @@ class ModifyStudentSection extends Component {
         });
     };
 
+    fileChangedHandler=(event)=>{
+        let file = event.target.files[0];
+        this.setState({
+            file: file,
+        });
+    };
+
+    fileUploadHandler=()=>{
+        const formData = new FormData();
+        let fileSize = this.state.file.size;
+        fileSize = fileSize/(1024 *1024);
+        if(fileSize > 50){
+            alert('File too big! Max size is 50MB. Your is: '+
+                fileSize.toFixed(2)+'MB.');
+            this.setState({
+                file: null,
+            });
+        }else{
+            formData.append(
+                "myFile",
+                this.state.file,
+                this.state.file.name
+            );
+            console.log(this.state.file);
+            //axios.post("api/uploadfile", formData);
+        }
+    };
+
     render() {
         const section = this.state.section;
         const loading = this.state.loading;
@@ -131,6 +160,8 @@ class ModifyStudentSection extends Component {
         if (section) {
             content = <ModifyStudentSectionForm
                 isInSection={this.state.isInSection}
+                fileChanged={this.fileChangedHandler}
+                fileUpload={this.fileUploadHandler}
                 leaveSection={this.leaveSectionHandler}
                 teacher={this.state.teacher}
                 students={this.state.students}

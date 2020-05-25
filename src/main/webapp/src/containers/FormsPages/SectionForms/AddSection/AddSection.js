@@ -205,19 +205,9 @@ class AddSection extends Component {
         })
     };
 
-    checkJoinToSectionHandler=(album)=>{
-        axios.get(' /api/common/sections/' + this.state.section.id + '/student/'+
-            album+'/checkjoin').then(response => {
-            return true;
-        }).catch(error => {
-            return false;
-        })
-    };
-
     addStudentToSectionHandler = (student) => {
         let students = this.state.students ? [...this.state.students] : [];
         students.push(student);
-
         this.setState({students: students})
     };
 
@@ -290,7 +280,6 @@ class AddSection extends Component {
                 removeFromSection={this.removeStudentFromSectionHandler}
                 students={this.state.students}
                 onSubmit={this.onStudentsAdditionHandler}
-                checkJoin={this.checkJoinToSectionHandler}
                 section={this.state.section}/>
         } else {
             content = <AddedSectionCard
