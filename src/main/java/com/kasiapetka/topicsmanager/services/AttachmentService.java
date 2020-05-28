@@ -13,4 +13,5 @@ public interface AttachmentService {
     Integer storeFile(MultipartFile file, Section section, Student student);
     Attachment getFile(String fileId);
     List<AttachmentDTO> getFilesForSection(Section section);
+    Integer deleteFile(String fileId);
 }

@@ -1,13 +1,11 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.JoinSectionMessageDTO;
 import com.kasiapetka.topicsmanager.DTO.MessageDTO;
 import com.kasiapetka.topicsmanager.DTO.SendMessageDTO;
-import com.kasiapetka.topicsmanager.model.Message;
+import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.User;
-import com.kasiapetka.topicsmanager.services.MessageService;
-import com.kasiapetka.topicsmanager.services.StudentService;
-import com.kasiapetka.topicsmanager.services.TeacherService;
-import com.kasiapetka.topicsmanager.services.UserService;
+import com.kasiapetka.topicsmanager.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,13 +21,15 @@ public class MessageControler {
     UserService userService;
     StudentService studentService;
     TeacherService teacherService;
+    SectionService sectionService;
 
     public MessageControler(MessageService messageService, UserService userService, StudentService studentService,
-                            TeacherService teacherService) {
+                            TeacherService teacherService, SectionService sectionService) {
         this.messageService = messageService;
         this.userService = userService;
         this.studentService = studentService;
         this.teacherService = teacherService;
+        this.sectionService = sectionService;
     }
 
     @GetMapping("/api/message/inbox")
@@ -69,6 +69,40 @@ public class MessageControler {
     @GetMapping("/api/message/{messageID}")
     public MessageDTO getMessage(@PathVariable Long messageID){
         return messageService.findById(messageID).convertToDTO();
+    }
+
+    @GetMapping("/api/message/newmessages")
+    public Integer newMessages(){
+        return messageService.newMessages();
+    }
+
+    @PostMapping("/api/message/joinsectionmessage")
+    public ResponseEntity sendJoinSectionMessage(@Valid @RequestBody JoinSectionMessageDTO joinSectionMessageDTO){
+
+        //@Todo maybe refactor this?
+        SendMessageDTO sendMessageDTO = new SendMessageDTO();
+
+        sendMessageDTO.getReceivers().add(joinSectionMessageDTO.getEmail());
+        sendMessageDTO.setSubject("Someone tried to add you to another section.");
+
+        Section section = sectionService.findSectionById(joinSectionMessageDTO.getSectionId());
+
+        StringBuilder message = new StringBuilder();
+        message
+                .append("Hi teacher with email: ")
+                .append(joinSectionMessageDTO.getEmail())
+                .append(" tried to add you to section: ")
+                .append(section.getName())
+                .append(" on semester: ")
+                .append(section.getSemester().getSemester())
+                .append(". If you wish to join this section find it and do it or contact this teacher via its email.")
+                .append("\n Wish you nice day bro! (or sis <3) ");
+
+        sendMessageDTO.setContent(message.toString());
+
+        Integer responseCode = messageService.sendMessages(sendMessageDTO);
+
+        return ResponseEntity.status(responseCode).build();
     }
 
 //    @RequestMapping("/testsend")

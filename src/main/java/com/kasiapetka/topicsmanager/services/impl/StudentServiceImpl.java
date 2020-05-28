@@ -227,6 +227,11 @@ public class StudentServiceImpl implements StudentService {
 
         List<StudentSection> studentSections = section.getStudentSections();
 
+        Section isPresent = this.checkJoin(student.getAlbum(), sectionId);
+        if(isPresent != null){
+            this.leaveSection(isPresent.getId());
+        }
+
         StudentSection studentSection = studentSectionRepository.findBySectionAndStudent(section, student).orElse(null);
 
         if (!studentSections.contains(studentSection)) {
@@ -281,16 +286,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Boolean checkJoin(Long studentID, Long sectionID) {
+    public Section checkJoin(Long studentID, Long sectionID) {
         List<StudentSection> studentSectionList = this.findStudentByAlbum(studentID).getStudentSection();
         Section section = this.findSectionById(sectionID);
 
         for (StudentSection studentSection : studentSectionList) {
             if (studentSection.getSection().getTopic().getSubject().equals(section.getTopic().getSubject())) {
-                return false;
+                return studentSection.getSection();
             }
         }
-        return true;
+
+        return null;
     }
 }
 
