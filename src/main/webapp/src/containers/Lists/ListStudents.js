@@ -47,7 +47,7 @@ class ListStudents extends Component {
 
                 if (this.state.studentsAlreadyInSection) {
                     editSectionMembers = true;
-                    students.forEach(student=> student.isOnSem = true)
+                    students.forEach(student => student.isOnSem = true)
 
                     const studentsAlreadyInSection = [...this.state.studentsAlreadyInSection];
                     studentsAlreadyInSection.forEach(studentAlreadyInSection => {
@@ -154,8 +154,8 @@ class ListStudents extends Component {
             });
         }
         this.setState({studentsInSection: size});
-        axios.get(' /api/common/sections/' + this.props.sectionId + '/student/'+
-            student.album+'/checkjoin').then(response => {
+        axios.get(' /api/common/sections/' + this.props.sectionId + '/student/' +
+            student.album + '/checkjoin').then(response => {
             this.props.addToSection(student);
             return true;
         }).catch(error => {
@@ -182,7 +182,7 @@ class ListStudents extends Component {
         this.props.removeFromSection(student);
     };
 
-    studentAlreadyInSectionHandler=()=>{
+    studentAlreadyInSectionHandler = () => {
         this.setState((prevState) => {
             return {
                 sendMessage: !prevState.sendMessage
@@ -190,13 +190,26 @@ class ListStudents extends Component {
         });
     };
 
-    sendMessageHandler=()=>{
+    sendMessageHandler = () => {
         this.setState({sendMessage: false});
         // const student = this.state.studentsFiltered.filter(student =>
         //     student.album === this.state.studentToSendMessage.album);
         // student.messageSent = true;
+        const msg = {
+            sectionId: this.props.sectionId,
+            email: this.state.studentToSendMessage.user.email
+        };
+        console.log(msg)
 
-        alert('send msg')
+        // this.setState({loading: true});
+        axios.post('/api/message/joinsectionmessage', msg).then(response => {
+            // this.setState({loading: false});
+            alert('Message Sent!')
+        }).catch(error => {
+            // this.setState({error: error, loading: false})
+            alert("ERROR")
+        });
+
     };
 
     render() {

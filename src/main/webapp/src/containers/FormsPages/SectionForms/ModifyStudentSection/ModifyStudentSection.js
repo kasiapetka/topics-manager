@@ -161,7 +161,12 @@ class ModifyStudentSection extends Component {
     };
 
     fileDeleteHandler=(link)=>{
-        console.log(link)
+        let id = link.split('/');
+        axios.delete('/api/deletefile/'+id[5]).then(response => {
+            this.setState({updateFiles: true});
+        }).catch(error => {
+            this.setState({error: error})
+        });
     };
 
     render() {
