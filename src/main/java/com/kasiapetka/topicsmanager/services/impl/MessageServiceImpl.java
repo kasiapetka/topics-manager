@@ -146,4 +146,26 @@ public class MessageServiceImpl implements MessageService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Integer newMessages() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = findUserByEmail(auth.getName());
+
+        if(user == null){
+            return 500;
+        }
+
+        List<MessageDTO> receivedMessages = this.listReceivedMessages(user);
+        Integer newMessages = 0;
+
+        for(MessageDTO messageDTO : receivedMessages){
+            if(!messageDTO.getIsRead()){
+                newMessages++;
+            }
+        }
+
+        return newMessages;
+    }
 }
