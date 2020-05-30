@@ -1,6 +1,6 @@
 import React from "react";
 import Label from "../../../FormElements/Label/Label";
-import {Badge, Button} from "reactstrap";
+import {Badge, Button, Col, FormGroup, FormText, Row} from "reactstrap";
 import classes from "../../Forms.module.css";
 import Input from "../../../FormElements/Input/Input";
 
@@ -13,6 +13,23 @@ const modifySectionForm = (props) => {
         <option value={'C'}>Closed</option>
         <option value={'F'}>Finished</option>
     </React.Fragment>;
+    let attachmentList= <span>No attachements.</span>;;
+
+    if (props.files) {
+        if (props.files.length === 0) {
+            attachmentList = <span>No attachements.</span>;
+        } else {
+            attachmentList = props.files.map(file => {
+                return <Row key={file.fileDownloadUri} className="p-1 mr-0 ml-0">
+                    <Col xs="12"
+                         onClick={()=>window.open(file.fileDownloadUri)}
+                         className={classes.File}>{file.fileName}</Col>
+                </Row>
+            });
+        }
+    }
+    let attachments = <Label label="attachments"
+                     content={attachmentList}/>;
 
     if (props.students) {
         if (props.students.length === 0) {
@@ -34,6 +51,7 @@ const modifySectionForm = (props) => {
                 Modify Section Members</Button>
             <div className='col-md-3'></div>
         </div>
+        attachments=null;
     } else if (props.section.state === 'C') {
         issue = <div className="form-row p-2">
             <div className='col-md-1'></div>
@@ -89,6 +107,7 @@ const modifySectionForm = (props) => {
                        content={<ul>{students}</ul>}/>
             </div>
             {modifyMembers}
+            {attachments}
             {issue}
             {view}
             {sectionFinished}

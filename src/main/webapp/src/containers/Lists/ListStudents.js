@@ -120,7 +120,7 @@ class ListStudents extends Component {
         this.setState({
             semester: sem,
         });
-        axios.get('/api/adminteacher/students/' + sem).then(response => {
+        axios.get('/api/common/students/' + sem).then(response => {
             let students = [...response.data];
             this.setState({
                 students: students,
@@ -196,7 +196,7 @@ class ListStudents extends Component {
         //     student.album === this.state.studentToSendMessage.album);
         // student.messageSent = true;
 
-        alert('wyslij mesydz')
+        alert('send msg')
     };
 
     render() {
