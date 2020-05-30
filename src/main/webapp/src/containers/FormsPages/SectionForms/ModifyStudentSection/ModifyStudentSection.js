@@ -22,6 +22,8 @@ class ModifyStudentSection extends Component {
         showPresence: false,
         presences: null,
         file: null,
+        files: null,
+        updateFiles: false
     };
 
     getSectionInfo = () => {
@@ -53,7 +55,7 @@ class ModifyStudentSection extends Component {
                 teacher: teacher,
                 isInSection: isInSection,
                 students: students,
-                presences:presences,
+                presences: presences,
                 grade: grade,
                 mounted: true,
                 membersChanged: false,
@@ -67,19 +69,39 @@ class ModifyStudentSection extends Component {
         })
     };
 
+    getAttachements=()=>{
+        const sectionId = this.props.match.params.id;
+        axios.get('/api/files/' + sectionId).then(response => {
+            this.setState({
+                files:[...response.data],
+                updateFiles: false
+            });
+        }).catch(error => {
+            this.setState({
+                loading: false,
+                error: error,
+            })
+        });
+    };
+
     componentDidMount() {
+        this.getAttachements();
         this.getSectionInfo();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.mounted)
+        if (this.state.mounted){
+            this.getAttachements();
             this.getSectionInfo();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (this.state.mounted) {
             if (this.state.membersChanged === nextState.membersChanged &&
-                this.state.showPresence === nextState.showPresence) {
+                this.state.showPresence === nextState.showPresence &&
+                this.state.updateFiles === nextState.updateFiles &&
+                this.state.error === nextState.error) {
                 return false;
             } else return true;
         } else return true;
@@ -106,32 +128,40 @@ class ModifyStudentSection extends Component {
         });
     };
 
-    fileChangedHandler=(event)=>{
+    fileChangedHandler = (event) => {
         let file = event.target.files[0];
         this.setState({
             file: file,
         });
     };
 
-    fileUploadHandler=()=>{
+    fileUploadHandler = () => {
         const formData = new FormData();
         let fileSize = this.state.file.size;
-        fileSize = fileSize/(1024 *1024);
-        if(fileSize > 50){
-            alert('File too big! Max size is 50MB. Your is: '+
-                fileSize.toFixed(2)+'MB.');
+        fileSize = fileSize / (1024 * 1024);
+        if (fileSize > 50) {
+            alert('File too big! Max size is 50MB. Your is: ' +
+                fileSize.toFixed(2) + 'MB.');
             this.setState({
                 file: null,
             });
-        }else{
+        } else {
             formData.append(
-                "myFile",
+                "file",
                 this.state.file,
                 this.state.file.name
             );
-            console.log(this.state.file);
-            //axios.post("api/uploadfile", formData);
+            let path = '/api/uploadFile/' + this.state.section.id;
+            axios.post(path, formData).then(response => {
+                this.setState({updateFiles: true});
+            }).catch(error => {
+                this.setState({error: error})
+            });
         }
+    };
+
+    fileDeleteHandler=(link)=>{
+        console.log(link)
     };
 
     render() {
@@ -160,7 +190,10 @@ class ModifyStudentSection extends Component {
         if (section) {
             content = <ModifyStudentSectionForm
                 isInSection={this.state.isInSection}
+                files={this.state.files}
+                fileDownload={this.fileDownloadHandler}
                 fileChanged={this.fileChangedHandler}
+                fileDelete={this.fileDeleteHandler}
                 fileUpload={this.fileUploadHandler}
                 leaveSection={this.leaveSectionHandler}
                 teacher={this.state.teacher}

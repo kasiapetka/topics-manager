@@ -1,30 +1,47 @@
 import React, {useState} from "react";
 import CustomLabel from "../../../FormElements/Label/Label";
-import {Badge, Button, FormGroup, FormText, Input, Label} from "reactstrap";
+import {Badge, Button, Col, FormGroup, FormText, Input, Label, Row} from "reactstrap";
 import classes from "../../Forms.module.css";
-import CustomInput from "../../../FormElements/Input/Input";
+import { AiFillDelete } from "react-icons/ai";
 
 const ModifyStudentSectionForm = (props) => {
     const [showDetails, setShowDetails] = useState(false);
     const classNames = "border rounded pt-4 pb-5 mb-4 pr-3 pl-3 mb-3 " + classes.Form;
     let students = <li>No students in this section.</li>, state, details, showPresence,
         join = <Badge className='col-md-6 p-2'>You left the section.</Badge>;
+    let attachmentList;
+
+    if (props.files) {
+        if (props.files.length === 0) {
+            attachmentList = <span>No attachements.</span>;
+        } else {
+            attachmentList = props.files.map(file => {
+                return <Row key={file.fileDownloadUri} className="p-1 mr-0 ml-0">
+                    <Col xs="10"
+                            onClick={()=>window.open(file.fileDownloadUri)}
+                            className={classes.File}>{file.fileName}</Col>
+                    <Col xs="2"
+                         className={classes.Delete}
+                         onClick={()=>props.fileDelete(file.fileDownloadUri)}><AiFillDelete/></Col>
+                    </Row>
+            });
+        }
+    }
     let attachments = <div>
         <CustomLabel label="attachments"
-               content={<ul>
-                   <li>aaaa</li>
-               </ul>}/>
+                     content={attachmentList}/>
         <div className="form-row p-1">
             <div className="col-md-1"></div>
             <FormGroup className="p-2 col-md-6 mb-0">
                 <Input type="file" name="file" onChange={props.fileChanged}/>
                 <FormText color="muted">
-                    Max file size is 50MB.
+                    Max file size is 50MB. Max 5 files.
                 </FormText>
             </FormGroup>
             <div className="col-md-1"></div>
             <Button className="btn-sm mt-3 mb-3"
                     onClick={props.fileUpload}
+                    disabled={props.files ? props.files.length >= 5 : false}
                     color='info'>Upload File</Button>
         </div>
     </div>;
@@ -61,33 +78,33 @@ const ModifyStudentSectionForm = (props) => {
         details = (<React.Fragment>
             <div className="form-row p-1">
                 <CustomLabel label="teacher"
-                       groupclasses='col-md-6'
-                       content={props.teacher.name + ' ' + props.teacher.surname}/>
+                             groupclasses='col-md-6'
+                             content={props.teacher.name + ' ' + props.teacher.surname}/>
                 <CustomLabel label='teacher email'
-                       groupclasses='col-md-6'
-                       content={props.teacher.email}/>
+                             groupclasses='col-md-6'
+                             content={props.teacher.email}/>
             </div>
 
             <div className="form-row p-1">
                 <CustomLabel label="topic"
-                       groupclasses='col-md-6'
-                       content={props.section.topic}/>
+                             groupclasses='col-md-6'
+                             content={props.section.topic}/>
 
                 <CustomLabel label="subject"
-                       groupclasses='col-md-6 mr-auto ml-auto'
-                       content={props.section.subject}/>
+                             groupclasses='col-md-6 mr-auto ml-auto'
+                             content={props.section.subject}/>
             </div>
 
             <div className="form-row p-1">
                 <CustomLabel label="size"
-                       groupclasses='col-md-3'
-                       content={props.section.sizeOfSection}/>
+                             groupclasses='col-md-3'
+                             content={props.section.sizeOfSection}/>
                 <CustomLabel label="semester"
-                       groupclasses='col-md-3 mr-auto ml-auto'
-                       content={props.section.semester.semester}/>
+                             groupclasses='col-md-3 mr-auto ml-auto'
+                             content={props.section.semester.semester}/>
                 <CustomLabel label="state"
-                       groupclasses='col-md-3'
-                       content={state}/>
+                             groupclasses='col-md-3'
+                             content={state}/>
             </div>
         </React.Fragment>)
     }
@@ -108,14 +125,14 @@ const ModifyStudentSectionForm = (props) => {
 
             <div>
                 <CustomLabel label="members"
-                       content={<ul>{students}</ul>}/>
+                             content={<ul>{students}</ul>}/>
             </div>
             {attachments}
 
             <div className="form-row p-1">
                 <CustomLabel label="grade"
-                       groupclasses='col-md-6'
-                       content={props.grade ? props.grade : 'No grade yet.'}/>
+                             groupclasses='col-md-6'
+                             content={props.grade ? props.grade : 'No grade yet.'}/>
                 {showPresence}
             </div>
 

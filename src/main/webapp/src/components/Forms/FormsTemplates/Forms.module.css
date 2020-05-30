@@ -11,3 +11,25 @@
     box-shadow: 0 0 12px 5px rgba(36, 205, 188, 0.3);
     background-color:  rgba(248, 248, 248,0.7);
 }
+.File{
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+.File:hover{
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgba(36, 205, 188, 0.3);
+}
+
+.Delete{
+    text-align: center;
+}
+
+.Delete:hover{
+    font-size: large;
+    cursor: pointer;
+    background-color: rgba(205, 0, 8, 0.3);
+}

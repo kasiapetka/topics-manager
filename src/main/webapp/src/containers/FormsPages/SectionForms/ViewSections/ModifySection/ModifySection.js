@@ -27,6 +27,7 @@ class ModifySection extends Component {
         dates: null,
         grades: null,
         error: null,
+        files:null
     };
 
     componentDidMount() {
@@ -39,14 +40,16 @@ class ModifySection extends Component {
                 axios.get('/api/common/sections/section/' + sectionId),
                 axios.get('/api/adminteacher/sections/' + sectionId + '/dates'),
                 axios.get('/api/adminteacher/sections/' + sectionId + '/grades'),
-                axios.get('/api/adminteacher/students/' + sectionId + '/members')
+                axios.get('/api/adminteacher/students/' + sectionId + '/members'),
+                axios.get('/api/files/' + sectionId)
             ])
-                .then(axios.spread((sectionResponse, datesResponse, gradesResponse, membersResponse) => {
+                .then(axios.spread((sectionResponse, datesResponse, gradesResponse, membersResponse, filesResonse) => {
                     const section = {...sectionResponse.data};
                     section.size = section.sizeOfSection;
                     const dates = [...datesResponse.data];
                     const grades = gradesResponse.data;
                     const students = [...membersResponse.data];
+                    const files = [...filesResonse.data];
                     students.forEach(student => student.present = true);
                     this.setState({
                         section: section,
@@ -54,6 +57,7 @@ class ModifySection extends Component {
                         grades: grades,
                         students: students,
                         modifiedStudents: students,
+                        files:files,
                         loading: false
                     })
                 }))
@@ -263,6 +267,7 @@ class ModifySection extends Component {
                     <PrivateAdminRoute exact path="/admin/sections/modifysection/:id"
                                        component={() => <ModifySectionForm section={section}
                                                                            students={this.state.students}
+                                                                           files={this.state.files}
                                                                            onStateChange={this.onStateChangeHandler}
                                                                            onIssuePresence={this.onIssuePresenceHandler}
                                                                            onViewPresence={this.onViewPresenceHandler}
@@ -273,6 +278,7 @@ class ModifySection extends Component {
                     <PrivateTeacherRoute exact path="/teacher/sections/modifysection/:id"
                                          component={() => <ModifySectionForm section={section}
                                                                              students={this.state.students}
+                                                                             files={this.state.files}
                                                                              onStateChange={this.onStateChangeHandler}
                                                                              onIssuePresence={this.onIssuePresenceHandler}
                                                                              onViewPresence={this.onViewPresenceHandler}
