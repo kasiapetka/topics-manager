@@ -19,6 +19,13 @@ const addStudentToSectionForm = (props) => {
                                outline color="info">Back</Button>
     }
 
+    let sem;
+    if(!props.section.semester.semester){
+        sem = props.section.semester
+    }else{
+        sem = props.section.semester.semester
+    }
+
     return (
         <Form className={classNames} onSubmit={props.onSubmit}>
             {cancelOption}
@@ -37,7 +44,7 @@ const addStudentToSectionForm = (props) => {
                 addToSection={props.addToSection}
                 removeFromSection={props.removeFromSection}
                 sectionSize={props.section.size}
-                sectionSemester={props.section.semester.semester}/>
+                sectionSemester={sem}/>
             <SubmitButton label='add students'/>
         </Form>
     )
