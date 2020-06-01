@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface MessageRepository extends CrudRepository<Message, Long> {
     Optional<List<Message>> findAllByTo(User user);
     Optional<List<Message>> findAllByFrom(User user);
+    Optional<List<Message>> findAllByToAndAndReceiverDeleted(User user, Boolean state);
+    Optional<List<Message>> findAllByFromAndAuthorDeleted(User user, Boolean state);
 }

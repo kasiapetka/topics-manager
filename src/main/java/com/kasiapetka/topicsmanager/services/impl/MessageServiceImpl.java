@@ -42,7 +42,8 @@ public class MessageServiceImpl implements MessageService {
     public List<MessageDTO> listSentMessages(User from) {
 
         List<Message> messages = new ArrayList<>();
-        messageRepository.findAllByFrom(from).orElse(new ArrayList<>()).iterator().forEachRemaining(messages::add);
+        messageRepository.findAllByFromAndAuthorDeleted(from, false)
+                .orElse(new ArrayList<>()).iterator().forEachRemaining(messages::add);
 
         List<MessageDTO> messageDTOS = new ArrayList<>();
 
@@ -57,7 +58,8 @@ public class MessageServiceImpl implements MessageService {
     public List<MessageDTO> listReceivedMessages(User to) {
 
         List<Message> messages = new ArrayList<>();
-        messageRepository.findAllByTo(to).orElse(new ArrayList<>()).iterator().forEachRemaining(messages::add);
+        messageRepository.findAllByToAndAndReceiverDeleted(to, false)
+                .orElse(new ArrayList<>()).iterator().forEachRemaining(messages::add);
 
         List<MessageDTO> messageDTOS = new ArrayList<>();
 
@@ -78,6 +80,8 @@ public class MessageServiceImpl implements MessageService {
         sent.setFrom(message.getFrom());
         sent.setSubject(message.getSubject());
         sent.setTo(message.getTo());
+        sent.setAuthorDeleted(false);
+        sent.setReceiverDeleted(false);
 
         try{
             messageRepository.save(sent);
@@ -153,12 +157,12 @@ public class MessageServiceImpl implements MessageService {
         Message toDelete = this.findById(messageId);
 
         if(type.equals("sent")){
-            toDelete.setFrom(null);
+            toDelete.setAuthorDeleted(true);
         } else {
-            toDelete.setTo(null);
+            toDelete.setReceiverDeleted(true);
         }
 
-        if((toDelete.getFrom() == null) && (toDelete.getTo() == null)){
+        if(toDelete.getAuthorDeleted() && toDelete.getReceiverDeleted()){
             try{
                 messageRepository.delete(toDelete);
             } catch (HibernateException e){
