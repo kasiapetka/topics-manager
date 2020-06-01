@@ -22,6 +22,7 @@ class ListMessages extends Component {
         mounted: false,
         type: null,
         email: null,
+        msgDeleted: false
     };
 
     getMessages = () => {
@@ -34,7 +35,8 @@ class ListMessages extends Component {
                 messages: messages,
                 loading: false,
                 mounted: true,
-                type: this.props.type
+                type: this.props.type,
+                msgDeleted: false
             });
         }).catch(error => {
             this.setState({
@@ -51,7 +53,8 @@ class ListMessages extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.state.mounted) {
-            if (this.props.pathName !== prevProps.pathName) {
+            if (this.props.pathName !== prevProps.pathName
+                || this.state.msgDeleted !== prevState.msgDeleted) {
                 this.getMessages();
             }
         }
@@ -77,8 +80,9 @@ class ListMessages extends Component {
     };
 
     deleteMessageHandler = (id) => {
-        axios.delete('/api/message/'+this.state.type+'/'+ id).then(response => {
+        axios.delete('/api/message/' + this.state.type + '/' + id).then(response => {
             alert('Message deleted!')
+            this.setState({msgDeleted: true})
         }).catch(error => {
             this.setState({
                 error: error,
