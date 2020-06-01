@@ -36,6 +36,12 @@ public class Message {
     @NotNull
     private Boolean isRead;
 
+    @NotNull
+    private Boolean authorDeleted;
+
+    @NotNull
+    private Boolean receiverDeleted;
+
     public MessageDTO convertToDTO(){
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setContent(this.content);
