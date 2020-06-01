@@ -137,26 +137,30 @@ class ModifyStudentSection extends Component {
 
     fileUploadHandler = () => {
         const formData = new FormData();
-        let fileSize = this.state.file.size;
-        fileSize = fileSize / (1024 * 1024);
-        if (fileSize > 50) {
-            alert('File too big! Max size is 50MB. Your is: ' +
-                fileSize.toFixed(2) + 'MB.');
-            this.setState({
-                file: null,
-            });
-        } else {
-            formData.append(
-                "file",
-                this.state.file,
-                this.state.file.name
-            );
-            let path = '/api/uploadFile/' + this.state.section.id;
-            axios.post(path, formData).then(response => {
-                this.setState({updateFiles: true});
-            }).catch(error => {
-                this.setState({error: error})
-            });
+        if(this.state.file){
+            let fileSize = this.state.file.size;
+            fileSize = fileSize / (1024 * 1024);
+            if (fileSize > 50) {
+                alert('File too big! Max size is 50MB. Your is: ' +
+                    fileSize.toFixed(2) + 'MB.');
+                this.setState({
+                    file: null,
+                });
+            } else {
+                formData.append(
+                    "file",
+                    this.state.file,
+                    this.state.file.name
+                );
+                let path = '/api/uploadFile/' + this.state.section.id;
+                axios.post(path, formData).then(response => {
+                    this.setState({updateFiles: true});
+                }).catch(error => {
+                    this.setState({error: error})
+                });
+            }
+        }else{
+            alert("Choose File!")
         }
     };
 
@@ -165,7 +169,21 @@ class ModifyStudentSection extends Component {
         axios.delete('/api/deletefile/'+id[5]).then(response => {
             this.setState({updateFiles: true});
         }).catch(error => {
+            if(error.response.status === 409)
+                alert("You are not an author of this file!")
             this.setState({error: error})
+        });
+    };
+
+    fileDownloadHandler=(link)=>{
+        let id = link.split('/');
+
+        axios.get('/api/downloadFile/'+id[5]).then(response => {
+
+           // const b = new Blob(response.data)
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error)
         });
     };
 

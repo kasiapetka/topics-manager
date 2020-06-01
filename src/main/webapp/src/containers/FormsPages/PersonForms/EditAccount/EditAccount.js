@@ -98,9 +98,6 @@ class EditAccount extends Component {
 
         axios.put(this.props.path, user).then(response => {
             let person = {...response.data};
-
-            console.log(person)
-
             this.setState({
                 person: person,
                 loading: false,
@@ -127,7 +124,6 @@ class EditAccount extends Component {
         const credsChanged = this.state.credsChanged;
         const redirect = this.state.redirect;
         let form;
-
         let credentialsChangedSuccess;
 
         if (error) {

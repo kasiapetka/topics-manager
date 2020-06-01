@@ -3,6 +3,7 @@
     max-width:800px;
     box-shadow: 0 0 12px 5px rgba(36, 205, 188, 0.3);
     background-color:  rgba(248, 248, 248,0.7);
+    overflow: auto;
 }
 
 .Message:hover{
@@ -36,3 +37,14 @@
     background-color: rgba(205, 12, 0, 0.3);
 }
 
+.Delete:hover{
+    font-size: large;
+    cursor: pointer;
+    height: 50%;
+
+    background-color: rgba(205, 0, 8, 0.3);
+}
+.Delete{
+    width: 5%;
+    margin: auto;
+}

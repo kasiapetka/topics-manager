@@ -18,7 +18,7 @@ function formatDate() {
     return [year, month, day].join('-');
 }
 
-class IssuePresence extends Component {
+class IssueGrades extends Component {
     state = {
         section: this.props.section,
         students: this.props.students,
@@ -117,4 +117,4 @@ class IssuePresence extends Component {
     };
 };
 
-export default IssuePresence;
+export default IssueGrades;

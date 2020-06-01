@@ -1,6 +1,7 @@
 import React from "react";
 import classes from '../Messages.module.css'
 import auth from "../../../Auth";
+import { AiFillDelete } from "react-icons/ai";
 
 const message = (props) => {
     const email = auth.parseJwt(auth.getToken()).sub;
@@ -22,11 +23,12 @@ const message = (props) => {
     };
 
     return (
-        <tr className={msgClasses.join(' ')} onClick={props.viewMessage}>
-            <td>{props.date}</td>
-            <td>{person}</td>
-            <td style={stringStyle}>{props.subject}</td>
-            <td style={stringStyle}>{props.content}</td>
+        <tr className={msgClasses.join(' ')} >
+            <td onClick={props.viewMessage}>{props.date}</td>
+            <td onClick={props.viewMessage}>{person}</td>
+            <td onClick={props.viewMessage} style={stringStyle}>{props.subject}</td>
+            <td onClick={props.viewMessage} style={stringStyle}>{props.content}</td>
+            <td className={classes.Delete} onClick={props.deleteMessage}><AiFillDelete/></td>
         </tr>
     )
 };

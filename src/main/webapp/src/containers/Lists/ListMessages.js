@@ -76,6 +76,17 @@ class ListMessages extends Component {
         });
     };
 
+    deleteMessageHandler = (id) => {
+        axios.delete('/api/message/'+this.state.type+'/'+ id).then(response => {
+            alert('Message deleted!')
+        }).catch(error => {
+            this.setState({
+                error: error,
+                loading: false,
+            })
+        });
+    };
+
     replyToPersonHandler = (email) => {
         this.setState({email: email});
         this.props.history.push(this.props.match.url + '/reply');
@@ -112,14 +123,17 @@ class ListMessages extends Component {
 
                     <PrivateAdminRoute exact path="/admin/messages" component={() => <Messages
                         viewMessage={this.viewMessageHandler}
+                        deleteMessage={this.deleteMessageHandler}
                         type={this.state.type}
                         messages={this.state.messages}/>}/>
                     <PrivateTeacherRoute exact path="/teacher/messages" component={() => <Messages
                         viewMessage={this.viewMessageHandler}
+                        deleteMessage={this.deleteMessageHandler}
                         type={this.state.type}
                         messages={this.state.messages}/>}/>
                     <PrivateStudentRoute exact path="/student/messages" component={() => <Messages
                         viewMessage={this.viewMessageHandler}
+                        deleteMessage={this.deleteMessageHandler}
                         type={this.state.type}
                         messages={this.state.messages}/>}/>
 

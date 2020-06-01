@@ -1,6 +1,8 @@
 import React from "react";
 import Message from "./Message";
 import {Table} from "reactstrap";
+import classes from "../Messages.module.css";
+import {AiFillDelete} from "react-icons/all";
 
 const Messages = (props) => {
     let messages;
@@ -19,6 +21,7 @@ const Messages = (props) => {
                             isRead={message.isRead}
                             type={props.type}
                             viewMessage={()=>props.viewMessage(message.id)}
+                            deleteMessage={()=>props.deleteMessage(message.id)}
                             date={date}
             />
         });
@@ -34,6 +37,7 @@ const Messages = (props) => {
                 <th>{props.type === 'inbox' ? 'From' : 'To'}</th>
                 <th>Subject</th>
                 <th>Content</th>
+                <td><AiFillDelete/></td>
             </tr>
             </thead>
             <tbody>
