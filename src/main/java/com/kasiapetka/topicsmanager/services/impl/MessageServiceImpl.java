@@ -135,16 +135,44 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
+//    @Override
+//    public void deleteMessage(Message message) {
+//
+//        Message toRead = this.findById(message.getId());
+//
+//        try {
+//            messageRepository.delete(toRead);
+//        } catch (HibernateException e){
+//            e.printStackTrace();
+//        }
+//    }
+
     @Override
-    public void deleteMessage(Message message) {
+    public Integer deleteMessage(String type, Long messageId) {
 
-        Message toRead = this.findById(message.getId());
+        Message toDelete = this.findById(messageId);
 
-        try {
-            messageRepository.delete(toRead);
-        } catch (HibernateException e){
-            e.printStackTrace();
+        if(type.equals("sent")){
+            toDelete.setFrom(null);
+        } else {
+            toDelete.setTo(null);
         }
+
+        if((toDelete.getFrom() == null) && (toDelete.getTo() == null)){
+            try{
+                messageRepository.delete(toDelete);
+            } catch (HibernateException e){
+                return 500;
+            }
+        } else {
+            try {
+                messageRepository.save(toDelete);
+            } catch (HibernateException e){
+                return 500;
+            }
+        }
+
+        return 200;
     }
 
     @Override

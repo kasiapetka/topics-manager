@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -82,7 +83,9 @@ public class MessageControler {
         //@Todo maybe refactor this?
         SendMessageDTO sendMessageDTO = new SendMessageDTO();
 
-        sendMessageDTO.getReceivers().add(joinSectionMessageDTO.getEmail());
+        List<String> receivers = new ArrayList<>();
+        receivers.add(joinSectionMessageDTO.getEmail());
+        sendMessageDTO.setReceivers(receivers);
         sendMessageDTO.setSubject("Someone tried to add you to another section.");
 
         Section section = sectionService.findSectionById(joinSectionMessageDTO.getSectionId());
@@ -101,6 +104,14 @@ public class MessageControler {
         sendMessageDTO.setContent(message.toString());
 
         Integer responseCode = messageService.sendMessages(sendMessageDTO);
+
+        return ResponseEntity.status(responseCode).build();
+    }
+
+    @DeleteMapping("/api/message/{type}/{messageID}")
+    public ResponseEntity<?> deleteMessage(@PathVariable String type, @PathVariable Long messageID){
+
+        Integer responseCode = messageService.deleteMessage(type, messageID);
 
         return ResponseEntity.status(responseCode).build();
     }

@@ -15,6 +15,6 @@ public interface MessageService {
     Boolean sendMessage(Message message);
     Integer sendMessages(SendMessageDTO sendMessageDTO);
     void readMessage(Message message);
-    void deleteMessage(Message message);
+    Integer deleteMessage(String type, Long messageId);
     Integer newMessages();
 }
