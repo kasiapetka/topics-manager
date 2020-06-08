@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
 import {
+    Badge,
     Button, NavItem, NavLink,
 } from 'reactstrap';
 import {FaUserAlt} from "react-icons/fa";
@@ -17,9 +18,9 @@ class Navbar extends Component {
     };
 
     getMessages=()=> {
-        axios.get('/api/message/new').then(response => {
+        axios.get('/api/message/newmessages').then(response => {
             let messages = response.data;
-            console.log(messages)
+            console.log(messages);
             this.setState({
                 messages: messages,
                 mounted: true,
@@ -31,9 +32,9 @@ class Navbar extends Component {
         })
     };
 
-    // componentDidMount() {
-    //     this.getMessages();
-    // }
+     componentDidMount() {
+         this.getMessages();
+     }
 
     // componentDidUpdate(prevProps, prevState, snapshot) {
     //     if (this.state.mounted && (this.state.messages !== +prevState.messages)) {
@@ -78,7 +79,7 @@ class Navbar extends Component {
                         <NavLink href={path+'/modifyaccount'}>Edit Account</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={path+'/messages'}>Messages</NavLink>
+                        <NavLink href={path+'/messages'}>Messages<Badge color="success">{this.state.messages}</Badge></NavLink>
                     </NavItem>
                 </React.Fragment>)
         } else {
