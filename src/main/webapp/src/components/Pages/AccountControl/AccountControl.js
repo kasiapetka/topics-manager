@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {NavLink, withRouter} from "react-router-dom";
 import classes
     from './AccountControl.module.css'
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const AccountControl = (props) => {
     const [showList, setShowList] = useState(false);
@@ -27,7 +28,9 @@ const AccountControl = (props) => {
 
     return (
         <React.Fragment>
-            <span className={classes.Title} onClick={() => setShowList(!showList)}>{props.mainLabel}</span>
+          <span className={classes.Title} onClick={() => setShowList(!showList)}>
+              <span className="m-2"><AiOutlinePlusCircle/></span>{props.mainLabel}
+          </span>
             {
                 showList
                     ?
