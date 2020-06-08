@@ -64,6 +64,7 @@ class Navbar extends Component {
             path = '/admin';
         }
 
+        let newMsg = this.state.messages === 0 ? <Badge color="secondary">{this.state.messages}</Badge>:<Badge color="info">{this.state.messages}</Badge>;
         if (auth.isAuthenticated()) {
             account = <Link to="/">
                 <Button onClick={auth.logout} className="float-right" variant="outlined">
@@ -79,7 +80,7 @@ class Navbar extends Component {
                         <NavLink href={path+'/modifyaccount'}>Edit Account</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href={path+'/messages'}>Messages<Badge color="success">{this.state.messages}</Badge></NavLink>
+                        <NavLink href={path+'/messages'}>Messages {newMsg}</NavLink>
                     </NavItem>
                 </React.Fragment>)
         } else {
