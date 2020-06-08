@@ -69,31 +69,31 @@ public class FileController {
         // Load file from database
         Attachment attachment = attachmentService.getFile(fileId);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = auth.getName();
-
-        Boolean canDownload = false;
-
-        SectionInfoDTO sectionInfoDTO = sectionService.getSectionInfo(attachment.getSection().getId());
-
-        for(StudentDTO studentDTO : sectionInfoDTO.getStudents()){
-            if(studentDTO.getUser().getEmail().equals(userEmail)){
-                canDownload = true;
-            }
-        }
-
-        if(sectionInfoDTO.getTeacherEmail().equals(userEmail)){
-            canDownload = true;
-        }
-
-        if(canDownload){
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String userEmail = auth.getName();
+//
+//        Boolean canDownload = false;
+//
+//        SectionInfoDTO sectionInfoDTO = sectionService.getSectionInfo(attachment.getSection().getId());
+//
+//        for(StudentDTO studentDTO : sectionInfoDTO.getStudents()){
+//            if(studentDTO.getUser().getEmail().equals(userEmail)){
+//                canDownload = true;
+//            }
+//        }
+//
+//        if(sectionInfoDTO.getTeacherEmail().equals(userEmail)){
+//            canDownload = true;
+//        }
+//
+//        if(canDownload){
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(attachment.getFileType()))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + attachment.getFileName() + "\"")
                     .body(new ByteArrayResource(attachment.getData()));
-        } else {
-            return ResponseEntity.status(409).build();
-        }
+//        } else {
+//            return ResponseEntity.status(409).build();
+//        }
     }
 
     @GetMapping("/api/files/{sectionID}")

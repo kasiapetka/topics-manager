@@ -44,7 +44,6 @@ class Auth {
 
         return JSON.parse(jsonPayload);
     };
-
 }
 
 export default new Auth()

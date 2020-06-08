@@ -92,14 +92,13 @@ public class MessageControler {
 
         StringBuilder message = new StringBuilder();
         message
-                .append("Hi teacher with email: ")
-                .append(joinSectionMessageDTO.getEmail())
+                .append("Hi sender of this message")
                 .append(" tried to add you to section: ")
                 .append(section.getName())
                 .append(" on semester: ")
                 .append(section.getSemester().getSemester())
                 .append(". If you wish to join this section find it and do it or contact this teacher via its email.")
-                .append("\n Wish you nice day bro! (or sis <3) ");
+                .append(" Wish you nice day bro! (or sis <3) ");
 
         sendMessageDTO.setContent(message.toString());
 

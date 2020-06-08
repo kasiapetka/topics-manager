@@ -89,9 +89,11 @@
                     </ul>
                 </li>
 
-                <li><a href="section" class="text-secondary">Section</a></li>
-                <li><a href="subject" class="text-secondary">Subject</a></li>
-                <li><a href="topic" class="text-secondary"></a>Topic</li>
+                <li><a href="#section" class="text-secondary">Section</a></li>
+                <li><a href="#subject" class="text-secondary">Subject</a></li>
+                <li><a href="#topic" class="text-secondary">Topic</a></li>
+                <li><a href="#msg" class="text-secondary">Messaging System</a></li>
+                <li><a href="#summary" class="text-secondary">Summary</a></li>
 
             </ul>
         </div>
@@ -191,13 +193,16 @@
                         register,
                         full modification of subject and adding teachers to it by admin. Also we have finished
                         implementing topics
-                        and its functionality. We have created management system for sections by admin and teacher and we
+                        and its functionality. We have created management system for sections by admin and teacher and
+                        we
                         linked these three components (subject, topic, section) togheter.
                     </p>
-                    
-                    <p>In second week of phase four we refactored our gantt's chart because we were falling apart. We managed
-                    to finish basic implementation of issuing grades. We have made a lot of refactoring on front-side for better
-                    code transparency. We have also speed up with work due to our delay.</p>
+
+                    <p>In second week of phase four we refactored our gantt's chart because we were falling apart. We
+                        managed
+                        to finish basic implementation of issuing grades. We have made a lot of refactoring on
+                        front-side for better
+                        code transparency. We have also speed up with work due to our delay.</p>
                 </div>
             </div>
             <hr>
@@ -449,55 +454,96 @@
 
                 <div id="admin">
                     <h5>Admin Account</h5>
-                    <p>An Admin Account is only created together with the database. There is no option of adding another Admin when the application is running.
-                        <h6>Admins functionalities consist of</h6>
-                            <li>Adding, deleting and modifying a Teacher account</li>
-                            <li>Adding, deleting and modifying a Student account</li>
-                            <li>Modifying his own account</li>
-                            <li>Adding a new Subject</li>
-                            <li>Modifying list of Teachers that teach a particular Subject</li>
+                    <p>An Admin Account is only created together with the database. There is no option of adding another
+                        Admin when the application is running.
+                    <h6>Admins functionalities consist of</h6>
+                    <li>Adding, deleting and modifying a Teacher account</li>
+                    <li>Adding, deleting and modifying a Student account</li>
+                    <li>Modifying his own account</li>
+                    <li>Adding a new Subject</li>
+                    <li>Modifying list of Teachers that teach a particular Subject</li>
                     </p>
                 </div>
 
                 <div id="teacher">
                     <h5>Teacher Account</h5>
-                    <p>A Teacher is responsible for issuing presence and grades to Students. He can create his own Topics, other Teachers can join and his own Sections other Teachers can not join.
-                        <h6>Teachers functionalities consist of</h6>
-                            <li>Modifying his own account</li>
-                            <li>Joining a Topic</li>
+                    <p>A Teacher is responsible for issuing presence and grades to Students. He can create his own
+                        Topics, other Teachers can join and his own Sections other Teachers can not join.
+                    <h6>Teachers functionalities consist of</h6>
+                    <li>Modifying his own account</li>
+                    <li>Joining a Topic</li>
                     </p>
                 </div>
-
                 <div id="adminteacher">
+                    <p>
                     <h6>Admin and Teacher Accounts common functionalities</h6>
-                        <li>Adding a new Topic to an already existing Subject</li>
-                        <li>Adding and deleting a Section</li>
-                        <li>Adding Students to a newly created Section</li>
-                        <li>Opening, closing or terminating a Section</li>
+                    <li>Adding a new Topic to an already existing Subject</li>
+                    <li>Adding and deleting a Section</li>
+                    <li>Adding and editing Students in his Sections</li>
+                    <li>Opening, closing or terminating a Section</li>
+                    </p>
                 </div>
 
                 <div id="student">
                     <h5>Student Account</h5>
-                    <p></p>
+                    <p>Student can use all functionalities connected with sections. He participates
+                    in different sections in various topics, this way he can be up to date with everything
+                    important happening inside a section he is a member of. He can join only one section in a given
+                    topic. If he wants to reassign he will be informed of leaving the section he is currently in.
+
+                    <h6>Student functionalities consist of</h6>
+                    <li>Joining/leaving sections</li>
+                    <li>Listing sections on all semesters</li>
+                    <li>Viewing section information, grade and presence</li>
+                    <li>Adding attachments</li>
+
+                </p>
                 </div>
             </div>
             <hr>
 
             <div id="section">
                 <h4>Sections</h4>
-                <p>Section description here</p>
+                <p>Sections are instances in a given subject, topic and with a unique name guided by one teacher.
+                Teachers add and manage members of sections, they can issue presence and grades. Sections have different states
+                in which students can or cant join them. Students can add attachments to sections and view information.</p>
             </div>
             <hr>
 
             <div id="subject">
                 <h4>Subject</h4>
-                <p>Subject description here</p>
+                <p>The most general division of issues that the section can implement. Subjects consist of topics.
+                    They can be added only by admin because we usually have only about a dozen of them. Admin can add
+                    them as well as list and filter them. Also teachers are assigned to subjects, and they can create
+                    sections only in their subjects. The admin can add, edit and delete teachers assigned to
+                    subjects.</p>
             </div>
             <hr>
 
             <div id="topic">
                 <h4>Topic</h4>
-                <p>Topic description here</p>
+                <p>Topics create a more precise division of issues in a given subject. They are assigned
+                    to subjects. Admin can add topics in all subjects, teachers can add topics only in subjects
+                    they are a part of. Admin and teachers can also list and filter topics.
+                </p>
+            </div>
+            <hr>
+            <div id="msg">
+                <h4>Messaging System</h4>
+                <p>
+                </p>
+            </div>
+            <hr>
+            <div id="summary">
+                <h4>Summary</h4>
+                <p>In conclusion the project was completed within a given amount of time, it realizes all
+                    functionalities and assumptions that we wanted it to have. Thing we would like to improve in the future
+                    is messaging system, because it could be a socket listening to new messages and we could
+                    notify the user at the time he gets a new message about it. The rest is done pretty well,
+                    the application is intuitive and really nice to use. We had an opportunity to learn many new
+                    technologies and improve our coding skills. Summarizing we are pleased with the effect and we
+                    hope we could expand this version easily in the future.
+                </p>
             </div>
 
         </div>
@@ -505,7 +551,7 @@
     </div>
 </div>
 
-<div class="container-fluid"> wfe</div>
+<div class="container-fluid"> </div>
 </body>
 
 </html>
