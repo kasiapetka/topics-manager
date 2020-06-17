@@ -33,6 +33,7 @@ class Navbar extends Component {
     };
 
      componentDidMount() {
+         if(auth.isAuthenticated())
          this.getMessages();
      }
 

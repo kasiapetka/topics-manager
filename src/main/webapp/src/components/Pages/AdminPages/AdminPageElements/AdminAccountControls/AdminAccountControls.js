@@ -10,8 +10,8 @@ const adminAccountControls = (props) => {
         ['/admin', '/admin/add/T', '/admin/editteachersinsubject'],
         ["List Teachers", 'Add Teacher', 'Edit Teachers In Subject']);
     addControlToList(students,
-        ['/admin/students', '/admin/add/S'],
-        ["List Students", 'Add Student']);
+        ['/admin/students', '/admin/add/S', '/admin/semesters'],
+        ["List Students", 'Add Student', "Manage Semesters"]);
     addControlToList(sections,
         ['/admin/sections', '/admin/addsection'],
         ["List Sections", 'Add Section']);
