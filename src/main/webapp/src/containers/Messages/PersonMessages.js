@@ -156,7 +156,7 @@ class Messages extends Component {
 
     removePersonFromListHandler = (person) => {
         const receivers = [...this.state.receivers];
-        let removed = receivers.filter((receiver) => receiver !== person);
+        let removed = receivers.filter((receiver) => receiver.user.email !== person.user.email);
         this.setState({receivers: removed})
     };
 

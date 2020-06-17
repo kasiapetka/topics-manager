@@ -10,10 +10,10 @@ const MultiSelect = (props) => {
 
     if (props.persons) {
         persons = props.persons.map(person => {
-            if (person.user && !person.checked)
+             if (person.user && !person.checked)
                 return <label key={person.user.email}
                               className="row w-100"
-                              onClick={() => props.updateList(person.user.email)}>
+                              onClick={() => props.updateList(person)}>
                     <div className="col-md-1"></div>
                     <div className="col-md-4">{person.user.email}</div>
                     <div className="col-md-6">{person.name+" "+person.surname}</div>

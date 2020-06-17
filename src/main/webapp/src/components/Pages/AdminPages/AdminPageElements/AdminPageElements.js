@@ -16,6 +16,7 @@ import ListSections from "../../../../containers/Lists/ListSections";
 import AddSection from "../../../../containers/FormsPages/SectionForms/AddSection/AddSection";
 import EditTeachersInSubject from "../../../../containers/FormsPages/SubjectFroms/EditTeachersInSubject/EditTeachersInSubject";
 import PersonMessages from "../../../../containers/Messages/PersonMessages";
+import ManageSemesters from "../../../../containers/FormsPages/SemesterForms/ManageSemesters";
 
 
 const adminPageElements = (props) =>
@@ -49,6 +50,7 @@ const adminPageElements = (props) =>
                     <PrivateAdminRoute exact path="/admin/topics" component={ListTopics}/>
                     <PrivateAdminRoute exact path="/admin/addtopic" component={AddTopic}/>
 
+                    <PrivateAdminRoute exact path="/admin/semesters" component={ManageSemesters}/>
                     <PrivateAdminRoute exact path="/admin/add/:role" component={() => <AddPerson/>}/>
                     <PrivateAdminRoute exact path="/admin/edit" component={() => <EditAccount
                         path={props.modifyPath}
