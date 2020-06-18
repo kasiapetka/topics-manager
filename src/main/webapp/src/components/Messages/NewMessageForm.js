@@ -19,11 +19,14 @@ const newMessageForm = (props) => {
             receivers = <li>No receivers.</li>;
         } else {
             receivers = props.receivers.map(receiver => {
-                return <li key={receiver}
-                           className={classes.RemoveLabel}
-                           onClick={()=>props.removePersonFromList(receiver)}>
-                    {receiver}
-                </li>
+                return <label key={receiver.user.email}
+                              className={"row w-100 "+classes.RemoveLabel}
+                              onClick={() => props.removePersonFromList(receiver)}>
+                    <div className="col-md-1"></div>
+                    <div className="col-md-4">{receiver.user.email}</div>
+                    <div className="col-md-6">{receiver.name+" "+receiver.surname}</div>
+                    <div className="col-md-1"></div>
+                </label>
             });
         }
     }

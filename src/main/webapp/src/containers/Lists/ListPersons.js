@@ -19,7 +19,7 @@ class ListPersons extends Component {
             persons.forEach(person => {
                 receivers.forEach(rcv => {
                     if (person.user) {
-                        if (person.user.email === rcv) {
+                        if (person.user.email === rcv.user.email) {
                             person.checked = true;
                         } else if (person.checked !== true) {
                             person.checked = false;
@@ -27,6 +27,9 @@ class ListPersons extends Component {
                     }
                 });
             });
+            if(this.props.saveAll)
+                this.props.saveAll(persons);
+
             this.setState({
                 persons: persons,
                 loading: false,
