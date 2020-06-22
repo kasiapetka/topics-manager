@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.services.impl;
 
+import com.kasiapetka.topicsmanager.DTO.ManageStudentsSemesterDTO;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
@@ -70,6 +71,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<Student> findStudentsWithoutAccount() {
+
+        List<Student> students = new ArrayList<>();
+
+        studentRepository.findAllByUser(null).orElse(new ArrayList<>()).iterator().forEachRemaining(students::add);
+
+        return students;
+    }
+
+    @Override
     public void changeName(Student student, String name) {
         student.setName(name);
         studentRepository.save(student);
@@ -133,7 +144,27 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-//    @Override
+    @Override
+    public Integer addNewStudentWithoutAccount(NewStudentOrTeacherDTO studentOrTeacherDTO) {
+
+        Student student = new Student();
+        student.setName(studentOrTeacherDTO.getNewName());
+        student.setSurname(studentOrTeacherDTO.getNewSurname());
+        student.setIsActive(true);
+
+        try {
+            Semester semester = semesterService.findSemesterBySemesterAndYear(studentOrTeacherDTO.getSemester(),
+                    semesterService.getCurrentYear());
+            semester.addStudent(student);
+            semesterRepository.save(semester);
+            return 200;
+        } catch (HibernateException he) {
+            he.printStackTrace();
+            return 500;
+        }
+    }
+
+    //    @Override
 //    @Transactional
 //    // adding student with email???
 //    public Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO) {
@@ -297,6 +328,32 @@ public class StudentServiceImpl implements StudentService {
         }
 
         return null;
+    }
+
+    @Override
+    public Integer addSemesterToStudents(ManageStudentsSemesterDTO manageStudentsSemesterDTO) {
+
+        List<Student> students = manageStudentsSemesterDTO.getStudents();
+
+        if(manageStudentsSemesterDTO.getSemester() >= 7){
+            return 500;
+        }
+
+        Semester semester = semesterService.findSemesterBySemesterAndYear(manageStudentsSemesterDTO.getSemester()+1,
+                                            semesterService.getCurrentYear());
+
+        for(Student student : students){
+            student.getSemesters().add(semester);
+        }
+
+        try{
+            studentRepository.saveAll(students);
+        } catch (HibernateException e){
+            e.printStackTrace();
+            return 500;
+        }
+
+        return 200;
     }
 }
 

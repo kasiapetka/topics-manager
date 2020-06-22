@@ -13,4 +13,5 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     Optional<Student> findByName(String name);
     Optional<Student> findByUser(User user);
     Optional<List<Student>> findAllByIsActive(Boolean isActive);
+    Optional<List<Student>> findAllByUser(User user);
 }
