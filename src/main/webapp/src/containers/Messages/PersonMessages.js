@@ -135,12 +135,14 @@ class Messages extends Component {
 
         if (!alreadyOnList) {
             axios.put('/api/common/person', email).then(response => {
-                receivers.push(email);
+                receivers.push(response.data);
                 this.setState({receivers: receivers})
             })
                 .catch(error => {
-                    if (error.response.status === 409) {
-                        alert('Person with this email does not exists.')
+                    if (error.response) {
+                        if (error.response.status === 409) {
+                            alert('Person with this email does not exists.')
+                        }
                     } else {
                         this.setState({error: error})
                     }
@@ -162,8 +164,16 @@ class Messages extends Component {
 
     onSendMessageHandler = (event) => {
         event.preventDefault();
+
+        const receivers = [...this.state.receivers];
+        const emails = [];
+
+        receivers.forEach(rcv =>{
+            emails.push(rcv.user.email);
+        });
+
         const msg = {
-            receivers: [...this.state.receivers],
+            receivers: emails,
             subject: this.state.message.subject.value,
             content: this.state.message.content.value
         };

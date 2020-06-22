@@ -143,7 +143,7 @@ class ListMessages extends Component {
 
                     <PrivateAdminRoute exact path="/admin/messages/message/:id" component={() => <ViewMessage
                         type={this.state.type}
-                        replyToPerson={this.props.replyToPerson}/>}/>
+                        replyToPerson={this.replyToPersonHandler}/>}/>
                     <PrivateTeacherRoute exact path="/teacher/messages/message/:id" component={() => <ViewMessage
                         type={this.state.type}
                         replyToPerson={this.replyToPersonHandler} {...this.props}/>}/>
