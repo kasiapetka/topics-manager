@@ -1,8 +1,11 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.StudentDTO;
 import com.kasiapetka.topicsmanager.DTO.TeacherDTO;
-import com.kasiapetka.topicsmanager.DTO.UserDTO;
-import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.model.Section;
+import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.Teacher;
+import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.StudentService;
 import com.kasiapetka.topicsmanager.services.TeacherService;
@@ -42,7 +45,7 @@ public class CommonsController {
     }
 
     @GetMapping("/api/common/students/{semesterNumber}")
-    List<Student> listStudentsBySemester(@PathVariable Integer semesterNumber){
+    List<StudentDTO> listStudentsBySemester(@PathVariable Integer semesterNumber){
         return studentService.listActiveStudentsBySemester(semesterNumber);
     }
 

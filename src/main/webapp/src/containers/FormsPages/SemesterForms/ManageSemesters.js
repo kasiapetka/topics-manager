@@ -51,11 +51,13 @@ class ManageSemesters extends Component {
           students: this.state.students
         };
 
-        // axios.post('/api/', passed).then(response => {
-        //     this.setState({sent: true, loading: false})
-        // }).catch(error => {
-        //     this.setState({error: error, loading: false})
-        // });
+        axios.put('/api/admin/managestudentsemester', passed).then(response => {
+            console.log("Dupa");
+            // this.setState({sent: true, loading: false})
+        }).catch(error => {
+            console.log(error);
+            // this.setState({error: error, loading: false})
+        });
       console.log(passed)
     };
 

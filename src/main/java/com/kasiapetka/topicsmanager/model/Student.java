@@ -65,4 +65,8 @@ public class Student {
 
         return studentDTO;
     }
+
+    public Semester getLastSemester(){
+        return semesters.get(semesters.size() - 1);
+    }
 }

@@ -8,6 +8,7 @@ import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-//@PreAuthorize("hasRole('Admin')")
+@PreAuthorize("hasRole('Admin')")
 public class AdminController {
 
     private UserService userService;

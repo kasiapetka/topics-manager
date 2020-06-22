@@ -2,12 +2,16 @@ package com.kasiapetka.topicsmanager.services.impl;
 
 import com.kasiapetka.topicsmanager.DTO.ManageStudentsSemesterDTO;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
+import com.kasiapetka.topicsmanager.DTO.StudentDTO;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.repositories.SectionRepository;
 import com.kasiapetka.topicsmanager.repositories.SemesterRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentRepository;
 import com.kasiapetka.topicsmanager.repositories.StudentSectionRepository;
-import com.kasiapetka.topicsmanager.services.*;
+import com.kasiapetka.topicsmanager.services.RoleService;
+import com.kasiapetka.topicsmanager.services.SemesterService;
+import com.kasiapetka.topicsmanager.services.StudentService;
+import com.kasiapetka.topicsmanager.services.UserService;
 import org.hibernate.HibernateException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.Authentication;
@@ -199,19 +203,27 @@ public class StudentServiceImpl implements StudentService {
 //    }
 
     @Override
-    public List<Student> listActiveStudentsBySemester(Integer semesterNumber) {
+    public List<StudentDTO> listActiveStudentsBySemester(Integer semesterNumber) {
+
         List<Student> studentList = this.listActiveStudents();
-        List<Student> studentsFromThisSemester = new ArrayList<>();
+//        List<Student> studentsFromThisSemester = new ArrayList<>();
+
+        List<StudentDTO> studentDTOS = new ArrayList<>();
+
         for (Student student : studentList) {
             List<Semester> semesterList = student.getSemesters();
+
             for (Semester semester : semesterList) {
                 if ((semester.getSemester() == semesterNumber) &&
                         (semester.getYear().equals(semesterService.getCurrentYear()))) {
-                    studentsFromThisSemester.add(student);
+//                    studentsFromThisSemester.add(student);
+                    if(student.getLastSemester().getSemester().equals(semesterNumber)){
+                        studentDTOS.add(student.convertToStudentDTO());
+                    }
                 }
             }
         }
-        return studentsFromThisSemester;
+        return studentDTOS;
     }
 
     @Override
@@ -333,7 +345,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Integer addSemesterToStudents(ManageStudentsSemesterDTO manageStudentsSemesterDTO) {
 
-        List<Student> students = manageStudentsSemesterDTO.getStudents();
+        List<Student> students = new ArrayList<>(); //manageStudentsSemesterDTO.getStudents();
+
+        for(StudentDTO studentDTO : manageStudentsSemesterDTO.getStudents()){
+            students.add(studentRepository.findById(studentDTO.getAlbum()).orElse(new Student()));
+        }
 
         if(manageStudentsSemesterDTO.getSemester() >= 7){
             return 500;
@@ -343,11 +359,16 @@ public class StudentServiceImpl implements StudentService {
                                             semesterService.getCurrentYear());
 
         for(Student student : students){
-            student.getSemesters().add(semester);
+//            List<Semester> semesters = student.getSemesters();
+//            semesters.add(semester);
+//            student.setSemesters(semesters);
+//            student.getSemesters().add(semester);
+            semester.addStudent(student);
         }
 
         try{
-            studentRepository.saveAll(students);
+//            studentRepository.saveAll(students);
+            semesterRepository.save(semester);
         } catch (HibernateException e){
             e.printStackTrace();
             return 500;

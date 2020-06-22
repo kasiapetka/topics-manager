@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.services;
 
 import com.kasiapetka.topicsmanager.DTO.ManageStudentsSemesterDTO;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
+import com.kasiapetka.topicsmanager.DTO.StudentDTO;
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
 import com.kasiapetka.topicsmanager.model.User;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface StudentService {
     List<Student> listActiveStudents();
-    List<Student> listActiveStudentsBySemester(Integer semesterNumber);
+    List<StudentDTO> listActiveStudentsBySemester(Integer semesterNumber);
     Student findStudentByAlbum(Long album);
     Student findStudentByUser(User user);
     List<Student> findStudentsWithoutAccount();
