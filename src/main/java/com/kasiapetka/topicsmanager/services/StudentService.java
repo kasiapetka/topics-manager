@@ -1,5 +1,6 @@
 package com.kasiapetka.topicsmanager.services;
 
+import com.kasiapetka.topicsmanager.DTO.ManageStudentsSemesterDTO;
 import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
 import com.kasiapetka.topicsmanager.model.Section;
 import com.kasiapetka.topicsmanager.model.Student;
@@ -12,7 +13,9 @@ public interface StudentService {
     List<Student> listActiveStudentsBySemester(Integer semesterNumber);
     Student findStudentByAlbum(Long album);
     Student findStudentByUser(User user);
+    List<Student> findStudentsWithoutAccount();
     Integer addNewStudent(NewStudentOrTeacherDTO studentOrTeacherDTO);
+    Integer addNewStudentWithoutAccount(NewStudentOrTeacherDTO studentOrTeacherDTO);
     Boolean isLoggedStudentInSection(Long sectionId);
     List<Section> listLoggedStudentSections();
     Student getLoggedStudent();
@@ -25,4 +28,5 @@ public interface StudentService {
     void changeName(Student student, String name);
     void changeSurname(Student student, String surname);
     Boolean deleteStudent(Long album);
+    Integer addSemesterToStudents(ManageStudentsSemesterDTO manageStudentsSemesterDTO);
 }

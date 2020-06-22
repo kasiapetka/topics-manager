@@ -1,23 +1,23 @@
 package com.kasiapetka.topicsmanager.controllers;
 
-import com.kasiapetka.topicsmanager.DTO.AddSubjectDTO;
-import com.kasiapetka.topicsmanager.DTO.EditAccount;
-import com.kasiapetka.topicsmanager.DTO.NewStudentOrTeacherDTO;
-import com.kasiapetka.topicsmanager.DTO.TeacherListDTO;
-import com.kasiapetka.topicsmanager.model.*;
+import com.kasiapetka.topicsmanager.DTO.*;
+import com.kasiapetka.topicsmanager.model.Student;
+import com.kasiapetka.topicsmanager.model.Subject;
+import com.kasiapetka.topicsmanager.model.Teacher;
+import com.kasiapetka.topicsmanager.model.User;
 import com.kasiapetka.topicsmanager.services.*;
 import com.kasiapetka.topicsmanager.services.impl.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@PreAuthorize("hasRole('Admin')")
+//@PreAuthorize("hasRole('Admin')")
 public class AdminController {
 
     private UserService userService;
@@ -28,11 +28,12 @@ public class AdminController {
     private StudentService studentService;
     private SubjectService subjectService;
     private TopicService topicService;
+    private CodeService codeService;
 
     public AdminController(UserService userService, AdminService adminService,
                            UserDetailsServiceImpl userDetailsServiceImpl, BCryptPasswordEncoder passwordEncoder,
                            TeacherService teacherService, StudentService studentService, SubjectService subjectService,
-                           TopicService topicService) {
+                           TopicService topicService, SemesterService semesterService, CodeService codeService) {
         this.userService = userService;
         this.adminService = adminService;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
@@ -41,6 +42,7 @@ public class AdminController {
         this.studentService = studentService;
         this.subjectService = subjectService;
         this.topicService = topicService;
+        this.codeService = codeService;
     }
 
     //GETs
@@ -60,7 +62,7 @@ public class AdminController {
     @PostMapping("/api/admin/addstudent")
     ResponseEntity<?> addStudent(@Valid @RequestBody NewStudentOrTeacherDTO studentOrTeacherDTO){
 
-        Integer responseCode = studentService.addNewStudent(studentOrTeacherDTO);
+        Integer responseCode = studentService.addNewStudentWithoutAccount(studentOrTeacherDTO);
 
         return ResponseEntity.status(responseCode).build();
     }
@@ -246,10 +248,34 @@ public class AdminController {
         }
     }
 
+    @PutMapping("/api/admin/managestudentsemester")
+    ResponseEntity<?> manageStudentsSemester(@Valid @RequestBody ManageStudentsSemesterDTO manageStudentsSemesterDTO){
+        return ResponseEntity.status(studentService.addSemesterToStudents(manageStudentsSemesterDTO)).build();
+    }
 
 //    @GetMapping("/api/admin/topics/{teacherID}/{subjectID}")
 //    List<Topic> listTeachersTopics(@PathVariable Long teacherID, @PathVariable Long subjectID){
 //        return topicService.getTopicListByTeacherID(teacherID, subjectID);
 //    }
+
+
+    @GetMapping("/codes")
+    List<PrintCodesDTO> getCodes(){
+
+        List<PrintCodesDTO> codes = new ArrayList<>();
+
+        List<Student> students = studentService.findStudentsWithoutAccount();
+
+        for(Student student : students){
+            PrintCodesDTO printCodesDTO = new PrintCodesDTO();
+            printCodesDTO.setAlbum(student.getAlbum());
+            printCodesDTO.setSurname(student.getSurname());
+            printCodesDTO.setName(student.getName());
+            printCodesDTO.setCode(codeService.encode(String.valueOf(student.getAlbum())));
+            codes.add(printCodesDTO);
+        }
+
+        return codes;
+    }
 
 }
