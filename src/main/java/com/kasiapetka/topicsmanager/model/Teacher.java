@@ -2,6 +2,7 @@ package com.kasiapetka.topicsmanager.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.kasiapetka.topicsmanager.DTO.TeacherDTO;
 import lombok.Data;
 import lombok.ToString;
 
@@ -41,4 +42,14 @@ public class Teacher {
     @ToString.Exclude
     @OneToMany(mappedBy = "teacher")
     private List<Section> sections;
+
+    public TeacherDTO convertToDTO(){
+        TeacherDTO teacherDTO = new TeacherDTO();
+        teacherDTO.setUser(this.user.convertToDTO());
+        teacherDTO.setSurname(this.surname);
+        teacherDTO.setName(this.name);
+        teacherDTO.setIsActive(this.isActive);
+
+        return teacherDTO;
+    }
 }

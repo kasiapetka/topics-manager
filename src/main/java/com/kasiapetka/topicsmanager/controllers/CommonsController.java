@@ -1,5 +1,7 @@
 package com.kasiapetka.topicsmanager.controllers;
 
+import com.kasiapetka.topicsmanager.DTO.TeacherDTO;
+import com.kasiapetka.topicsmanager.DTO.UserDTO;
 import com.kasiapetka.topicsmanager.model.*;
 import com.kasiapetka.topicsmanager.services.SectionService;
 import com.kasiapetka.topicsmanager.services.StudentService;
@@ -91,13 +93,29 @@ public class CommonsController {
     ResponseEntity<?> doesEmailExist(@RequestBody @Valid String email){
         Integer responseCode;
         User user = userService.findUserByEmail(email);
+        Student student = null;
+        Teacher teacher = null;
+        if(user.getRole().getRoleName().equals("Student"))
+            student = studentService.findStudentByUser(user);
+        else if(user.getRole().getRoleName().equals("Teacher"))
+            teacher = teacherService.findTeacherByUser(user);
 
-        if(user != null){
-            responseCode = 200;
+        responseCode = 200;
+
+        if(student != null){
+            return ResponseEntity.status(responseCode).body(student.convertToStudentDTO());
+        } else if(teacher != null){
+            return ResponseEntity.status(responseCode).body(teacher.convertToDTO());
+        } else if(user.getRole().getRoleName().equals("Admin")){
+            TeacherDTO admin = new TeacherDTO();
+            admin.setName("System");
+            admin.setSurname("Administrator");
+            admin.setUser(user.convertToDTO());
+            admin.setIsActive(true);
+            return ResponseEntity.status(responseCode).body(admin);
         } else {
             responseCode = 409;
+            return ResponseEntity.status(responseCode).build();
         }
-
-        return ResponseEntity.status(responseCode).build();
     }
 }
