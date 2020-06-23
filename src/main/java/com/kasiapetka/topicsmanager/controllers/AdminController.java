@@ -260,7 +260,7 @@ public class AdminController {
 //    }
 
 
-    @GetMapping("/codes")
+    @GetMapping("/api/admin/codes")
     List<PrintCodesDTO> getCodes(){
 
         List<PrintCodesDTO> codes = new ArrayList<>();

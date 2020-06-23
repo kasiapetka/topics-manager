@@ -20,8 +20,8 @@ export class Register extends React.Component {
                         valid: false,
                         touched: false,
                         required: true,
-                        minLength: 8,
-                        maxLength: 8
+                        minLength: 6,
+                        maxLength: 6
                     }
                 },
                 code: {
