@@ -217,7 +217,7 @@ public class StudentServiceImpl implements StudentService {
                 if ((semester.getSemester() == semesterNumber) &&
                         (semester.getYear().equals(semesterService.getCurrentYear()))) {
 //                    studentsFromThisSemester.add(student);
-                    if(student.getLastSemester().getSemester().equals(semesterNumber)){
+                    if(student.getSemesters().get(student.getSemesters().size()-1).getSemester() == semesterNumber){
                         studentDTOS.add(student.convertToStudentDTO());
                     }
                 }
