@@ -36,7 +36,12 @@ public class CommonsController {
 
     @GetMapping("/api/common/sections/{semester_number}")
     List<Section> listSectionsBySemester(@PathVariable Integer semester_number){
-        return sectionService.listSectionBySemester(semester_number);
+
+        List<Section> sections = sectionService.listSectionBySemester(semester_number);
+
+        System.out.println("asd");
+
+        return sections;
     }
 
     @GetMapping("/api/common/sections/section/{sectionID}")
