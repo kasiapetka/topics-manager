@@ -35,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] WHITELIST = {
             "/h2-console/**",
-            "/codes"//,
+            "/api/downloadFile/**"
+//            "/codes",
 //            "/**"
     };
 
